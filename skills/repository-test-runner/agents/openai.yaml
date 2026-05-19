@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repository Test Runner"
+  short_description: "Run and report repository checks, retrying failures and escalating sandbox-blocked validations."
+  default_prompt: "After implementation, run the checks selected by $implementation-test-selector. Retry after fixes, escalate required sandbox-blocked checks with permission delegation, and report pass, fail, blocked, or skipped checks without claiming unrun validation as complete."

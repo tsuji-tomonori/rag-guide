@@ -1,0 +1,4 @@
+interface:
+  display_name: "Acceptance Criteria Writer"
+  short_description: "Write acceptance criteria docs."
+  default_prompt: "Create or refine an acceptance criteria document using REQ_ACCEPTANCE_NNN.md under the repository docs tree."

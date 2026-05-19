@@ -1,0 +1,6 @@
+SKILL.md
+README.md
+schema/failure_report_schema.json
+templates/failure_report_template.md
+examples/failure_report_example.md
+manifest.txt

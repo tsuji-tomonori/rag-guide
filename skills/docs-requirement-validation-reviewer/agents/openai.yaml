@@ -1,0 +1,4 @@
+interface:
+  display_name: "Requirement Validation Reviewer"
+  short_description: "Review requirements while writing."
+  default_prompt: "Review a requirement for necessity, completeness, clarity, consistency, compliance, feasibility, testability, and fit to stakeholder needs."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile UI/UX A11y"
+  short_description: "Design and review mobile-first accessible web app UI."
+  default_prompt: "Design, implement, or review a mobile-first web app screen against WCAG 2.2 Level AA, JIS X 8341-3:2016, responsive layout, touch, keyboard, screen reader, contrast, media, and form accessibility expectations."

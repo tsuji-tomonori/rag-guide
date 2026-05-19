@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Apps PR Operator"
+  short_description: "Operate PRs through GitHub Apps first, with Japanese comments and clear blocked states."
+  default_prompt: "Use GitHub Apps before gh for repository PR operations. Create or update PRs, acceptance comments, and self-review comments in Japanese when the workflow calls for them, suppress routine confirmations, and report blocked GitHub steps without claiming them complete."

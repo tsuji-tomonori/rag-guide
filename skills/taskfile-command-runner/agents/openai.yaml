@@ -1,0 +1,4 @@
+interface:
+  display_name: "Taskfile Command Runner"
+  short_description: "Run repository Taskfile commands with narrow selection, reusable permission delegation, and clear reporting."
+  default_prompt: "Use Taskfile targets when repository work requires commands. Pick the narrowest task, use approved prefixes, retry sandbox-blocked required commands with require_escalated and a reusable prefix_rule, suppress routine confirmations, and ask only for destructive or production-impacting actions."

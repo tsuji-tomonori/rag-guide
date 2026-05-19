@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GIT_SECRETS="${SCRIPT_DIR}/git-secrets"
+
+use_aws_patterns() {
+  local aws="(AWS|aws|Aws)?_?"
+  local quote="(\"|')"
+  local connect="\s*(:|=>|=)\s*"
+  local opt_quote="${quote}?"
+
+  export GIT_CONFIG_COUNT=5
+  export GIT_CONFIG_KEY_0="secrets.patterns"
+  export GIT_CONFIG_VALUE_0="(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}"
+  export GIT_CONFIG_KEY_1="secrets.patterns"
+  export GIT_CONFIG_VALUE_1="${opt_quote}${aws}(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)${opt_quote}${connect}${opt_quote}[A-Za-z0-9/\\+=]{40}${opt_quote}"
+  export GIT_CONFIG_KEY_2="secrets.patterns"
+  export GIT_CONFIG_VALUE_2="${opt_quote}${aws}(ACCOUNT|account|Account)_?(ID|id|Id)?${opt_quote}${connect}${opt_quote}[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}${opt_quote}"
+  export GIT_CONFIG_KEY_3="secrets.allowed"
+  export GIT_CONFIG_VALUE_3="AKIAIOSFODNN7EXAMPLE"
+  export GIT_CONFIG_KEY_4="secrets.allowed"
+  export GIT_CONFIG_VALUE_4="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+}
+
+use_aws_patterns
+exec "${GIT_SECRETS}" --scan "$@"

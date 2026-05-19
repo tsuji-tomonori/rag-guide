@@ -1,0 +1,20 @@
+repos:
+  - repo: local
+    hooks:
+      - id: git-secrets
+        name: git-secrets
+        entry: ./tools/git-secrets/pre-commit-scan
+        language: system
+        files: .
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: mixed-line-ending
+        args: ["--fix=lf"]

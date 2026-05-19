@@ -1,0 +1,4 @@
+interface:
+  display_name: "Service Quality Constraint Writer"
+  short_description: "Write service quality constraint docs."
+  default_prompt: "Create or refine a service quality constraint document using REQ_SERVICE_QUALITY_NNN.md under the repository docs tree."

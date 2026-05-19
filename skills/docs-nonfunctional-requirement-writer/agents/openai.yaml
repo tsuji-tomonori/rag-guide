@@ -1,0 +1,4 @@
+interface:
+  display_name: "Non-Functional Requirement Writer"
+  short_description: "Write non-functional requirements docs."
+  default_prompt: "Create or refine a non-functional requirements document using REQ_NON_FUNCTIONAL_NNN.md under the repository docs tree."

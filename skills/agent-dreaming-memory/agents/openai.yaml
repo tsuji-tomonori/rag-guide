@@ -1,0 +1,6 @@
+interface:
+  display_name: "Agent Dreaming Memory"
+  short_description: "Consolidate project/session memory, contradictions, and repeated mistakes into .codex-memory."
+  default_prompt: "Use $agent-dreaming-memory to review recent project traces and update .codex-memory without deleting source records."
+policy:
+  allow_implicit_invocation: true

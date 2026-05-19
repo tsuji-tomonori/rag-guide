@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task File Writer"
+  short_description: "Create structured task files with task type, acceptance criteria, validation, and risks."
+  default_prompt: "Use $task-file-writer to create one Markdown task file per implementation task under tasks/todo, move it to tasks/do before implementation, and move it to tasks/done only after validations and completion notes are recorded. Always classify the task as 機能追加, 修正, 調査, or ドキュメント更新; for 修正, record nazenaze-analysis root cause and full remediation before implementation."
