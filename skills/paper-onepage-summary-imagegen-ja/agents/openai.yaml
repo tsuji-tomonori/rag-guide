@@ -1,4 +1,4 @@
 interface:
   display_name: "Paper Onepage Summary ImageGen JA"
-  short_description: "論文要約を1枚完結のPNG要約画像として統一設計する"
-  default_prompt: "Use $paper-onepage-summary-imagegen-ja to generate a Japanese one-page paper summary image."
+  short_description: "P002風の番号付きカード構成で論文要約を1枚PNG化する"
+  default_prompt: "Use $paper-onepage-summary-imagegen-ja to generate a Japanese one-page paper summary image in the P002-style numbered-card template."
