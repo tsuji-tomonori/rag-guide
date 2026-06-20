@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Onepage Summary ImageGen JA"
+  short_description: "論文要約を1枚完結のPNG要約画像として統一設計する"
+  default_prompt: "Use $paper-onepage-summary-imagegen-ja to generate a Japanese one-page paper summary image."
