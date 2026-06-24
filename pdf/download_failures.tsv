@@ -1,0 +1,9 @@
+ID	URL	Error
+P023	https://doi.org/10.1109/TPAMI.2010.57	DOI resolves to IEEE landing page; HAL document endpoint is behind bot protection from this environment
+P051	https://doi.org/10.1145/582415.582418	ACM DOI is closed access and Unpaywall reports no OA copy
+P091	https://dl.acm.org/doi/10.1145/3411764.3445518	ACM PDF/epdf/gateway return 403 from this environment; OpenAlex reports no OA PDF
+P101	https://doi.org/10.1109/2.485845	DOI resolves to closed IEEE page; OpenAlex reports no OA PDF; author-site candidates not found
+P117	https://doi.org/10.1016/0306-4573(88)90021-0	DOI resolves to closed Elsevier page; Cornell eCommons handle is behind human verification from this environment
+P149	https://doi.org/10.1145/3287560.3287598	OpenAlex reports ACM OA PDF, but ACM PDF/epdf/authorize/gateway return 403 from this environment
+P156	https://doi.org/10.1109/PROC.1975.9939	DOI resolves to closed IEEE page; MIT/University HTML copies found but no PDF URL
+P162	https://research.google/pubs/the-tail-at-scale	CACM/ACM download and PDF URLs return 403 from this environment; Google Research page links to CACM fulltext, not a direct PDF

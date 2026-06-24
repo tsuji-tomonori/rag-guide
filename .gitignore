@@ -38,3 +38,7 @@ pnpm-debug.log*
 # generated visual QA artifacts
 reports/working/visual-qa/*.png
 reports/working/visual-qa/*.log
+
+# local paper cache; keep URLs/metadata in pdf/*.tsv instead
+pdf/*.pdf
+pdf/*.pdf.tmp
