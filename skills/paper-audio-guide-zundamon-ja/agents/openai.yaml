@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Audio Guide"
+  short_description: "Create Zundamon MP3 guides from paper summaries."
+  default_prompt: "Use $paper-audio-guide-zundamon-ja to create a Zundamon MP3 audio guide for P002."
