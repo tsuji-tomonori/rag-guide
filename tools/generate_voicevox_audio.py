@@ -4,6 +4,7 @@ import argparse
 import json
 import shutil
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -11,15 +12,30 @@ import wave
 from pathlib import Path
 
 
-def request_json(url: str, *, method: str = "GET", data: bytes | None = None) -> object:
+def request_json(
+    url: str,
+    *,
+    method: str = "GET",
+    data: bytes | None = None,
+    timeout: int = 120,
+    retries: int = 3,
+) -> object:
     req = urllib.request.Request(
         url,
         data=data,
         method=method,
         headers={"Content-Type": "application/json"},
     )
-    with urllib.request.urlopen(req, timeout=120) as response:
-        return json.loads(response.read().decode("utf-8"))
+    for attempt in range(1, retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except (urllib.error.URLError, ConnectionError) as exc:
+            if attempt == retries:
+                raise
+            print(f"request failed; retrying in 15s ({attempt}/{retries}): {exc}", flush=True)
+            time.sleep(15)
+    raise RuntimeError("unreachable")
 
 
 def request_bytes(
@@ -28,6 +44,7 @@ def request_bytes(
     method: str = "POST",
     data: bytes | None = None,
     timeout: int = 600,
+    retries: int = 3,
 ) -> bytes:
     req = urllib.request.Request(
         url,
@@ -35,8 +52,16 @@ def request_bytes(
         method=method,
         headers={"Content-Type": "application/json"},
     )
-    with urllib.request.urlopen(req, timeout=timeout) as response:
-        return response.read()
+    for attempt in range(1, retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                return response.read()
+        except (urllib.error.URLError, ConnectionError) as exc:
+            if attempt == retries:
+                raise
+            print(f"request failed; retrying in 15s ({attempt}/{retries}): {exc}", flush=True)
+            time.sleep(15)
+    raise RuntimeError("unreachable")
 
 
 def find_speaker_id(host: str, speaker_name: str, style_name: str) -> int:
@@ -82,7 +107,7 @@ def split_text(text: str, max_chars: int) -> list[str]:
 
 def synthesize_chunk(host: str, speaker_id: int, text: str, speed_scale: float, pause_length: float) -> bytes:
     query_params = urllib.parse.urlencode({"text": text, "speaker": speaker_id})
-    query = request_json(f"{host}/audio_query?{query_params}", method="POST")
+    query = request_json(f"{host}/audio_query?{query_params}", method="POST", retries=5)
     assert isinstance(query, dict)
     query["speedScale"] = speed_scale
     query["pauseLength"] = pause_length
@@ -92,6 +117,7 @@ def synthesize_chunk(host: str, speaker_id: int, text: str, speed_scale: float, 
         f"{host}/synthesis?{synth_params}",
         method="POST",
         data=json.dumps(query, ensure_ascii=False).encode("utf-8"),
+        retries=5,
     )
 
 
@@ -143,6 +169,10 @@ def main() -> int:
     wav_files = []
     for index, chunk in enumerate(chunks, start=1):
         wav_file = temp_dir / f"chunk_{index:03}.wav"
+        if wav_file.exists() and wav_file.stat().st_size > 0:
+            wav_files.append(wav_file)
+            print(f"reusing {wav_file}", flush=True)
+            continue
         wav_file.write_bytes(
             synthesize_chunk(args.host.rstrip("/"), speaker_id, chunk, args.speed_scale, args.pause_length)
         )
