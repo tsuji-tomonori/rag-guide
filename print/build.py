@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -13,14 +14,23 @@ DOCS_DIR = ROOT / "docs"
 BUILD_DIR = ROOT / "print" / "build"
 IMAGE_DIR = BUILD_DIR / "images"
 COMBINED_MD = BUILD_DIR / "rag-guide.md"
+ASSET_IMAGES_DIR = ROOT / "assets" / "images"
 
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+)$")
 NUMBER_PREFIX_RE = re.compile(r"^\d+(?:\.\d+)*\.?\s+")
 IMAGE_RE = re.compile(
-    r"\(\.\./\.\./assets/images/(?:v2/|v3/)?([^)]+)\)"
+    r"!\[(?P<alt>[^\]\n]*)\]"
+    r"\(\.\./\.\./assets/images/(?P<path>[^)\s]+)\)"
 )
 IMAGE_CAPTION_RE = re.compile(
-    r"(!\[[^\n]+\]\([^)]+\))\n\n\*\*(図\d+-\d+[^\n]*)\*\*"
+    r"(!\[[^\]\n]*\]\(print/build/images/[^)\s]+\))"
+    r"\n\n\*\*(図\d+-\d+[^\n*]*)\*\*"
+)
+PRINT_IMAGE_RE = re.compile(
+    r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+(?:\s+\"[^\"]*\")?\)"
+)
+PRINT_CAPTION_RE = re.compile(
+    r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+\s+\"図\d+-\d+[^\"]*\"\)"
 )
 
 
@@ -56,6 +66,51 @@ def ordered_sources() -> list[tuple[Path, bool]]:
     return sources
 
 
+def referenced_images(
+    markdown_sources: list[tuple[Path, bool]],
+) -> tuple[list[Path], list[Path]]:
+    """Resolve figure references and return all and unique source images."""
+    references: list[Path] = []
+    source_by_basename: dict[str, Path] = {}
+    image_root = ASSET_IMAGES_DIR.resolve()
+
+    for markdown_path, _ in markdown_sources:
+        in_fence = False
+        for line in markdown_path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("```"):
+                in_fence = not in_fence
+                continue
+            if in_fence:
+                continue
+            for match in IMAGE_RE.finditer(line):
+                relative_path = Path(match.group("path"))
+                source = (ASSET_IMAGES_DIR / relative_path).resolve()
+                try:
+                    source.relative_to(image_root)
+                except ValueError as error:
+                    raise RuntimeError(
+                        f"Figure reference escapes assets/images: "
+                        f"{markdown_path}: {relative_path}"
+                    ) from error
+                if not source.is_file():
+                    raise FileNotFoundError(
+                        f"Missing figure referenced by {markdown_path}: {source}"
+                    )
+
+                previous = source_by_basename.get(source.name)
+                if previous is not None and previous != source:
+                    raise RuntimeError(
+                        "Figure basename collision: "
+                        f"{previous.relative_to(ROOT)} and "
+                        f"{source.relative_to(ROOT)} would both become "
+                        f"print/build/images/{source.name}"
+                    )
+                source_by_basename[source.name] = source
+                references.append(source)
+
+    return references, list(source_by_basename.values())
+
+
 def normalize_markdown(path: Path, is_introduction: bool) -> str:
     """Shift section files below chapters and normalize generated assets."""
     output: list[str] = []
@@ -73,7 +128,13 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
                     marks += "#"
                 title = NUMBER_PREFIX_RE.sub("", title)
                 line = f"{marks} {title}"
-            line = IMAGE_RE.sub(r"(print/build/images/\1)", line)
+            line = IMAGE_RE.sub(
+                lambda match: (
+                    f"![{match.group('alt')}]"
+                    f"(print/build/images/{Path(match.group('path')).name})"
+                ),
+                line,
+            )
         output.append(line)
     normalized = "\n".join(output).rstrip() + "\n"
     return IMAGE_CAPTION_RE.sub(
@@ -82,18 +143,15 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
     )
 
 
-def render_grayscale_images() -> None:
+def render_grayscale_images(sources: list[Path]) -> None:
     """Create print-safe grayscale copies while preserving source images."""
+    if IMAGE_DIR.is_symlink():
+        raise RuntimeError(f"Refusing to replace symlink: {IMAGE_DIR}")
+    if IMAGE_DIR.exists():
+        if not IMAGE_DIR.is_dir():
+            raise RuntimeError(f"Expected a directory: {IMAGE_DIR}")
+        shutil.rmtree(IMAGE_DIR)
     IMAGE_DIR.mkdir(parents=True, exist_ok=True)
-    image_root = ROOT / "assets" / "images"
-    candidates = [image_root / "v3", image_root / "v2", image_root]
-    sources: list[Path] = []
-    for directory in candidates:
-        sources = sorted(directory.glob("*.png"))
-        if len(sources) == 28:
-            break
-    if len(sources) != 28:
-        raise RuntimeError("Expected 28 source figures in v3, v2, or assets/images")
     for source in sources:
         destination = IMAGE_DIR / source.name
         subprocess.run(
@@ -114,18 +172,34 @@ def render_grayscale_images() -> None:
 
 def main() -> None:
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
-    render_grayscale_images()
+    markdown_sources = ordered_sources()
+    image_references, unique_images = referenced_images(markdown_sources)
+    render_grayscale_images(unique_images)
     sections = []
-    for path, is_introduction in ordered_sources():
+    for path, is_introduction in markdown_sources:
         sections.append(normalize_markdown(path, is_introduction))
         sections.append("\n")
     combined = "\n".join(sections)
-    caption_count = len(re.findall(r'\(print/build/images/[^) ]+ "図\d+-\d+', combined))
-    if caption_count != 28:
-        raise RuntimeError(f"Expected 28 figure captions, found {caption_count}")
+    reference_count = len(image_references)
+    normalized_reference_count = len(PRINT_IMAGE_RE.findall(combined))
+    caption_count = len(PRINT_CAPTION_RE.findall(combined))
+    if normalized_reference_count != reference_count:
+        raise RuntimeError(
+            "Figure reference normalization mismatch: "
+            f"found {reference_count} source references but "
+            f"{normalized_reference_count} normalized references"
+        )
+    if caption_count != reference_count:
+        raise RuntimeError(
+            "Every figure reference must be followed by a numbered caption: "
+            f"found {reference_count} references but {caption_count} captions"
+        )
     COMBINED_MD.write_text(combined, encoding="utf-8")
     print(f"Wrote {COMBINED_MD.relative_to(ROOT)}")
-    print(f"Wrote {len(list(IMAGE_DIR.glob('*.png')))} grayscale figures")
+    print(
+        f"Wrote {len(unique_images)} grayscale figures "
+        f"for {reference_count} references"
+    )
     print(f"Attached {caption_count} numbered figure captions")
 
 
