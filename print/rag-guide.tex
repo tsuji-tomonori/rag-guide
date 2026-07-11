@@ -1,0 +1,127 @@
+\documentclass[a4paper,11pt,openany]{ltjsbook}
+
+\usepackage[inner=27mm,outer=23mm,top=25mm,bottom=27mm,headheight=16pt,footskip=10mm]{geometry}
+\usepackage{luatexja-fontspec}
+\setmainjfont{Noto Serif CJK JP}
+\setsansjfont{Noto Sans CJK JP}
+\setmonojfont{Noto Sans Mono CJK JP}
+\setmainfont{TeX Gyre Termes}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{DejaVu Sans Mono}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{etoolbox}
+\usepackage{fancyvrb}
+\usepackage{enumitem}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xurl}
+\usepackage[hidelinks,bookmarksnumbered=true,pdfencoding=auto]{hyperref}
+\usepackage[cacheDir=print/build/markdown-cache,pipeTables,fencedCode,smartEllipses]{markdown}
+
+\hypersetup{
+  pdftitle={RAGエンジニアリングガイド},
+  pdfsubject={検索拡張生成システムの設計・実装・評価・運用},
+  pdfcreator={LuaLaTeX}
+}
+
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0.35\baselineskip}
+\setlength{\emergencystretch}{3em}
+\raggedbottom
+\setlist{nosep,leftmargin=2em,topsep=0.5\baselineskip}
+\Urlmuskip=0mu plus 1mu\relax
+
+\titleformat{\chapter}[display]
+  {\normalfont\sffamily\bfseries}
+  {\filleft\large CHAPTER\enspace\thechapter}
+  {0.7ex}
+  {\Huge}
+  [\vspace{1.2ex}\titlerule]
+\titlespacing*{\chapter}{0pt}{-12pt}{30pt}
+\titleformat{\section}
+  {\Large\sffamily\bfseries}
+  {\thesection}{0.75em}{}
+\titleformat{\subsection}
+  {\large\sffamily\bfseries}
+  {\thesubsection}{0.75em}{}
+\titlespacing*{\section}{0pt}{2.2\baselineskip}{0.7\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.6\baselineskip}{0.45\baselineskip}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\sffamily RAGエンジニアリングガイド}
+\fancyhead[RO]{\small\sffamily\nouppercase{\leftmark}}
+\fancyfoot[LE,RO]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[LE,RO]{\small\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% Keep a Markdown table with the bold table title immediately above it.
+\BeforeBeginEnvironment{tabular}{\par\nopagebreak[4]\begin{adjustbox}{max width=\linewidth,center}\small}
+\AfterEndEnvironment{tabular}{\end{adjustbox}}
+
+\renewcommand\markdownRendererImagePrototype[4]{%
+  \par\medskip\noindent
+  \begin{minipage}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{#3}\par
+    \ifx\empty#4\empty\else
+      \vspace{0.35\baselineskip}
+      {\small\sffamily #4}
+    \fi
+  \end{minipage}
+  \par\medskip
+}
+\renewcommand\markdownRendererBlockQuoteBeginPrototype{\begin{quote}\small}
+\renewcommand\markdownRendererBlockQuoteEndPrototype{\end{quote}}
+
+\begin{document}
+\frontmatter
+\begin{titlepage}
+  \thispagestyle{empty}
+  \vspace*{34mm}
+  {\sffamily\bfseries\fontsize{26}{36}\selectfont
+    RAGエンジニアリング\par
+    ガイド\par}
+  \vspace{12mm}
+  \noindent\rule{\linewidth}{1.1pt}
+  \vspace{10mm}
+  {\Large\sffamily 検索拡張生成システムの\par
+    設計・実装・評価・運用\par}
+  \vfill
+  \begin{minipage}{0.82\linewidth}
+    \small
+    外部知識の準備から検索、根拠整形、回答生成、評価、安全な運用、
+    高度化までを一つのシステムとして扱う実務資料。
+  \end{minipage}
+  \vspace{18mm}
+  {\sffamily 2026年7月\par}
+\end{titlepage}
+
+\chapter*{本書について}
+\addcontentsline{toc}{chapter}{本書について}
+本書は、RAGを単なる「検索とLLMの組み合わせ」ではなく、
+データ、検索、生成、評価、セキュリティ、運用から成るシステムとして設計するためのガイドです。
+本文は白黒で読みやすく組版し、図版も印刷に適したグレースケールへ変換しています。
+
+\tableofcontents
+\mainmatter
+\markdownInput{print/build/rag-guide.md}
+\backmatter
+\chapter*{奥付}
+\addcontentsline{toc}{chapter}{奥付}
+\begin{description}[leftmargin=7em,labelwidth=6em]
+  \item[書名] RAGエンジニアリングガイド
+  \item[版] 2026年7月版
+  \item[組版] LuaLaTeX / LuaTeX-ja
+  \item[判型] A4判・モノクロ
+\end{description}
+\end{document}
