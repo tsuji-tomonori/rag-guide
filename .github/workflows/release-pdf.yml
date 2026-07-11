@@ -1,0 +1,56 @@
+name: Build and attach PDF to release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing release tag to rebuild and update
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release-pdf:
+    name: Build and upload PDF
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PDF_PATH: dist/rag-engineering-guide.pdf
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.release_tag }}
+
+    steps:
+      - name: Check out the release tag
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.2
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.release_tag }}
+          persist-credentials: false
+
+      - name: Build PDF
+        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4.1.0
+        with:
+          root_file: print/rag-guide.tex
+          os: debian
+          extra_system_packages: >-
+            python3 ffmpeg fonts-noto-cjk fonts-noto-cjk-extra
+            fonts-dejavu-core fonts-texgyre
+          pre_compile: |
+            python3 print/build.py
+            mkdir -p print/build/latex dist
+          latexmk_use_lualatex: true
+          args: >-
+            -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+            -outdir=print/build/latex
+          post_compile: >-
+            cp print/build/latex/rag-guide.pdf dist/rag-engineering-guide.pdf
+
+      - name: Verify PDF
+        run: test -s "$PDF_PATH"
+
+      - name: Attach PDF to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$RELEASE_TAG" "$PDF_PATH" --clobber
