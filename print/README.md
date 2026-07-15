@@ -18,3 +18,6 @@ make -C print
 
 既存ReleaseのPDFを作り直す場合は、Actions画面からワークフローを手動実行し、
 `release_tag`へ対象のタグを指定します。
+
+`main` ブランチへのpushでもPDFを生成し、Actions実行結果の成果物として14日間保持します。
+このトリガーではGitHub Releaseを新規作成しません。
