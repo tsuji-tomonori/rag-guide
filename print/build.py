@@ -77,8 +77,8 @@ def render_local_reference(source: Path, label: str, target: str) -> str:
         )
     latex_label = source_label(resolved)
     return (
-        rf"\hyperref[{latex_label}]{{{label}"
-        rf"（\ref*{{{latex_label}}}、p.~\pageref{{{latex_label}}}）}}"
+        rf"\hyperref[{latex_label}]{{{label}}}"
+        rf"（\ref{{{latex_label}}}、p.~\pageref{{{latex_label}}}）"
     )
 
 
