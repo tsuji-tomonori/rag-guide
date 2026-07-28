@@ -14,6 +14,8 @@ DOCS_DIR = ROOT / "docs"
 BUILD_DIR = ROOT / "print" / "build"
 IMAGE_DIR = BUILD_DIR / "images"
 COMBINED_MD = BUILD_DIR / "rag-guide.md"
+INDEX_SOURCE = DOCS_DIR / "索引.md"
+INDEX_MD = BUILD_DIR / "index.md"
 ASSET_IMAGES_DIR = ROOT / "assets" / "images"
 
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+)$")
@@ -244,7 +246,12 @@ def main() -> None:
             f"found {reference_count} references but {caption_count} captions"
         )
     COMBINED_MD.write_text(combined, encoding="utf-8")
+    INDEX_MD.write_text(
+        normalize_markdown(INDEX_SOURCE, True),
+        encoding="utf-8",
+    )
     print(f"Wrote {COMBINED_MD.relative_to(ROOT)}")
+    print(f"Wrote {INDEX_MD.relative_to(ROOT)}")
     print(
         f"Wrote {len(unique_images)} grayscale figures "
         f"for {reference_count} references"
