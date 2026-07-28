@@ -26,6 +26,9 @@ IMAGE_CAPTION_RE = re.compile(
     r"(!\[[^\]\n]*\]\(print/build/images/[^)\s]+\))"
     r"\n\n\*\*(図\d+-\d+[^\n*]*)\*\*"
 )
+LOCAL_DOC_LINK_RE = re.compile(
+    r"\[(?P<label>[^\]\n]+)\]\((?P<target>[^)\n]+?\.md)\)"
+)
 PRINT_IMAGE_RE = re.compile(
     r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+(?:\s+\"[^\"]*\")?\)"
 )
@@ -40,6 +43,41 @@ def numeric_prefix(value: str) -> tuple[int, ...]:
     if not match:
         return (10_000,)
     return tuple(int(part) for part in match.group(1).split("."))
+
+
+def source_label(path: Path) -> str:
+    """Return the stable LaTeX label for a chapter or section source."""
+    if path.name == "序文.md":
+        match = re.match(r"^(\d+)", path.parent.name)
+        if not match:
+            raise RuntimeError(f"Chapter number not found: {path}")
+        number = match.group(1)
+        return f"chap:{number}"
+    match = re.match(r"^(\d+\.\d+)", path.name)
+    if not match:
+        raise RuntimeError(f"Section number not found: {path}")
+    number = match.group(1)
+    return f"sec:{number}"
+
+
+def render_local_reference(source: Path, label: str, target: str) -> str:
+    """Render a local Markdown link as a PDF cross-reference."""
+    resolved = (source.parent / target).resolve()
+    try:
+        resolved.relative_to(DOCS_DIR.resolve())
+    except ValueError as error:
+        raise RuntimeError(
+            f"Local document reference escapes docs: {source}: {target}"
+        ) from error
+    if not resolved.is_file():
+        raise FileNotFoundError(
+            f"Missing local document reference: {source}: {target}"
+        )
+    latex_label = source_label(resolved)
+    return (
+        rf"\hyperref[{latex_label}]{{{label}"
+        rf"（\ref*{{{latex_label}}}、p.~\pageref{{{latex_label}}}）}}"
+    )
 
 
 def ordered_sources() -> list[tuple[Path, bool]]:
@@ -116,6 +154,7 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
     output: list[str] = []
     in_fence = False
     for line in path.read_text(encoding="utf-8").splitlines():
+        heading = None
         if line.startswith("```"):
             in_fence = not in_fence
             output.append(line)
@@ -135,7 +174,17 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
                 ),
                 line,
             )
+            line = LOCAL_DOC_LINK_RE.sub(
+                lambda match: render_local_reference(
+                    path,
+                    match.group("label"),
+                    match.group("target"),
+                ),
+                line,
+            )
         output.append(line)
+        if not in_fence and heading and len(heading.group(1)) == 1:
+            output.append(rf"\label{{{source_label(path)}}}")
     normalized = "\n".join(output).rstrip() + "\n"
     return IMAGE_CAPTION_RE.sub(
         lambda match: f'{match.group(1)[:-1]} "{match.group(2)}")',
