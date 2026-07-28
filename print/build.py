@@ -37,6 +37,7 @@ PRINT_IMAGE_RE = re.compile(
 PRINT_CAPTION_RE = re.compile(
     r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+\s+\"図\d+-\d+[^\"]*\"\)"
 )
+STRONG_RE = re.compile(r"\*\*(?P<text>[^*\n]+)\*\*")
 
 
 def numeric_prefix(value: str) -> tuple[int, ...]:
@@ -188,8 +189,12 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
         if not in_fence and heading and len(heading.group(1)) == 1:
             output.append(rf"\label{{{source_label(path)}}}")
     normalized = "\n".join(output).rstrip() + "\n"
-    return IMAGE_CAPTION_RE.sub(
+    normalized = IMAGE_CAPTION_RE.sub(
         lambda match: f'{match.group(1)[:-1]} "{match.group(2)}")',
+        normalized,
+    )
+    return STRONG_RE.sub(
+        lambda match: rf"\textbf{{{match.group('text')}}}",
         normalized,
     )
 
