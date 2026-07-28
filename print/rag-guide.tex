@@ -108,7 +108,8 @@
 
 \chapter*{本書について}
 \addcontentsline{toc}{chapter}{本書について}
-本書は、RAGを単なる「検索とLLMの組み合わせ」ではなく、
+本書は、\textbf{RAG（Retrieval-Augmented Generation、検索拡張生成）}を、
+検索と\textbf{LLM（Large Language Model、大規模言語モデル）}の接続に加えて、
 データ、検索、生成、評価、セキュリティ、運用から成るシステムとして設計するためのガイドです。
 本文は白黒で読みやすく組版し、図版も印刷に適したグレースケールへ変換しています。
 
@@ -116,6 +117,9 @@
 \mainmatter
 \markdownInput{print/build/rag-guide.md}
 \backmatter
+\chapter*{索引}
+\addcontentsline{toc}{chapter}{索引}
+\markdownInput{print/build/index.md}
 \chapter*{奥付}
 \addcontentsline{toc}{chapter}{奥付}
 \begin{description}[leftmargin=7em,labelwidth=6em]
