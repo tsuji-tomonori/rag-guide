@@ -3,8 +3,6 @@ name: Build and attach PDF to release
 on:
   push:
     branches: [main]
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       release_tag:
@@ -24,11 +22,32 @@ jobs:
       PDF_PATH: dist/rag-engineering-guide.pdf
 
     steps:
-      - name: Check out the release tag
+      - name: Check out the release source
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.2
         with:
-          ref: ${{ github.event.release.tag_name || inputs.release_tag || github.sha }}
+          ref: ${{ inputs.release_tag || github.sha }}
           persist-credentials: false
+
+      - name: Resolve release tag
+        id: release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          if [[ -n "$INPUT_RELEASE_TAG" ]]; then
+            release_tag="$INPUT_RELEASE_TAG"
+            publish=false
+          else
+            release_tag="v$(tr -d '[:space:]' < VERSION)"
+            if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${release_tag}" >/dev/null 2>&1; then
+              publish=false
+            else
+              publish=true
+            fi
+          fi
+          echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
 
       - name: Build PDF
         uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4.1.0
@@ -59,9 +78,23 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Attach PDF to release
-        if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+      - name: Create tag and release
+        if: github.event_name == 'push' && steps.release.outputs.publish == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.release_tag }}
+          RELEASE_TAG: ${{ steps.release.outputs.release_tag }}
+        run: |
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+            -f ref="refs/tags/${RELEASE_TAG}" \
+            -f sha="${GITHUB_SHA}"
+          gh release create "$RELEASE_TAG" \
+            --target "$GITHUB_SHA" \
+            --title "$RELEASE_TAG" \
+            --generate-notes
+
+      - name: Attach PDF to release
+        if: (github.event_name == 'push' && steps.release.outputs.publish == 'true') || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.release_tag }}
         run: gh release upload "$RELEASE_TAG" "$PDF_PATH" --clobber
