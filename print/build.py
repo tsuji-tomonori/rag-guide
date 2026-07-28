@@ -14,6 +14,8 @@ DOCS_DIR = ROOT / "docs"
 BUILD_DIR = ROOT / "print" / "build"
 IMAGE_DIR = BUILD_DIR / "images"
 COMBINED_MD = BUILD_DIR / "rag-guide.md"
+INDEX_SOURCE = DOCS_DIR / "索引.md"
+INDEX_MD = BUILD_DIR / "index.md"
 ASSET_IMAGES_DIR = ROOT / "assets" / "images"
 
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+)$")
@@ -35,6 +37,7 @@ PRINT_IMAGE_RE = re.compile(
 PRINT_CAPTION_RE = re.compile(
     r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+\s+\"図\d+-\d+[^\"]*\"\)"
 )
+STRONG_RE = re.compile(r"\*\*(?P<text>[^*\n]+)\*\*")
 
 
 def numeric_prefix(value: str) -> tuple[int, ...]:
@@ -75,8 +78,8 @@ def render_local_reference(source: Path, label: str, target: str) -> str:
         )
     latex_label = source_label(resolved)
     return (
-        rf"\hyperref[{latex_label}]{{{label}"
-        rf"（\ref*{{{latex_label}}}、p.~\pageref{{{latex_label}}}）}}"
+        rf"\hyperref[{latex_label}]{{{label}}}"
+        rf"（\ref{{{latex_label}}}、p.~\pageref{{{latex_label}}}）"
     )
 
 
@@ -186,8 +189,12 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
         if not in_fence and heading and len(heading.group(1)) == 1:
             output.append(rf"\label{{{source_label(path)}}}")
     normalized = "\n".join(output).rstrip() + "\n"
-    return IMAGE_CAPTION_RE.sub(
+    normalized = IMAGE_CAPTION_RE.sub(
         lambda match: f'{match.group(1)[:-1]} "{match.group(2)}")',
+        normalized,
+    )
+    return STRONG_RE.sub(
+        lambda match: rf"\textbf{{{match.group('text')}}}",
         normalized,
     )
 
@@ -244,7 +251,12 @@ def main() -> None:
             f"found {reference_count} references but {caption_count} captions"
         )
     COMBINED_MD.write_text(combined, encoding="utf-8")
+    INDEX_MD.write_text(
+        normalize_markdown(INDEX_SOURCE, True),
+        encoding="utf-8",
+    )
     print(f"Wrote {COMBINED_MD.relative_to(ROOT)}")
+    print(f"Wrote {INDEX_MD.relative_to(ROOT)}")
     print(
         f"Wrote {len(unique_images)} grayscale figures "
         f"for {reference_count} references"
