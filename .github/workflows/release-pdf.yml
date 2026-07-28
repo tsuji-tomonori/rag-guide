@@ -88,7 +88,6 @@ jobs:
             -f ref="refs/tags/${RELEASE_TAG}" \
             -f sha="${GITHUB_SHA}"
           gh release create "$RELEASE_TAG" \
-            --target "$GITHUB_SHA" \
             --title "$RELEASE_TAG" \
             --generate-notes
 
