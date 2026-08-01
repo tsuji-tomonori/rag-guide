@@ -19,7 +19,7 @@ INDEX_MD = BUILD_DIR / "index.md"
 ASSET_IMAGES_DIR = ROOT / "assets" / "images"
 
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+)$")
-NUMBER_PREFIX_RE = re.compile(r"^\d+(?:\.\d+)*\.?\s+")
+NUMBER_PREFIX_RE = re.compile(r"^\d+(?:\.\d+)*\.\s+")
 IMAGE_RE = re.compile(
     r"!\[(?P<alt>[^\]\n]*)\]"
     r"\(\.\./\.\./assets/images/(?P<path>[^)\s]+)\)"
@@ -166,6 +166,11 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
             heading = HEADING_RE.match(line)
             if heading:
                 marks, title = heading.groups()
+                if title[:1].isdigit() and not NUMBER_PREFIX_RE.match(title):
+                    raise RuntimeError(
+                        "Numbered headings must end their number with a period: "
+                        f"{path}: {title}"
+                    )
                 if not is_introduction:
                     marks += "#"
                 title = NUMBER_PREFIX_RE.sub("", title)
