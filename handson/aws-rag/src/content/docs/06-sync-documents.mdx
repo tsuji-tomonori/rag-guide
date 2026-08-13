@@ -1,0 +1,141 @@
+---
+title: 6. 文書を同期する
+description: ingestion jobを開始し、完了状態・統計・文書状態・vector登録を多層で確認します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CloudShellStep from '../../components/CloudShellStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+
+同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、文書単位の状態、vector indexの4層で確認します。
+
+<CloudShellStep number="6.1" title="ingestion jobを開始する">
+
+<Command>
+
+```bash
+aws bedrock-agent start-ingestion-job \
+  --knowledge-base-id "$RAG_KB_ID" \
+  --data-source-id "$RAG_DS_ID" \
+  --description "Initial sync for RAG hands-on $RAG_RUN_ID" \
+  | tee "$RAG_WORK_DIR/start-ingestion-output.json"
+
+export RAG_INGESTION_JOB_ID="$(jq -r '.ingestionJob.ingestionJobId' "$RAG_WORK_DIR/start-ingestion-output.json")"
+test "${#RAG_INGESTION_JOB_ID}" -eq 10
+```
+
+</Command>
+
+<ExpectedResult>
+
+10文字のingestion job IDを取得できます。直後のstatusは`STARTING`または`IN_PROGRESS`です。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="6.2" title="終端状態まで監視する">
+
+<Command>
+
+```bash
+for attempt in {1..40}; do
+  RAG_INGESTION_STATUS="$(aws bedrock-agent get-ingestion-job \
+    --knowledge-base-id "$RAG_KB_ID" \
+    --data-source-id "$RAG_DS_ID" \
+    --ingestion-job-id "$RAG_INGESTION_JOB_ID" \
+    --query 'ingestionJob.status' \
+    --output text)"
+  printf '[%02d/40] ingestion status: %s\n' "$attempt" "$RAG_INGESTION_STATUS"
+  case "$RAG_INGESTION_STATUS" in
+    COMPLETE) break ;;
+    FAILED|STOPPED)
+      aws bedrock-agent get-ingestion-job \
+        --knowledge-base-id "$RAG_KB_ID" \
+        --data-source-id "$RAG_DS_ID" \
+        --ingestion-job-id "$RAG_INGESTION_JOB_ID"
+      exit 1
+      ;;
+  esac
+  sleep 15
+done
+
+test "$RAG_INGESTION_STATUS" = "COMPLETE"
+```
+
+</Command>
+
+<ExpectedResult>
+
+通常は数分以内に`COMPLETE`になります。10分経っても終わらない場合は、無限に待たず[トラブルシューティング](/rag-guide/troubleshooting/)を確認します。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="6.3" title="同期結果を多層で検証する">
+
+<Command title="job統計を確認">
+
+```bash
+aws bedrock-agent get-ingestion-job \
+  --knowledge-base-id "$RAG_KB_ID" \
+  --data-source-id "$RAG_DS_ID" \
+  --ingestion-job-id "$RAG_INGESTION_JOB_ID" \
+  --query 'ingestionJob.{status:status,statistics:statistics,failures:failureReasons}' \
+  --output yaml
+```
+
+</Command>
+
+<Command title="文書単位の状態を確認">
+
+```bash
+aws bedrock-agent list-knowledge-base-documents \
+  --knowledge-base-id "$RAG_KB_ID" \
+  --data-source-id "$RAG_DS_ID" \
+  --query 'documentDetails[].{status:status,uri:identifier.dataSourceType}' \
+  --output table
+```
+
+</Command>
+
+<Command title="vectorが登録されたことを確認">
+
+```bash
+aws s3vectors list-vectors \
+  --index-arn "$RAG_INDEX_ARN" \
+  --max-items 20 \
+  --return-metadata \
+  --query '{count:length(vectors),keys:vectors[].key}' \
+  --output json
+```
+
+</Command>
+
+<ExpectedResult>
+
+- jobは`COMPLETE`で、failure reasonがありません。
+- 3つの元文書が`INDEXED`です。`.metadata.json`は元文書のsidecarであり、独立文書として数えません。
+- vector countは`1`以上です。文書数とvector数はchunkingによって一致しない場合があります。
+
+</ExpectedResult>
+
+<Aside type="note" title="3文書 = 3 vectorとは限りません">
+  Knowledge Basesは文書をchunkへ分割してからembeddingします。同期確認では「vector数が文書数と同じ」を条件にせず、document status、job statistics、vectorの存在を分けて検証します。
+</Aside>
+
+</CloudShellStep>
+
+<Checkpoint>
+
+- ingestion jobは`COMPLETE`である
+- failure reasonがない
+- 3文書が`INDEXED`である
+- vector indexに1件以上のvectorがある
+
+</Checkpoint>
+
+[Retrieveで検索する →](/rag-guide/07-retrieve/)

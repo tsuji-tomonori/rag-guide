@@ -30,3 +30,11 @@ GitHub Releaseを公開すると、[PDFリリースワークフロー](.github/w
 
 `main` ブランチへのpushでも同じPDFを生成します。この場合はGitHub Releaseを新規作成せず、
 Actions実行結果の成果物として14日間ダウンロードできます。
+
+## AWS RAGハンズオン
+
+`handson/aws-rag/`には、AWS CloudShellからAmazon Bedrock Knowledge Bases、S3 Vectors、S3、Converseを構築するAstro Starlight教材があります。各操作の直後にread-onlyの検証コマンドを実行し、期待状態を確認してから次へ進む構成です。
+
+- 公開先: <https://tsuji-tomonori.github.io/rag-guide/>
+- ローカル実行: `cd handson/aws-rag && npm ci && npm run dev`
+- build検証: `cd handson/aws-rag && npm run build`

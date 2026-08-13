@@ -1,0 +1,80 @@
+:root {
+  --sl-color-accent-low: #fff3d6;
+  --sl-color-accent: #c56a00;
+  --sl-color-accent-high: #4a2700;
+  --sl-font: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+  --workshop-navy: #18253a;
+  --workshop-blue: #0284c7;
+  --workshop-orange: #f59e0b;
+  --workshop-green: #16825d;
+}
+
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #3c2805;
+  --sl-color-accent: #f7b84b;
+  --sl-color-accent-high: #fff0ca;
+}
+
+.hero {
+  border-bottom: 1px solid var(--sl-color-gray-5);
+  background:
+    radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--workshop-blue) 20%, transparent), transparent 34%),
+    linear-gradient(135deg, color-mix(in srgb, var(--workshop-navy) 6%, transparent), transparent 60%);
+}
+
+.hero .tagline { max-width: 48rem; }
+.hero .actions a { border-radius: 0.55rem; }
+
+.workshop-panel {
+  margin-block: 2rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--workshop-navy) 8%, transparent);
+}
+
+.workshop-panel > header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.2rem;
+  color: #fff;
+  background: var(--workshop-navy);
+}
+
+.workshop-panel h2 { margin: 0; color: inherit; font-size: 1.25rem; }
+.workshop-panel .eyebrow { display: block; margin-bottom: 0.15rem; color: #bfdbfe; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; }
+.terminal-mark { display: grid; place-items: center; width: 2.3rem; height: 2.3rem; flex: 0 0 auto; border-radius: 0.5rem; color: var(--workshop-navy); background: var(--workshop-orange); font: 800 1.2rem/1 ui-monospace, monospace; }
+.panel-body { padding: 0.25rem 1.25rem 1.3rem; }
+
+.command-frame { margin-block: 1.25rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.65rem; overflow: hidden; background: #0d1726; }
+.command-title { display: flex; align-items: center; gap: 0.55rem; padding: 0.6rem 0.8rem; color: #dbeafe; background: #18253a; font-size: 0.82rem; }
+.command-title > span { color: var(--workshop-orange); font-family: ui-monospace, monospace; }
+.command-title small { margin-left: auto; color: #94a3b8; }
+.command-body .expressive-code { margin: 0; }
+.command-body .frame { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
+
+.expected-result, .checkpoint { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; margin-block: 1.3rem; padding: 1rem 1.1rem; border-radius: 0.65rem; }
+.expected-result { border: 1px solid color-mix(in srgb, var(--workshop-green) 45%, var(--sl-color-gray-5)); background: color-mix(in srgb, var(--workshop-green) 9%, var(--sl-color-bg)); }
+.result-icon { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; color: white; background: var(--workshop-green); font-weight: 900; }
+.result-content > :first-child, .checkpoint-content > :first-child { margin-top: 0.35rem; }
+.result-content > :last-child, .checkpoint-content > :last-child { margin-bottom: 0; }
+.checkpoint { grid-template-columns: 1fr; border: 1px solid color-mix(in srgb, var(--workshop-blue) 45%, var(--sl-color-gray-5)); background: color-mix(in srgb, var(--workshop-blue) 8%, var(--sl-color-bg)); }
+.checkpoint-heading { display: flex; gap: 0.55rem; color: color-mix(in srgb, var(--workshop-blue) 75%, var(--sl-color-text)); }
+.checkpoint-heading span { font-size: 0.75rem; }
+.checkpoint-content ul { padding-left: 0; list-style: none; }
+.checkpoint-content li::before { content: "□"; margin-right: 0.55rem; color: var(--workshop-blue); font-weight: 800; }
+
+.sl-markdown-content h2 { border-top: 1px solid var(--sl-color-gray-5); padding-top: 1.8rem; }
+.sl-markdown-content .workshop-panel h2 { border-top: 0; padding-top: 0; }
+.sl-markdown-content table { font-size: 0.92rem; }
+
+@media (max-width: 40rem) {
+  .command-title small { display: none; }
+  .panel-body { padding-inline: 0.9rem; }
+  .workshop-panel > header { padding-inline: 0.9rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+}

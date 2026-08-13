@@ -1,0 +1,205 @@
+---
+title: 4. Knowledge Base用IAM roleを作成する
+description: Bedrockがembedding model、S3文書、S3 Vector indexへだけアクセスできるservice roleを作ります。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CloudShellStep from '../../components/CloudShellStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+
+Knowledge Basesはservice roleを引き受け、S3文書の読み取り、embedding modelの呼び出し、vectorの登録・検索を行います。対象resourceをこのrunで作成したものへ限定します。
+
+<CloudShellStep number="4.1" title="trust policyを作成する">
+
+<Command>
+
+```bash
+jq -n \
+  --arg account "$RAG_ACCOUNT_ID" \
+  --arg region "$AWS_REGION" \
+  '{
+    Version:"2012-10-17",
+    Statement:[{
+      Effect:"Allow",
+      Principal:{Service:"bedrock.amazonaws.com"},
+      Action:"sts:AssumeRole",
+      Condition:{
+        StringEquals:{"aws:SourceAccount":$account},
+        ArnLike:{"AWS:SourceArn":("arn:aws:bedrock:"+$region+":"+$account+":knowledge-base/*")}
+      }
+    }]
+  }' | tee "$RAG_WORK_DIR/bedrock-kb-trust.json"
+
+jq -e '.Statement[0].Principal.Service == "bedrock.amazonaws.com"' \
+  "$RAG_WORK_DIR/bedrock-kb-trust.json" >/dev/null
+```
+
+</Command>
+
+<ExpectedResult>
+
+trust policyが表示され、`SourceAccount`と東京リージョンのKnowledge Base ARN patternが設定されています。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="4.2" title="service roleと最小権限policyを作成する">
+
+<Command>
+
+```bash
+aws iam create-role \
+  --role-name "$RAG_ROLE_NAME" \
+  --assume-role-policy-document "file://$RAG_WORK_DIR/bedrock-kb-trust.json" \
+  --description "Amazon Bedrock Knowledge Bases role for RAG hands-on $RAG_RUN_ID"
+
+aws iam wait role-exists --role-name "$RAG_ROLE_NAME"
+
+export RAG_ROLE_ARN="$(aws iam get-role \
+  --role-name "$RAG_ROLE_NAME" \
+  --query 'Role.Arn' \
+  --output text)"
+```
+
+</Command>
+
+<Command title="permissions policyを生成して適用">
+
+```bash
+jq -n \
+  --arg account "$RAG_ACCOUNT_ID" \
+  --arg region "$AWS_REGION" \
+  --arg sourceBucket "$RAG_SOURCE_BUCKET" \
+  --arg indexArn "$RAG_INDEX_ARN" \
+  --arg embedModel "$RAG_EMBED_MODEL_ID" \
+  '{
+    Version:"2012-10-17",
+    Statement:[
+      {
+        Sid:"InvokeEmbeddingModel",
+        Effect:"Allow",
+        Action:["bedrock:InvokeModel"],
+        Resource:("arn:aws:bedrock:"+$region+"::foundation-model/"+$embedModel)
+      },
+      {
+        Sid:"ListSourceBucket",
+        Effect:"Allow",
+        Action:["s3:ListBucket"],
+        Resource:("arn:aws:s3:::"+$sourceBucket),
+        Condition:{StringEquals:{"aws:ResourceAccount":$account}}
+      },
+      {
+        Sid:"ReadSourceDocuments",
+        Effect:"Allow",
+        Action:["s3:GetObject"],
+        Resource:("arn:aws:s3:::"+$sourceBucket+"/documents/*"),
+        Condition:{StringEquals:{"aws:ResourceAccount":$account}}
+      },
+      {
+        Sid:"ReadWriteVectorIndex",
+        Effect:"Allow",
+        Action:[
+          "s3vectors:PutVectors",
+          "s3vectors:GetVectors",
+          "s3vectors:DeleteVectors",
+          "s3vectors:QueryVectors",
+          "s3vectors:GetIndex"
+        ],
+        Resource:$indexArn
+      }
+    ]
+  }' | tee "$RAG_WORK_DIR/bedrock-kb-permissions.json"
+
+aws iam put-role-policy \
+  --role-name "$RAG_ROLE_NAME" \
+  --policy-name "$RAG_POLICY_NAME" \
+  --policy-document "file://$RAG_WORK_DIR/bedrock-kb-permissions.json"
+```
+
+</Command>
+
+</CloudShellStep>
+
+<CloudShellStep number="4.3" title="vector bucket policyを設定する">
+
+custom roleだけに、このindexへの必要操作を許可するresource-based policyを追加します。
+
+<Command>
+
+```bash
+jq -n \
+  --arg roleArn "$RAG_ROLE_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" \
+  '{
+    Version:"2012-10-17",
+    Statement:[{
+      Sid:"AllowBedrockKnowledgeBaseRole",
+      Effect:"Allow",
+      Principal:{AWS:$roleArn},
+      Action:[
+        "s3vectors:PutVectors",
+        "s3vectors:GetVectors",
+        "s3vectors:DeleteVectors",
+        "s3vectors:QueryVectors",
+        "s3vectors:GetIndex"
+      ],
+      Resource:$indexArn
+    }]
+  }' | tee "$RAG_WORK_DIR/vector-bucket-policy.json"
+
+aws s3vectors put-vector-bucket-policy \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --policy "file://$RAG_WORK_DIR/vector-bucket-policy.json"
+```
+
+</Command>
+
+<Command title="roleとpolicyをread-backして検証">
+
+```bash
+aws iam get-role \
+  --role-name "$RAG_ROLE_NAME" \
+  --query 'Role.{arn:Arn,created:CreateDate}' \
+  --output table
+
+aws iam get-role-policy \
+  --role-name "$RAG_ROLE_NAME" \
+  --policy-name "$RAG_POLICY_NAME" \
+  --query 'PolicyDocument.Statement[].{sid:Sid,resource:Resource}' \
+  --output table
+
+aws s3vectors get-vector-bucket-policy \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --query 'policy' \
+  --output text | jq -r '.Statement[0] | {principal:.Principal.AWS,resource:.Resource,actions:.Action}'
+```
+
+</Command>
+
+<ExpectedResult>
+
+- role ARNが`RAG_ROLE_ARN`と一致します。
+- 4つのstatementが、embedding model、source bucket、`documents/*`、このrunのindexだけを参照します。
+- vector bucket policyのprincipalは作成したroleです。
+
+</ExpectedResult>
+
+<Aside type="note" title="IAMの反映には時間がかかることがあります">
+  次のKnowledge Base作成で`ValidationException`やassume role関連のerrorが出た場合は、policy内容を変更せず30〜60秒待ってから同じ作成コマンドを1回再実行します。
+</Aside>
+
+</CloudShellStep>
+
+<Checkpoint>
+
+- service roleのtrust先は`bedrock.amazonaws.com`である
+- `SourceAccount`と`SourceArn`でconfused deputy対策を入れた
+- source S3、embedding model、vector indexへresourceを限定した
+- vector bucket policyのprincipalは作成したservice roleである
+
+</Checkpoint>
+
+[Knowledge Baseを作成する →](/rag-guide/05-create-knowledge-base/)

@@ -1,0 +1,16 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'CloudShellで実行' } = Astro.props;
+---
+
+<div class="command-frame">
+  <div class="command-title">
+    <span aria-hidden="true">›_</span>
+    <strong>{title}</strong>
+    <small>コード右上からコピーできます</small>
+  </div>
+  <div class="command-body"><slot /></div>
+</div>
