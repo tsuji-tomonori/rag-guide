@@ -14,6 +14,7 @@
 \usepackage{adjustbox}
 \usepackage{etoolbox}
 \usepackage{fancyvrb}
+\usepackage{fvextra}
 \usepackage{enumitem}
 \usepackage{indentfirst}
 \usepackage{titlesec}
@@ -34,6 +35,15 @@
 \raggedbottom
 \setlist{nosep,leftmargin=2em,topsep=0.5\baselineskip}
 \Urlmuskip=0mu plus 1mu\relax
+\fvset{
+  breaklines=true,
+  breakanywhere=true,
+  breaksymbolleft={\tiny\ensuremath{\hookrightarrow}},
+  breaksymbolsepleft=0.5em
+}
+\AtBeginEnvironment{Verbatim}{%
+  \ltjsetparameter{autospacing=false,autoxspacing=false,xkanjiskip=0pt}%
+}
 \renewcommand{\thesection}{\thechapter.\arabic{section}.}
 \renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}.}
 
@@ -114,6 +124,23 @@
 検索と\textbf{LLM（Large Language Model、大規模言語モデル）}の接続に加えて、
 データ、検索、生成、評価、セキュリティ、運用から成るシステムとして設計するためのガイドです。
 本文は白黒で読みやすく組版し、図版も印刷に適したグレースケールへ変換しています。
+
+本文の正本と更新履歴は、\url{https://github.com/tsuji-tomonori/rag-guide}で確認できます。
+
+\section*{目的別の読む順}
+\begin{description}[leftmargin=9em,labelwidth=8em]
+  \item[最初に作る] 第1章で採用条件、第2章で全体像、第3章から第6章で実装契約、
+    第10章でAWSへの対応を確認します。
+  \item[品質を改善する] 第2章で失敗工程を特定し、第7章で評価契約を作り、
+    対象工程の章へ戻ります。
+  \item[安全性を審査する] 第1章で適用境界、第8章で認可・監査・可用性・費用、
+    第7章で公開条件を確認します。
+  \item[高度化を検討する] 第7章で基準構成の失敗を再現してから、
+    第9章の比較表で最小の候補を選びます。
+\end{description}
+
+本文の主線は実務上の判断と手順です。「研究上の位置づけ」と明記した段落は、
+方式の由来、評価条件、限界を確認したい読者向けの補足として読めます。
 
 \tableofcontents
 \mainmatter
