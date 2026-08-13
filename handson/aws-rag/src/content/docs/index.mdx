@@ -1,0 +1,47 @@
+---
+title: AWS RAG Hands-on
+description: CloudShellだけで、根拠を検索して回答するRAGをAWS上に構築します。
+template: splash
+hero:
+  tagline: CloudShellだけで、S3の文書を検索し、根拠に基づいて回答するRAGをAWS上に構築します。
+  actions:
+    - text: ハンズオンを始める
+      link: /rag-guide/00-overview/
+      icon: right-arrow
+      variant: primary
+    - text: GitHubでソースを見る
+      link: https://github.com/tsuji-tomonori/rag-guide/tree/main/handson/aws-rag
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## このハンズオンで作るもの
+
+<CardGrid>
+  <Card title="すべてCloudShellで実行" icon="seti:shell">
+    AWS Management Console内のCloudShellから、コピー可能なAWS CLIコマンドだけで構築します。
+  </Card>
+  <Card title="毎回、完了を検証" icon="approve-check-circle">
+    作成コマンドの直後にread-onlyの確認コマンドを実行し、期待値を見てから次へ進みます。
+  </Card>
+  <Card title="検索と生成を分離" icon="puzzle">
+    `Retrieve`で根拠を確認した後、そのEvidence Setだけを`Converse`へ渡します。
+  </Card>
+  <Card title="最後に確実に削除" icon="delete">
+    Knowledge Base、vector index、S3、IAM roleを依存順に削除し、課金リソースが残っていないことを確認します。
+  </Card>
+</CardGrid>
+
+## 完成する構成
+
+`S3 data source → Amazon Bedrock Knowledge Bases → S3 Vectors → Retrieve → Converse`
+
+基準構成は密ベクトルによるsemantic searchです。検索結果を見ずに生成へ進まず、まず`Retrieve`で「適切な根拠が返っているか」を確認します。
+
+## 所要時間と費用
+
+- 所要時間の目安：45〜75分
+- 対象リージョン：アジアパシフィック（東京）`ap-northeast-1`
+- 主な費用：embedding、S3 Vectorsの保存・API、Knowledge Basesの取り込み、生成モデルの入出力token
+- ハンズオン終了後は必ずCleanupまで実行してください。

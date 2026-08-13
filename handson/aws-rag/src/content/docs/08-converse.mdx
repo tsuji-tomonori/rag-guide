@@ -1,0 +1,120 @@
+---
+title: 8. Converseで回答を生成する
+description: Retrieveで取得したEvidence SetだけをNova Liteへ渡し、citation ID付きの回答を生成します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CloudShellStep from '../../components/CloudShellStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+
+ここでは`RetrieveAndGenerate`を使わず、検索と生成を明示的に分けます。これにより、生成前の重複排除、版の確認、根拠不足判定を後から追加できます。
+
+<CloudShellStep number="8.1" title="Evidence Set付きmessageを作成する">
+
+<Command>
+
+```bash
+export RAG_EVIDENCE="$(cat "$RAG_WORK_DIR/evidence.txt")"
+
+jq -n \
+  --arg question "$RAG_QUESTION" \
+  --arg evidence "$RAG_EVIDENCE" \
+  '[{
+    role:"user",
+    content:[{
+      text:(
+        "あなたは根拠に基づいて回答するアシスタントです。\n" +
+        "次のEvidence Setだけを使って日本語で簡潔に回答してください。\n" +
+        "各主張の末尾に[E1]形式のcitation IDを付けてください。\n" +
+        "根拠が不足する場合は、推測せず『根拠不足です』と回答してください。\n\n" +
+        "質問:\n" + $question + "\n\n" +
+        "Evidence Set:\n" + $evidence
+      )
+    }]
+  }]' | tee "$RAG_WORK_DIR/converse-messages.json"
+
+jq -e 'length == 1 and .[0].role == "user" and (.[] | .content | length == 1)' \
+  "$RAG_WORK_DIR/converse-messages.json" >/dev/null
+```
+
+</Command>
+
+<ExpectedResult>
+
+message JSONが表示され、質問、制約、`[E1]`を含むEvidence Setが1つのuser messageへ入っています。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="8.2" title="Converseを呼び出す">
+
+<Command>
+
+```bash
+aws bedrock-runtime converse \
+  --model-id "$RAG_GENERATION_MODEL_ID" \
+  --messages "file://$RAG_WORK_DIR/converse-messages.json" \
+  --inference-config '{"maxTokens":400,"temperature":0.1,"topP":0.9}' \
+  | tee "$RAG_WORK_DIR/converse-output.json"
+
+jq -r '.output.message.content[] | select(.text) | .text' \
+  "$RAG_WORK_DIR/converse-output.json" \
+  | tee "$RAG_WORK_DIR/answer.txt"
+```
+
+</Command>
+
+<ExpectedResult>
+
+回答に「購入日から30日以内」「未使用」「包装」などの条件と`[E1]`が含まれます。Evidence Setにない手続きや例外を創作していません。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="8.3" title="最低限のcitation検査を行う">
+
+<Command>
+
+```bash
+test -s "$RAG_WORK_DIR/answer.txt"
+grep -Eq '30日|三十日' "$RAG_WORK_DIR/answer.txt"
+grep -Eq '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt"
+
+for citation in $(grep -oE '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt" | sort -u); do
+  grep -Fq "$citation" "$RAG_WORK_DIR/evidence.txt" || {
+    printf 'unknown citation: %s\n' "$citation" >&2
+    exit 1
+  }
+done
+
+printf 'citation validation: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult>
+
+`citation validation: PASS`と表示されます。回答内のcitation IDが、実際のEvidence Setに存在します。
+
+</ExpectedResult>
+
+<Aside type="note" title="この検査だけではclaim supportを証明できません">
+  citation IDの存在確認は最低限の構文検査です。本番では、各claimが参照本文に支持されるか、根拠の版や権限が正しいか、回答可能性が十分かを別途評価します。
+</Aside>
+
+</CloudShellStep>
+
+<Checkpoint>
+
+- generation modelへEvidence Setだけを渡した
+- 回答に期待した事実とcitation IDがある
+- すべてのcitation IDがEvidence Set内に存在する
+- 検索結果と生成結果を別ファイルへ保存した
+
+</Checkpoint>
+
+[検索設定を比較する →](/rag-guide/09-improve-retrieval/)

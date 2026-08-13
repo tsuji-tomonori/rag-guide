@@ -1,0 +1,113 @@
+---
+title: 3. S3 Vectorsを作成する
+description: Titan Text Embeddings V2と互換な1024次元のS3 Vector indexを作成し、設定値を検証します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CloudShellStep from '../../components/CloudShellStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+
+S3 Vectorsにvector bucketとindexを作成します。indexの`dimension`、`distanceMetric`、non-filterable metadata keyは後から変更できないため、Knowledge Baseと接続する前にread-backします。
+
+<CloudShellStep number="3.1" title="vector bucketを作成する">
+
+<Command>
+
+```bash
+aws s3vectors create-vector-bucket \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --region "$AWS_REGION"
+```
+
+</Command>
+
+<Command title="vector bucketを検証">
+
+```bash
+aws s3vectors get-vector-bucket \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --query 'vectorBucket.{name:vectorBucketName,arn:vectorBucketArn,encryption:encryptionConfiguration.sseType}' \
+  --output table
+
+export RAG_VECTOR_BUCKET_ARN="$(aws s3vectors get-vector-bucket \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --query 'vectorBucket.vectorBucketArn' \
+  --output text)"
+test "$RAG_VECTOR_BUCKET_ARN" != "None"
+```
+
+</Command>
+
+<ExpectedResult>
+
+vector bucket名とARNが表示されます。暗号化を明示しない場合も、S3管理キーによるSSE-S3が既定で適用されます。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="3.2" title="1024次元のvector indexを作成する">
+
+Titan Text Embeddings V2の1024次元float vectorへ合わせます。Knowledge Basesがchunk本文と内部metadataを保存できるよう、AWS公式手順で指定される2つのkeyをnon-filterableにします。
+
+<Command>
+
+```bash
+aws s3vectors create-index \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --index-name "$RAG_INDEX_NAME" \
+  --data-type float32 \
+  --dimension 1024 \
+  --distance-metric cosine \
+  --metadata-configuration \
+    '{"nonFilterableMetadataKeys":["AMAZON_BEDROCK_TEXT","AMAZON_BEDROCK_METADATA"]}' \
+  --region "$AWS_REGION"
+```
+
+</Command>
+
+<Command title="index設定をread-backして検証">
+
+```bash
+aws s3vectors get-index \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --index-name "$RAG_INDEX_NAME" \
+  --query 'index.{name:indexName,dataType:dataType,dimension:dimension,distance:distanceMetric,metadata:metadataConfiguration.nonFilterableMetadataKeys,arn:indexArn}' \
+  --output table
+
+export RAG_INDEX_ARN="$(aws s3vectors get-index \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --index-name "$RAG_INDEX_NAME" \
+  --query 'index.indexArn' \
+  --output text)"
+
+test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --query 'index.dimension' --output text)" = "1024"
+test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --query 'index.distanceMetric' --output text)" = "cosine"
+```
+
+</Command>
+
+<ExpectedResult>
+
+`float32`、`1024`、`cosine`、2つの`AMAZON_BEDROCK_*` keyとindex ARNが表示され、`test`がエラーなく終了します。
+
+</ExpectedResult>
+
+<Aside type="caution" title="S3 VectorsはHYBRID検索ではありません">
+  このハンズオンのstoreはdense vectorによるSEMANTIC検索です。BM25などの語彙一致が必要な場合は、OpenSearch Serverless等の対応storeへ変更するか、別retrieverの結果をRRFやrerankerで統合します。
+</Aside>
+
+</CloudShellStep>
+
+<Checkpoint>
+
+- vector bucket ARNを`RAG_VECTOR_BUCKET_ARN`へ保存した
+- index ARNを`RAG_INDEX_ARN`へ保存した
+- indexは`float32 / 1024 / cosine`である
+- non-filterable keyはAWS指定の2 keyである
+
+</Checkpoint>
+
+[Knowledge Base用IAM roleを作成する →](/rag-guide/04-create-iam-role/)
