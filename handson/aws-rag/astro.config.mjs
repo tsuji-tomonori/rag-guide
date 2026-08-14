@@ -37,7 +37,7 @@ export default defineConfig({
           items: [
             { label: '0. 全体像と進め方', link: '/00-overview/' },
             { label: '1. CloudShellを準備', link: '/01-prepare-cloudshell/' },
-            { label: '2. サンプル文書をS3へ配置', link: '/02-upload-documents/' },
+            { label: '2. AWS公式PDFをS3へ配置', link: '/02-upload-documents/' },
             { label: '3. S3 Vectorsを作成', link: '/03-create-vector-store/' },
             { label: '4. Knowledge Base用IAM role', link: '/04-create-iam-role/' },
             { label: '5. Knowledge Baseを作成', link: '/05-create-knowledge-base/' },

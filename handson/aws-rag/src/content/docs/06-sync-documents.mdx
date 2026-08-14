@@ -41,14 +41,14 @@ test "${#RAG_INGESTION_JOB_ID}" -eq 10
 <Command>
 
 ```bash
-for attempt in {1..40}; do
+for attempt in {1..80}; do
   RAG_INGESTION_STATUS="$(aws bedrock-agent get-ingestion-job \
     --knowledge-base-id "$RAG_KB_ID" \
     --data-source-id "$RAG_DS_ID" \
     --ingestion-job-id "$RAG_INGESTION_JOB_ID" \
     --query 'ingestionJob.status' \
     --output text)"
-  printf '[%02d/40] ingestion status: %s\n' "$attempt" "$RAG_INGESTION_STATUS"
+  printf '[%02d/80] ingestion status: %s\n' "$attempt" "$RAG_INGESTION_STATUS"
   case "$RAG_INGESTION_STATUS" in
     COMPLETE) break ;;
     FAILED|STOPPED)
@@ -69,7 +69,7 @@ test "$RAG_INGESTION_STATUS" = "COMPLETE"
 
 <ExpectedResult>
 
-通常は数分以内に`COMPLETE`になります。10分経っても終わらない場合は、無限に待たず[トラブルシューティング](/rag-guide/troubleshooting/)を確認します。
+複数ページのPDFを解析・chunk化・embeddingするため、小さなtxt fileより時間がかかります。20分経っても終わらない場合は、無限に待たず[トラブルシューティング](/rag-guide/troubleshooting/)を確認します。
 
 </ExpectedResult>
 
@@ -96,8 +96,14 @@ aws bedrock-agent get-ingestion-job \
 aws bedrock-agent list-knowledge-base-documents \
   --knowledge-base-id "$RAG_KB_ID" \
   --data-source-id "$RAG_DS_ID" \
-  --query 'documentDetails[].{status:status,uri:identifier.dataSourceType}' \
+  --query 'documentDetails[].{status:status,uri:identifier.s3.uri,reason:statusReason}' \
   --output table
+
+test "$(aws bedrock-agent list-knowledge-base-documents \
+  --knowledge-base-id "$RAG_KB_ID" \
+  --data-source-id "$RAG_DS_ID" \
+  --query 'length(documentDetails)' \
+  --output text)" = "1"
 ```
 
 </Command>
@@ -118,13 +124,13 @@ aws s3vectors list-vectors \
 <ExpectedResult>
 
 - jobは`COMPLETE`で、failure reasonがありません。
-- 3つの元文書が`INDEXED`です。`.metadata.json`は元文書のsidecarであり、独立文書として数えません。
+- Well-Architected Framework PDFが`INDEXED`です。`.metadata.json`は元文書のsidecarであり、独立文書として数えません。
 - vector countは`1`以上です。文書数とvector数はchunkingによって一致しない場合があります。
 
 </ExpectedResult>
 
-<Aside type="note" title="3文書 = 3 vectorとは限りません">
-  Knowledge Basesは文書をchunkへ分割してからembeddingします。同期確認では「vector数が文書数と同じ」を条件にせず、document status、job statistics、vectorの存在を分けて検証します。
+<Aside type="note" title="1 PDF = 1 vectorではありません">
+  Knowledge Basesは長いPDFを多数のchunkへ分割してからembeddingします。同期確認では「vector数が文書数と同じ」を条件にせず、document status、job statistics、vectorの存在を分けて検証します。`list-vectors --max-items 20`の`count`は全vector数ではなく、取得した先頭pageの件数です。
 </Aside>
 
 </CloudShellStep>
@@ -133,7 +139,7 @@ aws s3vectors list-vectors \
 
 - ingestion jobは`COMPLETE`である
 - failure reasonがない
-- 3文書が`INDEXED`である
+- Well-Architected Framework PDFが`INDEXED`である
 - vector indexに1件以上のvectorがある
 
 </Checkpoint>
