@@ -1,0 +1,5 @@
+check_id,layer,tool,tool_version,parameters,result,observed
+CHK-001,型検査,Quint,0.32.0,typecheck,合格,exit 0
+CHK-002,決定的シナリオ,Quint TypeScript backend,0.32.0,max-samples=1; seed=0x726167,合格,19 passing
+CHK-003,ランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12; seed=0x726167,合格,No violation found; trace length max=13
+CHK-004,境界付き状態空間検査,Quint + Apalache,0.32.0 + 0.56.1,max-steps=12; invariant=allInvariants,合格,No violation found; 16 verification conditions

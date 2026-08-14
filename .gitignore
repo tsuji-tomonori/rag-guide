@@ -41,3 +41,10 @@ reports/working/visual-qa/*.log
 
 # local paper source and generated artifacts
 pdf/
+
+# local output from Quint's Apalache backend
+_apalache-out/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
