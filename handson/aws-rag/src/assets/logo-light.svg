@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 48">
+  <rect width="48" height="48" rx="11" fill="#18253a"/>
+  <path d="M12 14h24v7H12zm0 13h15v7H12z" fill="#f59e0b"/>
+  <circle cx="36" cy="32" r="6" fill="#0284c7"/>
+  <text x="61" y="31" font-family="system-ui, sans-serif" font-size="21" font-weight="700" fill="#172033">AWS RAG Hands-on</text>
+</svg>

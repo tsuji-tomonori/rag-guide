@@ -1,0 +1,15 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'こうなれば成功' } = Astro.props;
+---
+
+<aside class="expected-result">
+  <div class="result-icon" aria-hidden="true">✓</div>
+  <div>
+    <strong>{title}</strong>
+    <div class="result-content"><slot /></div>
+  </div>
+</aside>

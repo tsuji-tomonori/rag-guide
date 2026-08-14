@@ -41,6 +41,10 @@ reports/working/visual-qa/*.log
 
 # local paper source and generated artifacts
 pdf/
+# Astro Starlight handson
+handson/aws-rag/.astro/
+handson/aws-rag/dist/
+handson/aws-rag/node_modules/
 
 # local output from Quint's Apalache backend
 _apalache-out/

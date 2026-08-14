@@ -1,0 +1,19 @@
+---
+interface Props {
+  title: string;
+  number?: string;
+}
+
+const { title, number } = Astro.props;
+---
+
+<section class="workshop-panel shell-step">
+  <header>
+    <span class="terminal-mark" aria-hidden="true">$</span>
+    <div>
+      {number && <span class="eyebrow">STEP {number}</span>}
+      <h2>{title}</h2>
+    </div>
+  </header>
+  <div class="panel-body"><slot /></div>
+</section>

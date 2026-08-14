@@ -1,0 +1,157 @@
+---
+title: 9. 検索設定を比較する
+description: metadata filterとcandidate数を一つずつ変更し、検索結果への影響を観察します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CloudShellStep from '../../components/CloudShellStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+
+RAGの改善はmodel変更から始めず、検索条件を一つずつ変更して結果を比較します。このページではcandidate数とmetadata filterを扱います。
+
+<CloudShellStep number="9.1" title="candidate数を比較する">
+
+同じ質問で`numberOfResults`だけを変え、返却件数、上位score、正解根拠の有無を記録します。
+
+<Command>
+
+```bash
+printf 'k\treturned\ttop_score\thas_gold\n' | tee "$RAG_WORK_DIR/k-comparison.tsv"
+
+for k in 1 3 5; do
+  jq -n \
+    --arg kbId "$RAG_KB_ID" \
+    --arg question "$RAG_QUESTION" \
+    --argjson k "$k" \
+    '{
+      knowledgeBaseId:$kbId,
+      retrievalQuery:{text:$question},
+      retrievalConfiguration:{
+        vectorSearchConfiguration:{
+          numberOfResults:$k,
+          overrideSearchType:"SEMANTIC"
+        }
+      }
+    }' > "$RAG_WORK_DIR/retrieve-k-$k.json"
+
+  aws bedrock-agent-runtime retrieve \
+    --cli-input-json "file://$RAG_WORK_DIR/retrieve-k-$k.json" \
+    > "$RAG_WORK_DIR/retrieve-k-$k-output.json"
+
+  jq -r --arg k "$k" '
+    [
+      $k,
+      (.retrievalResults | length),
+      (.retrievalResults[0].score // "-"),
+      any(.retrievalResults[]; .content.text | contains("30日以内"))
+    ] | @tsv
+  ' "$RAG_WORK_DIR/retrieve-k-$k-output.json" \
+    | tee -a "$RAG_WORK_DIR/k-comparison.tsv"
+done
+
+column -t -s $'\t' "$RAG_WORK_DIR/k-comparison.tsv"
+```
+
+</Command>
+
+<ExpectedResult>
+
+`k=1 / 3 / 5`の比較表が表示されます。この小さなdatasetでは正解根拠が上位に入りやすいですが、本番ではgold query全体のRecall@k、latency、費用を比較します。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="9.2" title="metadata filterを必須条件として適用する">
+
+質問を「ポリシーを教えてください」のように曖昧にしても、`category=policy`かつ`status=published`だけを検索対象にします。
+
+<Command>
+
+```bash
+export RAG_FILTER_QUESTION="利用時に注意すべきポリシーを教えてください。"
+
+jq -n \
+  --arg kbId "$RAG_KB_ID" \
+  --arg question "$RAG_FILTER_QUESTION" \
+  '{
+    knowledgeBaseId:$kbId,
+    retrievalQuery:{text:$question},
+    retrievalConfiguration:{
+      vectorSearchConfiguration:{
+        numberOfResults:5,
+        overrideSearchType:"SEMANTIC",
+        filter:{
+          andAll:[
+            {equals:{key:"category",value:"policy"}},
+            {equals:{key:"status",value:"published"}}
+          ]
+        }
+      }
+    }
+  }' | tee "$RAG_WORK_DIR/retrieve-filtered-input.json"
+
+aws bedrock-agent-runtime retrieve \
+  --cli-input-json "file://$RAG_WORK_DIR/retrieve-filtered-input.json" \
+  | tee "$RAG_WORK_DIR/retrieve-filtered-output.json"
+```
+
+</Command>
+
+<Command title="filter結果を検証">
+
+```bash
+jq -r '
+  .retrievalResults[]
+  | [.score, .metadata.category, .metadata.status, .location.s3Location.uri]
+  | @tsv
+' "$RAG_WORK_DIR/retrieve-filtered-output.json" | column -t -s $'\t'
+
+jq -e '
+  (.retrievalResults | length) > 0 and
+  all(.retrievalResults[]; .metadata.category == "policy" and .metadata.status == "published")
+' "$RAG_WORK_DIR/retrieve-filtered-output.json" >/dev/null
+```
+
+</Command>
+
+<ExpectedResult>
+
+1件以上が返り、すべてのcandidateが`category=policy / status=published`です。source URIは`return-policy.txt`を指します。
+
+</ExpectedResult>
+
+<Aside type="note" title="filterはpromptの指示より前に適用します">
+  公開状態、tenant、ACL、版などの必須条件を「回答に使わないでください」というpromptだけで制御しません。検索前のfilterとnegative testで、条件外の文書がcandidateやcitationへ混入しないことを確認します。
+</Aside>
+
+</CloudShellStep>
+
+<CloudShellStep number="9.3" title="改善の次の一手を判断する">
+
+| 観測した失敗 | 最初に試す変更 |
+|---|---|
+| 正解根拠が候補にない | chunking、embedding、query変換、candidate数を比較 |
+| 固有名詞・型番を落とす | OpenSearch Serverless等のHYBRID、または別BM25 retrieverを比較 |
+| 正解はあるが順位が低い | candidateを増やし、rerankerを比較 |
+| 古い版・対象外tenantが混ざる | metadata設計とfilterを修正 |
+| 根拠は正しいが回答が不正確 | Evidence Set、prompt、citation・claim検査を修正 |
+
+<Aside type="caution" title="S3 VectorsへHYBRIDを指定しないでください">
+  S3 Vectorsはsemantic search用の基準構成です。HYBRIDを評価する場合は対応vector storeへ切り替え、同じ質問・gold evidence・権限条件で比較します。
+</Aside>
+
+</CloudShellStep>
+
+<Checkpoint>
+
+- candidate数だけを変えた比較結果を保存した
+- filter後のcandidateはすべて必須条件を満たす
+- 検索失敗と生成失敗を分けて判断できる
+- Cleanupへ進む前に必要な出力を確認した
+
+</Checkpoint>
+
+[リソースを削除する →](/rag-guide/10-cleanup/)

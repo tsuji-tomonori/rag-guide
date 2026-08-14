@@ -1,0 +1,175 @@
+---
+title: 1. CloudShellを準備する
+description: AWS認証、東京リージョン、CLI機能、embedding・生成モデルを事前検証します。
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+import CloudShellStep from '../../components/CloudShellStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+
+このページではまだAWSリソースを作りません。後続の失敗を早期に見つけるため、認証、リージョン、AWS CLIのservice command、利用モデルを先に確認します。
+
+<CloudShellStep number="1.1" title="CloudShellを開く">
+
+AWS Management Console右上のCloudShellアイコンを選び、promptが表示されるまで待ちます。CloudShellはConsoleへsign-inしたprincipalの一時credentialsを自動で利用します。
+
+<Command>
+
+```bash
+aws sts get-caller-identity --output table
+```
+
+</Command>
+
+<ExpectedResult>
+
+`Account`、`Arn`、`UserId`が表示されます。`Arn`が想定したハンズオン用principalであることを確認してください。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="1.2" title="共通変数を設定する">
+
+以降は同じCloudShell tabで作業します。名前の衝突を避けるため、UTC時刻をrun IDに含めます。
+
+<Command>
+
+```bash
+export AWS_REGION="ap-northeast-1"
+export AWS_DEFAULT_REGION="$AWS_REGION"
+
+export RAG_ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
+export RAG_RUN_ID="$(date -u +%m%d%H%M%S)"
+export RAG_WORK_DIR="$PWD/rag-handson-$RAG_RUN_ID"
+
+export RAG_SOURCE_BUCKET="rag-handson-${RAG_ACCOUNT_ID}-${RAG_RUN_ID}"
+export RAG_VECTOR_BUCKET="rag-handson-vectors-${RAG_ACCOUNT_ID}-${RAG_RUN_ID}"
+export RAG_INDEX_NAME="rag-titan-v2-1024"
+export RAG_ROLE_NAME="BedrockKnowledgeBaseRole-${RAG_RUN_ID}"
+export RAG_POLICY_NAME="BedrockKnowledgeBasePolicy-${RAG_RUN_ID}"
+export RAG_KB_NAME="rag-handson-kb-${RAG_RUN_ID}"
+export RAG_DS_NAME="rag-handson-s3-${RAG_RUN_ID}"
+export RAG_EMBED_MODEL_ID="amazon.titan-embed-text-v2:0"
+export RAG_GENERATION_MODEL_ID="amazon.nova-lite-v1:0"
+
+mkdir -p "$RAG_WORK_DIR/documents"
+printf '%s\n' \
+  "AWS_REGION=$AWS_REGION" \
+  "RAG_ACCOUNT_ID=$RAG_ACCOUNT_ID" \
+  "RAG_RUN_ID=$RAG_RUN_ID" \
+  "RAG_WORK_DIR=$RAG_WORK_DIR" \
+  "RAG_SOURCE_BUCKET=$RAG_SOURCE_BUCKET" \
+  "RAG_VECTOR_BUCKET=$RAG_VECTOR_BUCKET" \
+  "RAG_INDEX_NAME=$RAG_INDEX_NAME" \
+  "RAG_ROLE_NAME=$RAG_ROLE_NAME" \
+  "RAG_POLICY_NAME=$RAG_POLICY_NAME" \
+  "RAG_KB_NAME=$RAG_KB_NAME" \
+  "RAG_DS_NAME=$RAG_DS_NAME" \
+  "RAG_EMBED_MODEL_ID=$RAG_EMBED_MODEL_ID" \
+  "RAG_GENERATION_MODEL_ID=$RAG_GENERATION_MODEL_ID" \
+  | tee "$RAG_WORK_DIR/manifest.env"
+```
+
+</Command>
+
+<Command title="変数を検証">
+
+```bash
+test "$AWS_REGION" = "ap-northeast-1"
+test "${#RAG_ACCOUNT_ID}" -eq 12
+test -d "$RAG_WORK_DIR/documents"
+printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR"
+```
+
+</Command>
+
+<ExpectedResult>
+
+3行の値が表示され、エラーが出ません。`region=ap-northeast-1`になっていることを確認します。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<CloudShellStep number="1.3" title="CLIとAWSサービスを検証する">
+
+<Command>
+
+```bash
+aws --version
+jq --version
+aws s3vectors list-vector-buckets --max-results 1 --output json
+aws bedrock list-foundation-models --query 'length(modelSummaries)' --output text
+```
+
+</Command>
+
+<ExpectedResult>
+
+- AWS CLIと`jq`のversionが表示されます。
+- `list-vector-buckets`がJSONを返します。vector bucketが0件でも問題ありません。
+- foundation model数が`1`以上です。
+
+</ExpectedResult>
+
+<Aside type="caution" title="aws: error: argument command: Invalid choice の場合">
+  CloudShellのAWS CLIが`aws s3vectors`へ未対応です。古いCLIのままハンズオンを進めず、[AWS CLIの更新手順](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)で最新版へ更新するか、管理者が更新済みの実習環境を使用してください。
+</Aside>
+
+</CloudShellStep>
+
+<CloudShellStep number="1.4" title="利用モデルを検証する">
+
+まず、東京リージョンにmodel IDが存在することを確認します。その後、Nova Liteへ短い`Converse`を1回だけ実行し、実際にinvokeできることを確認します。
+
+<Command>
+
+```bash
+aws bedrock get-foundation-model \
+  --model-identifier "$RAG_EMBED_MODEL_ID" \
+  --query 'modelDetails.{id:modelId,input:inputModalities,output:outputModalities}' \
+  --output table
+
+aws bedrock get-foundation-model \
+  --model-identifier "$RAG_GENERATION_MODEL_ID" \
+  --query 'modelDetails.{id:modelId,input:inputModalities,output:outputModalities}' \
+  --output table
+```
+
+</Command>
+
+<Command title="Converseの疎通確認（少量の推論料金が発生します）">
+
+```bash
+aws bedrock-runtime converse \
+  --model-id "$RAG_GENERATION_MODEL_ID" \
+  --messages '[{"role":"user","content":[{"text":"OKとだけ答えてください。"}]}]' \
+  --inference-config '{"maxTokens":8,"temperature":0}' \
+  --query 'output.message.content[0].text' \
+  --output text
+```
+
+</Command>
+
+<ExpectedResult>
+
+embedding modelとgeneration modelの表が表示され、最後のコマンドが`OK`を含む短い応答を返します。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<Checkpoint>
+
+- caller identityが想定した実習用principalである
+- `AWS_REGION`は`ap-northeast-1`である
+- `aws s3vectors`を実行できる
+- Titan Text Embeddings V2とNova Liteを東京リージョンで利用できる
+- 同じCloudShell tabをこのまま使う
+
+</Checkpoint>
+
+[サンプル文書をS3へ配置する →](/rag-guide/02-upload-documents/)

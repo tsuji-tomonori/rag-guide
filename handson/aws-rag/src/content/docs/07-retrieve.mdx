@@ -1,0 +1,116 @@
+---
+title: 7. Retrieveで検索する
+description: Knowledge Baseへsemantic queryを送り、本文・score・source URI・metadataを確認します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CloudShellStep from '../../components/CloudShellStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+
+生成モデルを呼ぶ前に、検索結果だけを観察します。適切な根拠が候補に含まれなければ、生成モデルを変更しても根本原因は解消しません。
+
+<CloudShellStep number="7.1" title="semantic searchを実行する">
+
+<Command>
+
+```bash
+export RAG_QUESTION="返品できる期間と条件を教えてください。"
+
+jq -n \
+  --arg kbId "$RAG_KB_ID" \
+  --arg question "$RAG_QUESTION" \
+  '{
+    knowledgeBaseId:$kbId,
+    retrievalQuery:{text:$question},
+    retrievalConfiguration:{
+      vectorSearchConfiguration:{
+        numberOfResults:5,
+        overrideSearchType:"SEMANTIC"
+      }
+    }
+  }' | tee "$RAG_WORK_DIR/retrieve-input.json"
+
+aws bedrock-agent-runtime retrieve \
+  --cli-input-json "file://$RAG_WORK_DIR/retrieve-input.json" \
+  | tee "$RAG_WORK_DIR/retrieve-output.json"
+```
+
+</Command>
+
+</CloudShellStep>
+
+<CloudShellStep number="7.2" title="検索結果を検証する">
+
+<Command>
+
+```bash
+jq -r '
+  .retrievalResults
+  | to_entries[]
+  | "rank=\(.key + 1) score=\(.value.score) category=\(.value.metadata.category // "-")\nsource=\(.value.location.s3Location.uri // "-")\ntext=\(.value.content.text)\n"
+' "$RAG_WORK_DIR/retrieve-output.json"
+
+jq -e '
+  (.retrievalResults | length) > 0 and
+  any(.retrievalResults[]; .content.text | contains("30日以内"))
+' "$RAG_WORK_DIR/retrieve-output.json" >/dev/null
+```
+
+</Command>
+
+<ExpectedResult>
+
+1件以上のcandidateが返り、少なくとも1件の本文に`30日以内`が含まれます。そのcandidateのsource URIは`return-policy.txt`を指し、metadataのcategoryは`policy`です。
+
+</ExpectedResult>
+
+<Aside type="caution" title="scoreへ固定閾値を置かないでください">
+  scoreの尺度はmodel、store、query、設定によって変わります。単発の値から「0.7以上なら正しい」と決めず、gold evidenceを持つ複数queryでRecall@kと誤検索を測ります。
+</Aside>
+
+</CloudShellStep>
+
+<CloudShellStep number="7.3" title="検索結果をEvidence Setへ整形する">
+
+<Command>
+
+```bash
+jq -r '
+  .retrievalResults
+  | to_entries
+  | map(
+      "[E\(.key + 1)]\n" +
+      .value.content.text + "\n" +
+      "source=" + (.value.location.s3Location.uri // "unknown")
+    )
+  | join("\n\n")
+' "$RAG_WORK_DIR/retrieve-output.json" \
+  | tee "$RAG_WORK_DIR/evidence.txt"
+
+test -s "$RAG_WORK_DIR/evidence.txt"
+grep -q '\[E1\]' "$RAG_WORK_DIR/evidence.txt"
+grep -q 'source=s3://' "$RAG_WORK_DIR/evidence.txt"
+```
+
+</Command>
+
+<ExpectedResult>
+
+各candidateに`E1`、`E2`…のcitation IDが付き、本文とS3 source URIが同じblockに保存されます。
+
+</ExpectedResult>
+
+</CloudShellStep>
+
+<Checkpoint>
+
+- `Retrieve`は1件以上を返した
+- `30日以内`を含む正しい根拠が候補にある
+- source URIが`return-policy.txt`を指す
+- `evidence.txt`にcitation ID、本文、source URIがある
+
+</Checkpoint>
+
+[Converseで回答を生成する →](/rag-guide/08-converse/)
