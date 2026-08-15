@@ -2,7 +2,7 @@
 
 ## 判定
 
-**不合格（修正後に再レビューが必要）**です。Critical 1件、Major 6件、Minor 1件が未解消であり、正本レビューの完了条件を満たしません。形式モデルそのものは、元の横断契約に加え、BM25等14件の具体技術契約の型検査、決定的シナリオ、5,000件のランダムトレース、Apalache境界付き検査を通過しました。Lean 4は、センテンス根拠台帳の件数、未カバー集合、一次資料割当、割合計算を追加公理なしで検査しました。
+**不合格（修正後に再レビューが必要）**です。Critical 1件、Major 6件、Minor 1件が未解消であり、正本レビューの完了条件を満たしません。形式モデルそのものは、元の横断契約に加え、BM25等14件の具体技術契約の型検査、決定的シナリオ、5,000件のランダムトレース、Apalache境界付き検査を通過しました。Lean 4は、センテンス根拠台帳の件数、未カバー集合、一次資料割当、割合計算、39件の制御語彙atom導出、BM25・RRFの記号式性質を追加公理なしで検査しました。
 
 この判定は「形式モデルに反例がない」ことと「自然言語の正本が実装可能な一意の契約になっている」ことを分けて扱います。前者は合格、後者は未合格です。
 
@@ -29,6 +29,10 @@
 | 具体技術 | 47 |
 | 一次資料・Lean台帳を持つ具体技術 | 47/47（100%） |
 | Quintで振る舞い契約を検査した中核技術 | 14/47（29.79%） |
+| 制御語彙へ形式化できたセンテンス | 39/1,067（3.66%） |
+| source atomsからLeanで導出したatom射影 | 39/1,067（3.66%） |
+| 自然言語全文のkernel-certified自動意味論証明 | 0/1,067（0%） |
+| 経験的結果・実サービス動作の独立真偽確認 | 0/1,067（0%） |
 
 `formal/review-data/manifest.json` は生成元commit、件数、主要CSVのSHA-256を記録します。`tools/formal_review/generate_review_data.py` は正本commitと `docs/` の内容が異なる状態での生成を拒否するため、レビュー対象の取り違えを防ぎます。
 
@@ -59,25 +63,30 @@
 - `formal/review-data/sentence_evidence.csv`: 4,418センテンス相当行の根拠要否・資料対応
 - `formal/review-data/uncovered_sentences.csv`: 一次資料が未対応の593センテンス
 - `formal/review-data/coverage_summary.csv`: カバレッジ分子・分母・百分率
+- `formal/review-data/semantic_assurance.csv`: 1,067文のatom形式化、導出、全文意味論、真偽ステータス
+- `formal/review-data/source_claim_formalizations.csv`: 47具体技術の一次資料命題と77atom
+- `formal/review-data/semantic_assurance_summary.csv`: 意味論・真偽カバレッジ
 - `formal/quint/invariants.csv`: 25不変条件の正本対応表
 - `formal/quint/scenarios.csv`: 19シナリオと期待結果
 - `formal/quint/rag_pipeline.qnt`: 章3〜9を横断する有限状態モデル
 - `formal/quint/retrieval_techniques.qnt`: 14具体技術の機構・pipeline契約
-- `formal/lean/`: 生成台帳、13定理、要件トレーサビリティ
+- `formal/lean/`: 生成台帳、26定理、11要件のトレーサビリティ
 - `formal/verification/verification-report.md`: 実行条件と検証結果
 - `formal/verification/evidence-verification-report.md`: 具体技術・カバレッジ・Lean検証結果
 - `formal/verification/results.csv`: 機械可読な検証結果
 
 ## 形式化の限界
 
-Quintモデルは、認可、tenant、削除、来歴、時点、根拠十分性、矛盾、grounding、引用、tool実行、release、auditの横断契約と、具体技術の機構を有限状態へ抽象化したものです。Leanが証明するのは生成台帳の集合・件数・資料割当・割合の整合性であり、一次資料が日本語センテンスを意味的に含意することは証明しません。この境界は`formal/lean/traceability.json`で`INCONCLUSIVE`として明示しています。未定義の判定関数はFND-004、FND-006、FND-007として追跡します。
+Quintモデルは、認可、tenant、削除、来歴、時点、根拠十分性、矛盾、grounding、引用、tool実行、release、auditの横断契約と、具体技術の機構を有限状態へ抽象化したものです。Leanは、生成台帳の集合・件数・資料割当・割合に加え、制御文法で形式化した39件について`guide atoms ⊆ source atoms`を証明します。ただし、日本語・英語からatomへの変換が意味を完全保存することを検査するkernel-certified semantic parserはないため、自然言語全文の自動証明は0件です。また、論文の実験結果やホストされたサービスの実動作を一次資料の記述だけから真とすることはせず、独立再現・runtime観測は0件として明示します。この境界は`formal/lean/traceability.json`で`INCONCLUSIVE`として追跡します。
 
 ## 再生成
 
 ```bash
 python tools/formal_review/generate_review_data.py
 python tools/formal_review/generate_evidence_coverage.py
+python tools/formal_review/generate_semantic_assurance.py
 python tools/formal_review/check_evidence_coverage.py
+python tools/formal_review/check_semantic_assurance.py
 ```
 
 形式検証の再実行方法は `formal/verification/verification-report.md` と `formal/verification/evidence-verification-report.md` を参照してください。

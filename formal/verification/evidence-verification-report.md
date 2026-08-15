@@ -22,6 +22,11 @@
 | Lean台帳へモデル化した具体技術 | 47/47（100%） |
 | Quintで振る舞い契約を検査した中核技術 | 14/47（29.79%） |
 | 適格一次資料 | 193/193（100%） |
+| 制御文法へ形式化 | 39/1,067（3.66%） |
+| source atomsからLeanで相対導出 | 39/1,067（3.66%） |
+| 自然言語全文のkernel-certified自動意味論証明 | 0/1,067（0%） |
+| 経験的主張の独立再現 | 0/125（0%） |
+| 公式製品仕様の実動作確認 | 0/26（0%） |
 
 センテンスカバレッジの分母は、外部検証可能な技術説明、研究結果、定量値、原著・提案内容、公式製品仕様です。設計上の推奨、例、接続文、章構成などは分母へ入れていません。カバー済みは、適格な一次資料がセンテンス内、具体技術台帳、または同一段落から割り当てられた行です。
 
@@ -42,26 +47,31 @@
 
 ## Lean 4で証明したこと
 
-`formal/lean/RagEvidence/Generated.lean` は、根拠必須1,067行と具体技術47行をCSVから生成します。`formal/lean/RagEvidence/Proofs.lean` は次を証明し、Lean kernelで検査します。
+`formal/lean/RagEvidence/Generated.lean` は、根拠必須1,067行と具体技術47行をCSVから生成します。`formal/lean/RagEvidence/SemanticGenerated.lean`は、1,067行のsource/guide atom台帳を生成します。`Proofs.lean`、`SemanticProofs.lean`、`RetrievalTruth.lean`は次を証明し、Lean kernelで検査します。
 
 - 報告した分母1,067、分子474、直接対応397、未カバー593件が生成台帳と一致する。
 - カバー済み行は一次資料件数が正であり、直接対応行は必ずカバー済みである。
 - 44.42%と37.21%のbasis-point計算が台帳値と一致する。
 - 未カバー一覧が台帳上の未カバーIDと完全一致し、100%カバーではない。
 - 47具体技術すべてが固有技術として登録され、信頼できる一次資料を1件以上持つ。
+- 制御文法で形式化した39文は、空でないguide atomとsource atomを持ち、guide atomがsource atomに包含される。
+- BM25の記号式でterm frequencyまたはIDFが0なら分子が0になり、文書長補正が分母へ現れる。
+- RRFの記号式は分子1、分母`k + rank`であり、非空のモデルを持つ。
 
-13定理の`#print axioms`は追加公理を報告しません。厳格監査では`sorry`、`admit`、`axiom`、`unsafe`、`native_decide`を検出せず、トレーサビリティ検査は7要件と13定理宣言の対応を確認しました。
+26定理の`#print axioms`は追加公理を報告しません。厳格監査では`sorry`、`admit`、`axiom`、`unsafe`、`native_decide`を検出せず、トレーサビリティ検査は11要件と26定理宣言の対応を確認します。
 
 ## 証明していないこと
 
-Leanが証明するのは、生成された台帳の集合・件数・適格資料割当・割合計算の整合性です。一次資料の内容が日本語センテンスの全詳細を意味的に含意すること、資料の主張自体が真であること、47件が世の中の全技術を尽くすことは証明していません。この意味的保証は`INCONCLUSIVE`として`formal/lean/traceability.json`に明記し、各行を`machine_mapped_requires_human_confirmation`としています。
+Leanは、生成された台帳の集合・件数・適格資料割当・割合計算と、39件の制御atom射影についての論理的包含を証明します。一方、日本語センテンス全文からatomへの変換が意味を完全保存することは証明していません。そのため全文意味論証明は0/1,067です。さらに、論文の経験的結果はコード・データによる再現、公式製品仕様は対象版・regionでのruntime観測がなければ「真」としません。独立真偽確認も0/1,067です。一次資料の文をLeanの公理へ置いて見かけ上100%にする方法は採用していません。
 
 ## 再現コマンド
 
 ```bash
 python tools/formal_review/generate_review_data.py
 python tools/formal_review/generate_evidence_coverage.py
+python tools/formal_review/generate_semantic_assurance.py
 python tools/formal_review/check_evidence_coverage.py
+python tools/formal_review/check_semantic_assurance.py
 
 cd formal/lean
 lake build
