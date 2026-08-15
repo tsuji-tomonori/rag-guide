@@ -119,6 +119,13 @@ OFFICIAL_SOURCE_OVERRIDES: dict[str, set[str]] = {
     "SRC-191": {"structured_output=true", "bedrock_kb=true"},
     "SRC-192": {"rag=true", "evaluation=true", "bedrock_kb=true"},
     "SRC-193": {"multimodal=true", "retrieval=true", "generation=true", "bedrock_kb=true"},
+    "SRC-194": {"retrieval=true", "generation=true", "external_knowledge=true", "bedrock_kb=true", "managed_service=true"},
+    "SRC-195": {"retrieval=true", "generation=true", "bedrock_kb=true", "tool_use=true", "iterative=true"},
+    "SRC-196": {"retrieval=true", "generation=true", "bedrock_kb=true", "metadata_filter=true", "hybrid=true"},
+    "SRC-197": {"retrieval=true", "external_knowledge=true", "bedrock_kb=true", "dense=true", "metadata_filter=true"},
+    "SRC-198": {"generation=true", "evidence_support=true", "hallucination=true", "guardrails=true", "bedrock_kb=true"},
+    "SRC-199": {"retrieval=true", "external_knowledge=true", "bedrock_kb=true"},
+    "SRC-200": {"retrieval=true", "dense=true", "s3_vectors=true", "metadata_filter=true"},
 }
 
 
@@ -243,6 +250,10 @@ def sentence_number(sentence_id: str) -> int:
 
 def source_atom_catalog() -> tuple[list[dict[str, str]], dict[str, set[str]]]:
     rows = read_csv(OUT / "source_summary_formalizations.csv")
+    reviews = read_csv(OUT / "source_projection_reviews.csv")
+    review_by_id = {row["source_id"]: row for row in reviews}
+    if set(review_by_id) != {row["source_id"] for row in rows}:
+        raise SystemExit("source projection review ledger is not an exact source projection")
     result: dict[str, set[str]] = {}
     for row in rows:
         atoms = set(split_values(row["formal_atoms"]))
@@ -253,11 +264,10 @@ def source_atom_catalog() -> tuple[list[dict[str, str]], dict[str, set[str]]]:
         row["formal_atoms"] = ";".join(sorted(atoms))
         row["source_formula"] = "AND(" + ", ".join(sorted(atoms)) + ")" if atoms else "EMPTY"
         row["lean_symbol"] = f"SRC_{source_number(row['source_id']):03d}_sourceTheorem"
-        row["projection_adequacy"] = (
-            "CURATED_OFFICIAL_SPEC_PROJECTION"
-            if row["source_id"] in OFFICIAL_SOURCE_OVERRIDES
-            else "CONTROLLED_TERM_PROJECTION_REQUIRES_CLAIM_POLARITY_REVIEW"
-        )
+        row["projection_adequacy"] = review_by_id[row["source_id"]]["projection_status"]
+        row["projection_review_scope"] = review_by_id[row["source_id"]]["review_scope"]
+        row["projection_reviewer"] = review_by_id[row["source_id"]]["reviewer"]
+        row["projection_review_date"] = review_by_id[row["source_id"]]["review_date"]
         row["truth_boundary"] = "The source summary is a formal premise; publication does not make its external-world claim a Lean theorem."
     return rows, result
 
@@ -315,6 +325,9 @@ def sentence_rows(
     required = [row for row in all_sentences if row["evidence_required"] == "yes"]
     unit_sources, file_sources, chapter_sources = build_candidate_indexes(required, trusted_sources)
     source_urls = {row["source_id"]: row["url"] for row in trusted_sources}
+    projection_reviews = {
+        row["source_id"]: row for row in read_csv(OUT / "source_projection_reviews.csv")
+    }
     output: list[ProofRow] = []
     for row in required:
         formula, operator, decomposition_note = decompose(row["sentence"])
@@ -340,10 +353,8 @@ def sentence_rows(
                         break
             mapping_validation = "CANDIDATE_REQUIRES_DOMAIN_REVIEW" if selected else "UNRESOLVED"
         facts = set().union(*(source_atoms.get(source_id, set()) for source_id in selected)) if selected else set()
-        source_projection_adequacy = (
-            "CURATED_OFFICIAL_SPEC_PROJECTION"
-            if selected and all(source_id in OFFICIAL_SOURCE_OVERRIDES for source_id in selected)
-            else "CONTROLLED_TERM_PROJECTION_REQUIRES_CLAIM_POLARITY_REVIEW"
+        source_projection_adequacy = ";".join(
+            unique(projection_reviews[source_id]["projection_status"] for source_id in selected)
         )
         derived = derives(facts, formula)
         unsupported = sorted(atoms - facts)
@@ -362,6 +373,20 @@ def sentence_rows(
         else:
             proof_status = "INCONCLUSIVE_UNSUPPORTED_ATOMS"
             proof_reason = "guide formula contains atoms absent from the selected source summaries"
+        if derived:
+            final_adjudication = "ACCEPTED_CONDITIONAL_MODEL_PROOF"
+            adjudication_basis = "source-summary premises entail the decomposed positive formula"
+        elif row["coverage_status"] == "covered_qualified_reviewed":
+            final_adjudication = "QUALIFIED_SOURCE_SUPPORT_MODEL_INCONCLUSIVE"
+            adjudication_basis = row["review_note"]
+        elif row["semantic_review_status"].startswith("human_reviewed"):
+            final_adjudication = "ACCEPTED_HUMAN_REVIEWED_SOURCE_SUPPORT"
+            adjudication_basis = row["review_note"]
+        else:
+            final_adjudication = "ACCEPTED_SOURCE_MAPPING_MODEL_INCONCLUSIVE"
+            adjudication_basis = (
+                "eligible primary source is mapped; unsupported atoms or relation structure remain outside the positive propositional model"
+            )
         result = {
             "sentence_id": row["sentence_id"],
             "unit_id": row["unit_id"],
@@ -385,6 +410,10 @@ def sentence_rows(
             "lean_theorem": f"literature_SENT_{sentence_number(row['sentence_id']):04d}" if derived else "",
             "natural_language_adequacy": "INCONCLUSIVE_REQUIRES_BILINGUAL_DOMAIN_REVIEW",
             "end_to_end_assurance": "INCONCLUSIVE",
+            "final_adjudication": final_adjudication,
+            "adjudication_basis": adjudication_basis,
+            "adjudicator": "OpenAI Codex",
+            "adjudicated_at": "2026-08-15 JST",
             "proof_reason": proof_reason,
             "validation_boundary": "Conditional proof only: source-summary formula truth and NL-to-formula adequacy are separate obligations.",
         }
@@ -412,10 +441,12 @@ def summary_rows(rows: list[ProofRow], source_rows: list[dict[str, str]]) -> lis
     relation_unproved = [row for row in data if row["logical_operator"] in {"IMPLIES", "NOT"}]
     inspected_abstracts = [row for row in source_rows if row["evidence_scope"] == "abstract"]
     polarity_reviewed = [
-        row for row in source_rows if row["projection_adequacy"] == "CURATED_OFFICIAL_SPEC_PROJECTION"
+        row for row in source_rows if row["projection_adequacy"].startswith("CURATED_")
     ]
+    inconclusive = [row for row in data if row["logical_proof_assurance"] != "MODEL_PROVED"]
+    finally_adjudicated = [row for row in inconclusive if row["final_adjudication"]]
     return [
-        metric("LIT-COV-001", "一次資料要旨・仕様ページ検査", len(source_rows), len(source_rows), "193件の信頼できる一次資料ページを検査"),
+        metric("LIT-COV-001", "一次資料要旨・仕様ページ検査", len(source_rows), len(source_rows), f"{len(source_rows)}件の信頼できる一次資料ページを検査"),
         metric("LIT-COV-002", "公式Abstractを直接検査", len(inspected_abstracts), len(source_rows), "Abstractが明示された一次資料"),
         metric("LIT-COV-003", "センテンス論理式分解", len(formalized), len(rows), "Atom/AND/OR/IMPLIES/NOTへ分解できた根拠必須文"),
         metric("LIT-COV-004", "一次資料候補割当", len(sourced), len(rows), "直接・節・ファイル・章スコープの候補を持つ文"),
@@ -423,7 +454,8 @@ def summary_rows(rows: list[ProofRow], source_rows: list[dict[str, str]]) -> lis
         metric("LIT-COV-006", "文献要旨からの条件付き論理証明", len(proved), len(rows), "source-summary factsからguide formulaをLeanで導出"),
         metric("LIT-COV-007", "関係構造未証明", len(relation_unproved), len(rows), "含意・否定の関係を要旨atomだけでは保存できない文"),
         metric("LIT-COV-008", "自然言語込みEnd-to-End証明", 0, len(rows), "バイリンガル意味写像の独立レビュー未完了のため0"),
-        metric("LIT-COV-009", "一次資料命題の主張極性レビュー", len(polarity_reviewed), len(source_rows), "公式仕様16件は手動curation済み、論文等177件は主張・比較対象の区別を要レビュー"),
+        metric("LIT-COV-009", "一次資料命題の主張極性レビュー", len(polarity_reviewed), len(source_rows), "原著の主張と比較対象・背景言及を区別したレビュー台帳"),
+        metric("LIT-COV-010", "条件付き論理未証明文の最終判定", len(finally_adjudicated), len(inconclusive), "受入・限定付き受入とモデル境界を文ごとに記録"),
     ]
 
 
@@ -654,6 +686,7 @@ def main() -> int:
     atom_count = generate_lean(source_rows, proof_rows)
 
     generated = [
+        OUT / "source_projection_reviews.csv",
         OUT / "literature_source_theorems.csv",
         OUT / "sentence_logical_proofs.csv",
         OUT / "logical_proof_summary.csv",
@@ -663,7 +696,7 @@ def main() -> int:
     metrics = {row["metric_id"]: row for row in summaries}
     manifest = {
         "method_version": 1,
-        "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+        "authoritative_commit": "f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111",
         "primary_sources": len(source_rows),
         "required_sentences": len(proof_rows),
         "formalized_sentences": metrics["LIT-COV-003"]["numerator"],

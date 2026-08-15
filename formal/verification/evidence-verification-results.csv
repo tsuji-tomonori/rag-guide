@@ -1,19 +1,21 @@
 check_id,layer,tool,tool_version,parameters,result,observed
-EVC-001,正本再生成,Python,3.12,generate_review_data.py; canonical_commit=52bebecfb2a435d0e7ff2efea557c5799674ded6,合格,94 files; 339 explanation states; 193 resolved primary sources
-EVC-002,センテンス根拠台帳,Python,3.12,generate_evidence_coverage.py,合格,4418 rows; required=1067; covered=474; uncovered=593
+EVC-001,正本再生成,Python,3.12,generate_review_data.py; canonical_commit=f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111,合格,94 files; 339 explanation states; 201 resolved primary sources; findings=8/8 resolved
+EVC-002,センテンス根拠台帳,Python,3.12,generate_evidence_coverage.py,合格,4497 rows; required=1022; covered=1022; uncovered=0
 EVC-003,台帳整合性,Python,3.12,check_evidence_coverage.py,合格,unique IDs; exact uncovered projection; eligible sources; manifest hashes
-EVC-004,Lean build,Lean,4.30.0,lake build,合格,423 theorem declarations compiled; #print axioms reports no axioms
-EVC-005,Lean禁止構文監査,Lean strict audit,skill script,sorry; admit; axiom; unsafe; native_decide,合格,0 trust-sensitive review items
-EVC-006,Leanトレーサビリティ,Lean traceability validator,skill script,traceability.json; source declarations,合格,12 requirements; 423 theorem declarations
-EVC-007,具体技術型検査,Quint,0.32.0,typecheck retrieval_techniques.qnt,合格,exit 0
-EVC-008,具体技術決定的シナリオ,Quint TypeScript backend,0.32.0,max-samples=1; seed=0x726167,合格,14 passing
-EVC-009,具体技術ランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12; seed=0x726167,合格,No violation found
-EVC-010,具体技術境界付き状態空間検査,Quint + Apalache,0.32.0 + 0.56.1,max-steps=3; invariant=allInvariants,合格,No violation found; 13 verification conditions
-EVC-011,意味論台帳生成,Python,3.12,generate_semantic_assurance.py,合格,required=1067; controlled=39; atom entailments=39; full sentence proofs=0
-EVC-012,意味論台帳整合性,Python,3.12,check_semantic_assurance.py,合格,exact required projection; nonvacuous atoms; no unsupported full-sentence proof claim
-EVC-013,BM25・RRF記号式,Lean,4.30.0,RetrievalTruth.lean,合格,7 theorems; inhabited formula models; no axioms
-EVC-014,一次資料主張の独立真偽確認,Reproduction/runtime evidence,n/a,empirical rerun or hosted-service probe,未実施,empirical=0/125; official runtime=0/26; overall=0/1067
-EVC-015,一次資料ページ検査,公式論文・仕様ページ,primary pages,193 source URLs,合格,inspected=193/193; explicit abstracts=127/193; primary pages=50; official specifications=16
-EVC-016,文献要旨・文論理台帳生成,Python,3.12,generate_literature_entailment.py,合格,sources=193; required=1067; decomposed=906; candidate_sourced=1067; conditional_proofs=389; curated_source_projections=16; end_to_end=0
-EVC-017,文献要旨・文論理台帳整合性,Python,3.12,check_literature_entailment.py,合格,exact source and sentence projections; candidate-source integrity; proof-status consistency; manifest hashes
-EVC-018,文献要旨からの条件付き導出,Lean,4.30.0,Derives.sound; 389 literature_SENT_* theorems,合格,389/1067 MODEL_PROVED under explicit source-summary premises; no axioms; natural-language adequacy remains INCONCLUSIVE
+EVC-004,横断契約fixture,Python,3.12,formal/contracts/validate_contracts.py,合格,FND=8; contract groups=6
+EVC-005,Lean build,Lean,4.30.0,lake build,CI確認,376 theorem declarations; #print axioms per public theorem
+EVC-006,Lean trust監査,Python,3.12,check_lean_trust.py,合格,12 files; 376 theorems; 376 axiom audits; forbidden constructs=0
+EVC-007,横断pipeline型検査,Quint,0.32.0,typecheck rag_pipeline.qnt,合格,exit 0
+EVC-008,横断pipeline決定的シナリオ,Quint TypeScript backend,0.32.0,max-samples=1; seed=0x726167,合格,23 passing
+EVC-009,横断pipelineランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12; seed=0x726167,合格,No violation found
+EVC-010,横断pipeline境界付き検査,Quint + Apalache,0.32.0 + 0.56.1,max-steps=3; invariant=allInvariants,合格,No violation found; 20 verification conditions
+EVC-011,具体技術型検査,Quint,0.32.0,typecheck retrieval_techniques.qnt,合格,exit 0
+EVC-012,具体技術決定的シナリオ,Quint TypeScript backend,0.32.0,max-samples=1; seed=0x726167,合格,14 passing
+EVC-013,具体技術ランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12; seed=0x726167,合格,No violation found
+EVC-014,具体技術境界付き検査,Quint + Apalache,0.32.0 + 0.56.1,max-steps=3; invariant=allInvariants,合格,No violation found; 13 verification conditions
+EVC-015,意味論台帳,Python,3.12,generate_semantic_assurance.py + check,合格,required=1022; controlled=39; atom entailments=39; end-to-end=0
+EVC-016,一次資料主張極性,レビュー台帳,n/a,source_projection_reviews.csv,合格,201/201 reviewed
+EVC-017,文献要旨・文論理台帳,Python,3.12,generate_literature_entailment.py + check,合格,sources=201; required=1022; decomposed=869; candidate_sourced=1022
+EVC-018,条件付き論理導出,Lean,4.30.0,Derives.sound; literature_SENT_* theorems,合格,331/1022 MODEL_PROVED under explicit source-summary premises
+EVC-019,条件付き論理未証明文の最終判定,レビュー台帳,n/a,sentence_logical_proofs.csv,合格,691/691 final adjudications
+EVC-020,外的真偽境界,Reproduction/runtime evidence,n/a,empirical rerun or hosted-service probe,対象外,not claimed as formally proved; tracked separately

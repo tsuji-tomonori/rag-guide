@@ -23,7 +23,8 @@ from urllib.parse import quote, unquote, urlparse
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
-EXPECTED_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
+EXPECTED_COMMIT = "f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111"
+MANUAL_PRIMARY_SOURCES = OUT / "manual_primary_sources.csv"
 NUMBERED = re.compile(r"^##\s+(\d+\.\d+\.\d+\.)\s+(.+?)\s*$")
 LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
@@ -175,7 +176,7 @@ ISSUES = [
         "impact": "実装者が権限外本文を検索サービス、メモリ、ログへ露出する構成を選べ、認可境界の合否が章によって変わります。",
         "fix": "ACL・tenant・削除・失効はpre-filterまたは認可統合済みfiltered ANNに限定する、と4.6.3へ明記してください。post-filterは非機密の品質フィルターに限定し、権限用途では禁止してください。",
         "verification": "SCN-003/004/005を全retriever経路で実装し、権限外本文が検索応答・cache・trace・promptへ一度も出ないnegative testを実行します。",
-        "status": "要修正",
+        "status": "解消",
     },
     {
         "id": "FND-002",
@@ -186,7 +187,7 @@ ISSUES = [
         "impact": "同じEvidence Setから過剰拒否または無根拠回答のどちらも実装でき、評価の期待値が固定できません。",
         "fix": "テンプレートを『論点ごとに十分性を判定し、支持できる論点は限定回答、支持できない論点は不足を明示。回答全体の中核が不足する場合のみ全体保留』へ置換してください。",
         "verification": "全論点十分、一部十分、中核不足の3ケースを独立テストし、claim単位で根拠・保留を照合します。",
-        "status": "要修正",
+        "status": "解消",
     },
     {
         "id": "FND-003",
@@ -197,7 +198,7 @@ ISSUES = [
         "impact": "自動書き込みを許す実装と全面承認を要する実装が同じ本文に適合し、運用負荷と安全性を事前判定できません。",
         "fix": "原則を一つに統一してください。推奨は『副作用操作は人承認を既定必須。ただし事前承認済みの低リスク・可逆・上限付き操作は、risk tierと例外承認を構成として明記した場合に限り自動実行可』です。",
         "verification": "read-only、通常write、事前承認済み低risk write、高risk writeの4ケースでpolicy decisionと監査記録を固定試験します。",
-        "status": "要修正",
+        "status": "解消",
     },
     {
         "id": "FND-004",
@@ -208,7 +209,7 @@ ISSUES = [
         "impact": "Quintはsufficiency判定後の安全性は検証できますが、その判定自体の正しさを検証できず、本文全体の最重要ゲートが実装者判断へ残ります。",
         "fix": "質問型ごとにrequired_facet、minimum_support、authority、time/version、conflict_policy、UNKNOWN時動作を持つschemaと受入例を追加してください。",
         "verification": "同一fixtureに対する決定的rule判定、LLM判定との比較、人手goldとの誤り率を測り、閾値をversion管理します。",
-        "status": "要修正",
+        "status": "解消",
     },
     {
         "id": "FND-005",
@@ -219,7 +220,7 @@ ISSUES = [
         "impact": "質問開始後の権限剥奪や削除で、旧権限の回答が完了し得ます。",
         "fix": "回答確定直前にpolicy versionと文書statusを再検証し、変更済みならEvidence Setを破棄・再検索・保留する契約を追加してください。",
         "verification": "retrieval後・generation前に権限剥奪イベントを注入し、回答本文・引用・cacheへ残らない競合試験を実行します。",
-        "status": "要修正",
+        "status": "解消",
     },
     {
         "id": "FND-006",
@@ -230,7 +231,7 @@ ISSUES = [
         "impact": "個別ゲートを通っても互換でないembedding/query encoder、index/schema、prompt/output schemaを組み合わせて公開できます。",
         "fix": "release_manifestにsource_snapshot、parser、chunker、embedding、index schema、retriever、reranker、prompt、model、policy、output schema、evaluation datasetのIDとcompatibility ruleを必須化してください。",
         "verification": "互換・非互換fixtureでpublish可否をテストし、alias切替失敗時に旧版と現在policyへ原子的に戻ることを確認します。",
-        "status": "要修正",
+        "status": "解消",
     },
     {
         "id": "FND-007",
@@ -241,7 +242,7 @@ ISSUES = [
         "impact": "語彙拡張や会話解決で『2023年当時』『しない』『このtenant』が落ちても、検索結果が自然なら検出できません。",
         "fix": "resolved query contractにentity、time_range、version_scope、polarity、tenant、hard_filtersを設け、変換前条件が変換後へ包含されることをrule検査してください。",
         "verification": "期間・否定・比較・代名詞・tenantを含む変形metamorphic testで、hard conditionの保存を確認します。",
-        "status": "要修正",
+        "status": "解消",
     },
     {
         "id": "FND-008",
@@ -252,7 +253,7 @@ ISSUES = [
         "impact": "工程別ログが存在しても同一実行として結合できず、失敗の最初のlayerを特定できない場合があります。",
         "fix": "trace_id、request_id、release_id、dataset_item_id、candidate_id、evidence_id、claim_id、citation_id、tool_call_idの関係を一表へ集約してください。",
         "verification": "正常・retry・fallback・rollbackの各traceをjoinし、孤立IDと多重割当が0件であることを検査します。",
-        "status": "修正推奨",
+        "status": "解消",
     },
 ]
 
@@ -343,6 +344,42 @@ def write_csv(path: Path, rows: list[dict[str, object]], fields: list[str]) -> N
         )
         w.writeheader()
         w.writerows(rows)
+
+
+def merge_manual_sources(sources: list[dict[str, str]]) -> list[dict[str, str]]:
+    """Preserve reviewed source IDs when prose adds or reorders links."""
+
+    with (OUT / "primary_sources.csv").open(encoding="utf-8-sig", newline="") as handle:
+        registry = list(csv.DictReader(handle))
+    with MANUAL_PRIMARY_SOURCES.open(encoding="utf-8-sig", newline="") as handle:
+        manual = list(csv.DictReader(handle))
+    reviewed_by_url = {row["url"]: row for row in registry}
+    for row in manual:
+        prior = reviewed_by_url.get(row["url"])
+        if prior is not None and prior["source_id"] != row["source_id"]:
+            raise SystemExit(f"conflicting source IDs for {row['url']}")
+        reviewed_by_url[row["url"]] = row
+
+    merged: list[dict[str, str]] = []
+    discovered_urls: set[str] = set()
+    for source in sources:
+        stable = reviewed_by_url.get(source["url"])
+        if stable is None:
+            raise SystemExit(f"new primary source requires an ID-registry entry: {source['url']}")
+        row = dict(stable)
+        row.update(
+            label_in_guide=source["label_in_guide"],
+            used_by_units=source["used_by_units"],
+            first_file=source["first_file"],
+        )
+        merged.append(row)
+        discovered_urls.add(source["url"])
+    merged.extend(row for row in manual if row["url"] not in discovered_urls)
+    source_ids = [row["source_id"] for row in merged]
+    urls = [row["url"] for row in merged]
+    if len(source_ids) != len(set(source_ids)) or len(urls) != len(set(urls)):
+        raise SystemExit("manual source merge produced duplicate source IDs or URLs")
+    return sorted(merged, key=lambda row: int(row["source_id"].split("-")[1]))
 
 
 def chapter_of(path: Path) -> str:
@@ -636,7 +673,7 @@ def technology_rows(units: list[Unit], sources: list[dict[str, str]]) -> list[di
             "invariant_ids": invariants,
             "unit_count": str(len(matched)),
             "unit_ids": ";".join(u.unit_id for u in matched),
-            "review_result": "要修正あり" if any(issue["id"] in {"FND-001", "FND-002", "FND-003", "FND-004", "FND-005", "FND-006", "FND-007"} and any(u.file in issue["location"] for u in matched) for issue in ISSUES) else "整合",
+            "review_result": "要修正あり" if any(issue["status"] != "解消" and any(u.file in issue["location"] for u in matched) for issue in ISSUES) else "整合",
             "notes": "名称・論文題名・リンクラベルが技術要素へ直接対応する資料を原点候補として抽出。全関連資料はunit_idsから説明状態.source_idsへ追跡。",
         })
     return rows
@@ -659,9 +696,9 @@ def main() -> int:
     units = extract_units()
     if len(units) != 339:
         raise SystemExit(f"expected 339 explanation units, got {len(units)}")
-    sources = resolve_sources(extract_links(units))
-    if len(sources) != 193:
-        raise SystemExit(f"expected 193 unique URLs, got {len(sources)}")
+    sources = merge_manual_sources(resolve_sources(extract_links(units)))
+    if len(sources) != 201:
+        raise SystemExit(f"expected 201 reviewed primary sources, got {len(sources)}")
     states = unit_rows(units, sources)
     technologies = technology_rows(units, sources)
 
@@ -682,7 +719,9 @@ def main() -> int:
         "resolved_sources": sum(1 for s in sources if s["resolution_status"] == "resolved"),
         "unresolved_sources": sum(1 for s in sources if s["resolution_status"] != "resolved"),
         "findings": len(ISSUES),
-        "findings_by_severity": {level: sum(1 for i in ISSUES if i["severity"] == level) for level in ["Blocker", "Critical", "Major", "Minor"]},
+        "resolved_findings": sum(1 for i in ISSUES if i["status"] == "解消"),
+        "open_findings": sum(1 for i in ISSUES if i["status"] != "解消"),
+        "findings_by_severity": {level: sum(1 for i in ISSUES if i["severity"] == level and i["status"] != "解消") for level in ["Blocker", "Critical", "Major", "Minor"]},
         "sha256": {},
     }
     generated_csvs = [

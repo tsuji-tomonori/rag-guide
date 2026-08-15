@@ -1,0 +1,41 @@
+[
+  {
+    "case_id": "all-facets-sufficient",
+    "policy_id": "comparison-policy",
+    "threshold_version": "1.0.0",
+    "facets": [
+      {"facet_id": "conclusion", "core": true, "minimum_support": 1, "support_count": 1, "authority_ok": true, "time_version_ok": true, "conflict_status": "NONE", "status": "SUFFICIENT"},
+      {"facet_id": "exception", "core": false, "minimum_support": 1, "support_count": 1, "authority_ok": true, "time_version_ok": true, "conflict_status": "NONE", "status": "SUFFICIENT"}
+    ],
+    "result": "COMPLETE"
+  },
+  {
+    "case_id": "supporting-facets-incomplete",
+    "policy_id": "comparison-policy",
+    "threshold_version": "1.0.0",
+    "facets": [
+      {"facet_id": "conclusion", "core": true, "minimum_support": 1, "support_count": 1, "authority_ok": true, "time_version_ok": true, "conflict_status": "NONE", "status": "SUFFICIENT"},
+      {"facet_id": "exception", "core": false, "minimum_support": 1, "support_count": 0, "authority_ok": true, "time_version_ok": true, "conflict_status": "NONE", "status": "INSUFFICIENT"}
+    ],
+    "result": "PARTIAL"
+  },
+  {
+    "case_id": "core-insufficient",
+    "policy_id": "comparison-policy",
+    "threshold_version": "1.0.0",
+    "facets": [
+      {"facet_id": "conclusion", "core": true, "minimum_support": 2, "support_count": 1, "authority_ok": true, "time_version_ok": true, "conflict_status": "NONE", "status": "INSUFFICIENT"},
+      {"facet_id": "exception", "core": false, "minimum_support": 1, "support_count": 1, "authority_ok": true, "time_version_ok": true, "conflict_status": "NONE", "status": "SUFFICIENT"}
+    ],
+    "result": "WITHHOLD"
+  },
+  {
+    "case_id": "core-unknown",
+    "policy_id": "comparison-policy",
+    "threshold_version": "1.0.0",
+    "facets": [
+      {"facet_id": "conclusion", "core": true, "minimum_support": 1, "support_count": 1, "authority_ok": null, "time_version_ok": true, "conflict_status": "UNKNOWN", "status": "UNKNOWN"}
+    ],
+    "result": "WITHHOLD"
+  }
+]

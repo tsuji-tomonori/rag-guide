@@ -1,0 +1,43 @@
+{
+  "cases": [
+    {
+      "case_id": "compatible",
+      "manifest": {
+        "release_id": "release-2",
+        "source_snapshot": {"id": "src-2", "compatibility_group": "g2"},
+        "parser": {"id": "parser-2", "compatibility_group": "g2"},
+        "chunker": {"id": "chunker-2", "compatibility_group": "g2"},
+        "embedding": {"id": "embed-2", "compatibility_group": "g2"},
+        "index_schema": {"id": "index-2", "compatibility_group": "g2"},
+        "retriever": {"id": "retriever-2", "compatibility_group": "g2"},
+        "reranker": {"id": "reranker-2", "compatibility_group": "g2"},
+        "prompt": {"id": "prompt-2", "compatibility_group": "g2"},
+        "generation_model": {"id": "model-2", "compatibility_group": "g2"},
+        "policy": {"id": "policy-current", "compatibility_group": "g2"},
+        "output_schema": {"id": "output-2", "compatibility_group": "g2"},
+        "evaluation_dataset": {"id": "eval-2", "compatibility_group": "g2"}
+      },
+      "expected_publishable": true
+    },
+    {
+      "case_id": "incompatible-embedding",
+      "manifest": {
+        "release_id": "release-bad",
+        "source_snapshot": {"id": "src-2", "compatibility_group": "g2"},
+        "parser": {"id": "parser-2", "compatibility_group": "g2"},
+        "chunker": {"id": "chunker-2", "compatibility_group": "g2"},
+        "embedding": {"id": "embed-1", "compatibility_group": "g1"},
+        "index_schema": {"id": "index-2", "compatibility_group": "g2"},
+        "retriever": {"id": "retriever-2", "compatibility_group": "g2"},
+        "reranker": {"id": "reranker-2", "compatibility_group": "g2"},
+        "prompt": {"id": "prompt-2", "compatibility_group": "g2"},
+        "generation_model": {"id": "model-2", "compatibility_group": "g2"},
+        "policy": {"id": "policy-current", "compatibility_group": "g2"},
+        "output_schema": {"id": "output-2", "compatibility_group": "g2"},
+        "evaluation_dataset": {"id": "eval-2", "compatibility_group": "g2"}
+      },
+      "expected_publishable": false
+    }
+  ],
+  "rollback": {"old_release_id": "release-1", "candidate_release_id": "release-2", "current_policy_id": "policy-current", "switch_succeeded": false, "expected_active_release_id": "release-1", "expected_active_policy_id": "policy-current"}
+}

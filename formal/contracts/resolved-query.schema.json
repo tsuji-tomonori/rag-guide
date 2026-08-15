@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag-guide/resolved-query.schema.json",
+  "title": "Resolved query contract",
+  "type": "object",
+  "required": ["query_id", "text", "entities", "time_range", "version_scope", "polarity", "comparison_targets", "tenant_id", "hard_filters", "provenance"],
+  "properties": {
+    "query_id": {"type": "string", "minLength": 1},
+    "text": {"type": "string", "minLength": 1},
+    "entities": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "time_range": {"type": ["string", "null"]},
+    "version_scope": {"type": ["string", "null"]},
+    "polarity": {"enum": ["POSITIVE", "NEGATIVE", "MIXED", "UNRESOLVED"]},
+    "comparison_targets": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "tenant_id": {"type": "string", "minLength": 1},
+    "hard_filters": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "provenance": {"type": "object", "minProperties": 1, "additionalProperties": {"enum": ["USER_QUERY", "CONVERSATION", "AUTHORIZATION", "MANAGED_DICTIONARY", "UNRESOLVED"]}}
+  },
+  "additionalProperties": false
+}

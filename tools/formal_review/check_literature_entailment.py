@@ -30,28 +30,32 @@ def main() -> int:
     sentences = [row for row in rows("sentence_evidence.csv") if row["evidence_required"] == "yes"]
     summary = {row["metric_id"]: row for row in rows("logical_proof_summary.csv")}
 
-    require(len(sources) == 193, "source theorem catalog must contain all 193 trusted primary sources")
+    require(len(sources) == 201, "source theorem catalog must contain all 201 trusted primary sources")
     require(all(row["url"].startswith("https://") for row in sources), "source theorem without HTTPS primary URL")
     require(all(row["inspection_status"] != "TITLE_ONLY" for row in sources), "uninspected source summary")
     require(all(row["projection_adequacy"] for row in sources), "source projection without adequacy status")
     require(
-        sum(row["projection_adequacy"] == "CURATED_OFFICIAL_SPEC_PROJECTION" for row in sources) == 16,
-        "official specification projection review count mismatch",
+        sum(row["projection_adequacy"].startswith("CURATED_") for row in sources) == 201,
+        "claim-polarity projection review count mismatch",
     )
     require([row["sentence_id"] for row in proofs] == [row["sentence_id"] for row in sentences], "proof ledger is not exact required-sentence projection")
     require(len({row["sentence_id"] for row in proofs}) == len(proofs), "duplicate sentence proof row")
 
     proved = [row for row in proofs if row["logical_proof_assurance"] == "MODEL_PROVED"]
+    inconclusive = [row for row in proofs if row["logical_proof_assurance"] != "MODEL_PROVED"]
     require(all(row["candidate_source_ids"] for row in proved), "proved row without source premise")
     require(all(row["source_formula_atoms"] for row in proved), "proved row without source facts")
     require(all(row["guide_atoms"] for row in proved), "proved row without guide atoms")
     require(all(row["lean_theorem"] for row in proved), "proved row without Lean theorem")
     require(all(row["source_projection_adequacy"] for row in proofs), "sentence row without source projection adequacy")
     require(not any(row["end_to_end_assurance"] == "MODEL_PROVED" for row in proofs), "NL adequacy was silently upgraded to end-to-end proof")
+    require(all(row["final_adjudication"] for row in inconclusive), "inconclusive proof without final adjudication")
+    require(all(row["adjudicator"] and row["adjudicated_at"] for row in inconclusive), "final adjudication without reviewer metadata")
 
     require(int(summary["LIT-COV-006"]["numerator"]) == len(proved), "conditional proof count mismatch")
     require(int(summary["LIT-COV-008"]["numerator"]) == 0, "end-to-end proof count must remain zero before adequacy review")
-    require(int(summary["LIT-COV-009"]["numerator"]) == 16, "claim-polarity-reviewed source count mismatch")
+    require(int(summary["LIT-COV-009"]["numerator"]) == 201, "claim-polarity-reviewed source count mismatch")
+    require(int(summary["LIT-COV-010"]["numerator"]) == len(inconclusive), "final sentence adjudication count mismatch")
     require(manifest["primary_sources"] == len(sources), "manifest source count mismatch")
     require(manifest["required_sentences"] == len(proofs), "manifest sentence count mismatch")
     require(manifest["conditional_logical_proofs"] == len(proved), "manifest proof count mismatch")

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag-guide/evidence-sufficiency.schema.json",
+  "title": "Evidence sufficiency decision",
+  "type": "object",
+  "required": ["policy_id", "threshold_version", "facets", "result"],
+  "properties": {
+    "policy_id": {"type": "string", "minLength": 1},
+    "threshold_version": {"type": "string", "minLength": 1},
+    "facets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["facet_id", "core", "minimum_support", "support_count", "authority_ok", "time_version_ok", "conflict_status", "status"],
+        "properties": {
+          "facet_id": {"type": "string", "minLength": 1},
+          "core": {"type": "boolean"},
+          "minimum_support": {"type": "integer", "minimum": 1},
+          "support_count": {"type": "integer", "minimum": 0},
+          "authority_ok": {"type": ["boolean", "null"]},
+          "time_version_ok": {"type": ["boolean", "null"]},
+          "conflict_status": {"enum": ["NONE", "EXPLAINABLE", "UNRESOLVED", "UNKNOWN"]},
+          "status": {"enum": ["SUFFICIENT", "INSUFFICIENT", "UNKNOWN"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "result": {"enum": ["COMPLETE", "PARTIAL", "WITHHOLD"]}
+  },
+  "additionalProperties": false
+}

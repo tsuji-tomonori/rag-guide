@@ -1,0 +1,20 @@
+{
+  "original": {
+    "query_id": "q-original",
+    "text": "2023年版では暗号化を無効にできない製品Aと製品Bを比較してください",
+    "entities": ["製品A", "製品B", "暗号化"],
+    "time_range": "2023-01-01/2023-12-31",
+    "version_scope": "2023",
+    "polarity": "NEGATIVE",
+    "comparison_targets": ["製品A", "製品B"],
+    "tenant_id": "tenant-1",
+    "hard_filters": ["time:2023", "version:2023", "polarity:negative", "tenant:tenant-1", "compare:製品A|製品B"],
+    "provenance": {"entities": "USER_QUERY", "time_range": "USER_QUERY", "version_scope": "USER_QUERY", "polarity": "USER_QUERY", "tenant_id": "AUTHORIZATION"}
+  },
+  "variants": [
+    {"case_id": "preserved", "query": {"query_id": "q-preserved", "text": "製品Aと製品Bの2023年版について、暗号化を無効化できない条件を比較", "entities": ["製品A", "製品B", "暗号化"], "time_range": "2023-01-01/2023-12-31", "version_scope": "2023", "polarity": "NEGATIVE", "comparison_targets": ["製品A", "製品B"], "tenant_id": "tenant-1", "hard_filters": ["time:2023", "version:2023", "polarity:negative", "tenant:tenant-1", "compare:製品A|製品B"], "provenance": {"entities": "USER_QUERY", "time_range": "USER_QUERY", "version_scope": "USER_QUERY", "polarity": "USER_QUERY", "tenant_id": "AUTHORIZATION"}}, "expected_preserved": true},
+    {"case_id": "lost-time", "query": {"query_id": "q-lost-time", "text": "製品Aと製品Bの暗号化を比較", "entities": ["製品A", "製品B", "暗号化"], "time_range": null, "version_scope": "2023", "polarity": "NEGATIVE", "comparison_targets": ["製品A", "製品B"], "tenant_id": "tenant-1", "hard_filters": ["version:2023", "polarity:negative", "tenant:tenant-1", "compare:製品A|製品B"], "provenance": {"entities": "USER_QUERY", "time_range": "UNRESOLVED", "version_scope": "USER_QUERY", "polarity": "USER_QUERY", "tenant_id": "AUTHORIZATION"}}, "expected_preserved": false},
+    {"case_id": "flipped-polarity", "query": {"query_id": "q-flipped", "text": "製品Aと製品Bで暗号化を有効にできるか比較", "entities": ["製品A", "製品B", "暗号化"], "time_range": "2023-01-01/2023-12-31", "version_scope": "2023", "polarity": "POSITIVE", "comparison_targets": ["製品A", "製品B"], "tenant_id": "tenant-1", "hard_filters": ["time:2023", "version:2023", "polarity:positive", "tenant:tenant-1", "compare:製品A|製品B"], "provenance": {"entities": "USER_QUERY", "time_range": "USER_QUERY", "version_scope": "USER_QUERY", "polarity": "USER_QUERY", "tenant_id": "AUTHORIZATION"}}, "expected_preserved": false},
+    {"case_id": "changed-tenant", "query": {"query_id": "q-tenant", "text": "製品Aと製品Bの2023年版を比較", "entities": ["製品A", "製品B", "暗号化"], "time_range": "2023-01-01/2023-12-31", "version_scope": "2023", "polarity": "NEGATIVE", "comparison_targets": ["製品A", "製品B"], "tenant_id": "tenant-2", "hard_filters": ["time:2023", "version:2023", "polarity:negative", "tenant:tenant-2", "compare:製品A|製品B"], "provenance": {"entities": "USER_QUERY", "time_range": "USER_QUERY", "version_scope": "USER_QUERY", "polarity": "USER_QUERY", "tenant_id": "AUTHORIZATION"}}, "expected_preserved": false}
+  ]
+}

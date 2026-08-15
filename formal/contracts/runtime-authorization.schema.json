@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag-guide/runtime-authorization.schema.json",
+  "title": "Runtime authorization checkpoint",
+  "type": "object",
+  "required": ["case_id", "retriever", "checkpoint", "authorized", "tenant_matches", "document_active", "policy_version_matches", "evidence_valid", "exposures"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "retriever": {"enum": ["SPARSE", "DENSE", "HYBRID", "FILTERED_ANN"]},
+    "checkpoint": {"enum": ["RETRIEVAL", "PRE_GENERATION", "PRE_CACHE_OR_OUTPUT"]},
+    "authorized": {"type": "boolean"},
+    "tenant_matches": {"type": "boolean"},
+    "document_active": {"type": "boolean"},
+    "policy_version_matches": {"type": "boolean"},
+    "evidence_valid": {"type": "boolean"},
+    "exposures": {
+      "type": "object",
+      "required": ["search_response", "cache", "trace_body", "prompt", "citation"],
+      "properties": {
+        "search_response": {"type": "boolean"},
+        "cache": {"type": "boolean"},
+        "trace_body": {"type": "boolean"},
+        "prompt": {"type": "boolean"},
+        "citation": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -33,6 +33,8 @@ jobs:
           python tools/formal_review/check_evidence_coverage.py
           python tools/formal_review/check_semantic_assurance.py
           python tools/formal_review/check_literature_entailment.py
+          python formal/contracts/validate_contracts.py
+          python tools/formal_review/check_lean_trust.py
 
       - name: Build kernel-checked Lean proofs
         uses: leanprover/lean-action@v1
@@ -52,3 +54,11 @@ jobs:
           npx --yes @informalsystems/quint@0.32.0 typecheck formal/quint/retrieval_techniques.qnt
           npx --yes @informalsystems/quint@0.32.0 test formal/quint/retrieval_techniques.qnt --backend=typescript --max-samples=1 --seed=0x726167
           npx --yes @informalsystems/quint@0.32.0 run formal/quint/retrieval_techniques.qnt --backend=typescript --invariant=allInvariants --max-samples=5000 --max-steps=12 --seed=0x726167
+          npx --yes @informalsystems/quint@0.32.0 verify formal/quint/retrieval_techniques.qnt --invariant=allInvariants --max-steps=3
+
+      - name: Check cross-cutting RAG contracts with Quint
+        run: |
+          npx --yes @informalsystems/quint@0.32.0 typecheck formal/quint/rag_pipeline.qnt
+          npx --yes @informalsystems/quint@0.32.0 test formal/quint/rag_pipeline.qnt --backend=typescript --max-samples=1 --seed=0x726167
+          npx --yes @informalsystems/quint@0.32.0 run formal/quint/rag_pipeline.qnt --backend=typescript --invariant=allInvariants --max-samples=5000 --max-steps=12 --seed=0x726167
+          npx --yes @informalsystems/quint@0.32.0 verify formal/quint/rag_pipeline.qnt --invariant=allInvariants --max-steps=3

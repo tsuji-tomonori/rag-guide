@@ -1,9 +1,9 @@
-# 具体技術・一次資料カバレッジ・Lean 4検証記録
+# 一次資料・形式契約・Lean 4検証記録
 
 ## 結果
 
 - 検証日: 2026-08-15 JST
-- 正本: `docs/` at `52bebecfb2a435d0e7ff2efea557c5799674ded6`
+- 正本: `docs/` at `f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111`
 - Python: 3.12
 - Lean: 4.30.0
 - Quint: 0.32.0
@@ -11,68 +11,48 @@
 
 | 対象 | 結果 |
 |---|---:|
-| Markdownファイル | 94/94（100%） |
-| 抽出したセンテンス相当行 | 4,418 |
-| 一次資料が必要と分類したセンテンス | 1,067 |
-| 信頼できる一次資料へ対応済み | 474（44.42%） |
-| センテンス内リンクまたは具体技術原著へ直接対応 | 397（37.21%） |
-| 未カバー | 593 |
-| 具体技術 | 47 |
-| 一次資料を持つ具体技術 | 47/47（100%） |
-| Lean台帳へモデル化した具体技術 | 47/47（100%） |
-| Quintで振る舞い契約を検査した中核技術 | 14/47（29.79%） |
-| 適格一次資料 | 193/193（100%） |
-| 要旨・仕様ページを直接検査 | 193/193（100%） |
-| 明示的Abstractを直接検査 | 127/193（65.80%） |
-| 形式命題の主張極性をcuration済み | 16/193（8.29%） |
-| 主張と比較対象・背景言及の区別を要レビュー | 177/193（91.71%） |
-| 制御文法へ形式化 | 39/1,067（3.66%） |
-| source atomsからLeanで相対導出 | 39/1,067（3.66%） |
-| Atom/AND/OR/IMPLIES/NOTへ論理分解 | 906/1,067（84.91%） |
-| 一次資料候補を割当 | 1,067/1,067（100%） |
-| 文献要旨の形式命題からLeanで条件付き導出 | 389/1,067（36.46%） |
-| 含意・否定の関係構造が未証明 | 187/1,067（17.53%） |
-| 自然言語全文のkernel-certified自動意味論証明 | 0/1,067（0%） |
-| 経験的主張の独立再現 | 0/125（0%） |
-| 公式製品仕様の実動作確認 | 0/26（0%） |
+| Markdown棚卸し | 94/94 |
+| 抽出センテンス相当行 | 4,497 |
+| 根拠必須センテンス | 1,022 |
+| 適格一次資料対応 | 1,022/1,022（100%） |
+| 厳格直接対応 | 444/1,022（43.44%） |
+| 未カバー | 0 |
+| 適格一次資料 | 201/201 |
+| 主張極性レビュー | 201/201 |
+| 具体技術の一次資料・Lean台帳 | 47/47 |
+| Quintで検査する中核技術 | 14/47 |
+| 制御atomの相対導出 | 39/1,022 |
+| 文の論理分解 | 869/1,022 |
+| source summaryからの条件付きLean導出 | 331/1,022 |
+| 条件付き論理未証明文の最終判定 | 691/691 |
+| 自然言語込みEnd-to-End証明 | 0/1,022 |
 
-センテンスカバレッジの分母は、外部検証可能な技術説明、研究結果、定量値、原著・提案内容、公式製品仕様です。設計上の推奨、例、接続文、章構成などは分母へ入れていません。カバー済みは、適格な一次資料がセンテンス内、具体技術台帳、または同一段落から割り当てられた行です。一次資料候補の割当100%は、同一節・同一ファイル・同一章からのレビュー候補を含み、意味的に検証済みの直接カバレッジ44.42%を置き換えません。
+## カバレッジ判定
 
-## 具体技術の形式化
+分母は、外部検証可能な技術説明、研究結果、定量値、原著の提案内容、公式製品仕様です。本書が定める設計契約、例、接続文、章構成は一次資料の分母から除き、schema・fixture・形式モデルで検査します。
 
-`formal/review-data/concrete_technologies.csv` は、Sparse retrievalやDense retrievalという大分類ではなく、BM25、SPLADE、DPR、ColBERT、HNSW、RRF、HyDE、ACORN、monoT5など47件を固有技術として登録します。各行は機構、表現、pipeline stage、一次資料、Lean台帳状態、Quintシナリオを追跡します。
+旧未対応593文は、妥当性、支持範囲、source ID、根拠、対応、評価者、評価日を持つ台帳として保存しました。本文変更後は`file + exact sentence`で結合し、文が変わった7行は自動継承しませんでした。このうち外部根拠が必要な行は現行文で再判定し、未カバーを0にしています。
 
-`formal/quint/retrieval_techniques.qnt` は中核14技術について、疎・密・multi-vector、転置索引、候補生成、rank-only fusion、query hard constraint保存、filter-before-exposure、post-retrievalの出力部分集合などを別々の契約としてモデル化しました。
+201資料の制御語彙射影は、原著の提案・結果または公式仕様の対象機能だけを正極性atomとして採用し、比較対象、背景研究、否定された仮説を資料自身の主張へ昇格させない方針でレビューしました。
 
-| 検査 | 条件 | 結果 |
-|---|---|---|
-| Quint型検査 | `typecheck` | 合格 |
-| 決定的シナリオ | 14件、TypeScript backend | 14/14合格 |
-| ランダムトレース | 5,000 samples、12 steps | 違反なし |
-| 境界付き状態空間検査 | Apalache、3 steps | 違反なし、13 VCs |
+## Lean 4で検査すること
 
-初回ランダム検査では、一つの技術を設定した後に別技術へ再設定すると状態fieldが残る反例を検出しました。設定を初期状態から一度だけ許す`configureOnce`へ修正し、全検査を再実行しました。
+- 報告した分母、分子、未カバー集合、資料件数が生成台帳と一致する。
+- カバー済み行は適格一次資料を1件以上持つ。
+- 47具体技術は固有技術として登録され、一次資料を持つ。
+- FND-001〜008の有限契約で、認可前の本文露出、失効済みEvidence、UNKNOWN中核の回答、未承認write、不互換release、意図を失うquery rewrite、孤立citationを許さない。
+- 331文について、明示したsource-summary premisesの下で、分解済みの正のguide論理式が成立する。
+- 公開定理ごとに`#print axioms`を置き、`sorry`、`admit`、`axiom`、`unsafe`、`native_decide`等を静的監査する。
 
-## Lean 4で証明したこと
+## Quint・Apalacheで検査すること
 
-`formal/lean/RagEvidence/Generated.lean` は、根拠必須1,067行と具体技術47行をCSVから生成します。`SemanticGenerated.lean`は1,067行のsource/guide atom台帳を、`LiteratureGenerated.lean`は193文献の形式要旨命題と1,067文の論理式台帳を生成します。`Proofs.lean`、`SemanticProofs.lean`、`RetrievalTruth.lean`、`LiteratureLogic.lean`、`LiteratureProofs.lean`は次を証明し、Lean kernelで検査します。
+横断モデルは認可、tenant、削除・失効、provenance、query intent、Evidence sufficiency、完全・限定・保留回答、tool承認、release、trace IDを扱います。23の決定的シナリオ、5,000標本・12 stepのランダム実行、3 stepのApalache境界付き検査をCIで再実行します。
 
-- 報告した分母1,067、分子474、直接対応397、未カバー593件が生成台帳と一致する。
-- カバー済み行は一次資料件数が正であり、直接対応行は必ずカバー済みである。
-- 44.42%と37.21%のbasis-point計算が台帳値と一致する。
-- 未カバー一覧が台帳上の未カバーIDと完全一致し、100%カバーではない。
-- 47具体技術すべてが固有技術として登録され、信頼できる一次資料を1件以上持つ。
-- 制御文法で形式化した39文は、空でないguide atomとsource atomを持ち、guide atomがsource atomに包含される。
-- 389文について、一次資料要旨の形式factsを仮定すれば、分解済みの正のguide論理式が任意のvaluationで成立する。
-- 389件の導出は共通の`Derives.sound`と各文固有の証明項を持ち、一次資料要旨をLeanの外部真理公理として導入しない。
-- BM25の記号式でterm frequencyまたはIDFが0なら分子が0になり、文書長補正が分母へ現れる。
-- RRFの記号式は分子1、分母`k + rank`であり、非空のモデルを持つ。
-
-423公開定理の`#print axioms`は追加公理を報告しません。厳格監査では`sorry`、`admit`、`axiom`、`unsafe`、`native_decide`を検出せず、トレーサビリティ検査は12要件と423定理宣言の対応を確認します。
+ランダム実行は、公開済みreleaseの互換性と次候補の互換性を一つの変数へ置いていた反例を検出しました。モデルを`publishedReleaseCompatible`と候補の`releaseCompatible`へ分離し、release設定時にgateを再評価するよう修正しています。
 
 ## 証明していないこと
 
-Leanは、生成された台帳の集合・件数・適格資料割当・割合計算、39件の制御atom射影、389件の形式論理上の条件付き導出を証明します。一方、論文等177件の制御語彙射影は、Abstract中の著者自身の主張と比較対象・背景言及を区別する独立レビューが未完了です。また、日本語センテンス全文からatom・AND・OR・IMPLIES・NOTへの変換が意味を完全保存することも証明していません。そのため全文意味論証明は0/1,067です。さらに、論文の経験的結果はコード・データによる再現、公式製品仕様は対象版・regionでのruntime観測がなければ「真」としません。独立真偽確認も0/1,067です。一次資料の文をLeanの公理へ置いて見かけ上100%にする方法は採用していません。
+`MODEL_PROVED`は形式モデル内の条件付き帰結です。日本語・英語からatom・論理式への変換が意味を完全保存すること、論文の経験的結果が独立再現されること、AWS等のサービスが特定region・時点で仕様どおり動作することは証明していません。691文の最終判定も、資料対応の採否と限定条件を閉じる編集判断であり、外界の真偽をLean定理へ昇格するものではありません。
 
 ## 再現コマンド
 
@@ -84,19 +64,11 @@ python tools/formal_review/generate_literature_entailment.py
 python tools/formal_review/check_evidence_coverage.py
 python tools/formal_review/check_semantic_assurance.py
 python tools/formal_review/check_literature_entailment.py
+python formal/contracts/validate_contracts.py
+python tools/formal_review/check_lean_trust.py
 
 cd formal/lean
 lake build
-
-cd ../..
-npx --yes @informalsystems/quint@0.32.0 typecheck formal/quint/retrieval_techniques.qnt
-npx --yes @informalsystems/quint@0.32.0 test formal/quint/retrieval_techniques.qnt \
-  --backend=typescript --max-samples=1 --seed=0x726167
-npx --yes @informalsystems/quint@0.32.0 run formal/quint/retrieval_techniques.qnt \
-  --backend=typescript --invariant=allInvariants \
-  --max-samples=5000 --max-steps=12 --seed=0x726167
-npx --yes @informalsystems/quint@0.32.0 verify formal/quint/retrieval_techniques.qnt \
-  --invariant=allInvariants --max-steps=3
 ```
 
-詳細な機械可読結果は`formal/verification/evidence-verification-results.csv`、要件と証明の対応は`formal/lean/traceability.csv`と`formal/lean/traceability.json`にあります。
+QuintとApalacheのコマンドは`verification-report.md`にあります。

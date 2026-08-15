@@ -432,7 +432,7 @@ def main() -> int:
     metrics = {row["metric_id"]: row for row in summary}
     manifest = {
         "method_version": 1,
-        "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+        "authoritative_commit": "f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111",
         "required_sentences": len(semantic),
         "controlled_formalizations": int(metrics["SEM-COV-001"]["numerator"]),
         "relative_entailments_proved": int(metrics["SEM-COV-002"]["numerator"]),

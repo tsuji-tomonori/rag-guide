@@ -1,5 +1,5 @@
 {
-  "authoritative_spec": "docs/ at commit 52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "authoritative_spec": "docs/ at commit f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111",
   "spec_version": "RAG guide 1.1.1 plus evidence-ledger, semantic-assurance, and literature-entailment methods v1",
   "requirements": [
     {
@@ -32,7 +32,7 @@
       "id": "EV-REQ-003",
       "source": "formal/review-data/uncovered_sentences.csv",
       "claim": "The reported uncovered sentence IDs are exactly the required rows without an eligible primary source mapping.",
-      "lean_theorems": ["reported_uncovered_exact", "uncovered_is_nonempty", "not_full_coverage"],
+      "lean_theorems": ["reported_uncovered_exact", "uncovered_is_empty", "full_coverage"],
       "proof_status": "kernel checked with decide; no extra axioms",
       "implementation_symbols": ["generate_evidence_coverage.main", "check_evidence_coverage.main"],
       "bridge": "external-conformance",
@@ -83,8 +83,8 @@
     {
       "id": "EV-REQ-007",
       "source": "formal/review-data/coverage_summary.csv#COV-001",
-      "claim": "Coverage is not reported as 100 percent while uncovered required sentences remain.",
-      "lean_theorems": ["uncovered_is_nonempty", "not_full_coverage"],
+      "claim": "Reported 100 percent coverage means that no required sentence is uncovered and the covered count equals the required count.",
+      "lean_theorems": ["uncovered_is_empty", "full_coverage"],
       "proof_status": "kernel checked with decide; no extra axioms",
       "implementation_symbols": ["generate_evidence_coverage.coverage_rows"],
       "bridge": "external-conformance",
@@ -150,7 +150,7 @@
       "source": "formal/review-data/literature_source_theorems.csv; formal/review-data/sentence_logical_proofs.csv#logical_proof_assurance",
       "claim": "For every sentence row reported as MODEL_PROVED, the formalized primary-source summary facts entail the decomposed positive guide formula under every valuation.",
       "lean_theorems": ["Derives.sound", "reported_literature_entailments_count_exact", "conditional_proofs_are_nonvacuous", "literature_SENT_0002"],
-      "proof_status": "389 sentence-specific theorems and the derivation soundness theorem are kernel checked; all #print axioms reports are empty",
+      "proof_status": "331 sentence-specific theorems and the derivation soundness theorem are kernel checked; no sorryAx or unsafe declarations are accepted",
       "implementation_symbols": ["generate_literature_entailment.source_atom_catalog", "generate_literature_entailment.sentence_rows", "generate_literature_entailment.generate_lean", "check_literature_entailment.main"],
       "bridge": "direct-lean",
       "evidence": ["literature_source_theorems.csv", "sentence_logical_proofs.csv", "logical_proof_summary.csv#LIT-COV-006", "literature_SENT_* theorem declarations", "lake build"],
