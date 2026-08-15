@@ -22,13 +22,21 @@
 | Lean台帳へモデル化した具体技術 | 47/47（100%） |
 | Quintで振る舞い契約を検査した中核技術 | 14/47（29.79%） |
 | 適格一次資料 | 193/193（100%） |
+| 要旨・仕様ページを直接検査 | 193/193（100%） |
+| 明示的Abstractを直接検査 | 127/193（65.80%） |
+| 形式命題の主張極性をcuration済み | 16/193（8.29%） |
+| 主張と比較対象・背景言及の区別を要レビュー | 177/193（91.71%） |
 | 制御文法へ形式化 | 39/1,067（3.66%） |
 | source atomsからLeanで相対導出 | 39/1,067（3.66%） |
+| Atom/AND/OR/IMPLIES/NOTへ論理分解 | 906/1,067（84.91%） |
+| 一次資料候補を割当 | 1,067/1,067（100%） |
+| 文献要旨の形式命題からLeanで条件付き導出 | 389/1,067（36.46%） |
+| 含意・否定の関係構造が未証明 | 187/1,067（17.53%） |
 | 自然言語全文のkernel-certified自動意味論証明 | 0/1,067（0%） |
 | 経験的主張の独立再現 | 0/125（0%） |
 | 公式製品仕様の実動作確認 | 0/26（0%） |
 
-センテンスカバレッジの分母は、外部検証可能な技術説明、研究結果、定量値、原著・提案内容、公式製品仕様です。設計上の推奨、例、接続文、章構成などは分母へ入れていません。カバー済みは、適格な一次資料がセンテンス内、具体技術台帳、または同一段落から割り当てられた行です。
+センテンスカバレッジの分母は、外部検証可能な技術説明、研究結果、定量値、原著・提案内容、公式製品仕様です。設計上の推奨、例、接続文、章構成などは分母へ入れていません。カバー済みは、適格な一次資料がセンテンス内、具体技術台帳、または同一段落から割り当てられた行です。一次資料候補の割当100%は、同一節・同一ファイル・同一章からのレビュー候補を含み、意味的に検証済みの直接カバレッジ44.42%を置き換えません。
 
 ## 具体技術の形式化
 
@@ -47,7 +55,7 @@
 
 ## Lean 4で証明したこと
 
-`formal/lean/RagEvidence/Generated.lean` は、根拠必須1,067行と具体技術47行をCSVから生成します。`formal/lean/RagEvidence/SemanticGenerated.lean`は、1,067行のsource/guide atom台帳を生成します。`Proofs.lean`、`SemanticProofs.lean`、`RetrievalTruth.lean`は次を証明し、Lean kernelで検査します。
+`formal/lean/RagEvidence/Generated.lean` は、根拠必須1,067行と具体技術47行をCSVから生成します。`SemanticGenerated.lean`は1,067行のsource/guide atom台帳を、`LiteratureGenerated.lean`は193文献の形式要旨命題と1,067文の論理式台帳を生成します。`Proofs.lean`、`SemanticProofs.lean`、`RetrievalTruth.lean`、`LiteratureLogic.lean`、`LiteratureProofs.lean`は次を証明し、Lean kernelで検査します。
 
 - 報告した分母1,067、分子474、直接対応397、未カバー593件が生成台帳と一致する。
 - カバー済み行は一次資料件数が正であり、直接対応行は必ずカバー済みである。
@@ -55,14 +63,16 @@
 - 未カバー一覧が台帳上の未カバーIDと完全一致し、100%カバーではない。
 - 47具体技術すべてが固有技術として登録され、信頼できる一次資料を1件以上持つ。
 - 制御文法で形式化した39文は、空でないguide atomとsource atomを持ち、guide atomがsource atomに包含される。
+- 389文について、一次資料要旨の形式factsを仮定すれば、分解済みの正のguide論理式が任意のvaluationで成立する。
+- 389件の導出は共通の`Derives.sound`と各文固有の証明項を持ち、一次資料要旨をLeanの外部真理公理として導入しない。
 - BM25の記号式でterm frequencyまたはIDFが0なら分子が0になり、文書長補正が分母へ現れる。
 - RRFの記号式は分子1、分母`k + rank`であり、非空のモデルを持つ。
 
-26定理の`#print axioms`は追加公理を報告しません。厳格監査では`sorry`、`admit`、`axiom`、`unsafe`、`native_decide`を検出せず、トレーサビリティ検査は11要件と26定理宣言の対応を確認します。
+423公開定理の`#print axioms`は追加公理を報告しません。厳格監査では`sorry`、`admit`、`axiom`、`unsafe`、`native_decide`を検出せず、トレーサビリティ検査は12要件と423定理宣言の対応を確認します。
 
 ## 証明していないこと
 
-Leanは、生成された台帳の集合・件数・適格資料割当・割合計算と、39件の制御atom射影についての論理的包含を証明します。一方、日本語センテンス全文からatomへの変換が意味を完全保存することは証明していません。そのため全文意味論証明は0/1,067です。さらに、論文の経験的結果はコード・データによる再現、公式製品仕様は対象版・regionでのruntime観測がなければ「真」としません。独立真偽確認も0/1,067です。一次資料の文をLeanの公理へ置いて見かけ上100%にする方法は採用していません。
+Leanは、生成された台帳の集合・件数・適格資料割当・割合計算、39件の制御atom射影、389件の形式論理上の条件付き導出を証明します。一方、論文等177件の制御語彙射影は、Abstract中の著者自身の主張と比較対象・背景言及を区別する独立レビューが未完了です。また、日本語センテンス全文からatom・AND・OR・IMPLIES・NOTへの変換が意味を完全保存することも証明していません。そのため全文意味論証明は0/1,067です。さらに、論文の経験的結果はコード・データによる再現、公式製品仕様は対象版・regionでのruntime観測がなければ「真」としません。独立真偽確認も0/1,067です。一次資料の文をLeanの公理へ置いて見かけ上100%にする方法は採用していません。
 
 ## 再現コマンド
 
@@ -70,8 +80,10 @@ Leanは、生成された台帳の集合・件数・適格資料割当・割合�
 python tools/formal_review/generate_review_data.py
 python tools/formal_review/generate_evidence_coverage.py
 python tools/formal_review/generate_semantic_assurance.py
+python tools/formal_review/generate_literature_entailment.py
 python tools/formal_review/check_evidence_coverage.py
 python tools/formal_review/check_semantic_assurance.py
+python tools/formal_review/check_literature_entailment.py
 
 cd formal/lean
 lake build

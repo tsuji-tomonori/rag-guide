@@ -25,12 +25,14 @@ jobs:
           python tools/formal_review/generate_review_data.py
           python tools/formal_review/generate_evidence_coverage.py
           python tools/formal_review/generate_semantic_assurance.py
+          python tools/formal_review/generate_literature_entailment.py
 
       - name: Require generated artifacts to be committed and internally consistent
         run: |
-          git diff --exit-code -- formal/review-data formal/lean/RagEvidence/Generated.lean formal/lean/RagEvidence/SemanticGenerated.lean
+          git diff --exit-code -- formal/review-data formal/lean/RagEvidence/Generated.lean formal/lean/RagEvidence/SemanticGenerated.lean formal/lean/RagEvidence/LiteratureGenerated.lean formal/lean/RagEvidence/LiteratureProofs.lean
           python tools/formal_review/check_evidence_coverage.py
           python tools/formal_review/check_semantic_assurance.py
+          python tools/formal_review/check_literature_entailment.py
 
       - name: Build kernel-checked Lean proofs
         uses: leanprover/lean-action@v1
