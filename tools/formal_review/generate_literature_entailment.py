@@ -663,7 +663,7 @@ def main() -> int:
     metrics = {row["metric_id"]: row for row in summaries}
     manifest = {
         "method_version": 1,
-        "authoritative_commit": "63148eae30da71db0fb8769e59ed75680c8c7692",
+        "authoritative_commit": "bfd1a104189827dff1d2febc13a0cce48120c6de",
         "primary_sources": len(source_rows),
         "required_sentences": len(proof_rows),
         "formalized_sentences": metrics["LIT-COV-003"]["numerator"],

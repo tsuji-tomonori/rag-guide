@@ -3,7 +3,7 @@
 ## 結果
 
 - 検証日: 2026-08-15 JST
-- 対象commit: `63148eae30da71db0fb8769e59ed75680c8c7692`
+- 対象commit: `bfd1a104189827dff1d2febc13a0cce48120c6de`
 - Quint: 0.32.0
 - Apalache: 0.56.1
 

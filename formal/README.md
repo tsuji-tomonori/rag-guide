@@ -10,7 +10,7 @@
 
 | 項目 | 値 |
 |---|---:|
-| 正本commit | `63148eae30da71db0fb8769e59ed75680c8c7692` |
+| 正本commit | `bfd1a104189827dff1d2febc13a0cce48120c6de` |
 | Markdownファイル | 99 |
 | 説明状態 | 353 |
 | 章序文 | 11 |

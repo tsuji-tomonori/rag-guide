@@ -1,5 +1,5 @@
 {
-  "canonical_commit": "63148eae30da71db0fb8769e59ed75680c8c7692",
+  "canonical_commit": "bfd1a104189827dff1d2febc13a0cce48120c6de",
   "method_version": 1,
   "markdown_files": 99,
   "sentences": 4732,
@@ -24,10 +24,10 @@
   },
   "semantic_validation_boundary": "Lean proves ledger consistency, not that a source semantically entails the Japanese sentence.",
   "sha256": {
-    "formal/review-data/trusted_primary_sources.csv": "3ffeba18a173e0396d3e0918aa24ea8fba98523e5fc22a2fd2ba423b2643d835",
-    "formal/review-data/sentence_evidence.csv": "167907828515cb8dee9b4ea1d886d2b6c651a40f4d4f9e36fc5aaac5275ce4d7",
+    "formal/review-data/trusted_primary_sources.csv": "c47966597d2afb11b638a0c38627add6a9384ea280820c475b2e2b28be9637f8",
+    "formal/review-data/sentence_evidence.csv": "bf11831bc32d1ce9ad994d5414a6d913ceabc0f5bb8f36c9208823c43ad04f40",
     "formal/review-data/uncovered_sentences.csv": "dfb2a0bcd68e0dbb906e6ed664a19d3dabdd12fa92bfdc4dc6504c8d84009caa",
-    "formal/review-data/concrete_technologies.csv": "1fe67f451128a51124b0932735e74b812b3aa70c0ee7608b87d9afd765b7ae0b",
+    "formal/review-data/concrete_technologies.csv": "2f9b02b6f58f4e5496b38248b8986ce53b54560ff592b9756a87d7bf77f7cbf7",
     "formal/review-data/coverage_summary.csv": "f37011c0b72e012843de33cf3c58121f1f4b5b32a9440dd5e48b60ddcf65dc6f",
     "formal/lean/RagEvidence/Generated.lean": "ead7b6f4efab806f28bf43fc60fcfcc02ad0f94c4185e193f4c9b337c407d831"
   }

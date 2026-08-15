@@ -23,7 +23,7 @@ from urllib.parse import quote, unquote, urlparse
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
-EXPECTED_COMMIT = "63148eae30da71db0fb8769e59ed75680c8c7692"
+EXPECTED_COMMIT = "bfd1a104189827dff1d2febc13a0cce48120c6de"
 NUMBERED = re.compile(r"^##\s+(\d+\.\d+\.\d+\.)\s+(.+?)\s*$")
 LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)

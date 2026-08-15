@@ -1,6 +1,6 @@
 {
   "method_version": 1,
-  "authoritative_commit": "63148eae30da71db0fb8769e59ed75680c8c7692",
+  "authoritative_commit": "bfd1a104189827dff1d2febc13a0cce48120c6de",
   "primary_sources": 194,
   "required_sentences": 1174,
   "formalized_sentences": 995,
@@ -15,8 +15,8 @@
     "anti_circularity": "Source summaries are explicit theorem premises, not custom Lean axioms and not copied from guide sentences."
   },
   "sha256": {
-    "formal/review-data/literature_source_theorems.csv": "290e4109a965c7deff2a3f5a7c63e62068fa6e38b1d0012c25e8db195f9b968b",
-    "formal/review-data/sentence_logical_proofs.csv": "24cfc33e8a6d5a9f7208baf373ce41b6a3ceb92a34c1649f8a8a0e4c71d491e0",
+    "formal/review-data/literature_source_theorems.csv": "6e54f7af7142d991a37a26a104b54bee2a7ee30a9f075845f861bd4df51e5378",
+    "formal/review-data/sentence_logical_proofs.csv": "dcd38b3be1b6cad5e82344bd9ab25e8bbdc93b6acc1a0c0883fb1f2d3207492e",
     "formal/review-data/logical_proof_summary.csv": "4e48e0b81cbf1b7d918ac43e258564b0b30ad1be8fa3d1bf93cb8e4e706c189c",
     "formal/lean/RagEvidence/LiteratureGenerated.lean": "2b8ce4a8a38e7a16343cb2b33a536fd7d34c752ef76eefb0c5aab869ee4bb913",
     "formal/lean/RagEvidence/LiteratureProofs.lean": "abcaaa433ecd0d7ccc0f6f9671bbf169a9b475b7741d73934f10b220c2d6434b"

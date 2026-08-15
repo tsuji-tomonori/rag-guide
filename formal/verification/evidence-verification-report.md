@@ -3,7 +3,7 @@
 ## 結果
 
 - 検証日: 2026-08-15 JST
-- 正本: `docs/` at `63148eae30da71db0fb8769e59ed75680c8c7692`
+- 正本: `docs/` at `bfd1a104189827dff1d2febc13a0cce48120c6de`
 - Python: 3.12
 - Lean: 4.30.0
 - Quint: 0.32.0
