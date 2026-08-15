@@ -4,10 +4,10 @@ CHK-002,決定的シナリオ,Quint TypeScript backend,0.32.0,max-samples=1; see
 CHK-003,ランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12; seed=0x726167,合格,No violation found; trace length max=13
 CHK-004,境界付き状態空間検査,Quint + Apalache,0.32.0 + 0.56.1,max-steps=12; invariant=allInvariants,合格,No violation found; 18 verification conditions
 CHK-005,センテンス根拠台帳,Python,3.12,check_evidence_coverage.py,合格,required=1174; covered=522; uncovered=652
-CHK-006,Lean台帳・意味論射影・記号式・文献条件付き証明,Lean,4.30.0,lake build; 480 declarations,再検証待ち,source audit passed locally; kernel build delegated to CI
+CHK-006,Lean台帳・意味論射影・記号式・文献条件付き証明,Lean,4.30.0,lake build; 480 declarations,合格,source audit passed locally; kernel build passed in GitHub Actions run 31874699013
 CHK-007,具体技術シナリオ,Quint TypeScript backend,0.32.0,14 scenarios; seed=0x726167,合格,14 passing
 CHK-008,具体技術ランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12,合格,No violation found
 CHK-009,具体技術境界付き検査,Quint + Apalache,0.32.0 + 0.56.1,max-steps=3; invariant=allInvariants,合格,No violation found; 13 verification conditions
 CHK-010,意味論保証台帳,Python,3.12,check_semantic_assurance.py,合格,required=1174; atom_formalized=39; atom_entailed=39; full_sentence_proved=0
 CHK-011,一次資料の外的真偽,証拠台帳,n/a,independent reproduction or runtime observation,未確認,independent_truth_verified=0; empirical_pending=125; runtime_pending=26
-CHK-012,文献要旨からの文論理導出,Python + Lean,3.12 + 4.30.0,check_literature_entailment.py; Derives.sound; 446 sentence theorems,再検証待ち,source_pages=194; decomposed=995/1174; candidate_sourced=1174/1174; conditionally_proved=446/1174; end_to_end=0/1174; kernel build delegated to CI
+CHK-012,文献要旨からの文論理導出,Python + Lean,3.12 + 4.30.0,check_literature_entailment.py; Derives.sound; 446 sentence theorems,合格,source_pages=194; decomposed=995/1174; candidate_sourced=1174/1174; conditionally_proved=446/1174; end_to_end=0/1174; kernel build passed in GitHub Actions run 31874699013
