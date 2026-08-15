@@ -65,10 +65,10 @@ theorem direct_basis_points_exact :
 theorem coverage_is_bounded : reportedCovered ≤ reportedRequired := by
   decide
 
-theorem uncovered_is_nonempty : reportedUncovered ≠ [] := by
+theorem uncovered_is_empty : reportedUncovered = [] := by
   decide
 
-theorem not_full_coverage : reportedCovered < reportedRequired := by
+theorem full_coverage : reportedCovered = reportedRequired := by
   decide
 
 theorem all_techniques_concrete_and_sourced :
@@ -90,7 +90,7 @@ end RagEvidence
 #print axioms RagEvidence.coverage_basis_points_exact
 #print axioms RagEvidence.direct_basis_points_exact
 #print axioms RagEvidence.coverage_is_bounded
-#print axioms RagEvidence.uncovered_is_nonempty
-#print axioms RagEvidence.not_full_coverage
+#print axioms RagEvidence.uncovered_is_empty
+#print axioms RagEvidence.full_coverage
 #print axioms RagEvidence.all_techniques_concrete_and_sourced
 #print axioms RagEvidence.technique_ledger_nonempty
