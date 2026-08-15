@@ -1,0 +1,34 @@
+{
+  "canonical_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "method_version": 1,
+  "markdown_files": 94,
+  "sentences": 4418,
+  "evidence_required_sentences": 1067,
+  "covered_sentences": 474,
+  "coverage_percent": 44.42,
+  "direct_covered_sentences": 397,
+  "direct_coverage_percent": 37.21,
+  "uncovered_sentences": 593,
+  "concrete_technologies": 47,
+  "trusted_primary_sources": 193,
+  "source_trust_tiers": {
+    "A": 69,
+    "B": 124,
+    "C": 0
+  },
+  "coverage_definition": {
+    "denominator": "externally checkable technical, empirical, research, or official-product sentences",
+    "covered": "at least one eligible primary source mapped by direct link, concrete-technique mapping, or same paragraph",
+    "direct": "sentence-local link or curated concrete-technique primary source",
+    "not_required": "normative design instructions, examples, transitions, and structural prose"
+  },
+  "semantic_validation_boundary": "Lean proves ledger consistency, not that a source semantically entails the Japanese sentence.",
+  "sha256": {
+    "formal/review-data/trusted_primary_sources.csv": "afba9c837df197e447f806aef97c8f9ed5b4dea2cf6f55393b64b969d93a011a",
+    "formal/review-data/sentence_evidence.csv": "cb91fcc36e0510f954f0f0c531dc6a8c9c32c5ce4f0273648207159317deabc4",
+    "formal/review-data/uncovered_sentences.csv": "5d04c59ca459b5e048db6c677b4899679c4fda482642cf8b9f2fab4f6537e64d",
+    "formal/review-data/concrete_technologies.csv": "323862daad803e021cbaeb72c75ed636c3312963829798d29d401d92c6e37334",
+    "formal/review-data/coverage_summary.csv": "114ff45a51e2db6ee179bba469f5f5b39a3462a31137b50123d2aa603990a51c",
+    "formal/lean/RagEvidence/Generated.lean": "78a477093661929a9ef9a6652f9a01413d3efc95b77f2ba8faabc42c7f323ab1"
+  }
+}

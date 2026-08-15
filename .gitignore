@@ -45,3 +45,10 @@ pdf/
 handson/aws-rag/.astro/
 handson/aws-rag/dist/
 handson/aws-rag/node_modules/
+
+# local output from Quint's Apalache backend
+_apalache-out/
+
+# Python bytecode
+__pycache__/
+*.py[cod]

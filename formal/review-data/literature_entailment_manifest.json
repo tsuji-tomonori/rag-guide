@@ -1,0 +1,24 @@
+{
+  "method_version": 1,
+  "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "primary_sources": 193,
+  "required_sentences": 1067,
+  "formalized_sentences": 906,
+  "sourced_sentences": 1067,
+  "conditional_logical_proofs": 389,
+  "end_to_end_proofs": 0,
+  "source_projections_claim_polarity_reviewed": 16,
+  "atom_count": 144,
+  "assurance_boundary": {
+    "proved": "For reported rows, Lean proves source-summary facts entail the decomposed positive guide formula under any valuation.",
+    "not_proved": "External truth of paper claims and semantic adequacy of bilingual natural-language formalization.",
+    "anti_circularity": "Source summaries are explicit theorem premises, not custom Lean axioms and not copied from guide sentences."
+  },
+  "sha256": {
+    "formal/review-data/literature_source_theorems.csv": "1e985d5a6024fcf8d9358bfc4a6bb84ae2607a73f9c3e71c9894a557f9959232",
+    "formal/review-data/sentence_logical_proofs.csv": "a2f98f5cdf5a696a07b7e60fc8b79f04addc7a9c471e8de6a2d416fbe303e06b",
+    "formal/review-data/logical_proof_summary.csv": "fea6205ee45526f876d9b59d5a24a1acbbf0816ef4fbac06cec89310fd03cee2",
+    "formal/lean/RagEvidence/LiteratureGenerated.lean": "470e5637375d0b8646cfabbfb73e8af47a92b64292550e1b4367a71048db0e0f",
+    "formal/lean/RagEvidence/LiteratureProofs.lean": "0b759354538cb5c2cf92b8d8f48d877f58ddce3183481fe7ef0dccaf7b52609c"
+  }
+}

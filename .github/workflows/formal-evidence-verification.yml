@@ -1,0 +1,54 @@
+name: Formal evidence verification
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate review and sentence evidence ledgers
+        run: |
+          python tools/formal_review/generate_review_data.py
+          python tools/formal_review/generate_evidence_coverage.py
+          python tools/formal_review/generate_semantic_assurance.py
+          python tools/formal_review/generate_literature_entailment.py
+
+      - name: Require generated artifacts to be committed and internally consistent
+        run: |
+          git diff --exit-code -- formal/review-data formal/lean/RagEvidence/Generated.lean formal/lean/RagEvidence/SemanticGenerated.lean formal/lean/RagEvidence/LiteratureGenerated.lean formal/lean/RagEvidence/LiteratureProofs.lean
+          python tools/formal_review/check_evidence_coverage.py
+          python tools/formal_review/check_semantic_assurance.py
+          python tools/formal_review/check_literature_entailment.py
+
+      - name: Build kernel-checked Lean proofs
+        uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: formal/lean
+          build: true
+          test: false
+          lint: false
+          use-mathlib-cache: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Check concrete retrieval contracts with Quint
+        run: |
+          npx --yes @informalsystems/quint@0.32.0 typecheck formal/quint/retrieval_techniques.qnt
+          npx --yes @informalsystems/quint@0.32.0 test formal/quint/retrieval_techniques.qnt --backend=typescript --max-samples=1 --seed=0x726167
+          npx --yes @informalsystems/quint@0.32.0 run formal/quint/retrieval_techniques.qnt --backend=typescript --invariant=allInvariants --max-samples=5000 --max-steps=12 --seed=0x726167
