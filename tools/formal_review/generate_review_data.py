@@ -23,7 +23,7 @@ from urllib.parse import quote, unquote, urlparse
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
-EXPECTED_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
+EXPECTED_COMMIT = "bfd1a104189827dff1d2febc13a0cce48120c6de"
 NUMBERED = re.compile(r"^##\s+(\d+\.\d+\.\d+\.)\s+(.+?)\s*$")
 LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
@@ -657,11 +657,11 @@ def main() -> int:
         raise SystemExit("failed to compare authoritative docs with pinned commit")
     OUT.mkdir(parents=True, exist_ok=True)
     units = extract_units()
-    if len(units) != 339:
-        raise SystemExit(f"expected 339 explanation units, got {len(units)}")
+    if len(units) != 353:
+        raise SystemExit(f"expected 353 explanation units, got {len(units)}")
     sources = resolve_sources(extract_links(units))
-    if len(sources) != 193:
-        raise SystemExit(f"expected 193 unique URLs, got {len(sources)}")
+    if len(sources) != 194:
+        raise SystemExit(f"expected 194 unique URLs, got {len(sources)}")
     states = unit_rows(units, sources)
     technologies = technology_rows(units, sources)
 

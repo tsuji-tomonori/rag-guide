@@ -3,7 +3,7 @@
 ## 結果
 
 - 検証日: 2026-08-15 JST
-- 対象commit: `52bebecfb2a435d0e7ff2efea557c5799674ded6`
+- 対象commit: `bfd1a104189827dff1d2febc13a0cce48120c6de`
 - Quint: 0.32.0
 - Apalache: 0.56.1
 
@@ -14,9 +14,9 @@
 | 型検査 | `quint typecheck` | 合格（exit 0） |
 | 決定的シナリオ | TypeScript backend、seed `0x726167` | 19/19合格 |
 | ランダムトレース | 5,000 samples、12 steps、同seed | 違反なし、最大trace長13 |
-| 境界付き状態空間検査 | Apalache、`allInvariants`、12 steps | 違反なし、16 verification conditions |
+| 境界付き状態空間検査 | Apalache、`allInvariants`、12 steps | 違反なし、18 verification conditions |
 
-`invariants.csv` の25件はレビュー用の粒度です。モデルでは共通する述語をまとめているため、Apalacheが生成した検証条件は16件です。
+`invariants.csv` の26件はレビュー用の粒度です。モデルでは共通する述語をまとめているため、Apalacheが生成した検証条件は18件です。
 
 ## 再現コマンド
 
@@ -42,7 +42,7 @@ npx --yes @informalsystems/quint verify formal/quint/rag_pipeline.qnt \
 
 - catalog、ingestion、provenance、embedding/index互換性
 - query intent、ACL、tenant、削除、質問時点の版
-- evidence選択、十分性、矛盾、完全回答・限定回答・保留
+- evidence選択、十分性、矛盾、完全回答・限定回答・保留、回答状態と理由の整合
 - grounding、claim commit、citation、audit linkage
 - 取得文書中の命令、利用者意図、tool policy、人承認、副作用実行
 - publish gate、release、rollback、権限剥奪による選択済みEvidenceの無効化
@@ -50,6 +50,8 @@ npx --yes @informalsystems/quint verify formal/quint/rag_pipeline.qnt \
 ## 検証中に検出し修正したモデル不具合
 
 初回のランダム検査で、read-only tool実行後に副作用requestへ切り替えた際、`toolExecuted` が前状態から残る反例を検出しました。request生成actionで `humanApproved` と `toolExecuted` を明示的にresetするようモデルを修正し、上表の全検査を再実行しています。この修正はモデルの状態衛生に関するもので、ガイド本文への変更ではありません。
+
+回答状態と理由の対応を追加した後の境界付き検査では、回答後の権限剥奪で`responseKind`だけが`none`へ戻り、`responseReason`が残る反例を検出しました。`revokeAccess`で両方を同時にresetし、決定的19シナリオ、5,000トレース、12 stepsの境界付き検査を再実行しています。
 
 ## 解釈上の境界
 

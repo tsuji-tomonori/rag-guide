@@ -1,5 +1,5 @@
 // RAG guide cross-cutting behavioral model.
-// Canonical prose snapshot: 52bebecfb2a435d0e7ff2efea557c5799674ded6
+// Canonical prose snapshot: bfd1a104189827dff1d2febc13a0cce48120c6de
 //
 // This is an abstraction of the contracts repeated across chapters 3-9.
 // It proves properties of this finite model; it does not prove factual claims
@@ -20,6 +20,7 @@ module rag_pipeline {
     conflictLevel: str,
     conflictDisclosed: bool,
     responseKind: str,
+    responseReason: str,
     claimCommitted: bool,
     grounded: bool,
     citationsValid: bool,
@@ -53,6 +54,7 @@ module rag_pipeline {
     conflictLevel: "none",
     conflictDisclosed: false,
     responseKind: "none",
+    responseReason: "none",
     claimCommitted: false,
     grounded: false,
     citationsValid: false,
@@ -229,6 +231,7 @@ module rag_pipeline {
       ...s,
       phase: "responded",
       responseKind: "complete",
+      responseReason: "sufficient_evidence",
       claimCommitted: true,
       grounded: true,
       citationsValid: true,
@@ -245,6 +248,7 @@ module rag_pipeline {
       ...s,
       phase: "responded",
       responseKind: "partial",
+      responseReason: "conflicting_evidence",
       claimCommitted: true,
       conflictDisclosed: true,
       grounded: true,
@@ -260,6 +264,7 @@ module rag_pipeline {
       ...s,
       phase: "responded",
       responseKind: "conflict",
+      responseReason: "conflicting_evidence",
       claimCommitted: false,
       conflictDisclosed: true,
       grounded: true,
@@ -275,6 +280,7 @@ module rag_pipeline {
       ...s,
       phase: "responded",
       responseKind: "withheld",
+      responseReason: "insufficient_evidence",
       claimCommitted: false,
       auditLinked: true,
     },
@@ -353,6 +359,7 @@ module rag_pipeline {
       evidenceSelected: false,
       evidenceSufficient: false,
       responseKind: "none",
+      responseReason: "none",
       claimCommitted: false,
       grounded: false,
       citationsValid: false,
@@ -406,6 +413,22 @@ module rag_pipeline {
   val responseKindIsKnown = Set(
     "none", "complete", "partial", "conflict", "withheld"
   ).contains(s.responseKind)
+
+  val responseReasonIsKnown = Set(
+    "none", "sufficient_evidence", "partial_evidence",
+    "insufficient_evidence", "conflicting_evidence",
+    "unauthorized", "out_of_scope"
+  ).contains(s.responseReason)
+
+  val responseStatusReasonConsistent = any {
+    s.responseKind == "none" and s.responseReason == "none",
+    s.responseKind == "complete" and s.responseReason == "sufficient_evidence",
+    s.responseKind == "partial" and Set(
+      "partial_evidence", "conflicting_evidence"
+    ).contains(s.responseReason),
+    s.responseKind == "conflict" and s.responseReason == "conflicting_evidence",
+    s.responseKind == "withheld" and s.responseReason == "insufficient_evidence",
+  }
 
   val authorizedEvidenceOnly = s.evidenceSelected.implies(all {
     s.aclAllowed,
@@ -462,6 +485,8 @@ module rag_pipeline {
     phaseIsKnown,
     conflictLevelIsKnown,
     responseKindIsKnown,
+    responseReasonIsKnown,
+    responseStatusReasonConsistent,
     authorizedEvidenceOnly,
     evidenceCompatibility,
     groundedCommittedClaims,
@@ -483,7 +508,12 @@ module rag_pipeline {
     .then(selectEvidence)
     .then(markEvidenceSufficient)
     .then(produceCompleteAnswer)
-    .expect(s.responseKind == "complete" and s.claimCommitted and allInvariants)
+    .expect(all {
+      s.responseKind == "complete",
+      s.responseReason == "sufficient_evidence",
+      s.claimCommitted,
+      allInvariants,
+    })
 
   run historicalVersionAnswerTest = init
     .then(catalogSafe)
@@ -561,7 +591,12 @@ module rag_pipeline {
     .then(selectEvidence)
     .then(markEvidenceInsufficient)
     .then(withholdForInsufficientEvidence)
-    .expect(s.responseKind == "withheld" and not(s.claimCommitted) and allInvariants)
+    .expect(all {
+      s.responseKind == "withheld",
+      s.responseReason == "insufficient_evidence",
+      not(s.claimCommitted),
+      allInvariants,
+    })
 
   run explainableConflictLimitedAnswerTest = init
     .then(catalogSafe)
@@ -573,7 +608,12 @@ module rag_pipeline {
     .then(markEvidenceSufficient)
     .then(markExplainableConflict)
     .then(produceLimitedAnswer)
-    .expect(s.responseKind == "partial" and s.conflictDisclosed and allInvariants)
+    .expect(all {
+      s.responseKind == "partial",
+      s.responseReason == "conflicting_evidence",
+      s.conflictDisclosed,
+      allInvariants,
+    })
 
   run majorConflictNoConclusionTest = init
     .then(catalogSafe)
@@ -585,7 +625,12 @@ module rag_pipeline {
     .then(markEvidenceSufficient)
     .then(markMajorConflict)
     .then(discloseConflictWithoutConclusion)
-    .expect(s.responseKind == "conflict" and not(s.claimCommitted) and allInvariants)
+    .expect(all {
+      s.responseKind == "conflict",
+      s.responseReason == "conflicting_evidence",
+      not(s.claimCommitted),
+      allInvariants,
+    })
 
   run injectedInstructionCannotExecuteToolTest = init
     .then(observeInjectedToolInstruction)
@@ -623,5 +668,11 @@ module rag_pipeline {
     .then(rewritePreservingIntent)
     .then(selectEvidence)
     .then(revokeAccess)
-    .expect(not(s.aclAllowed) and not(s.evidenceSelected) and allInvariants)
+    .expect(all {
+      not(s.aclAllowed),
+      not(s.evidenceSelected),
+      s.responseKind == "none",
+      s.responseReason == "none",
+      allInvariants,
+    })
 }

@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
 LEAN_OUT = ROOT / "formal" / "lean" / "RagEvidence" / "Generated.lean"
-CANONICAL_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
+CANONICAL_COMMIT = "bfd1a104189827dff1d2febc13a0cce48120c6de"
 
 EXTERNAL_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 NUMBERED_HEADING = re.compile(r"^##\s+(\d+\.\d+\.\d+)\.\s+(.+)$")
@@ -177,6 +177,7 @@ def trust_profile(source: dict[str, str]) -> tuple[str, str, str, str]:
         "www.vldb.org",
         "proceedings.neurips.cc",
         "papers.nips.cc",
+        "www.sciencedirect.com",
         "datasets-benchmarks-proceedings.neurips.cc",
         "proceedings.iclr.cc",
         "proceedings.mlr.press",

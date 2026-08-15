@@ -415,7 +415,7 @@ def summary_rows(rows: list[ProofRow], source_rows: list[dict[str, str]]) -> lis
         row for row in source_rows if row["projection_adequacy"] == "CURATED_OFFICIAL_SPEC_PROJECTION"
     ]
     return [
-        metric("LIT-COV-001", "一次資料要旨・仕様ページ検査", len(source_rows), len(source_rows), "193件の信頼できる一次資料ページを検査"),
+        metric("LIT-COV-001", "一次資料要旨・仕様ページ検査", len(source_rows), len(source_rows), f"{len(source_rows)}件の信頼できる一次資料ページを検査"),
         metric("LIT-COV-002", "公式Abstractを直接検査", len(inspected_abstracts), len(source_rows), "Abstractが明示された一次資料"),
         metric("LIT-COV-003", "センテンス論理式分解", len(formalized), len(rows), "Atom/AND/OR/IMPLIES/NOTへ分解できた根拠必須文"),
         metric("LIT-COV-004", "一次資料候補割当", len(sourced), len(rows), "直接・節・ファイル・章スコープの候補を持つ文"),
@@ -423,7 +423,7 @@ def summary_rows(rows: list[ProofRow], source_rows: list[dict[str, str]]) -> lis
         metric("LIT-COV-006", "文献要旨からの条件付き論理証明", len(proved), len(rows), "source-summary factsからguide formulaをLeanで導出"),
         metric("LIT-COV-007", "関係構造未証明", len(relation_unproved), len(rows), "含意・否定の関係を要旨atomだけでは保存できない文"),
         metric("LIT-COV-008", "自然言語込みEnd-to-End証明", 0, len(rows), "バイリンガル意味写像の独立レビュー未完了のため0"),
-        metric("LIT-COV-009", "一次資料命題の主張極性レビュー", len(polarity_reviewed), len(source_rows), "公式仕様16件は手動curation済み、論文等177件は主張・比較対象の区別を要レビュー"),
+        metric("LIT-COV-009", "一次資料命題の主張極性レビュー", len(polarity_reviewed), len(source_rows), f"公式仕様{len(polarity_reviewed)}件は手動curation済み、論文等{len(source_rows) - len(polarity_reviewed)}件は主張・比較対象の区別を要レビュー"),
     ]
 
 
@@ -663,7 +663,7 @@ def main() -> int:
     metrics = {row["metric_id"]: row for row in summaries}
     manifest = {
         "method_version": 1,
-        "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+        "authoritative_commit": "bfd1a104189827dff1d2febc13a0cce48120c6de",
         "primary_sources": len(source_rows),
         "required_sentences": len(proof_rows),
         "formalized_sentences": metrics["LIT-COV-003"]["numerator"],

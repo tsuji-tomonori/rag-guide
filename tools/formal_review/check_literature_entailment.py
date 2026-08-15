@@ -30,7 +30,7 @@ def main() -> int:
     sentences = [row for row in rows("sentence_evidence.csv") if row["evidence_required"] == "yes"]
     summary = {row["metric_id"]: row for row in rows("logical_proof_summary.csv")}
 
-    require(len(sources) == 193, "source theorem catalog must contain all 193 trusted primary sources")
+    require(len(sources) == 194, "source theorem catalog must contain all 194 trusted primary sources")
     require(all(row["url"].startswith("https://") for row in sources), "source theorem without HTTPS primary URL")
     require(all(row["inspection_status"] != "TITLE_ONLY" for row in sources), "uninspected source summary")
     require(all(row["projection_adequacy"] for row in sources), "source projection without adequacy status")
