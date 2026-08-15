@@ -41,6 +41,55 @@ STRONG_RE = re.compile(r"\*\*(?P<text>[^*\n]+)\*\*")
 MAX_CODE_LINE_LENGTH = 88
 
 
+def escape_plain_identifier_underscores(line: str) -> str:
+    """Escape identifier underscores in prose for Markdown's TeX hybrid mode.
+
+    Existing inline code and Markdown link destinations are already rendered by
+    dedicated Markdown handlers, so their underscores must remain untouched.
+    """
+    output: list[str] = []
+    index = 0
+    code_delimiter = ""
+    in_link_destination = False
+    while index < len(line):
+        if line[index] == "`":
+            end = index
+            while end < len(line) and line[end] == "`":
+                end += 1
+            delimiter = line[index:end]
+            if not code_delimiter:
+                code_delimiter = delimiter
+            elif delimiter == code_delimiter:
+                code_delimiter = ""
+            output.append(delimiter)
+            index = end
+            continue
+        if not code_delimiter and line.startswith("](", index):
+            in_link_destination = True
+            output.append("](")
+            index += 2
+            continue
+        if not code_delimiter and in_link_destination and line[index] == ")":
+            in_link_destination = False
+            output.append(")")
+            index += 1
+            continue
+        if (
+            line[index] == "_"
+            and not code_delimiter
+            and not in_link_destination
+            and index > 0
+            and index + 1 < len(line)
+            and line[index - 1].isalnum()
+            and line[index + 1].isalnum()
+        ):
+            output.append(r"\_")
+        else:
+            output.append(line[index])
+        index += 1
+    return "".join(output)
+
+
 def numeric_prefix(value: str) -> tuple[int, ...]:
     """Return the leading dotted number as a natural-sort key."""
     match = re.match(r"^(\d+(?:\.\d+)*)", value)
@@ -205,6 +254,7 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
                     marks += "#"
                 title = NUMBER_PREFIX_RE.sub("", title)
                 line = f"{marks} {title}"
+            line = escape_plain_identifier_underscores(line)
             line = IMAGE_RE.sub(
                 lambda match: (
                     f"![{match.group('alt')}]"
