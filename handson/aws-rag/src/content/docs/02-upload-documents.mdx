@@ -1,6 +1,6 @@
 ---
-title: 2. サンプル文書をS3へ配置する
-description: 検索対象の文書とfilter用metadataを作成し、S3へアップロードして検証します。
+title: 2. AWS公式PDFをS3へ配置する
+description: AWS Well-Architected Frameworkの日本語PDFをcurlで取得し、完全性を確認してS3へアップロードします。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -9,75 +9,79 @@ import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
 
-3つの短い文書と、それぞれに対応する`.metadata.json`を作ります。文書をあえて分けることで、検索結果の出典とmetadata filterを観察できます。
+数行の自作文書ではなく、AWSが公開している日本語版 **AWS Well-Architected Framework** PDFを検索対象にします。複数ページにまたがる実文書を使うことで、PDF解析、chunk分割、複数candidateのscoreと本文を実際に観察できます。
 
-<CloudShellStep number="2.1" title="サンプル文書を作成する">
+<CloudShellStep number="2.1" title="AWS公式PDFをcurlで取得する">
+
+AWS Docsの`latest` URLからPDFを取得します。途中で切れたファイルを完成品として扱わないよう、`.part`へ保存してからrenameします。
 
 <Command>
 
 ```bash
-tee "$RAG_WORK_DIR/documents/return-policy.txt" >/dev/null <<'EOF'
-返品ポリシー
+curl --fail --location \
+  --retry 3 --retry-all-errors \
+  --connect-timeout 20 --max-time 300 \
+  --output "$RAG_DOCUMENT_PATH.part" \
+  --write-out 'downloaded=%{size_download} bytes\ncontent_type=%{content_type}\nurl=%{url_effective}\n' \
+  "$RAG_DOCUMENT_URL"
 
-購入日から30日以内で、未使用かつ購入時の包装が残っている商品は返品できます。
-返品を希望する場合は、注文番号を添えてサポート窓口へ連絡してください。
-開封済みのソフトウェアとデジタル商品は返品対象外です。
-EOF
-
-tee "$RAG_WORK_DIR/documents/support.txt" >/dev/null <<'EOF'
-サポート窓口
-
-通常サポートの受付時間は、祝日を除く平日の日本時間9時から18時までです。
-重大障害専用窓口はProプランの契約者に限り24時間利用できます。
-問い合わせには契約IDと発生時刻を記載してください。
-EOF
-
-tee "$RAG_WORK_DIR/documents/plans.txt" >/dev/null <<'EOF'
-サービスプラン
-
-Standardプランの保存容量は10 GBです。
-Proプランの保存容量は100 GBで、重大障害専用窓口を利用できます。
-プラン変更は管理画面から申請し、翌請求期間から適用されます。
-EOF
+mv "$RAG_DOCUMENT_PATH.part" "$RAG_DOCUMENT_PATH"
 ```
 
 </Command>
 
-<Command title="文書の内容を検証">
+<Command title="PDFの形式とサイズを検証">
 
 ```bash
-find "$RAG_WORK_DIR/documents" -maxdepth 1 -name '*.txt' -type f -print -exec wc -c {} \;
-grep -R --line-number -E '30日|9時|100 GB' "$RAG_WORK_DIR/documents"
+test "$(head -c 5 "$RAG_DOCUMENT_PATH")" = "%PDF-"
+
+export RAG_PDF_BYTES="$(wc -c < "$RAG_DOCUMENT_PATH")"
+test "$RAG_PDF_BYTES" -gt 1048576
+test "$RAG_PDF_BYTES" -lt 50000000
+
+printf 'PDF bytes: %s\n' "$RAG_PDF_BYTES"
+sha256sum "$RAG_DOCUMENT_PATH" \
+  | tee "$RAG_WORK_DIR/aws-well-architected-framework.sha256"
 ```
 
 </Command>
 
 <ExpectedResult>
 
-3ファイルが表示され、`30日`、`9時`、`100 GB`を含む行がそれぞれ見つかります。
+- `curl`がHTTP errorなしで完了し、最終URLとdownload byte数を表示します。
+- 先頭5 byteが`%PDF-`です。HTMLのerror pageを誤って保存した場合はここで停止します。
+- file sizeは1 MiBより大きく、Knowledge Basesの1 fileあたりの上限である50 MB未満です。SHA-256 digestも記録されます。
 
 </ExpectedResult>
 
+<Aside type="note" title="latest版は将来更新されます">
+  このハンズオンでは、AWSの現行文書を試すため`latest`を使います。そのため取得時期によってfile size、hash、ページ内容が変わる場合があります。本番評価で同じcorpusを再現する場合は、取得日、hash、S3 Version IDを固定してください。
+</Aside>
+
 </CloudShellStep>
 
-<CloudShellStep number="2.2" title="filter用metadataを作成する">
+<CloudShellStep number="2.2" title="出典metadataを作成する">
 
-Amazon Bedrock Knowledge Basesは、`元ファイル名.metadata.json`というsidecar fileからmetadata属性を取り込みます。
+Amazon Bedrock Knowledge Basesは、`元ファイル名.metadata.json`というsidecar fileからmetadata属性を取り込みます。出典URL、取得日、文書種別を検索結果へ引き継ぎます。
 
 <Command>
 
 ```bash
-tee "$RAG_WORK_DIR/documents/return-policy.txt.metadata.json" >/dev/null <<'EOF'
-{"metadataAttributes":{"category":"policy","status":"published","version":"2026-08"}}
-EOF
+export RAG_RETRIEVED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-tee "$RAG_WORK_DIR/documents/support.txt.metadata.json" >/dev/null <<'EOF'
-{"metadataAttributes":{"category":"support","status":"published","version":"2026-08"}}
-EOF
-
-tee "$RAG_WORK_DIR/documents/plans.txt.metadata.json" >/dev/null <<'EOF'
-{"metadataAttributes":{"category":"product","status":"published","version":"2026-08"}}
-EOF
+jq -n \
+  --arg sourceUrl "$RAG_DOCUMENT_URL" \
+  --arg retrievedAt "$RAG_RETRIEVED_AT" \
+  '{
+    metadataAttributes:{
+      category:"framework",
+      status:"published",
+      language:"ja",
+      source_title:"AWS Well-Architected Framework",
+      source_url:$sourceUrl,
+      retrieved_at:$retrievedAt
+    }
+  }' | tee "$RAG_DOCUMENT_PATH.metadata.json"
 ```
 
 </Command>
@@ -85,17 +89,21 @@ EOF
 <Command title="metadata JSONを検証">
 
 ```bash
-for file in "$RAG_WORK_DIR"/documents/*.metadata.json; do
-  jq -e '.metadataAttributes.category and .metadataAttributes.status and .metadataAttributes.version' "$file" >/dev/null
-done
-printf 'metadata files: %s\n' "$(find "$RAG_WORK_DIR/documents" -name '*.metadata.json' | wc -l)"
+jq -e '
+  .metadataAttributes.category == "framework" and
+  .metadataAttributes.status == "published" and
+  .metadataAttributes.language == "ja" and
+  (.metadataAttributes.source_url | startswith("https://docs.aws.amazon.com/"))
+' "$RAG_DOCUMENT_PATH.metadata.json" >/dev/null
+
+test "$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")" -lt 10240
 ```
 
 </Command>
 
 <ExpectedResult>
 
-`metadata files: 3`と表示され、`jq`のエラーがありません。
+`jq`とsize検査がエラーなく終了します。metadata fileは10 KiB未満で、AWS公式URLと取得時刻を含みます。
 
 </ExpectedResult>
 
@@ -139,6 +147,11 @@ aws s3api list-objects-v2 \
   --prefix documents/ \
   --query '{count:KeyCount,objects:Contents[].{key:Key,size:Size}}' \
   --output table
+
+test "$(aws s3api head-object \
+  --bucket "$RAG_SOURCE_BUCKET" \
+  --key documents/aws-well-architected-framework.pdf \
+  --query ContentLength --output text)" = "$RAG_PDF_BYTES"
 ```
 
 </Command>
@@ -147,22 +160,21 @@ aws s3api list-objects-v2 \
 
 - locationは`ap-northeast-1`です。
 - 4つのpublic access block設定がすべて`True`です。
-- `count`は`6`で、3文書と3 metadata fileが表示されます。
+- `count`は`2`で、PDFと対応するmetadata fileが表示されます。
+- local PDFとS3 objectのbyte数が一致し、最後の`test`が成功します。
 
 </ExpectedResult>
-
-<Aside type="tip" title="なぜmetadataを今付けるのか">
-  後で`category=policy`を必須条件として検索します。score順の検索と業務上の必須条件を分けて扱うため、アクセス制御や公開状態のような条件をprompt任せにしません。
-</Aside>
 
 </CloudShellStep>
 
 <Checkpoint>
 
-- source bucketは東京リージョンにある
-- public accessはすべてblockされている
-- `documents/`配下に6 objectある
-- 文書とmetadata fileが1対1で対応している
+- AWS公式URLから実際のPDFを`curl`で取得した
+- PDF magic bytes、1 MiB超〜50 MB未満のsize、SHA-256を確認した
+- source URLと取得日をmetadataへ記録した
+- source bucketは東京リージョンでpublic accessがblockされている
+- `documents/`配下にPDFとmetadataの2 objectがある
+- localとS3のPDF byte数が一致する
 
 </Checkpoint>
 

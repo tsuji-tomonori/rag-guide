@@ -54,6 +54,8 @@ export RAG_KB_NAME="rag-handson-kb-${RAG_RUN_ID}"
 export RAG_DS_NAME="rag-handson-s3-${RAG_RUN_ID}"
 export RAG_EMBED_MODEL_ID="amazon.titan-embed-text-v2:0"
 export RAG_GENERATION_MODEL_ID="amazon.nova-lite-v1:0"
+export RAG_DOCUMENT_URL="https://docs.aws.amazon.com/ja_jp/wellarchitected/latest/framework/wellarchitected-framework.pdf"
+export RAG_DOCUMENT_PATH="$RAG_WORK_DIR/documents/aws-well-architected-framework.pdf"
 
 mkdir -p "$RAG_WORK_DIR/documents"
 printf '%s\n' \
@@ -70,6 +72,8 @@ printf '%s\n' \
   "RAG_DS_NAME=$RAG_DS_NAME" \
   "RAG_EMBED_MODEL_ID=$RAG_EMBED_MODEL_ID" \
   "RAG_GENERATION_MODEL_ID=$RAG_GENERATION_MODEL_ID" \
+  "RAG_DOCUMENT_URL=$RAG_DOCUMENT_URL" \
+  "RAG_DOCUMENT_PATH=$RAG_DOCUMENT_PATH" \
   | tee "$RAG_WORK_DIR/manifest.env"
 ```
 
@@ -81,6 +85,7 @@ printf '%s\n' \
 test "$AWS_REGION" = "ap-northeast-1"
 test "${#RAG_ACCOUNT_ID}" -eq 12
 test -d "$RAG_WORK_DIR/documents"
+[[ "$RAG_DOCUMENT_URL" == https://docs.aws.amazon.com/* ]]
 printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR"
 ```
 
@@ -172,4 +177,4 @@ embedding modelとgeneration modelの表が表示され、最後のコマンド�
 
 </Checkpoint>
 
-[サンプル文書をS3へ配置する →](/rag-guide/02-upload-documents/)
+[AWS公式PDFをS3へ配置する →](/rag-guide/02-upload-documents/)

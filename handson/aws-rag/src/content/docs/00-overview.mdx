@@ -10,7 +10,7 @@ import Checkpoint from '../../components/Checkpoint.astro';
 
 ## ゴール
 
-このハンズオンでは、S3へ置いた3つのサンプル文書をKnowledge Basesでchunk化・embeddingし、S3 Vectorsへ登録します。質問時は`Retrieve`で候補を取得し、取得本文だけをEvidence Setとして`Converse`へ渡します。
+このハンズオンでは、AWS公式の日本語版Well-Architected Framework PDFをCloudShellから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。質問時は`Retrieve`で候補を取得し、取得本文だけをEvidence Setとして`Converse`へ渡します。
 
 ```mermaid
 flowchart LR
@@ -60,6 +60,7 @@ flowchart LR
 - 東京リージョンでCloudShellを起動できる
 - IAM roleを作成し、Bedrockへpassできる
 - 終了後にCleanupまで実行できる時間がある
+- 数MB以上のPDF downloadとembeddingに伴う通信・少量の利用料金を許容できる
 
 </Checkpoint>
 

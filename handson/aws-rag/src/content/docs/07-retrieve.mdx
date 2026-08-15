@@ -16,7 +16,7 @@ import Checkpoint from '../../components/Checkpoint.astro';
 <Command>
 
 ```bash
-export RAG_QUESTION="返品できる期間と条件を教えてください。"
+export RAG_QUESTION="AWS Well-Architected Frameworkの6本の柱を教えてください。"
 
 jq -n \
   --arg kbId "$RAG_KB_ID" \
@@ -54,15 +54,19 @@ jq -r '
 
 jq -e '
   (.retrievalResults | length) > 0 and
-  any(.retrievalResults[]; .content.text | contains("30日以内"))
+  ([.retrievalResults[].content.text] | join("\n") | contains("セキュリティ")) and
+  ([.retrievalResults[].content.text] | join("\n") | contains("信頼性")) and
+  ([.retrievalResults[].content.text] | join("\n") | contains("持続可能性"))
 ' "$RAG_WORK_DIR/retrieve-output.json" >/dev/null
 ```
 
 </Command>
 
+表示される各candidateでは、`rank`が返却順、`score`が同一条件内での関連度比較、`source`が根拠PDFのS3 URI、`text`が実際に取り出されたchunk本文です。まず`text`を読み、質問への根拠が含まれるかを確認します。
+
 <ExpectedResult>
 
-1件以上のcandidateが返り、少なくとも1件の本文に`30日以内`が含まれます。そのcandidateのsource URIは`return-policy.txt`を指し、metadataのcategoryは`policy`です。
+1件以上のcandidateが返り、取得本文全体に`セキュリティ`、`信頼性`、`持続可能性`が含まれます。source URIは`aws-well-architected-framework.pdf`を指し、metadataのcategoryは`framework`です。
 
 </ExpectedResult>
 
@@ -107,8 +111,8 @@ grep -q 'source=s3://' "$RAG_WORK_DIR/evidence.txt"
 <Checkpoint>
 
 - `Retrieve`は1件以上を返した
-- `30日以内`を含む正しい根拠が候補にある
-- source URIが`return-policy.txt`を指す
+- 6本の柱を説明する正しい根拠が候補にある
+- source URIが`aws-well-architected-framework.pdf`を指す
 - `evidence.txt`にcitation ID、本文、source URIがある
 
 </Checkpoint>

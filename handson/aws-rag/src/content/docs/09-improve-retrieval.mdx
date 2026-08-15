@@ -45,7 +45,7 @@ for k in 1 3 5; do
       $k,
       (.retrievalResults | length),
       (.retrievalResults[0].score // "-"),
-      any(.retrievalResults[]; .content.text | contains("30日以内"))
+      ([.retrievalResults[].content.text] | join("\n") | contains("持続可能性"))
     ] | @tsv
   ' "$RAG_WORK_DIR/retrieve-k-$k-output.json" \
     | tee -a "$RAG_WORK_DIR/k-comparison.tsv"
@@ -66,12 +66,12 @@ column -t -s $'\t' "$RAG_WORK_DIR/k-comparison.tsv"
 
 <CloudShellStep number="9.2" title="metadata filterを必須条件として適用する">
 
-質問を「ポリシーを教えてください」のように曖昧にしても、`category=policy`かつ`status=published`だけを検索対象にします。
+質問を「設計の考え方を教えてください」のように広くしても、`category=framework`かつ`status=published`だけを検索対象にします。
 
 <Command>
 
 ```bash
-export RAG_FILTER_QUESTION="利用時に注意すべきポリシーを教えてください。"
+export RAG_FILTER_QUESTION="クラウドワークロードを設計するときの考え方を教えてください。"
 
 jq -n \
   --arg kbId "$RAG_KB_ID" \
@@ -85,7 +85,7 @@ jq -n \
         overrideSearchType:"SEMANTIC",
         filter:{
           andAll:[
-            {equals:{key:"category",value:"policy"}},
+            {equals:{key:"category",value:"framework"}},
             {equals:{key:"status",value:"published"}}
           ]
         }
@@ -111,7 +111,7 @@ jq -r '
 
 jq -e '
   (.retrievalResults | length) > 0 and
-  all(.retrievalResults[]; .metadata.category == "policy" and .metadata.status == "published")
+  all(.retrievalResults[]; .metadata.category == "framework" and .metadata.status == "published")
 ' "$RAG_WORK_DIR/retrieve-filtered-output.json" >/dev/null
 ```
 
@@ -119,7 +119,7 @@ jq -e '
 
 <ExpectedResult>
 
-1件以上が返り、すべてのcandidateが`category=policy / status=published`です。source URIは`return-policy.txt`を指します。
+1件以上が返り、すべてのcandidateが`category=framework / status=published`です。source URIは`aws-well-architected-framework.pdf`を指します。このcorpusは1文書なので、ここではfilterによる除外比較ではなく、sidecar metadataが全chunkへ伝播し、検索前条件として評価されることを確認します。
 
 </ExpectedResult>
 

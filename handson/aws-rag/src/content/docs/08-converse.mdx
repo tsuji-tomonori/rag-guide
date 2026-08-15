@@ -69,7 +69,7 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 <ExpectedResult>
 
-回答に「購入日から30日以内」「未使用」「包装」などの条件と`[E1]`が含まれます。Evidence Setにない手続きや例外を創作していません。
+回答に、運用上の優秀性、セキュリティ、信頼性、パフォーマンス効率、コスト最適化、持続可能性の6本の柱と`[E1]`形式のcitationが含まれます。Evidence Setにない柱や説明を創作していません。
 
 </ExpectedResult>
 
@@ -81,7 +81,9 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 ```bash
 test -s "$RAG_WORK_DIR/answer.txt"
-grep -Eq '30日|三十日' "$RAG_WORK_DIR/answer.txt"
+grep -q 'セキュリティ' "$RAG_WORK_DIR/answer.txt"
+grep -q '信頼性' "$RAG_WORK_DIR/answer.txt"
+grep -q '持続可能性' "$RAG_WORK_DIR/answer.txt"
 grep -Eq '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt"
 
 for citation in $(grep -oE '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt" | sort -u); do
