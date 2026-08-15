@@ -1,0 +1,13 @@
+{
+  "verification_status": "VERIFIED",
+  "spreadsheet_id": "1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM",
+  "sheet_title": "論理未証明",
+  "authoritative_docs_commit": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
+  "row_count": 678,
+  "export_sha256": "fcdb6c5883d318f784f2a385ff784156d00dea13248a0fca04babd5477c7a70d",
+  "readback_file": "formal/review-data/appropriateness_sheet_readback.csv",
+  "readback_sha256": "fcdb6c5883d318f784f2a385ff784156d00dea13248a0fca04babd5477c7a70d",
+  "remote_revision_id": "267",
+  "verified_date": "2026-08-15",
+  "notes": "Read back from Google Sheets and compared row-for-row with the repository export."
+}

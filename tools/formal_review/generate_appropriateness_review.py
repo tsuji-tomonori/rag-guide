@@ -14,7 +14,10 @@ import csv
 import hashlib
 import json
 import re
+import subprocess
+import unicodedata
 from collections import Counter, defaultdict
+from datetime import date
 from pathlib import Path
 
 
@@ -27,6 +30,14 @@ DECISIONS = OUT / "appropriateness_review_decisions.csv"
 GOLD = OUT / "appropriateness_gold_fixture.csv"
 SUMMARY = OUT / "appropriateness_review_summary.csv"
 MANIFEST = OUT / "appropriateness_review_manifest.json"
+CONFIG = OUT / "appropriateness_review_config.json"
+APPLICATIONS = OUT / "appropriateness_review_application_map.csv"
+RELATIONS = OUT / "appropriateness_relation_evidence.csv"
+SHEET_EXPORT = OUT / "appropriateness_sheet_export.csv"
+SHEET_EXPORT_MANIFEST = OUT / "appropriateness_sheet_export_manifest.json"
+SHEET_READBACK = OUT / "appropriateness_sheet_readback.json"
+POST_REVIEW = OUT / "appropriateness_post_review_recalculation.json"
+CLASSIFICATION_OVERRIDES = OUT / "appropriateness_classification_overrides.csv"
 
 AUTHORITATIVE_DOCS_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
 EXPECTED_UNRESOLVED = 678
@@ -49,6 +60,49 @@ SOURCE_ROLES = {
     "LIMITATION",
     "HYPOTHESIS",
 }
+
+ACTIONABLE_VERDICTS = {
+    "APPROPRIATE_AFTER_QUALIFICATION",
+    "REWRITE_REQUIRED",
+    "REMOVE_OR_REPLACE",
+    "CONTRADICTED",
+}
+
+
+def action_required(row: dict[str, str]) -> bool:
+    # NORMATIVE changes the evidence classification even when prose is kept.
+    return row["appropriateness_verdict"] in ACTIONABLE_VERDICTS or (
+        row["appropriateness_verdict"] == "APPROPRIATE_NORMATIVE"
+    )
+
+GOLD_FIELDS = [
+    "fixture_id", "sentence_id", "source_state", "claim_type",
+    "logical_operator", "risk_flags", "calibration_status",
+    "agreed_verdict", "disagreement_reason", "primary_reviewer",
+    "primary_review_date", "independent_reviewer", "independent_review_date",
+]
+
+APPLICATION_FIELDS = [
+    "sentence_id", "baseline_docs_commit", "target_docs_commit", "file",
+    "action_kind", "source_text_sha256", "target_sentence_ids",
+    "target_text_sha256", "target_file_sha256", "application_status",
+    "applied_by", "applied_date", "notes",
+]
+
+RELATION_FIELDS = [
+    "sentence_id", "logical_operator", "relation_disposition",
+    "evidence_source_ids", "evidence_locator", "spec_contract",
+    "relation_reviewer", "relation_review_date", "relation_status", "notes",
+]
+
+SHEET_FIELDS = [
+    "sentence_id", "baseline_docs_commit", "target_docs_commit", "file", "line_start", "review_priority",
+    "required_review", "original_sentence", "revised_sentence",
+    "appropriateness_verdict", "verdict_reason", "primary_source_ids",
+    "source_locator", "source_claim_role", "external_truth_level", "action",
+    "primary_reviewer", "primary_review_date", "independent_reviewer",
+    "independent_review_date", "review_status", "remaining",
+]
 
 QUEUE_FIELDS = [
     "sentence_id", "unit_id", "file", "line_start", "sentence",
@@ -87,6 +141,32 @@ def write_csv(path: Path, rows: list[dict[str, object]], fields: list[str]) -> N
 
 def split_values(value: str) -> list[str]:
     return [item.strip() for item in value.split(";") if item.strip()]
+
+
+def canonical_reviewer(value: str) -> str:
+    return unicodedata.normalize("NFKC", value).strip().casefold()
+
+
+def iso_date(value: str) -> bool:
+    try:
+        date.fromisoformat(value)
+    except (TypeError, ValueError):
+        return False
+    return True
+
+
+def read_json(path: Path, default: dict[str, object]) -> dict[str, object]:
+    if not path.exists():
+        return default
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise SystemExit(f"expected JSON object: {path}")
+    return value
+
+
+def empty_csv(path: Path, fields: list[str]) -> None:
+    if not path.exists():
+        write_csv(path, [], fields)
 
 
 def risk_flags(row: dict[str, str]) -> list[str]:
@@ -168,6 +248,65 @@ def initial_action(row: dict[str, object]) -> str:
     return "主体・対象・条件・例外・極性・modalityを意味保存して分解し、再形式化する"
 
 
+def initialize_wave4_ledgers(
+    queue: list[dict[str, object]],
+    decisions: list[dict[str, str]],
+    baseline_commit: str,
+    target_commit: str,
+) -> None:
+    queue_by_id = {str(row["sentence_id"]): row for row in queue}
+    applications = read_csv(APPLICATIONS) if APPLICATIONS.exists() else []
+    application_ids = {row["sentence_id"] for row in applications}
+    for decision in decisions:
+        if (
+            not action_required(decision)
+            or decision["sentence_id"] in application_ids
+        ):
+            continue
+        source = queue_by_id[decision["sentence_id"]]
+        applications.append({
+            "sentence_id": decision["sentence_id"],
+            "baseline_docs_commit": baseline_commit,
+            "target_docs_commit": target_commit,
+            "file": source["file"],
+            "action_kind": decision["appropriateness_verdict"],
+            "source_text_sha256": hashlib.sha256(
+                decision["original_sentence"].encode("utf-8")
+            ).hexdigest(),
+            "target_sentence_ids": "",
+            "target_text_sha256": "",
+            "target_file_sha256": "",
+            "application_status": "PENDING_APPLICATION",
+            "applied_by": "",
+            "applied_date": "",
+            "notes": "",
+        })
+    write_csv(APPLICATIONS, applications, APPLICATION_FIELDS)
+
+    relations = read_csv(RELATIONS) if RELATIONS.exists() else []
+    relation_ids = {row["sentence_id"] for row in relations}
+    for decision in decisions:
+        if (
+            decision["appropriateness_verdict"] == "BLOCKED"
+            or decision["logical_operator"] not in {"NOT", "IMPLIES"}
+            or decision["sentence_id"] in relation_ids
+        ):
+            continue
+        relations.append({
+            "sentence_id": decision["sentence_id"],
+            "logical_operator": decision["logical_operator"],
+            "relation_disposition": "",
+            "evidence_source_ids": "",
+            "evidence_locator": "",
+            "spec_contract": "",
+            "relation_reviewer": "",
+            "relation_review_date": "",
+            "relation_status": "PENDING_RELATION_REVIEW",
+            "notes": "",
+        })
+    write_csv(RELATIONS, relations, RELATION_FIELDS)
+
+
 def initialize_decisions(queue: list[dict[str, object]]) -> None:
     if DECISIONS.exists():
         raise SystemExit(f"refusing to overwrite manual ledger: {DECISIONS}")
@@ -213,7 +352,9 @@ def initialize_decisions(queue: list[dict[str, object]]) -> None:
     write_csv(DECISIONS, rows, DECISION_FIELDS)
 
 
-def gold_rows(queue: list[dict[str, object]]) -> list[dict[str, object]]:
+def gold_rows(
+    queue: list[dict[str, object]], existing: list[dict[str, str]]
+) -> list[dict[str, object]]:
     groups: dict[str, list[dict[str, object]]] = defaultdict(list)
     for row in queue:
         groups[str(row["current_logical_status"])].append(row)
@@ -224,7 +365,8 @@ def gold_rows(queue: list[dict[str, object]]) -> list[dict[str, object]]:
         stride = max(1, len(rows) // 8)
         selected.extend(rows[index] for index in range(0, min(len(rows), stride * 8), stride))
     selected = selected[:24]
-    return [{
+    existing_by_id = {row["sentence_id"]: row for row in existing}
+    generated = [{
         "fixture_id": f"GOLD-{index:02d}",
         "sentence_id": row["sentence_id"],
         "source_state": row["current_logical_status"],
@@ -234,21 +376,253 @@ def gold_rows(queue: list[dict[str, object]]) -> list[dict[str, object]]:
         "calibration_status": "PENDING_TWO_REVIEWER_CALIBRATION",
         "agreed_verdict": "",
         "disagreement_reason": "",
+        "primary_reviewer": "",
+        "primary_review_date": "",
+        "independent_reviewer": "",
+        "independent_review_date": "",
     } for index, row in enumerate(selected, 1)]
+    for row in generated:
+        previous = existing_by_id.get(str(row["sentence_id"]))
+        if previous is None:
+            continue
+        for field in (
+            "calibration_status", "agreed_verdict", "disagreement_reason",
+            "primary_reviewer", "primary_review_date", "independent_reviewer",
+            "independent_review_date",
+        ):
+            row[field] = previous.get(field, "")
+    return generated
 
 
-def summary_rows(queue: list[dict[str, object]], decisions: list[dict[str, str]]) -> list[dict[str, object]]:
+def review_is_independent(row: dict[str, str]) -> bool:
+    primary = canonical_reviewer(row.get("primary_reviewer", ""))
+    independent = canonical_reviewer(row.get("independent_reviewer", ""))
+    return bool(
+        primary
+        and independent
+        and primary != independent
+        and iso_date(row.get("primary_review_date", ""))
+        and iso_date(row.get("independent_review_date", ""))
+        and row.get("review_status") == "FINAL_TWO_REVIEWER_APPROVED"
+    )
+
+
+def gold_is_complete(rows: list[dict[str, str]]) -> bool:
+    if not rows:
+        return False
+    for row in rows:
+        primary = canonical_reviewer(row.get("primary_reviewer", ""))
+        independent = canonical_reviewer(row.get("independent_reviewer", ""))
+        if not (
+            row.get("calibration_status") == "CALIBRATED"
+            and row.get("agreed_verdict") in FINAL_VERDICTS - {"BLOCKED"}
+            and primary
+            and independent
+            and primary != independent
+            and iso_date(row.get("primary_review_date", ""))
+            and iso_date(row.get("independent_review_date", ""))
+        ):
+            return False
+    return True
+
+
+def applied_sentence_ids(applications: list[dict[str, str]]) -> set[str]:
+    return {
+        row.get("sentence_id", "")
+        for row in applications
+        if row.get("application_status") in {"APPLIED_VERIFIED", "REMOVED_VERIFIED"}
+    }
+
+
+def reviewed_relation_ids(relations: list[dict[str, str]]) -> set[str]:
+    return {
+        row.get("sentence_id", "")
+        for row in relations
+        if row.get("relation_status") == "VERIFIED"
+    }
+
+
+def sheet_is_verified(export_sha: str, target_commit: str) -> bool:
+    value = read_json(SHEET_READBACK, {})
+    readback_file = value.get("readback_file")
+    readback_path = ROOT / str(readback_file) if readback_file else None
+    readback_matches = bool(
+        readback_path
+        and readback_path.is_file()
+        and value.get("readback_sha256") == sha256(readback_path)
+        and read_csv(readback_path) == read_csv(SHEET_EXPORT)
+    )
+    return bool(
+        value.get("verification_status") == "VERIFIED"
+        and value.get("authoritative_docs_commit") == target_commit
+        and value.get("export_sha256") == export_sha
+        and value.get("row_count") == EXPECTED_UNRESOLVED
+        and value.get("remote_revision_id")
+        and iso_date(str(value.get("verified_date", "")))
+        and readback_matches
+    )
+
+
+def generate_sheet_export(
+    queue: list[dict[str, object]], decisions: list[dict[str, str]], target_commit: str
+) -> str:
+    queue_by_id = {str(row["sentence_id"]): row for row in queue}
+    output: list[dict[str, object]] = []
+    for decision in decisions:
+        source = queue_by_id[decision["sentence_id"]]
+        output.append({
+            "sentence_id": decision["sentence_id"],
+            "baseline_docs_commit": decision["docs_commit"],
+            "target_docs_commit": target_commit,
+            "file": source["file"],
+            "line_start": source["line_start"],
+            "review_priority": source["review_priority"],
+            "required_review": source["required_review"],
+            "original_sentence": decision["original_sentence"],
+            "revised_sentence": decision["revised_sentence"],
+            "appropriateness_verdict": decision["appropriateness_verdict"],
+            "verdict_reason": decision["verdict_reason"],
+            "primary_source_ids": decision["primary_source_ids"],
+            "source_locator": decision["source_locator"],
+            "source_claim_role": decision["source_claim_role"],
+            "external_truth_level": decision["external_truth_level"],
+            "action": decision["action"],
+            "primary_reviewer": decision["primary_reviewer"],
+            "primary_review_date": decision["primary_review_date"],
+            "independent_reviewer": decision["independent_reviewer"],
+            "independent_review_date": decision["independent_review_date"],
+            "review_status": decision["review_status"],
+            "remaining": "yes" if decision["appropriateness_verdict"] == "BLOCKED" else "no",
+        })
+    write_csv(SHEET_EXPORT, output, SHEET_FIELDS)
+    export_sha = sha256(SHEET_EXPORT)
+    SHEET_EXPORT_MANIFEST.write_text(json.dumps({
+        "spreadsheet_id": "1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM",
+        "sheet_title": "論理未証明",
+        "authoritative_docs_commit": target_commit,
+        "row_count": len(output),
+        "column_count": len(SHEET_FIELDS),
+        "export_sha256": export_sha,
+        "sync_direction": "repository_csv_to_google_sheets_one_way",
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return export_sha
+
+
+def git_docs_match(commit: str) -> bool:
+    if not commit:
+        return False
+    result = subprocess.run(
+        ["git", "diff", "--quiet", commit, "--", "docs"],
+        cwd=ROOT,
+        check=False,
+    )
+    return result.returncode == 0
+
+
+def generate_post_review_recalculation(
+    baseline_commit: str, target_commit: str
+) -> bool:
+    coverage = read_json(OUT / "coverage_manifest.json", {})
+    semantic = read_json(OUT / "semantic_assurance_manifest.json", {})
+    literature = read_json(OUT / "literature_entailment_manifest.json", {})
+    semantic_summary = {
+        row["metric_id"]: row for row in read_csv(OUT / "semantic_assurance_summary.csv")
+    }
+    literature_summary = {
+        row["metric_id"]: row for row in read_csv(OUT / "logical_proof_summary.csv")
+    }
+    target_pins = {
+        "coverage": coverage.get("canonical_commit"),
+        "semantic": semantic.get("authoritative_commit"),
+        "literature": literature.get("authoritative_commit"),
+    }
+    changed = False
+    if baseline_commit and target_commit and baseline_commit != target_commit:
+        result = subprocess.run(
+            ["git", "diff", "--quiet", baseline_commit, target_commit, "--", "docs"],
+            cwd=ROOT,
+            check=False,
+        )
+        changed = result.returncode == 1
+    verified = bool(
+        changed
+        and git_docs_match(target_commit)
+        and all(value == target_commit for value in target_pins.values())
+    )
+    proofs = read_csv(PROOFS)
+    POST_REVIEW.write_text(json.dumps({
+        "verification_status": "VERIFIED" if verified else "PENDING",
+        "baseline_docs_commit": baseline_commit,
+        "target_docs_commit": target_commit,
+        "docs_changed": changed,
+        "current_docs_match_target": git_docs_match(target_commit),
+        "upstream_manifest_commits": target_pins,
+        "evidence_required_sentences": len(proofs),
+        "conditional_logical_proofs": sum(
+            row["logical_proof_assurance"] == "MODEL_PROVED" for row in proofs
+        ),
+        "end_to_end_assurance_count": int(literature_summary["LIT-COV-008"]["numerator"]),
+        "end_to_end_assurance_denominator": int(literature_summary["LIT-COV-008"]["denominator"]),
+        "independently_verified_external_truth_count": int(semantic_summary["TRUTH-COV-004"]["numerator"]),
+        "independently_verified_external_truth_denominator": int(semantic_summary["TRUTH-COV-004"]["denominator"]),
+        "source_files": {
+            path.relative_to(ROOT).as_posix(): sha256(path)
+            for path in (
+                OUT / "coverage_manifest.json",
+                OUT / "semantic_assurance_manifest.json",
+                OUT / "literature_entailment_manifest.json",
+                OUT / "semantic_assurance_summary.csv",
+                OUT / "logical_proof_summary.csv",
+                PROOFS,
+            )
+        },
+        "assurance_boundary": (
+            "Recalculation proves snapshot/count provenance only; human judgments and external truth remain separate."
+        ),
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return verified
+
+
+def summary_rows(
+    queue: list[dict[str, object]],
+    decisions: list[dict[str, str]],
+    gold: list[dict[str, str]],
+    applications: list[dict[str, str]],
+    relations: list[dict[str, str]],
+    sheet_verified: bool,
+    recalculation_verified: bool,
+) -> list[dict[str, object]]:
     verdicts = Counter(row["appropriateness_verdict"] for row in decisions)
-    independent = [row for row in decisions if row["independent_reviewer"] and row["independent_review_date"]]
+    independent = [row for row in decisions if review_is_independent(row)]
     polarity_scope = [row for row in queue if row["source_projection_adequacy"] == POLARITY_REQUIRED]
     decision_by_id = {row["sentence_id"]: row for row in decisions}
     polarity_done = [
         row for row in polarity_scope
         if decision_by_id[str(row["sentence_id"])]["source_claim_role"] in SOURCE_ROLES
-        and decision_by_id[str(row["sentence_id"])]["independent_reviewer"]
+        and review_is_independent(decision_by_id[str(row["sentence_id"])])
     ]
     final = [row for row in decisions if row["appropriateness_verdict"] != "BLOCKED"]
-    complete = len(final) == len(queue) and len(independent) == len(queue) and len(polarity_done) == len(polarity_scope)
+    actionable = [row for row in decisions if action_required(row)]
+    applied_ids = applied_sentence_ids(applications)
+    applied = [row for row in actionable if row["sentence_id"] in applied_ids]
+    relation_scope = [
+        row for row in decisions
+        if row["appropriateness_verdict"] != "BLOCKED"
+        and row["logical_operator"] in {"NOT", "IMPLIES"}
+    ]
+    relation_ids = reviewed_relation_ids(relations)
+    relation_done = [row for row in relation_scope if row["sentence_id"] in relation_ids]
+    calibrated = gold_is_complete(gold)
+    complete = all((
+        len(final) == len(queue),
+        len(independent) == len(queue),
+        len(polarity_done) == len(polarity_scope),
+        calibrated,
+        len(applied) == len(actionable),
+        len(relation_done) == len(relation_scope),
+        sheet_verified,
+        recalculation_verified,
+    ))
     metrics = [
         ("APR-001", "未証明レビュー対象", len(queue), EXPECTED_UNRESOLVED),
         ("APR-002", "BLOCKED以外の最終判定", len(final), len(queue)),
@@ -256,6 +630,11 @@ def summary_rows(queue: list[dict[str, object]], decisions: list[dict[str, str]]
         ("APR-004", "主張極性レビュー完了", len(polarity_done), len(polarity_scope)),
         ("APR-005", "BLOCKED", verdicts["BLOCKED"], len(queue)),
         ("APR-006", "Issue #35完了ゲート", int(complete), 1),
+        ("APR-007", "gold校正完了", int(calibrated), 1),
+        ("APR-008", "本文反映完了", len(applied), len(actionable)),
+        ("APR-009", "NOT・IMPLIES関係レビュー完了", len(relation_done), len(relation_scope)),
+        ("APR-010", "Google Sheets readback一致", int(sheet_verified), 1),
+        ("APR-011", "新docs commit再計算", int(recalculation_verified), 1),
     ]
     return [{
         "metric_id": metric_id,
@@ -266,22 +645,42 @@ def summary_rows(queue: list[dict[str, object]], decisions: list[dict[str, str]]
     } for metric_id, name, numerator, denominator in metrics]
 
 
-def generate_lean(decisions: list[dict[str, str]]) -> None:
+def generate_lean(
+    queue: list[dict[str, object]],
+    decisions: list[dict[str, str]],
+    applications: list[dict[str, str]],
+    relations: list[dict[str, str]],
+    gold_complete: bool,
+    sheet_verified: bool,
+    recalculation_verified: bool,
+) -> None:
     verdict_id = {name: index for index, name in enumerate(sorted(FINAL_VERDICTS), 1)}
     entries = []
-    queue_by_id = {str(row["sentence_id"]): row for row in queue_rows(read_csv(PROOFS))}
+    queue_by_id = {str(row["sentence_id"]): row for row in queue}
+    applied_ids = applied_sentence_ids(applications)
+    relation_ids = reviewed_relation_ids(relations)
     for row in decisions:
         number = int(row["sentence_id"].split("-")[1])
         polarity_required = queue_by_id[row["sentence_id"]]["source_projection_adequacy"] == POLARITY_REQUIRED
-        polarity_reviewed = row["source_claim_role"] in SOURCE_ROLES and bool(row["independent_reviewer"])
+        independent_reviewed = review_is_independent(row)
+        polarity_reviewed = row["source_claim_role"] in SOURCE_ROLES and independent_reviewed
+        row_action_required = action_required(row)
+        relation_required = (
+            row["appropriateness_verdict"] != "BLOCKED"
+            and row["logical_operator"] in {"NOT", "IMPLIES"}
+        )
         entries.append(
-            "  { sentenceId := %d, verdict := %d, independentReviewed := %s, polarityRequired := %s, polarityReviewed := %s }"
+            "  { sentenceId := %d, verdict := %d, independentReviewed := %s, polarityRequired := %s, polarityReviewed := %s, actionRequired := %s, actionApplied := %s, relationRequired := %s, relationReviewed := %s }"
             % (
                 number,
                 verdict_id[row["appropriateness_verdict"]],
-                "true" if row["independent_reviewer"] else "false",
+                "true" if independent_reviewed else "false",
                 "true" if polarity_required else "false",
                 "true" if polarity_reviewed else "false",
+                "true" if row_action_required else "false",
+                "true" if row["sentence_id"] in applied_ids else "false",
+                "true" if relation_required else "false",
+                "true" if row["sentence_id"] in relation_ids else "false",
             )
         )
     blocked_id = verdict_id["BLOCKED"]
@@ -299,6 +698,10 @@ structure ReviewRow where
   independentReviewed : Bool
   polarityRequired : Bool
   polarityReviewed : Bool
+  actionRequired : Bool
+  actionApplied : Bool
+  relationRequired : Bool
+  relationReviewed : Bool
   deriving Repr, DecidableEq
 
 def reviewRows : List ReviewRow := [
@@ -309,7 +712,15 @@ def blockedVerdict : Nat := {blocked_id}
 def blockedCount : Nat := (reviewRows.filter (fun row => row.verdict == blockedVerdict)).length
 def independentlyReviewedCount : Nat := (reviewRows.filter (fun row => row.independentReviewed)).length
 def polarityComplete : Bool := reviewRows.all (fun row => !row.polarityRequired || row.polarityReviewed)
-def completionGate : Bool := blockedCount == 0 && independentlyReviewedCount == reviewRows.length && polarityComplete
+def applicationComplete : Bool := reviewRows.all (fun row => !row.actionRequired || row.actionApplied)
+def relationComplete : Bool := reviewRows.all (fun row => !row.relationRequired || row.relationReviewed)
+def goldCalibrationComplete : Bool := {"true" if gold_complete else "false"}
+def sheetReadbackVerified : Bool := {"true" if sheet_verified else "false"}
+def postReviewRecalculationVerified : Bool := {"true" if recalculation_verified else "false"}
+def completionGate : Bool :=
+  blockedCount == 0 && independentlyReviewedCount == reviewRows.length &&
+  polarityComplete && applicationComplete && relationComplete &&
+  goldCalibrationComplete && sheetReadbackVerified && postReviewRecalculationVerified
 
 theorem review_queue_count_exact : reviewRows.length = {len(decisions)} := by decide
 theorem completion_not_claimed_while_blocked : blockedCount > 0 -> completionGate = false := by decide
@@ -329,36 +740,82 @@ def sha256(path: Path) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--initialize-decisions", action="store_true")
+    parser.add_argument("--initialize-wave4-ledgers", action="store_true")
     args = parser.parse_args()
 
-    queue = queue_rows(read_csv(PROOFS))
-    write_csv(QUEUE, queue, QUEUE_FIELDS)
-    write_csv(GOLD, gold_rows(queue), [
-        "fixture_id", "sentence_id", "source_state", "claim_type",
-        "logical_operator", "risk_flags", "calibration_status",
-        "agreed_verdict", "disagreement_reason",
-    ])
+    config = read_json(CONFIG, {
+        "baseline_docs_commit": AUTHORITATIVE_DOCS_COMMIT,
+        "target_docs_commit": AUTHORITATIVE_DOCS_COMMIT,
+    })
+    baseline_commit = str(config.get("baseline_docs_commit", ""))
+    target_commit = str(config.get("target_docs_commit", ""))
+    if baseline_commit != AUTHORITATIVE_DOCS_COMMIT:
+        raise SystemExit("baseline docs commit must remain the Issue #35 review snapshot")
+
+    if target_commit == baseline_commit:
+        queue = queue_rows(read_csv(PROOFS))
+        write_csv(QUEUE, queue, QUEUE_FIELDS)
+    else:
+        if not QUEUE.exists():
+            raise SystemExit("baseline review queue is absent")
+        queue = read_csv(QUEUE)
+        if len(queue) != EXPECTED_UNRESOLVED:
+            raise SystemExit("baseline review queue must retain all 678 historical rows")
+    existing_gold = read_csv(GOLD) if GOLD.exists() else []
+    write_csv(GOLD, gold_rows(queue, existing_gold), GOLD_FIELDS)
+    empty_csv(APPLICATIONS, APPLICATION_FIELDS)
+    empty_csv(RELATIONS, RELATION_FIELDS)
     if args.initialize_decisions:
         initialize_decisions(queue)
     if not DECISIONS.exists():
         raise SystemExit("manual decisions ledger is absent; run once with --initialize-decisions")
     decisions = read_csv(DECISIONS)
-    summary = summary_rows(queue, decisions)
+    if args.initialize_wave4_ledgers:
+        initialize_wave4_ledgers(
+            queue, decisions, baseline_commit, target_commit
+        )
+    gold = read_csv(GOLD)
+    applications = read_csv(APPLICATIONS)
+    relations = read_csv(RELATIONS)
+    export_sha = generate_sheet_export(queue, decisions, target_commit)
+    sheet_verified = sheet_is_verified(export_sha, target_commit)
+    recalculation_verified = generate_post_review_recalculation(
+        baseline_commit, target_commit
+    )
+    summary = summary_rows(
+        queue, decisions, gold, applications, relations,
+        sheet_verified, recalculation_verified,
+    )
     write_csv(SUMMARY, summary, list(summary[0]))
-    generate_lean(decisions)
+    generate_lean(
+        queue, decisions, applications, relations, gold_is_complete(gold),
+        sheet_verified, recalculation_verified,
+    )
 
-    files = [QUEUE, DECISIONS, GOLD, SUMMARY, LEAN_OUT]
+    files = [
+        CONFIG, QUEUE, DECISIONS, GOLD, APPLICATIONS, RELATIONS,
+        CLASSIFICATION_OVERRIDES, SUMMARY,
+        SHEET_EXPORT, SHEET_EXPORT_MANIFEST, SHEET_READBACK, POST_REVIEW, LEAN_OUT,
+    ]
     manifest = {
-        "method_version": 1,
+        "method_version": 2,
         "authoritative_docs_commit": AUTHORITATIVE_DOCS_COMMIT,
+        "target_docs_commit": target_commit,
         "unresolved_sentence_count": len(queue),
         "decision_count": len(decisions),
         "controlled_projection_sentence_count": sum(
             row["source_projection_adequacy"] == POLARITY_REQUIRED for row in queue
         ),
-        "completion_gate": summary[-1]["numerator"] == 1,
+        "completion_gate": next(
+            row for row in summary if row["metric_id"] == "APR-006"
+        )["numerator"] == 1,
+        "wave4_gates": {
+            "gold_calibration_complete": gold_is_complete(gold),
+            "sheet_readback_verified": sheet_verified,
+            "post_review_recalculation_verified": recalculation_verified,
+        },
         "assurance_boundary": {
-            "proved": "Lean and Python check row identity, counts, and fail-closed completion state.",
+            "proved": "Lean and Python check row identity, reviewer/date shape, reviewed application and relation ledgers, snapshot hashes, and fail-closed completion state.",
             "not_proved": "Review verdict correctness, natural-language adequacy, source truth, or production behavior.",
         },
         "sha256": {str(path.relative_to(ROOT)): sha256(path) for path in files},

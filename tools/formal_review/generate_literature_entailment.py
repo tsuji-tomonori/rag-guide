@@ -29,6 +29,8 @@ LEAN_DIR = ROOT / "formal" / "lean" / "RagEvidence"
 GENERATED_LEAN = LEAN_DIR / "LiteratureGenerated.lean"
 PROOFS_LEAN = LEAN_DIR / "LiteratureProofs.lean"
 MANIFEST = OUT / "literature_entailment_manifest.json"
+COVERAGE_MANIFEST = OUT / "coverage_manifest.json"
+SEMANTIC_MANIFEST = OUT / "semantic_assurance_manifest.json"
 
 
 EXTRA_GUIDE_PATTERNS: dict[str, tuple[str, ...]] = {
@@ -415,7 +417,7 @@ def summary_rows(rows: list[ProofRow], source_rows: list[dict[str, str]]) -> lis
         row for row in source_rows if row["projection_adequacy"] == "CURATED_OFFICIAL_SPEC_PROJECTION"
     ]
     return [
-        metric("LIT-COV-001", "一次資料要旨・仕様ページ検査", len(source_rows), len(source_rows), "193件の信頼できる一次資料ページを検査"),
+        metric("LIT-COV-001", "一次資料要旨・仕様ページ検査", len(source_rows), len(source_rows), f"{len(source_rows)}件の登録済み一次資料ページを検査"),
         metric("LIT-COV-002", "公式Abstractを直接検査", len(inspected_abstracts), len(source_rows), "Abstractが明示された一次資料"),
         metric("LIT-COV-003", "センテンス論理式分解", len(formalized), len(rows), "Atom/AND/OR/IMPLIES/NOTへ分解できた根拠必須文"),
         metric("LIT-COV-004", "一次資料候補割当", len(sourced), len(rows), "直接・節・ファイル・章スコープの候補を持つ文"),
@@ -423,7 +425,7 @@ def summary_rows(rows: list[ProofRow], source_rows: list[dict[str, str]]) -> lis
         metric("LIT-COV-006", "文献要旨からの条件付き論理証明", len(proved), len(rows), "source-summary factsからguide formulaをLeanで導出"),
         metric("LIT-COV-007", "関係構造未証明", len(relation_unproved), len(rows), "含意・否定の関係を要旨atomだけでは保存できない文"),
         metric("LIT-COV-008", "自然言語込みEnd-to-End証明", 0, len(rows), "バイリンガル意味写像の独立レビュー未完了のため0"),
-        metric("LIT-COV-009", "一次資料命題の主張極性レビュー", len(polarity_reviewed), len(source_rows), "公式仕様16件は手動curation済み、論文等177件は主張・比較対象の区別を要レビュー"),
+        metric("LIT-COV-009", "一次資料命題の主張極性レビュー", len(polarity_reviewed), len(source_rows), f"公式仕様{len(polarity_reviewed)}件は手動curation済み、残り{len(source_rows) - len(polarity_reviewed)}件は主張・比較対象の区別を要レビュー"),
     ]
 
 
@@ -641,10 +643,48 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def upstream_commit() -> str:
+    coverage = json.loads(COVERAGE_MANIFEST.read_text(encoding="utf-8"))
+    semantic = json.loads(SEMANTIC_MANIFEST.read_text(encoding="utf-8"))
+    if not isinstance(coverage, dict) or not isinstance(semantic, dict):
+        raise SystemExit("coverage and semantic manifests must be JSON objects")
+    if coverage.get("method_version") != 2 or semantic.get("method_version") != 2:
+        raise SystemExit("coverage and semantic manifests must use method version 2")
+    commit = coverage.get("canonical_commit")
+    if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise SystemExit("coverage manifest canonical commit is invalid")
+    if semantic.get("authoritative_commit") != commit:
+        raise SystemExit("semantic and coverage manifests are pinned to different commits")
+    coverage_hashes = coverage.get("sha256")
+    if not isinstance(coverage_hashes, dict):
+        raise SystemExit("coverage manifest lacks artifact hashes")
+    for path in (OUT / "sentence_evidence.csv", OUT / "trusted_primary_sources.csv"):
+        relative = path.relative_to(ROOT).as_posix()
+        if coverage_hashes.get(relative) != sha256(path):
+            raise SystemExit(f"literature input is not the pinned coverage artifact: {relative}")
+    return commit
+
+
 def main() -> int:
+    authoritative_commit = upstream_commit()
     sentences = read_csv(OUT / "sentence_evidence.csv")
     trusted = read_csv(OUT / "trusted_primary_sources.csv")
     source_rows, source_atoms = source_atom_catalog()
+    source_ids = [row["source_id"] for row in source_rows]
+    if len(source_ids) != len(set(source_ids)):
+        raise SystemExit("duplicate source-summary source_id")
+    eligible = {
+        row["source_id"]: row for row in trusted if row["eligibility"] == "eligible"
+    }
+    if set(source_ids) != set(eligible):
+        missing = sorted(set(eligible) - set(source_ids))
+        stale = sorted(set(source_ids) - set(eligible))
+        raise SystemExit(
+            f"source-summary registry mismatch: missing={missing}, stale={stale}"
+        )
+    for row in source_rows:
+        if row["url"] != eligible[row["source_id"]]["url"]:
+            raise SystemExit(f"source-summary URL drift: {row['source_id']}")
     proof_rows = sentence_rows(sentences, trusted, source_atoms)
     summaries = summary_rows(proof_rows, source_rows)
 
@@ -654,6 +694,11 @@ def main() -> int:
     atom_count = generate_lean(source_rows, proof_rows)
 
     generated = [
+        COVERAGE_MANIFEST,
+        SEMANTIC_MANIFEST,
+        OUT / "sentence_evidence.csv",
+        OUT / "trusted_primary_sources.csv",
+        OUT / "source_summary_formalizations.csv",
         OUT / "literature_source_theorems.csv",
         OUT / "sentence_logical_proofs.csv",
         OUT / "logical_proof_summary.csv",
@@ -662,8 +707,8 @@ def main() -> int:
     ]
     metrics = {row["metric_id"]: row for row in summaries}
     manifest = {
-        "method_version": 1,
-        "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+        "method_version": 2,
+        "authoritative_commit": authoritative_commit,
         "primary_sources": len(source_rows),
         "required_sentences": len(proof_rows),
         "formalized_sentences": metrics["LIT-COV-003"]["numerator"],
@@ -671,6 +716,7 @@ def main() -> int:
         "conditional_logical_proofs": metrics["LIT-COV-006"]["numerator"],
         "end_to_end_proofs": metrics["LIT-COV-008"]["numerator"],
         "source_projections_claim_polarity_reviewed": metrics["LIT-COV-009"]["numerator"],
+        "curated_official_sources": metrics["LIT-COV-009"]["numerator"],
         "atom_count": atom_count,
         "assurance_boundary": {
             "proved": "For reported rows, Lean proves source-summary facts entail the decomposed positive guide formula under any valuation.",

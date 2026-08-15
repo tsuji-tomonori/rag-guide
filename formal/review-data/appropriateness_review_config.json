@@ -1,0 +1,8 @@
+{
+  "baseline_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "target_docs_commit": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
+  "baseline_review_count": 678,
+  "spreadsheet_id": "1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM",
+  "spreadsheet_tab": "論理未証明",
+  "note": "target_docs_commit must be a new docs-only snapshot commit before Wave 4 can complete"
+}

@@ -1,0 +1,27 @@
+{
+  "verification_status": "VERIFIED",
+  "baseline_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "target_docs_commit": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
+  "docs_changed": true,
+  "current_docs_match_target": true,
+  "upstream_manifest_commits": {
+    "coverage": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
+    "semantic": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
+    "literature": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56"
+  },
+  "evidence_required_sentences": 581,
+  "conditional_logical_proofs": 411,
+  "end_to_end_assurance_count": 0,
+  "end_to_end_assurance_denominator": 581,
+  "independently_verified_external_truth_count": 0,
+  "independently_verified_external_truth_denominator": 581,
+  "source_files": {
+    "formal/review-data/coverage_manifest.json": "3ea88e14fda75e5eba758b70e98c5d11cd0909e28754767b65749557389205d3",
+    "formal/review-data/semantic_assurance_manifest.json": "9836f40bc35c6c7d0ab6f47b812dea0c13721f1987e879b3ddf907e50fc1d506",
+    "formal/review-data/literature_entailment_manifest.json": "9c7f200d100c7ca81bf19105ff550cb54fe5cffa7ef2041f35f36c755f0afc72",
+    "formal/review-data/semantic_assurance_summary.csv": "000bd83ccaa5e8106a073b5ea27817dbb2e367b9311010cbd04cbd8b5d84d7d9",
+    "formal/review-data/logical_proof_summary.csv": "50dff4cd8101e4b84d58c387710744b6a9b2b569d97eae533e9c0b18e9176f8e",
+    "formal/review-data/sentence_logical_proofs.csv": "ad94af22e58eaf001b963432f6f5295cb0a8cc9796bd1c8b26ba9bc3215a43cf"
+  },
+  "assurance_boundary": "Recalculation proves snapshot/count provenance only; human judgments and external truth remain separate."
+}

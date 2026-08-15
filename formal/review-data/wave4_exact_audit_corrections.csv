@@ -1,0 +1,9 @@
+sentence_id,field,current_value,replacement_value,reason
+SENT-1627,primary_source_ids,SRC-075;SRC-045;SRC-076,,最終監査でローカル比較規則へ書き換えた文に候補外部資料が残っていたため除去する。
+SENT-1627,source_locator,"SRC-075 https://arxiv.org/abs/2112.01488 — abstract inspected 2026-08-15; 現主張への直接locatorは未確定; SRC-045 https://arxiv.org/abs/2004.12832 — abstract inspected 2026-08-15; 現主張への直接locatorは未確定; SRC-076 https://arxiv.org/abs/2402.03216 — abstract inspected 2026-08-15; 現主張への直接locatorは未確定",,ローカル比較規則には未確定の外部locatorを結び付けない。
+SENT-1627,supported_atoms,NONE_DIRECTLY_VERIFIED,,ローカル比較規則として扱うため直接支持atomのsentinelを除去する。
+SENT-1627,source_claim_role,AUTHOR_CLAIM,DEFINITION_OR_SPEC,外部著者主張ではなく本ガイドの検証規則として極性を確定する。
+SENT-3499,primary_source_ids,SRC-058;SRC-089;SRC-091,,最終監査でローカル測定規則へ書き換えた文に候補外部資料が残っていたため除去する。
+SENT-3499,source_locator,"SRC-058 https://arxiv.org/abs/2403.14403 — abstract inspected 2026-08-15; 現主張への直接locatorは未確定; SRC-089 https://arxiv.org/abs/2310.04408 — abstract inspected 2026-08-15; 現主張への直接locatorは未確定; SRC-091 https://arxiv.org/abs/2310.05736 — abstract inspected 2026-08-15; 現主張への直接locatorは未確定",,ローカル測定規則には未確定の外部locatorを結び付けない。
+SENT-3499,supported_atoms,NONE_DIRECTLY_VERIFIED,,ローカル測定規則として扱うため直接支持atomのsentinelを除去する。
+SENT-3499,source_claim_role,AUTHOR_CLAIM,DEFINITION_OR_SPEC,外部著者主張ではなく本ガイドの測定規則として極性を確定する。

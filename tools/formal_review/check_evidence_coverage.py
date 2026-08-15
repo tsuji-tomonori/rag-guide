@@ -25,11 +25,32 @@ def require(condition: bool, message: str) -> None:
 
 def main() -> int:
     manifest = json.loads((OUT / "coverage_manifest.json").read_text(encoding="utf-8"))
+    review_manifest = json.loads((OUT / "manifest.json").read_text(encoding="utf-8"))
     sentences = rows("sentence_evidence.csv")
     uncovered = rows("uncovered_sentences.csv")
     techniques = rows("concrete_technologies.csv")
     sources = rows("trusted_primary_sources.csv")
     coverage = rows("coverage_summary.csv")
+    registry = rows("primary_sources.csv")
+
+    require(manifest.get("method_version") == 2, "coverage manifest method version mismatch")
+    require(
+        manifest.get("canonical_commit") == review_manifest.get("canonical_commit"),
+        "coverage and source-registry commit pins differ",
+    )
+    require(
+        [(row["source_id"], row["url"]) for row in sources]
+        == [(row["source_id"], row["url"]) for row in registry],
+        "trusted source projection changed source registry identity/order",
+    )
+    require(
+        all(row.get("registry_status") in {"active", "inactive"} for row in registry),
+        "source registry row lacks active/inactive status",
+    )
+    require(
+        all(not row["used_by_units"] for row in registry if row["registry_status"] == "inactive"),
+        "inactive source registry row still has active unit references",
+    )
 
     source_by_id = {row["source_id"]: row for row in sources}
     require(len(source_by_id) == len(sources), "duplicate source_id")

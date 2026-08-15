@@ -35,6 +35,9 @@ jobs:
           python tools/formal_review/check_semantic_assurance.py
           python tools/formal_review/check_literature_entailment.py
           python tools/formal_review/check_appropriateness_review.py
+          python tools/formal_review/audit_lean_trust.py formal/lean
+          python tools/formal_review/check_lean_traceability.py \
+            formal/lean/traceability.json --lean-root formal/lean
 
       - name: Build kernel-checked Lean proofs
         uses: leanprover/lean-action@v1

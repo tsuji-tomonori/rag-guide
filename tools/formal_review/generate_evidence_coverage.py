@@ -18,6 +18,7 @@ import hashlib
 import json
 import re
 import subprocess
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlparse
@@ -28,6 +29,8 @@ DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
 LEAN_OUT = ROOT / "formal" / "lean" / "RagEvidence" / "Generated.lean"
 CANONICAL_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
+CLASSIFICATION_OVERRIDES = OUT / "appropriateness_classification_overrides.csv"
+APPROPRIATENESS_CONFIG = OUT / "appropriateness_review_config.json"
 
 EXTERNAL_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 NUMBERED_HEADING = re.compile(r"^##\s+(\d+\.\d+\.\d+)\.\s+(.+)$")
@@ -138,18 +141,30 @@ AWS_TERMS = re.compile(
 )
 
 
-def run_git_guard() -> None:
+def configured_docs_commit() -> str:
+    if not APPROPRIATENESS_CONFIG.exists():
+        return CANONICAL_COMMIT
+    value = json.loads(APPROPRIATENESS_CONFIG.read_text(encoding="utf-8"))
+    commit = value.get("target_docs_commit") if isinstance(value, dict) else None
+    if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise SystemExit("appropriateness target_docs_commit must be a full lowercase Git SHA")
+    return commit
+
+
+def run_git_guard() -> str:
+    canonical_commit = configured_docs_commit()
     result = subprocess.run(
-        ["git", "diff", "--quiet", CANONICAL_COMMIT, "--", "docs"],
+        ["git", "diff", "--quiet", canonical_commit, "--", "docs"],
         cwd=ROOT,
         check=False,
     )
     if result.returncode == 1:
         raise SystemExit(
-            f"authoritative docs differ from pinned commit {CANONICAL_COMMIT}; update the review pin first"
+            f"authoritative docs differ from pinned commit {canonical_commit}; update the review pin first"
         )
     if result.returncode > 1:
         raise SystemExit("failed to compare authoritative docs with pinned commit")
+    return canonical_commit
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -212,6 +227,7 @@ def trusted_source_rows(sources: list[dict[str, str]]) -> list[dict[str, str]]:
                 "eligibility": eligibility,
                 "trust_basis": basis,
                 "used_by_units": source["used_by_units"],
+                "registry_status": source.get("registry_status", "active"),
             }
         )
     return rows
@@ -221,9 +237,51 @@ def plain_text(markdown: str) -> str:
     text = EXTERNAL_LINK.sub(lambda match: match.group(1), markdown)
     text = re.sub(r"!\[([^\]]*)\]\([^)]+\)", r"\1", text)
     text = re.sub(r"<[^>]+>", " ", text)
-    text = re.sub(r"[`*_~]", "", text)
+    # Backticks, emphasis markers, and strike-through are markup.  Underscores
+    # are also valid identifier characters (for example citation_id) and must
+    # survive extraction so application hashes and formal atoms retain meaning.
+    text = re.sub(r"[`*~]", "", text)
     text = re.sub(r"^\s*(?:[-+*]|\d+[.)])\s+", "", text)
     return re.sub(r"\s+", " ", text).strip()
+
+
+def classification_overrides() -> dict[tuple[str, str], dict[str, str]]:
+    if not CLASSIFICATION_OVERRIDES.exists():
+        return {}
+    result: dict[tuple[str, str], dict[str, str]] = {}
+    baseline_ids: set[str] = set()
+    for row in read_csv(CLASSIFICATION_OVERRIDES):
+        baseline_id = row["baseline_sentence_id"]
+        if not re.fullmatch(r"SENT-\d{4}", baseline_id):
+            raise SystemExit(f"invalid classification override baseline ID: {baseline_id}")
+        if baseline_id in baseline_ids:
+            raise SystemExit(f"duplicate classification override baseline ID: {baseline_id}")
+        baseline_ids.add(baseline_id)
+        sentence = row["target_sentence"]
+        if not sentence:
+            raise SystemExit(f"classification override target is empty: {baseline_id}")
+        expected_hash = hashlib.sha256(sentence.encode("utf-8")).hexdigest()
+        if row["target_sentence_sha256"] != expected_hash:
+            raise SystemExit(f"classification override hash mismatch: {baseline_id}")
+        if row["evidence_required"] != "no":
+            raise SystemExit(f"classification override must be fail-closed to no: {baseline_id}")
+        if row["claim_type"] not in {"normative_design_statement", "expository_or_structural"}:
+            raise SystemExit(f"invalid classification override claim type: {baseline_id}")
+        expected_claim_type = {
+            "APPROPRIATE_NORMATIVE": "normative_design_statement",
+            "REMOVE_OR_REPLACE": "expository_or_structural",
+        }.get(row.get("source_verdict", ""))
+        if row["claim_type"] != expected_claim_type:
+            raise SystemExit(f"classification override verdict/type mismatch: {baseline_id}")
+        if not row["classification_reason"]:
+            raise SystemExit(f"classification override lacks reason: {baseline_id}")
+        if row["review_status"] != "FINAL_TWO_REVIEWER_APPROVED":
+            raise SystemExit(f"classification override lacks final review: {baseline_id}")
+        key = (row["file"], sentence)
+        if key in result:
+            raise SystemExit(f"duplicate classification override target: {baseline_id}")
+        result[key] = row
+    return result
 
 
 def chapter_for(path: Path) -> str:
@@ -232,7 +290,24 @@ def chapter_for(path: Path) -> str:
 
 
 def split_line_sentences(raw: str) -> list[str]:
-    parts = [part.strip() for part in SENTENCE_END.split(raw) if part.strip()]
+    # A query delimiter in a Markdown URL is not sentence punctuation.  Mask
+    # URL targets before splitting, then restore the exact source bytes.
+    question_placeholder = "\ue000"
+    exclamation_placeholder = "\ue001"
+    protected = list(raw)
+    for match in EXTERNAL_LINK.finditer(raw):
+        start, end = match.span(2)
+        for index in range(start, end):
+            if protected[index] == "?":
+                protected[index] = question_placeholder
+            elif protected[index] == "!":
+                protected[index] = exclamation_placeholder
+    masked = "".join(protected)
+    parts = [
+        part.replace(question_placeholder, "?").replace(exclamation_placeholder, "!").strip()
+        for part in SENTENCE_END.split(masked)
+        if part.strip()
+    ]
     return parts or ([raw.strip()] if raw.strip() else [])
 
 
@@ -339,6 +414,7 @@ def build_sentence_evidence(
     sentence_rows: list[dict[str, object]],
     sources: list[dict[str, str]],
     trusted_sources: list[dict[str, str]],
+    overrides: dict[tuple[str, str], dict[str, str]],
 ) -> list[dict[str, object]]:
     source_by_url = {source["url"]: source for source in sources}
     trust_by_id = {source["source_id"]: source for source in trusted_sources}
@@ -349,6 +425,11 @@ def build_sentence_evidence(
         inline_urls = list(row["inline_urls"])
         paragraph_urls = list(row["paragraph_urls"])
         claim_type, required, reason = classify_claim(text, inline_urls, techniques, str(row["chapter"]))
+        override = overrides.get((str(row["file"]), text))
+        if override is not None:
+            claim_type = override["claim_type"]
+            required = False
+            reason = override["classification_reason"]
 
         mapped: list[tuple[str, str]] = []
         for url in inline_urls:
@@ -562,11 +643,29 @@ def sha256(path: Path) -> str:
 
 
 def main() -> int:
-    run_git_guard()
-    sources = read_csv(OUT / "primary_sources.csv")
+    canonical_commit = run_git_guard()
+    review_manifest = json.loads((OUT / "manifest.json").read_text(encoding="utf-8"))
+    if not isinstance(review_manifest, dict) or review_manifest.get("method_version") != 2:
+        raise SystemExit("review-data manifest must be regenerated with method version 2")
+    if review_manifest.get("canonical_commit") != canonical_commit:
+        raise SystemExit("review-data and coverage target commit pins differ")
+    primary_sources_path = OUT / "primary_sources.csv"
+    if review_manifest.get("sha256", {}).get("primary_sources.csv") != sha256(primary_sources_path):
+        raise SystemExit("primary source registry differs from the review-data manifest")
+    sources = read_csv(primary_sources_path)
     trusted_sources = trusted_source_rows(sources)
     raw_sentences = extract_sentence_rows()
-    sentences = build_sentence_evidence(raw_sentences, sources, trusted_sources)
+    overrides = classification_overrides()
+    sentence_keys = Counter(
+        (str(row["file"]), str(row["sentence"])) for row in raw_sentences
+    )
+    for key, override in overrides.items():
+        if sentence_keys[key] != 1:
+            raise SystemExit(
+                "classification override target must match exactly one extracted sentence: "
+                f"{override['baseline_sentence_id']}: matches={sentence_keys[key]}"
+            )
+    sentences = build_sentence_evidence(raw_sentences, sources, trusted_sources, overrides)
     technologies = concrete_technology_rows(raw_sentences, sources, trusted_sources)
     coverage = coverage_rows(sentences, technologies, trusted_sources)
     uncovered = [row for row in sentences if row["coverage_status"] == "uncovered"]
@@ -579,6 +678,8 @@ def main() -> int:
     generate_lean(sentences, technologies, coverage)
 
     generated = [
+        OUT / "manifest.json",
+        OUT / "primary_sources.csv",
         OUT / "trusted_primary_sources.csv",
         OUT / "sentence_evidence.csv",
         OUT / "uncovered_sentences.csv",
@@ -586,11 +687,13 @@ def main() -> int:
         OUT / "coverage_summary.csv",
         LEAN_OUT,
     ]
+    if CLASSIFICATION_OVERRIDES.exists():
+        generated.append(CLASSIFICATION_OVERRIDES)
     primary_metric = next(row for row in coverage if row["metric_id"] == "COV-001")
     direct_metric = next(row for row in coverage if row["metric_id"] == "COV-002")
     manifest = {
-        "canonical_commit": CANONICAL_COMMIT,
-        "method_version": 1,
+        "canonical_commit": canonical_commit,
+        "method_version": 2,
         "markdown_files": len(list(DOCS.rglob("*.md"))),
         "sentences": len(sentences),
         "evidence_required_sentences": int(primary_metric["denominator"]),
@@ -601,6 +704,8 @@ def main() -> int:
         "uncovered_sentences": len(uncovered),
         "concrete_technologies": len(technologies),
         "trusted_primary_sources": sum(row["eligibility"] == "eligible" for row in trusted_sources),
+        "classification_overrides": len(overrides),
+        "classification_override_sha256": sha256(CLASSIFICATION_OVERRIDES) if CLASSIFICATION_OVERRIDES.exists() else "",
         "source_trust_tiers": {
             tier: sum(row["trust_tier"] == tier for row in trusted_sources) for tier in ("A", "B", "C")
         },

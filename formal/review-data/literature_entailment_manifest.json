@@ -1,24 +1,30 @@
 {
-  "method_version": 1,
-  "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "method_version": 2,
+  "authoritative_commit": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
   "primary_sources": 193,
-  "required_sentences": 1067,
-  "formalized_sentences": 906,
-  "sourced_sentences": 1067,
-  "conditional_logical_proofs": 389,
+  "required_sentences": 581,
+  "formalized_sentences": 554,
+  "sourced_sentences": 581,
+  "conditional_logical_proofs": 411,
   "end_to_end_proofs": 0,
   "source_projections_claim_polarity_reviewed": 16,
-  "atom_count": 144,
+  "curated_official_sources": 16,
+  "atom_count": 141,
   "assurance_boundary": {
     "proved": "For reported rows, Lean proves source-summary facts entail the decomposed positive guide formula under any valuation.",
     "not_proved": "External truth of paper claims and semantic adequacy of bilingual natural-language formalization.",
     "anti_circularity": "Source summaries are explicit theorem premises, not custom Lean axioms and not copied from guide sentences."
   },
   "sha256": {
+    "formal/review-data/coverage_manifest.json": "3ea88e14fda75e5eba758b70e98c5d11cd0909e28754767b65749557389205d3",
+    "formal/review-data/semantic_assurance_manifest.json": "9836f40bc35c6c7d0ab6f47b812dea0c13721f1987e879b3ddf907e50fc1d506",
+    "formal/review-data/sentence_evidence.csv": "632d38b969e938686aef970f45ab709714372e55acf726a8c4d80784c8f3ca51",
+    "formal/review-data/trusted_primary_sources.csv": "3cd9d4b382f13f2944209493b1c6cf298d79bd6c53d03f35f03a16a545592d0f",
+    "formal/review-data/source_summary_formalizations.csv": "da05ff5b321e66caed01e841c557c34c39f5a1256798e3b925f1015825a64b63",
     "formal/review-data/literature_source_theorems.csv": "1e985d5a6024fcf8d9358bfc4a6bb84ae2607a73f9c3e71c9894a557f9959232",
-    "formal/review-data/sentence_logical_proofs.csv": "a2f98f5cdf5a696a07b7e60fc8b79f04addc7a9c471e8de6a2d416fbe303e06b",
-    "formal/review-data/logical_proof_summary.csv": "fea6205ee45526f876d9b59d5a24a1acbbf0816ef4fbac06cec89310fd03cee2",
-    "formal/lean/RagEvidence/LiteratureGenerated.lean": "470e5637375d0b8646cfabbfb73e8af47a92b64292550e1b4367a71048db0e0f",
-    "formal/lean/RagEvidence/LiteratureProofs.lean": "0b759354538cb5c2cf92b8d8f48d877f58ddce3183481fe7ef0dccaf7b52609c"
+    "formal/review-data/sentence_logical_proofs.csv": "ad94af22e58eaf001b963432f6f5295cb0a8cc9796bd1c8b26ba9bc3215a43cf",
+    "formal/review-data/logical_proof_summary.csv": "50dff4cd8101e4b84d58c387710744b6a9b2b569d97eae533e9c0b18e9176f8e",
+    "formal/lean/RagEvidence/LiteratureGenerated.lean": "5d5ba1121b7fb7f30196629bfa90470effd6b41cd145d768a2ac26498333c99d",
+    "formal/lean/RagEvidence/LiteratureProofs.lean": "bc1cdd110c9a6c003443c0cf7724a6428c2c17b271a5018619272625a9c4d2f1"
   }
 }

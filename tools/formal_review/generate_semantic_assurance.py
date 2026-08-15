@@ -35,6 +35,7 @@ from generate_evidence_coverage import (
 
 LEAN_OUT = ROOT / "formal" / "lean" / "RagEvidence" / "SemanticGenerated.lean"
 MANIFEST_OUT = OUT / "semantic_assurance_manifest.json"
+COVERAGE_MANIFEST = OUT / "coverage_manifest.json"
 
 
 # The keys are the exact atoms used by concrete_technologies.csv.  Patterns are
@@ -411,7 +412,27 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def coverage_snapshot() -> tuple[dict[str, object], str]:
+    value = json.loads(COVERAGE_MANIFEST.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise SystemExit("coverage manifest must be a JSON object")
+    if value.get("method_version") != 2:
+        raise SystemExit("coverage manifest must be regenerated with method version 2")
+    commit = value.get("canonical_commit")
+    if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise SystemExit("coverage manifest canonical commit is invalid")
+    hashes = value.get("sha256")
+    if not isinstance(hashes, dict):
+        raise SystemExit("coverage manifest lacks input hashes")
+    for path in (OUT / "sentence_evidence.csv", OUT / "concrete_technologies.csv"):
+        relative = path.relative_to(ROOT).as_posix()
+        if hashes.get(relative) != sha256(path):
+            raise SystemExit(f"semantic input is not the pinned coverage artifact: {relative}")
+    return value, commit
+
+
 def main() -> int:
+    _, authoritative_commit = coverage_snapshot()
     sentences = read_csv(OUT / "sentence_evidence.csv")
     technologies = read_csv(OUT / "concrete_technologies.csv")
     atoms = atom_id_map(technologies)
@@ -424,6 +445,9 @@ def main() -> int:
     generate_lean(semantic, atoms)
 
     generated = [
+        COVERAGE_MANIFEST,
+        OUT / "sentence_evidence.csv",
+        OUT / "concrete_technologies.csv",
         OUT / "semantic_assurance.csv",
         OUT / "source_claim_formalizations.csv",
         OUT / "semantic_assurance_summary.csv",
@@ -431,8 +455,8 @@ def main() -> int:
     ]
     metrics = {row["metric_id"]: row for row in summary}
     manifest = {
-        "method_version": 1,
-        "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+        "method_version": 2,
+        "authoritative_commit": authoritative_commit,
         "required_sentences": len(semantic),
         "controlled_formalizations": int(metrics["SEM-COV-001"]["numerator"]),
         "relative_entailments_proved": int(metrics["SEM-COV-002"]["numerator"]),

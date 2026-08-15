@@ -24,6 +24,8 @@ ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
 EXPECTED_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
+APPROPRIATENESS_CONFIG = OUT / "appropriateness_review_config.json"
+SOURCE_REGISTRY = OUT / "primary_sources.csv"
 NUMBERED = re.compile(r"^##\s+(\d+\.\d+\.\d+\.)\s+(.+?)\s*$")
 LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
@@ -378,7 +380,32 @@ def extract_units() -> list[Unit]:
     return sorted(units, key=lambda u: (int(u.chapter) if u.chapter.isdigit() else 99, u.file, u.line_start))
 
 
-def extract_links(units: list[Unit]) -> list[dict[str, str]]:
+def source_number(source_id: str) -> int:
+    match = re.fullmatch(r"SRC-(\d+)", source_id)
+    if not match or int(match.group(1)) < 1:
+        raise SystemExit(f"invalid source registry ID: {source_id}")
+    return int(match.group(1))
+
+
+def existing_source_registry() -> list[dict[str, str]]:
+    if not SOURCE_REGISTRY.exists():
+        return []
+    with SOURCE_REGISTRY.open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    ids = [row["source_id"] for row in rows]
+    urls = [row["url"] for row in rows]
+    if len(ids) != len(set(ids)):
+        raise SystemExit("source registry contains duplicate source_id")
+    if len(urls) != len(set(urls)):
+        raise SystemExit("source registry contains duplicate URL")
+    for source_id in ids:
+        source_number(source_id)
+    return rows
+
+
+def extract_links(
+    units: list[Unit], registry: list[dict[str, str]] | None = None
+) -> list[dict[str, str]]:
     by_url: dict[str, dict[str, object]] = {}
     for unit in units:
         text = f"{unit.heading}\n{unit.body}"
@@ -387,13 +414,20 @@ def extract_links(units: list[Unit]) -> list[dict[str, str]]:
             item["labels"].append(label)
             item["units"].append(unit.unit_id)
             item["files"].append(unit.file)
-    rows: list[dict[str, str]] = []
-    for i, (url, item) in enumerate(by_url.items(), 1):
+    registry = existing_source_registry() if registry is None else registry
+    registry_by_url = {row["url"]: row for row in registry}
+    next_number = max((source_number(row["source_id"]) for row in registry), default=0) + 1
+    rows_by_url: dict[str, dict[str, str]] = {}
+    for url, item in by_url.items():
         labels = list(dict.fromkeys(item["labels"]))
         units_ = list(dict.fromkeys(item["units"]))
         files = list(dict.fromkeys(item["files"]))
-        rows.append({
-            "source_id": f"SRC-{i:03d}",
+        existing = registry_by_url.get(url)
+        source_id = existing["source_id"] if existing else f"SRC-{next_number:03d}"
+        if existing is None:
+            next_number += 1
+        rows_by_url[url] = {
+            "source_id": source_id,
             "label_in_guide": " / ".join(labels),
             "url": url,
             "source_type": classify_source(url),
@@ -406,8 +440,20 @@ def extract_links(units: list[Unit]) -> list[dict[str, str]]:
             "used_by_units": ";".join(units_),
             "first_file": files[0] if files else "",
             "notes": "",
-        })
-    return rows
+            "registry_status": "active",
+        }
+    # A docs rewrite may remove or reorder links, but it must never renumber or
+    # erase an established source identity.  Retain unreferenced entries as
+    # inactive tombstones so all historical ledgers remain interpretable.
+    for existing in registry:
+        if existing["url"] in rows_by_url:
+            continue
+        retained = dict(existing)
+        retained["used_by_units"] = ""
+        retained["first_file"] = ""
+        retained["registry_status"] = "inactive"
+        rows_by_url[existing["url"]] = retained
+    return sorted(rows_by_url.values(), key=lambda row: source_number(row["source_id"]))
 
 
 def classify_source(url: str) -> str:
@@ -642,26 +688,37 @@ def technology_rows(units: list[Unit], sources: list[dict[str, str]]) -> list[di
     return rows
 
 
+def configured_docs_commit() -> str:
+    if not APPROPRIATENESS_CONFIG.exists():
+        return EXPECTED_COMMIT
+    value = json.loads(APPROPRIATENESS_CONFIG.read_text(encoding="utf-8"))
+    commit = value.get("target_docs_commit") if isinstance(value, dict) else None
+    if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise SystemExit("appropriateness target_docs_commit must be a full lowercase Git SHA")
+    return commit
+
+
 def main() -> int:
+    canonical_commit = configured_docs_commit()
     docs_diff = subprocess.run(
-        ["git", "diff", "--quiet", EXPECTED_COMMIT, "--", "docs"],
+        ["git", "diff", "--quiet", canonical_commit, "--", "docs"],
         cwd=ROOT,
         check=False,
     )
     if docs_diff.returncode == 1:
         raise SystemExit(
             "authoritative docs differ from pinned commit "
-            f"{EXPECTED_COMMIT}; review and update the pin before regenerating"
+            f"{canonical_commit}; review and update the pin before regenerating"
         )
     if docs_diff.returncode > 1:
         raise SystemExit("failed to compare authoritative docs with pinned commit")
     OUT.mkdir(parents=True, exist_ok=True)
     units = extract_units()
-    if len(units) != 339:
-        raise SystemExit(f"expected 339 explanation units, got {len(units)}")
-    sources = resolve_sources(extract_links(units))
-    if len(sources) != 193:
-        raise SystemExit(f"expected 193 unique URLs, got {len(sources)}")
+    unit_ids = [unit.unit_id for unit in units]
+    if len(unit_ids) != len(set(unit_ids)):
+        raise SystemExit("duplicate explanation unit ID")
+    registry_before = existing_source_registry()
+    sources = resolve_sources(extract_links(units, registry_before))
     states = unit_rows(units, sources)
     technologies = technology_rows(units, sources)
 
@@ -671,14 +728,19 @@ def main() -> int:
     write_csv(OUT / "findings.csv", ISSUES, ["id", "location", "severity", "problem", "evidence", "impact", "fix", "verification", "status"])
 
     manifest = {
-        "canonical_commit": EXPECTED_COMMIT,
-        "generated_from_commit": EXPECTED_COMMIT,
+        "method_version": 2,
+        "canonical_commit": canonical_commit,
+        "generated_from_commit": canonical_commit,
         "markdown_files": len(list(DOCS.rglob("*.md"))),
         "explanation_states": len(states),
         "chapter_introductions": sum(1 for u in units if u.unit_id.startswith("INTRO-")),
         "numbered_sections": sum(1 for u in units if not u.unit_id.startswith("INTRO-")),
         "technical_elements": len(technologies),
         "unique_external_sources": len(sources),
+        "active_external_sources": sum(s["registry_status"] == "active" for s in sources),
+        "inactive_external_sources": sum(s["registry_status"] == "inactive" for s in sources),
+        "source_registry_policy": "append_only_url_identity_with_inactive_tombstones",
+        "source_registry_previous_count": len(registry_before),
         "resolved_sources": sum(1 for s in sources if s["resolution_status"] == "resolved"),
         "unresolved_sources": sum(1 for s in sources if s["resolution_status"] != "resolved"),
         "findings": len(ISSUES),
