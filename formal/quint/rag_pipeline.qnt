@@ -1,5 +1,5 @@
 // RAG guide cross-cutting behavioral model.
-// Canonical prose snapshot: 2eb1b5e1d5488fa565b35c155f98f39567593de8
+// Canonical prose snapshot: 52bebecfb2a435d0e7ff2efea557c5799674ded6
 //
 // This is an abstraction of the contracts repeated across chapters 3-9.
 // It proves properties of this finite model; it does not prove factual claims

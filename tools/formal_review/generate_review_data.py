@@ -23,7 +23,7 @@ from urllib.parse import quote, unquote, urlparse
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
-EXPECTED_COMMIT = "2eb1b5e1d5488fa565b35c155f98f39567593de8"
+EXPECTED_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
 NUMBERED = re.compile(r"^##\s+(\d+\.\d+\.\d+\.)\s+(.+?)\s*$")
 LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
@@ -476,7 +476,25 @@ def resolve_sources(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     if cache_path.exists():
         cache = json.loads(cache_path.read_text(encoding="utf-8"))
     else:
-        cache = {}
+        # The committed source inventory is itself a reproducible metadata
+        # snapshot.  Seed the ignored HTTP cache from it when available so a
+        # docs-only regeneration does not depend on live publisher endpoints.
+        existing_inventory = OUT / "primary_sources.csv"
+        if existing_inventory.exists():
+            with existing_inventory.open(encoding="utf-8-sig", newline="") as handle:
+                cache = {
+                    row["url"]: {
+                        "title_resolved": row["title_resolved"],
+                        "authors_or_owner": row["authors_or_owner"],
+                        "year": row["year"],
+                        "resolution_status": row["resolution_status"],
+                        "http_status": row["http_status"],
+                        "notes": row["notes"],
+                    }
+                    for row in csv.DictReader(handle)
+                }
+        else:
+            cache = {}
     pending = []
     for row in rows:
         cached = cache.get(row["url"])
@@ -505,9 +523,11 @@ def resolve_sources(rows: list[dict[str, str]]) -> list[dict[str, str]]:
             if urlparse(row["url"]).netloc.lower() == "docs.aws.amazon.com" and row.get("title_resolved") in {"", "Site Unavailable"}:
                 row["title_resolved"] = row["label_in_guide"]
             row["resolution_status"] = "resolved"
-            row["notes"] = "; ".join(
-                filter(None, [row.get("notes", ""), "metadata_override=publisher_or_official_source"])
-            )
+            override_note = "metadata_override=publisher_or_official_source"
+            existing_notes = [note.strip() for note in row.get("notes", "").split(";") if note.strip()]
+            if override_note not in existing_notes:
+                existing_notes.append(override_note)
+            row["notes"] = "; ".join(existing_notes)
     cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
     return rows
 
@@ -665,7 +685,13 @@ def main() -> int:
         "findings_by_severity": {level: sum(1 for i in ISSUES if i["severity"] == level) for level in ["Blocker", "Critical", "Major", "Minor"]},
         "sha256": {},
     }
-    for path in sorted(OUT.glob("*.csv")):
+    generated_csvs = [
+        OUT / "explanation_states.csv",
+        OUT / "technical_elements.csv",
+        OUT / "primary_sources.csv",
+        OUT / "findings.csv",
+    ]
+    for path in generated_csvs:
         manifest["sha256"][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
     (OUT / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(manifest, ensure_ascii=False, indent=2))

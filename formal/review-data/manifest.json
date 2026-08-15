@@ -1,6 +1,6 @@
 {
-  "canonical_commit": "2eb1b5e1d5488fa565b35c155f98f39567593de8",
-  "generated_from_commit": "2eb1b5e1d5488fa565b35c155f98f39567593de8",
+  "canonical_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "generated_from_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
   "markdown_files": 94,
   "explanation_states": 339,
   "chapter_introductions": 10,
@@ -17,9 +17,9 @@
     "Minor": 1
   },
   "sha256": {
-    "explanation_states.csv": "7fd98db5195005da590a5458b29ae45c88d25f0e212ddd0853b18fb0e7a0b02e",
-    "findings.csv": "5bece628ad0bd4ff3a0250b50ce9bc16f25c2b1d9353efb7af341003f3090f80",
+    "explanation_states.csv": "a42ea8e7cdc81f1258848b72b5557b40cc1721fc75af2d4df0be0ad4c0b22781",
+    "technical_elements.csv": "833cc0ade8c5c152638f513aeccefd33c2eb4b4e9bf53ec2aa073dacbd7f2136",
     "primary_sources.csv": "39f9300e8f70c168a133a59560ac81d0d1e20e6594fd6f972c43f24d9e7a0935",
-    "technical_elements.csv": "833cc0ade8c5c152638f513aeccefd33c2eb4b4e9bf53ec2aa073dacbd7f2136"
+    "findings.csv": "5bece628ad0bd4ff3a0250b50ce9bc16f25c2b1d9353efb7af341003f3090f80"
   }
 }

@@ -1,0 +1,97 @@
+{
+  "authoritative_spec": "docs/ at commit 52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "spec_version": "RAG guide 1.1.1 plus evidence-ledger method v1",
+  "requirements": [
+    {
+      "id": "EV-REQ-001",
+      "source": "formal/review-data/coverage_manifest.json#sentences",
+      "claim": "The generated Lean ledger contains exactly the reported number of evidence-required sentences.",
+      "lean_theorems": ["reported_required_exact"],
+      "proof_status": "kernel checked with decide; no extra axioms",
+      "implementation_symbols": ["generate_evidence_coverage.extract_sentence_rows", "check_evidence_coverage.main"],
+      "bridge": "external-conformance",
+      "evidence": ["python3 tools/formal_review/check_evidence_coverage.py", "lake build"],
+      "assumptions": ["Markdown sentence segmentation rules in generate_evidence_coverage.py are the accepted inventory boundary"],
+      "out_of_scope": ["Linguistic optimality of Japanese sentence segmentation"],
+      "verdict": "MODEL_PROVED_IMPLEMENTATION_TESTED"
+    },
+    {
+      "id": "EV-REQ-002",
+      "source": "formal/review-data/sentence_evidence.csv#source_count",
+      "claim": "Every sentence counted as covered has at least one trusted primary source in the encoded ledger.",
+      "lean_theorems": ["covered_has_positive_source", "reported_covered_exact", "coverage_is_bounded"],
+      "proof_status": "kernel checked with decide; no extra axioms",
+      "implementation_symbols": ["generate_evidence_coverage.build_sentence_evidence", "check_evidence_coverage.main"],
+      "bridge": "external-conformance",
+      "evidence": ["trusted_primary_sources.csv eligibility validation", "lake build"],
+      "assumptions": ["Source trust classification is accepted as the policy definition of trusted primary"],
+      "out_of_scope": ["Semantic entailment from a source to the full Japanese sentence"],
+      "verdict": "MODEL_PROVED_IMPLEMENTATION_TESTED"
+    },
+    {
+      "id": "EV-REQ-003",
+      "source": "formal/review-data/uncovered_sentences.csv",
+      "claim": "The reported uncovered sentence IDs are exactly the required rows without an eligible primary source mapping.",
+      "lean_theorems": ["reported_uncovered_exact", "uncovered_is_nonempty", "not_full_coverage"],
+      "proof_status": "kernel checked with decide; no extra axioms",
+      "implementation_symbols": ["generate_evidence_coverage.main", "check_evidence_coverage.main"],
+      "bridge": "external-conformance",
+      "evidence": ["uncovered projection equality check", "lake build"],
+      "assumptions": ["evidence_required values are the accepted classification output"],
+      "out_of_scope": ["Human adjudication of borderline normative statements"],
+      "verdict": "MODEL_PROVED_IMPLEMENTATION_TESTED"
+    },
+    {
+      "id": "EV-REQ-004",
+      "source": "formal/review-data/coverage_summary.csv#COV-001,COV-002",
+      "claim": "Coverage numerator, denominator, and rounded basis-point percentages agree with the Lean ledger.",
+      "lean_theorems": ["coverage_basis_points_exact", "direct_basis_points_exact", "reported_direct_exact"],
+      "proof_status": "kernel checked with decide; no extra axioms",
+      "implementation_symbols": ["generate_evidence_coverage.coverage_rows", "generate_evidence_coverage.generate_lean"],
+      "bridge": "external-conformance",
+      "evidence": ["coverage_summary.csv", "coverage_manifest.json", "lake build"],
+      "assumptions": ["Percentage display uses rounded basis points"],
+      "out_of_scope": ["Statistical confidence intervals for coverage classification"],
+      "verdict": "MODEL_PROVED_IMPLEMENTATION_TESTED"
+    },
+    {
+      "id": "EV-REQ-005",
+      "source": "formal/review-data/concrete_technologies.csv",
+      "claim": "Every concrete technology row has a trusted primary source and is represented in the Lean ledger.",
+      "lean_theorems": ["all_techniques_concrete_and_sourced", "technique_ledger_nonempty"],
+      "proof_status": "kernel checked with decide; no extra axioms",
+      "implementation_symbols": ["generate_evidence_coverage.concrete_technology_rows", "check_evidence_coverage.main"],
+      "bridge": "external-conformance",
+      "evidence": ["broad-name rejection check", "primary-source eligibility check", "lake build"],
+      "assumptions": ["The curated list defines the requested concrete-technology scope"],
+      "out_of_scope": ["Exhaustiveness over every named implementation product in the guide"],
+      "verdict": "MODEL_PROVED_IMPLEMENTATION_TESTED"
+    },
+    {
+      "id": "EV-REQ-006",
+      "source": "formal/quint/retrieval_techniques.qnt",
+      "claim": "Fourteen core techniques satisfy distinct mechanism and pipeline-role contracts rather than broad sparse/dense category labels.",
+      "lean_theorems": ["all_techniques_concrete_and_sourced"],
+      "proof_status": "Lean proves ledger sourcing; Quint separately checks behavior contracts",
+      "implementation_symbols": ["retrieval_techniques.allInvariants", "retrieval_techniques.step"],
+      "bridge": "external-conformance",
+      "evidence": ["Quint typecheck", "14 deterministic Quint scenarios", "Quint bounded run"],
+      "assumptions": ["Quint state fields adequately abstract each listed mechanism"],
+      "out_of_scope": ["Dataset-dependent performance superiority", "Production retrieval engine conformance"],
+      "verdict": "MODEL_PROVED_IMPLEMENTATION_TESTED"
+    },
+    {
+      "id": "EV-REQ-007",
+      "source": "formal/review-data/sentence_evidence.csv#semantic_review_status",
+      "claim": "Each mapped primary source semantically entails every material detail of its Japanese sentence.",
+      "lean_theorems": ["none"],
+      "proof_status": "not formalized as document semantics",
+      "implementation_symbols": ["generate_evidence_coverage.build_sentence_evidence"],
+      "bridge": "none",
+      "evidence": ["machine_mapped_requires_human_confirmation flag", "uncovered_sentences.csv"],
+      "assumptions": ["none"],
+      "out_of_scope": ["Natural-language entailment", "Authority judgments beyond the source trust policy"],
+      "verdict": "INCONCLUSIVE"
+    }
+  ]
+}
