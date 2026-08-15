@@ -558,7 +558,19 @@ def resolve_sources(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
         futures = {executor.submit(metadata_from_url, row): row["url"] for row in pending}
         for idx, future in enumerate(concurrent.futures.as_completed(futures), 1):
-            cache[futures[future]] = future.result()
+            url = futures[future]
+            refreshed = future.result()
+            # A committed resolved snapshot is authoritative for reproducible
+            # generation. Publisher endpoints may later rate-limit or reject a
+            # CI runner; such transient failures must not overwrite previously
+            # resolved metadata and change generated hashes by environment.
+            previous = cache.get(url)
+            if (
+                refreshed.get("resolution_status") == "resolved"
+                or not previous
+                or previous.get("resolution_status") != "resolved"
+            ):
+                cache[url] = refreshed
             if idx % 20 == 0:
                 cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
     for row in rows:
@@ -740,7 +752,7 @@ def main() -> int:
         "active_external_sources": sum(s["registry_status"] == "active" for s in sources),
         "inactive_external_sources": sum(s["registry_status"] == "inactive" for s in sources),
         "source_registry_policy": "append_only_url_identity_with_inactive_tombstones",
-        "source_registry_previous_count": len(registry_before),
+        "source_registry_count": len(sources),
         "resolved_sources": sum(1 for s in sources if s["resolution_status"] == "resolved"),
         "unresolved_sources": sum(1 for s in sources if s["resolution_status"] != "resolved"),
         "findings": len(ISSUES),

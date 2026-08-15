@@ -26,7 +26,7 @@
   },
   "semantic_validation_boundary": "Lean proves ledger consistency, not that a source semantically entails the Japanese sentence.",
   "sha256": {
-    "formal/review-data/manifest.json": "e516fbe1e79d3210a10dd61a354b67803c73ac5bb7f03a0272fd367f44e55649",
+    "formal/review-data/manifest.json": "6af910cee93e49fa1b52685e508d95f9e3df29ab79ef629c5cc200c615025d66",
     "formal/review-data/primary_sources.csv": "5778b1843233a982b49881fd659cc980d78472ab1052d8080af5355c65929529",
     "formal/review-data/trusted_primary_sources.csv": "32497ef5492a02e612093e897ff3844b1811ff20de8fadb9748f02eb8647dac9",
     "formal/review-data/sentence_evidence.csv": "411d3922d7983fbd21fc50f4ccab75aa58f3443d161e5c68cc756af23fb081f2",

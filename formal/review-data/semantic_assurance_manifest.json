@@ -14,7 +14,7 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "318ac5648789954b84efdceeb0dfd421e888959b6e5714fa1b4847c7eb6c7664",
+    "formal/review-data/coverage_manifest.json": "b418564eca59f66f7a4e23fb9644a40f0f78a6c9325f1a423049cfd5a6390a01",
     "formal/review-data/sentence_evidence.csv": "411d3922d7983fbd21fc50f4ccab75aa58f3443d161e5c68cc756af23fb081f2",
     "formal/review-data/concrete_technologies.csv": "98a82d603badaa502145c7fc30b9fe27fc9d6294ecd2fd68e9224ca6b83cad71",
     "formal/review-data/semantic_assurance.csv": "dec00d2713470606544a08f0b46c1830165f389b89a4e33156064db2fe2dbfcf",

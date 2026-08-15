@@ -16,9 +16,9 @@
   "independently_verified_external_truth_count": 0,
   "independently_verified_external_truth_denominator": 689,
   "source_files": {
-    "formal/review-data/coverage_manifest.json": "318ac5648789954b84efdceeb0dfd421e888959b6e5714fa1b4847c7eb6c7664",
-    "formal/review-data/semantic_assurance_manifest.json": "21347509348b6f7015c1b7056b7c54b225f81d7a83f4d1c2ccdf88ac1d292ec3",
-    "formal/review-data/literature_entailment_manifest.json": "9fcf11c26df055426de5fd34a1dd13a7ad4f619021ab54081302ab88ac85b392",
+    "formal/review-data/coverage_manifest.json": "b418564eca59f66f7a4e23fb9644a40f0f78a6c9325f1a423049cfd5a6390a01",
+    "formal/review-data/semantic_assurance_manifest.json": "a978c0fa354c9195f5a470edfea198a520932247feacb5c1383626fde72eb856",
+    "formal/review-data/literature_entailment_manifest.json": "f9be5a1766eb24f33cc937aa99c68f70f57cfbe00a037cee348f5edf7a7f10eb",
     "formal/review-data/semantic_assurance_summary.csv": "4cf1bf2e1ec1a263b2212f59496a043cdfbf6b92aedc5cdb77b53020ebb2fef4",
     "formal/review-data/logical_proof_summary.csv": "ada7e6de2ead3757388210860acdfe0e7f5c2db4e8fa317663ffc0b5d837ff8c",
     "formal/review-data/sentence_logical_proofs.csv": "f29da3a9f900f12e8d4c069dcd230ece9fe7a7b88d7f587819c4480b81b678e2"

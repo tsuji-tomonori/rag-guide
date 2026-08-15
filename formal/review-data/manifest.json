@@ -11,7 +11,7 @@
   "active_external_sources": 181,
   "inactive_external_sources": 14,
   "source_registry_policy": "append_only_url_identity_with_inactive_tombstones",
-  "source_registry_previous_count": 193,
+  "source_registry_count": 195,
   "resolved_sources": 195,
   "unresolved_sources": 0,
   "findings": 8,

@@ -16,8 +16,8 @@
     "anti_circularity": "Source summaries are explicit theorem premises, not custom Lean axioms and not copied from guide sentences."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "318ac5648789954b84efdceeb0dfd421e888959b6e5714fa1b4847c7eb6c7664",
-    "formal/review-data/semantic_assurance_manifest.json": "21347509348b6f7015c1b7056b7c54b225f81d7a83f4d1c2ccdf88ac1d292ec3",
+    "formal/review-data/coverage_manifest.json": "b418564eca59f66f7a4e23fb9644a40f0f78a6c9325f1a423049cfd5a6390a01",
+    "formal/review-data/semantic_assurance_manifest.json": "a978c0fa354c9195f5a470edfea198a520932247feacb5c1383626fde72eb856",
     "formal/review-data/sentence_evidence.csv": "411d3922d7983fbd21fc50f4ccab75aa58f3443d161e5c68cc756af23fb081f2",
     "formal/review-data/trusted_primary_sources.csv": "32497ef5492a02e612093e897ff3844b1811ff20de8fadb9748f02eb8647dac9",
     "formal/review-data/source_summary_formalizations.csv": "e3890e8c7ef4b77c6de4a6d9ec240fca1ee54246d5d36f1fb2fb67ef21463648",
