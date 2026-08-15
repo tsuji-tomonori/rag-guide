@@ -1,11 +1,11 @@
 {
   "method_version": 1,
-  "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "primary_sources": 193,
-  "required_sentences": 1067,
-  "formalized_sentences": 906,
-  "sourced_sentences": 1067,
-  "conditional_logical_proofs": 389,
+  "authoritative_commit": "63148eae30da71db0fb8769e59ed75680c8c7692",
+  "primary_sources": 194,
+  "required_sentences": 1174,
+  "formalized_sentences": 995,
+  "sourced_sentences": 1174,
+  "conditional_logical_proofs": 446,
   "end_to_end_proofs": 0,
   "source_projections_claim_polarity_reviewed": 16,
   "atom_count": 144,
@@ -15,10 +15,10 @@
     "anti_circularity": "Source summaries are explicit theorem premises, not custom Lean axioms and not copied from guide sentences."
   },
   "sha256": {
-    "formal/review-data/literature_source_theorems.csv": "1e985d5a6024fcf8d9358bfc4a6bb84ae2607a73f9c3e71c9894a557f9959232",
-    "formal/review-data/sentence_logical_proofs.csv": "a2f98f5cdf5a696a07b7e60fc8b79f04addc7a9c471e8de6a2d416fbe303e06b",
-    "formal/review-data/logical_proof_summary.csv": "fea6205ee45526f876d9b59d5a24a1acbbf0816ef4fbac06cec89310fd03cee2",
-    "formal/lean/RagEvidence/LiteratureGenerated.lean": "470e5637375d0b8646cfabbfb73e8af47a92b64292550e1b4367a71048db0e0f",
-    "formal/lean/RagEvidence/LiteratureProofs.lean": "0b759354538cb5c2cf92b8d8f48d877f58ddce3183481fe7ef0dccaf7b52609c"
+    "formal/review-data/literature_source_theorems.csv": "290e4109a965c7deff2a3f5a7c63e62068fa6e38b1d0012c25e8db195f9b968b",
+    "formal/review-data/sentence_logical_proofs.csv": "24cfc33e8a6d5a9f7208baf373ce41b6a3ceb92a34c1649f8a8a0e4c71d491e0",
+    "formal/review-data/logical_proof_summary.csv": "4e48e0b81cbf1b7d918ac43e258564b0b30ad1be8fa3d1bf93cb8e4e706c189c",
+    "formal/lean/RagEvidence/LiteratureGenerated.lean": "2b8ce4a8a38e7a16343cb2b33a536fd7d34c752ef76eefb0c5aab869ee4bb913",
+    "formal/lean/RagEvidence/LiteratureProofs.lean": "abcaaa433ecd0d7ccc0f6f9671bbf169a9b475b7741d73934f10b220c2d6434b"
   }
 }

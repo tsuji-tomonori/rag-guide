@@ -1,13 +1,13 @@
 {
-  "canonical_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "generated_from_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "markdown_files": 94,
-  "explanation_states": 339,
-  "chapter_introductions": 10,
-  "numbered_sections": 329,
+  "canonical_commit": "63148eae30da71db0fb8769e59ed75680c8c7692",
+  "generated_from_commit": "63148eae30da71db0fb8769e59ed75680c8c7692",
+  "markdown_files": 99,
+  "explanation_states": 353,
+  "chapter_introductions": 11,
+  "numbered_sections": 342,
   "technical_elements": 49,
-  "unique_external_sources": 193,
-  "resolved_sources": 193,
+  "unique_external_sources": 194,
+  "resolved_sources": 194,
   "unresolved_sources": 0,
   "findings": 8,
   "findings_by_severity": {
@@ -17,9 +17,9 @@
     "Minor": 1
   },
   "sha256": {
-    "explanation_states.csv": "a42ea8e7cdc81f1258848b72b5557b40cc1721fc75af2d4df0be0ad4c0b22781",
-    "technical_elements.csv": "833cc0ade8c5c152638f513aeccefd33c2eb4b4e9bf53ec2aa073dacbd7f2136",
-    "primary_sources.csv": "39f9300e8f70c168a133a59560ac81d0d1e20e6594fd6f972c43f24d9e7a0935",
+    "explanation_states.csv": "bc8257d0e3c61152f0f74d8bbc5bed3763cf8787933b2e83025d55405b46e179",
+    "technical_elements.csv": "ecca65ff80a20e7d352ed40b187e3034792a142c6c93b71828f419e4cff35731",
+    "primary_sources.csv": "25cbe945cc18342727f6d7b844afd5b6a6e77fff96fe8f5fb0d88f6be39c674b",
     "findings.csv": "5bece628ad0bd4ff3a0250b50ce9bc16f25c2b1d9353efb7af341003f3090f80"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "authoritative_spec": "docs/ at commit 52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "authoritative_spec": "docs/ at commit 63148eae30da71db0fb8769e59ed75680c8c7692",
   "spec_version": "RAG guide 1.1.1 plus evidence-ledger, semantic-assurance, and literature-entailment methods v1",
   "requirements": [
     {
@@ -150,12 +150,12 @@
       "source": "formal/review-data/literature_source_theorems.csv; formal/review-data/sentence_logical_proofs.csv#logical_proof_assurance",
       "claim": "For every sentence row reported as MODEL_PROVED, the formalized primary-source summary facts entail the decomposed positive guide formula under every valuation.",
       "lean_theorems": ["Derives.sound", "reported_literature_entailments_count_exact", "conditional_proofs_are_nonvacuous", "literature_SENT_0002"],
-      "proof_status": "389 sentence-specific theorems and the derivation soundness theorem are kernel checked; all #print axioms reports are empty",
+      "proof_status": "446 sentence-specific theorems and the derivation soundness theorem are kernel checked; all #print axioms reports are empty",
       "implementation_symbols": ["generate_literature_entailment.source_atom_catalog", "generate_literature_entailment.sentence_rows", "generate_literature_entailment.generate_lean", "check_literature_entailment.main"],
       "bridge": "direct-lean",
       "evidence": ["literature_source_theorems.csv", "sentence_logical_proofs.csv", "logical_proof_summary.csv#LIT-COV-006", "literature_SENT_* theorem declarations", "lake build"],
       "assumptions": ["The inspected primary-source controlled projection and guide-sentence logical decomposition are accepted as the finite formal model", "Source summaries are conditional premises and do not assert external truth"],
-      "out_of_scope": ["Claim-polarity review for 177 paper and primary-page term projections", "Meaning-preserving Japanese/English natural-language translation", "Independent reproduction of empirical claims", "Hosted-service runtime conformance"],
+      "out_of_scope": ["Claim-polarity review for 178 paper and primary-page term projections", "Meaning-preserving Japanese/English natural-language translation", "Independent reproduction of empirical claims", "Hosted-service runtime conformance"],
       "verdict": "MODEL_PROVED"
     }
   ]

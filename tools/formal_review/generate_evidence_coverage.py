@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
 LEAN_OUT = ROOT / "formal" / "lean" / "RagEvidence" / "Generated.lean"
-CANONICAL_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
+CANONICAL_COMMIT = "63148eae30da71db0fb8769e59ed75680c8c7692"
 
 EXTERNAL_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 NUMBERED_HEADING = re.compile(r"^##\s+(\d+\.\d+\.\d+)\.\s+(.+)$")
@@ -64,7 +64,7 @@ def technique(
 
 
 TECHNIQUES: tuple[Technique, ...] = (
-    technique("TF-IDF", r"TF[-‐‑–— ]?IDF", "lexical retrieval", "candidate generation", "weighted sparse terms", "https://doi.org/10.1016/0306-4573%2888%2990021-0", "語頻度と逆文書頻度を組み合わせて語を重み付けする。", "lexical=true; sparse=true; document_statistics=true", "tfIdfContractTest"),
+    technique("TF-IDF", r"TF[-‐‑–— ]?IDF", "lexical retrieval", "candidate generation", "weighted sparse terms", "https://www.sciencedirect.com/science/article/pii/0306457388900210", "語頻度と逆文書頻度を組み合わせて語を重み付けする。", "lexical=true; sparse=true; document_statistics=true", "tfIdfContractTest"),
     technique("BM25", r"(?<![A-Za-z0-9])BM25(?!F)", "lexical retrieval", "candidate generation", "probabilistic sparse ranking", "https://doi.org/10.1561/1500000019", "語頻度飽和、逆文書頻度、文書長補正を用いる順位付け。", "lexical=true; sparse=true; document_statistics=true; tf_saturation=true; length_normalization=true", "bm25ContractTest"),
     technique("BM25F", r"BM25F", "lexical retrieval", "candidate generation", "fielded probabilistic sparse ranking", "https://doi.org/10.1561/1500000019", "項目別の重みと長さを扱うBM25の拡張。", "lexical=true; fielded=true; sparse=true"),
     technique("Document Expansion by Query Prediction", r"Document Expansion by Query Prediction|文書拡張", "learned sparse retrieval", "index enrichment", "generated lexical expansion", "https://arxiv.org/abs/1904.08375", "文書に対応し得る質問を予測し、検索表現へ追加する。", "generated_terms=true; original_text_preserved=true"),
@@ -177,6 +177,7 @@ def trust_profile(source: dict[str, str]) -> tuple[str, str, str, str]:
         "www.vldb.org",
         "proceedings.neurips.cc",
         "papers.nips.cc",
+        "www.sciencedirect.com",
         "datasets-benchmarks-proceedings.neurips.cc",
         "proceedings.iclr.cc",
         "proceedings.mlr.press",
