@@ -1,22 +1,22 @@
 {
-  "canonical_commit": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
+  "canonical_commit": "5324ee5f0aa630fc5d933470d9be63351fa703cf",
   "method_version": 2,
-  "markdown_files": 94,
-  "sentences": 4426,
-  "evidence_required_sentences": 581,
-  "covered_sentences": 357,
-  "coverage_percent": 61.45,
-  "direct_covered_sentences": 328,
-  "direct_coverage_percent": 56.45,
-  "uncovered_sentences": 224,
+  "markdown_files": 99,
+  "sentences": 4738,
+  "evidence_required_sentences": 689,
+  "covered_sentences": 405,
+  "coverage_percent": 58.78,
+  "direct_covered_sentences": 375,
+  "direct_coverage_percent": 54.43,
+  "uncovered_sentences": 284,
   "concrete_technologies": 47,
-  "trusted_primary_sources": 193,
+  "trusted_primary_sources": 194,
   "classification_overrides": 379,
   "classification_override_sha256": "5c569210ad4156dcfa573803ee2107f85f5be5cf04ce5e141794e7d525fae119",
   "source_trust_tiers": {
     "A": 69,
-    "B": 124,
-    "C": 0
+    "B": 125,
+    "C": 1
   },
   "coverage_definition": {
     "denominator": "externally checkable technical, empirical, research, or official-product sentences",
@@ -26,14 +26,14 @@
   },
   "semantic_validation_boundary": "Lean proves ledger consistency, not that a source semantically entails the Japanese sentence.",
   "sha256": {
-    "formal/review-data/manifest.json": "c44d7ba34e215d505730f7ce9f32d7651818803fd33286d4dec7ebfab1eadb1b",
-    "formal/review-data/primary_sources.csv": "388cab082a46d7874c09041690ec210070013e608640b90d6255be88edd9926d",
-    "formal/review-data/trusted_primary_sources.csv": "3cd9d4b382f13f2944209493b1c6cf298d79bd6c53d03f35f03a16a545592d0f",
-    "formal/review-data/sentence_evidence.csv": "632d38b969e938686aef970f45ab709714372e55acf726a8c4d80784c8f3ca51",
-    "formal/review-data/uncovered_sentences.csv": "5c3e9e4633328c5c579d140565444c41f0cb5abf3f3986269ccc0e23ed387a03",
-    "formal/review-data/concrete_technologies.csv": "6c5d01761831b1b37b1bc6b4f77970587a2149351de1c3d05c6e185975855cf7",
-    "formal/review-data/coverage_summary.csv": "9f05bb2126e987d904cdfbf581c60c64e94fa0c79339b3f31db33a8a310297ad",
-    "formal/lean/RagEvidence/Generated.lean": "3be995074de4832a7f3327966d5b43b9fa17bf51217d6c009450e06f3b31425a",
+    "formal/review-data/manifest.json": "e516fbe1e79d3210a10dd61a354b67803c73ac5bb7f03a0272fd367f44e55649",
+    "formal/review-data/primary_sources.csv": "5778b1843233a982b49881fd659cc980d78472ab1052d8080af5355c65929529",
+    "formal/review-data/trusted_primary_sources.csv": "32497ef5492a02e612093e897ff3844b1811ff20de8fadb9748f02eb8647dac9",
+    "formal/review-data/sentence_evidence.csv": "411d3922d7983fbd21fc50f4ccab75aa58f3443d161e5c68cc756af23fb081f2",
+    "formal/review-data/uncovered_sentences.csv": "cd5052c8d1ba547722d976e2bc66c377233e076acb8854cd43259798ac660c9e",
+    "formal/review-data/concrete_technologies.csv": "98a82d603badaa502145c7fc30b9fe27fc9d6294ecd2fd68e9224ca6b83cad71",
+    "formal/review-data/coverage_summary.csv": "5d3495b33e0960f29646d963a707b436f375ccfe7253eb7c3ca76d3c6ccbb258",
+    "formal/lean/RagEvidence/Generated.lean": "0f602d1a67782c92dad7a4e8b29c6f45d5cfb03f630c29b344b6ecdbbdeb4dd4",
     "formal/review-data/appropriateness_classification_overrides.csv": "5c569210ad4156dcfa573803ee2107f85f5be5cf04ce5e141794e7d525fae119"
   }
 }

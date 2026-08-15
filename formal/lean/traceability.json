@@ -1,5 +1,5 @@
 {
-  "authoritative_spec": "docs/ at commit c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
+  "authoritative_spec": "docs/ at commit 5324ee5f0aa630fc5d933470d9be63351fa703cf",
   "spec_version": "RAG guide 1.1.1 plus evidence-ledger, semantic-assurance, literature-entailment, and appropriateness-review methods v2",
   "requirements": [
     {

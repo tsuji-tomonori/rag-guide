@@ -1,7 +1,7 @@
 {
   "method_version": 2,
-  "authoritative_commit": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
-  "required_sentences": 581,
+  "authoritative_commit": "5324ee5f0aa630fc5d933470d9be63351fa703cf",
+  "required_sentences": 689,
   "controlled_formalizations": 41,
   "relative_entailments_proved": 40,
   "contract_rejections": 1,
@@ -14,12 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "3ea88e14fda75e5eba758b70e98c5d11cd0909e28754767b65749557389205d3",
-    "formal/review-data/sentence_evidence.csv": "632d38b969e938686aef970f45ab709714372e55acf726a8c4d80784c8f3ca51",
-    "formal/review-data/concrete_technologies.csv": "6c5d01761831b1b37b1bc6b4f77970587a2149351de1c3d05c6e185975855cf7",
-    "formal/review-data/semantic_assurance.csv": "98aea063d0bce926cfec624f11d42eb95ec78b8ccbb1e823e5efc23c24ac592d",
+    "formal/review-data/coverage_manifest.json": "318ac5648789954b84efdceeb0dfd421e888959b6e5714fa1b4847c7eb6c7664",
+    "formal/review-data/sentence_evidence.csv": "411d3922d7983fbd21fc50f4ccab75aa58f3443d161e5c68cc756af23fb081f2",
+    "formal/review-data/concrete_technologies.csv": "98a82d603badaa502145c7fc30b9fe27fc9d6294ecd2fd68e9224ca6b83cad71",
+    "formal/review-data/semantic_assurance.csv": "dec00d2713470606544a08f0b46c1830165f389b89a4e33156064db2fe2dbfcf",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "000bd83ccaa5e8106a073b5ea27817dbb2e367b9311010cbd04cbd8b5d84d7d9",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "d6d748ada4c18fde5aca0aacb37aaba2991d0a76dee4230811d5d0240d1cea96"
+    "formal/review-data/semantic_assurance_summary.csv": "4cf1bf2e1ec1a263b2212f59496a043cdfbf6b92aedc5cdb77b53020ebb2fef4",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "81cf0921aec2e27e51ed16ab3a5f8f59932cdf48ddef0b4670aef27c51ea6941"
   }
 }

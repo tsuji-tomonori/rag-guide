@@ -2,12 +2,12 @@
   "verification_status": "VERIFIED",
   "spreadsheet_id": "1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM",
   "sheet_title": "論理未証明",
-  "authoritative_docs_commit": "c6f3aedbc3be9e2c35bbc99dddf5db7d0b9c0b56",
+  "authoritative_docs_commit": "5324ee5f0aa630fc5d933470d9be63351fa703cf",
   "row_count": 678,
-  "export_sha256": "fcdb6c5883d318f784f2a385ff784156d00dea13248a0fca04babd5477c7a70d",
+  "export_sha256": "410042ed87b1220afc48c275bd769d64a605742a2243b4bb36ce6c2a09007886",
   "readback_file": "formal/review-data/appropriateness_sheet_readback.csv",
-  "readback_sha256": "fcdb6c5883d318f784f2a385ff784156d00dea13248a0fca04babd5477c7a70d",
-  "remote_revision_id": "267",
+  "readback_sha256": "410042ed87b1220afc48c275bd769d64a605742a2243b4bb36ce6c2a09007886",
+  "remote_revision_id": "268",
   "verified_date": "2026-08-15",
   "notes": "Read back from Google Sheets and compared row-for-row with the repository export."
 }
