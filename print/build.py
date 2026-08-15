@@ -38,6 +38,7 @@ PRINT_CAPTION_RE = re.compile(
     r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+\s+\"図\d+-\d+[^\"]*\"\)"
 )
 STRONG_RE = re.compile(r"\*\*(?P<text>[^*\n]+)\*\*")
+MAX_CODE_LINE_LENGTH = 88
 
 
 def numeric_prefix(value: str) -> tuple[int, ...]:
@@ -61,6 +62,35 @@ def source_label(path: Path) -> str:
         raise RuntimeError(f"Section number not found: {path}")
     number = match.group(1)
     return f"sec:{number}"
+
+
+def validate_fenced_code(path: Path) -> None:
+    """Reject code lines that cannot be copied safely from the print edition."""
+    in_fence = False
+    fence_marker = ""
+    for line_number, line in enumerate(
+        path.read_text(encoding="utf-8").splitlines(),
+        start=1,
+    ):
+        stripped = line.lstrip()
+        marker = stripped[:3]
+        if marker in {"```", "~~~"}:
+            if not in_fence:
+                in_fence = True
+                fence_marker = marker
+            elif marker == fence_marker:
+                in_fence = False
+                fence_marker = ""
+            continue
+        if in_fence and len(line) > MAX_CODE_LINE_LENGTH:
+            raise RuntimeError(
+                "Fenced code line exceeds the printable limit "
+                f"({MAX_CODE_LINE_LENGTH} characters): "
+                f"{path}:{line_number} ({len(line)} characters)"
+            )
+
+    if in_fence:
+        raise RuntimeError(f"Unclosed fenced code block: {path}")
 
 
 def render_local_reference(source: Path, label: str, target: str) -> str:
@@ -234,6 +264,8 @@ def render_grayscale_images(sources: list[Path]) -> None:
 def main() -> None:
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
     markdown_sources = ordered_sources()
+    for path, _ in markdown_sources:
+        validate_fenced_code(path)
     image_references, unique_images = referenced_images(markdown_sources)
     render_grayscale_images(unique_images)
     sections = []
