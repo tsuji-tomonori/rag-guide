@@ -3,6 +3,9 @@
 
 namespace RagEvidence.AppropriatenessGenerated
 
+set_option maxRecDepth 100000
+set_option maxHeartbeats 0
+
 structure ReviewRow where
   sentenceId : Nat
   verdict : Nat
