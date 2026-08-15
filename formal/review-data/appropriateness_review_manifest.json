@@ -1,0 +1,19 @@
+{
+  "method_version": 1,
+  "authoritative_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "unresolved_sentence_count": 678,
+  "decision_count": 678,
+  "controlled_projection_sentence_count": 632,
+  "completion_gate": false,
+  "assurance_boundary": {
+    "proved": "Lean and Python check row identity, counts, and fail-closed completion state.",
+    "not_proved": "Review verdict correctness, natural-language adequacy, source truth, or production behavior."
+  },
+  "sha256": {
+    "formal/review-data/appropriateness_review_queue.csv": "f657af07fdb02cafada45c8b6782714f7a4397cd399eb949044a22aac04fb50e",
+    "formal/review-data/appropriateness_review_decisions.csv": "5f5112fdf2d43479d6894ff5b21a7d0704cf1d3d128a0f47dc5ce08930640e71",
+    "formal/review-data/appropriateness_gold_fixture.csv": "29067c1727872ae4e2cbf999a63d0b7b6b83c19adf1964b98d87e657933b3ecd",
+    "formal/review-data/appropriateness_review_summary.csv": "7c79365f7318237ed9f1e1c99601d30fb663b749827a3c53374028ce67c9a8d6",
+    "formal/lean/RagEvidence/AppropriatenessGenerated.lean": "2a569b27ce3a68e0aa3683d0a06e36a11d76e3821b31732c5c30757df97802a8"
+  }
+}

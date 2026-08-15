@@ -4,7 +4,7 @@ CHK-002,決定的シナリオ,Quint TypeScript backend,0.32.0,max-samples=1; see
 CHK-003,ランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12; seed=0x726167,合格,No violation found; trace length max=13
 CHK-004,境界付き状態空間検査,Quint + Apalache,0.32.0 + 0.56.1,max-steps=12; invariant=allInvariants,合格,No violation found; 16 verification conditions
 CHK-005,センテンス根拠台帳,Python,3.12,check_evidence_coverage.py,合格,required=1067; covered=474; uncovered=593
-CHK-006,Lean台帳・意味論射影・記号式・文献条件付き証明,Lean,4.30.0,lake build; 423 #print axioms,合格,no axioms reported
+CHK-006,Lean台帳・意味論射影・記号式・文献条件付き証明・適切性完了ゲート,Lean,4.30.0,lake build; 425 #print axioms,要CI確認,2 appropriateness-ledger theorems added; CI result required
 CHK-007,具体技術シナリオ,Quint TypeScript backend,0.32.0,14 scenarios; seed=0x726167,合格,14 passing
 CHK-008,具体技術ランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12,合格,No violation found
 CHK-009,具体技術境界付き検査,Quint + Apalache,0.32.0 + 0.56.1,max-steps=3; invariant=allInvariants,合格,No violation found; 13 verification conditions

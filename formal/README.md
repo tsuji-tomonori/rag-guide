@@ -62,6 +62,11 @@
 ## 成果物
 
 - [Google Sheets版レビュー台帳](https://docs.google.com/spreadsheets/d/1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM/edit)
+- `formal/appropriateness-review-guide.md`: 未証明678文の判定基準、二名レビュー、保証境界、完了ゲート
+- `formal/review-data/appropriateness_review_queue.csv`: 未証明678文の固定対象、risk、優先度、必要レビュー
+- `formal/review-data/appropriateness_review_decisions.csv`: 判定・根拠・action・owner・期限・二名レビューの手動台帳
+- `formal/review-data/appropriateness_gold_fixture.csv`: 三つの未証明状態を含む24文の校正集合
+- `formal/review-data/appropriateness_review_summary.csv`: 最終判定、独立レビュー、主張極性レビュー、BLOCKEDの進捗
 - `formal/review-data/technical_elements.csv`: 49技術要素と原点候補資料、説明状態、不変条件の対応
 - `formal/review-data/primary_sources.csv`: 193一次資料のURL、題名、著者・管理主体、年、利用節
 - `formal/review-data/explanation_states.csv`: 339説明状態の追跡表
@@ -97,9 +102,11 @@ python tools/formal_review/generate_review_data.py
 python tools/formal_review/generate_evidence_coverage.py
 python tools/formal_review/generate_semantic_assurance.py
 python tools/formal_review/generate_literature_entailment.py
+python tools/formal_review/generate_appropriateness_review.py
 python tools/formal_review/check_evidence_coverage.py
 python tools/formal_review/check_semantic_assurance.py
 python tools/formal_review/check_literature_entailment.py
+python tools/formal_review/check_appropriateness_review.py
 ```
 
 形式検証の再実行方法は `formal/verification/verification-report.md` と `formal/verification/evidence-verification-report.md` を参照してください。

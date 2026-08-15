@@ -32,6 +32,10 @@
 | 一次資料候補を割当 | 1,067/1,067（100%） |
 | 文献要旨の形式命題からLeanで条件付き導出 | 389/1,067（36.46%） |
 | 含意・否定の関係構造が未証明 | 187/1,067（17.53%） |
+| Issue #35の適切性レビュー対象 | 678/678（100%棚卸し） |
+| BLOCKED以外の最終判定 | 0/678（0%） |
+| 独立レビュー完了 | 0/678（0%） |
+| 制御語彙射影の主張極性レビュー | 0/632（0%） |
 | 自然言語全文のkernel-certified自動意味論証明 | 0/1,067（0%） |
 | 経験的主張の独立再現 | 0/125（0%） |
 | 公式製品仕様の実動作確認 | 0/26（0%） |
@@ -68,7 +72,13 @@
 - BM25の記号式でterm frequencyまたはIDFが0なら分子が0になり、文書長補正が分母へ現れる。
 - RRFの記号式は分子1、分母`k + rank`であり、非空のモデルを持つ。
 
-423公開定理の`#print axioms`は追加公理を報告しません。厳格監査では`sorry`、`admit`、`axiom`、`unsafe`、`native_decide`を検出せず、トレーサビリティ検査は12要件と423定理宣言の対応を確認します。
+Issue #35向けに追加した2定理を含む425公開定理の`#print axioms`をCIで監査します。追加定理は678行の件数と、BLOCKEDが残る間に完了を報告しないことだけを対象とします。厳格監査では`sorry`、`admit`、`axiom`、`unsafe`、`native_decide`を禁止し、トレーサビリティは13要件へ更新しました。
+
+## 未証明678文の適切性レビュー
+
+`appropriateness_review_queue.csv` は未証明678文を漏れなく固定し、P0〜P2の優先度、risk、必要レビューを表示します。手動台帳は機械生成物と分離し、初期状態を全行 `BLOCKED` としました。これは適切性の否定ではなく、一次資料・日本語意味・領域知識の独立レビューが未完了であることを示します。
+
+Python検査は、最終判定に異なる二名のreviewerを要求し、`APPROPRIATE_SUPPORTED` には一次資料、具体的locator、主張役割を必須化します。BLOCKEDにはowner、期限、解除条件を要求します。632件の制御語彙射影は、主張役割と独立reviewerがなければ完了率へ数えません。したがって現時点のIssue #35完了ゲートは0/1であり、Issueを閉じられる状態ではありません。
 
 ## 証明していないこと
 
@@ -81,9 +91,11 @@ python tools/formal_review/generate_review_data.py
 python tools/formal_review/generate_evidence_coverage.py
 python tools/formal_review/generate_semantic_assurance.py
 python tools/formal_review/generate_literature_entailment.py
+python tools/formal_review/generate_appropriateness_review.py
 python tools/formal_review/check_evidence_coverage.py
 python tools/formal_review/check_semantic_assurance.py
 python tools/formal_review/check_literature_entailment.py
+python tools/formal_review/check_appropriateness_review.py
 
 cd formal/lean
 lake build
