@@ -39,10 +39,11 @@ PRINT_CAPTION_RE = re.compile(
 )
 STRONG_RE = re.compile(r"\*\*(?P<text>[^*\n]+)\*\*")
 MAX_CODE_LINE_LENGTH = 88
+PLAIN_IDENTIFIER_RE = re.compile(r"[A-Za-z0-9]+(?:_[A-Za-z0-9]+)+")
 
 
-def escape_plain_identifier_underscores(line: str) -> str:
-    """Escape identifier underscores in prose for Markdown's TeX hybrid mode.
+def wrap_plain_identifiers_as_code(line: str) -> str:
+    """Wrap prose identifiers for Markdown's TeX hybrid mode.
 
     Existing inline code and Markdown link destinations are already rendered by
     dedicated Markdown handlers, so their underscores must remain untouched.
@@ -74,18 +75,13 @@ def escape_plain_identifier_underscores(line: str) -> str:
             output.append(")")
             index += 1
             continue
-        if (
-            line[index] == "_"
-            and not code_delimiter
-            and not in_link_destination
-            and index > 0
-            and index + 1 < len(line)
-            and line[index - 1].isalnum()
-            and line[index + 1].isalnum()
-        ):
-            output.append(r"\_")
-        else:
-            output.append(line[index])
+        if not code_delimiter and not in_link_destination:
+            identifier = PLAIN_IDENTIFIER_RE.match(line, index)
+            if identifier:
+                output.append(f"`{identifier.group(0)}`")
+                index = identifier.end()
+                continue
+        output.append(line[index])
         index += 1
     return "".join(output)
 
@@ -254,7 +250,7 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
                     marks += "#"
                 title = NUMBER_PREFIX_RE.sub("", title)
                 line = f"{marks} {title}"
-            line = escape_plain_identifier_underscores(line)
+            line = wrap_plain_identifiers_as_code(line)
             line = IMAGE_RE.sub(
                 lambda match: (
                     f"![{match.group('alt')}]"
