@@ -32,31 +32,31 @@ theorem FND_005_revoked_policy_invalidates_selected_evidence :
   rfl
 
 inductive Answerability where
-  | complete
-  | partial
-  | withheld
+  | answerComplete
+  | answerPartial
+  | answerWithheld
   deriving Repr, DecidableEq
 
 /-- `known` is checked before facet coverage, so UNKNOWN never becomes a
     partial or complete answer. -/
 def decideAnswerability (coreSufficient allFacetsSufficient known : Bool) : Answerability :=
   if !known || !coreSufficient then
-    .withheld
+    .answerWithheld
   else if allFacetsSufficient then
-    .complete
+    .answerComplete
   else
-    .partial
+    .answerPartial
 
 theorem FND_002_all_facets_complete :
-    decideAnswerability true true true = .complete := by
+    decideAnswerability true true true = .answerComplete := by
   rfl
 
 theorem FND_002_core_only_is_partial :
-    decideAnswerability true false true = .partial := by
+    decideAnswerability true false true = .answerPartial := by
   rfl
 
 theorem FND_004_unknown_core_is_withheld :
-    decideAnswerability true true false = .withheld := by
+    decideAnswerability true true false = .answerWithheld := by
   rfl
 
 inductive ActionDecision where
