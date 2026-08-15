@@ -2,9 +2,9 @@ check_id,layer,tool,tool_version,parameters,result,observed
 EVC-001,正本再生成,Python,3.12,generate_review_data.py; canonical_commit=52bebecfb2a435d0e7ff2efea557c5799674ded6,合格,94 files; 339 explanation states; 193 resolved primary sources
 EVC-002,センテンス根拠台帳,Python,3.12,generate_evidence_coverage.py,合格,4418 rows; required=1067; covered=474; uncovered=593
 EVC-003,台帳整合性,Python,3.12,check_evidence_coverage.py,合格,unique IDs; exact uncovered projection; eligible sources; manifest hashes
-EVC-004,Lean build,Lean,4.30.0,lake build,要CI確認,425 theorem declarations are expected; #print axioms includes the 2 new appropriateness-ledger theorems
+EVC-004,Lean build,Lean,4.30.0,lake build,合格,425 theorem declarations compiled; #print axioms reports no axioms
 EVC-005,Lean禁止構文監査,Lean strict audit,skill script,sorry; admit; axiom; unsafe; native_decide,合格,0 trust-sensitive review items
-EVC-006,Leanトレーサビリティ,Lean traceability validator,skill script,traceability.json; source declarations,要CI確認,13 requirements; 425 theorem declarations expected
+EVC-006,Leanトレーサビリティ,Lean traceability validator,skill script,traceability.json; source declarations,合格,13 requirements; 425 theorem declarations
 EVC-007,具体技術型検査,Quint,0.32.0,typecheck retrieval_techniques.qnt,合格,exit 0
 EVC-008,具体技術決定的シナリオ,Quint TypeScript backend,0.32.0,max-samples=1; seed=0x726167,合格,14 passing
 EVC-009,具体技術ランダムトレース,Quint TypeScript backend,0.32.0,max-samples=5000; max-steps=12; seed=0x726167,合格,No violation found
