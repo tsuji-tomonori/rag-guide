@@ -59,6 +59,8 @@ def main() -> int:
         sentence_id = row["sentence_id"]
         require(row["appropriateness_verdict"] in FINAL_VERDICTS, f"invalid verdict: {sentence_id}")
         require(row["external_truth_level"] in TRUTH_LEVELS, f"invalid external truth level: {sentence_id}")
+        require(row["verdict_reason"], f"verdict without reason: {sentence_id}")
+        require(row["action"], f"verdict without action: {sentence_id}")
         require(row["docs_commit"] == manifest["authoritative_docs_commit"], f"docs commit drift: {sentence_id}")
         require(row["original_sentence"] == queue_by_id[sentence_id]["sentence"], f"sentence text drift: {sentence_id}")
         if row["appropriateness_verdict"] == "BLOCKED":
@@ -74,10 +76,19 @@ def main() -> int:
             require(row["primary_source_ids"], f"supported row without primary source: {sentence_id}")
             require(row["source_locator"], f"supported row without source locator: {sentence_id}")
             require(row["source_claim_role"] in SOURCE_ROLES, f"supported row without reviewed source role: {sentence_id}")
+            require(row["external_truth_level"] != "UNVERIFIED", f"supported row without truth boundary: {sentence_id}")
+        if row["appropriateness_verdict"] == "APPROPRIATE_NORMATIVE":
+            require(row["normative_criteria"], f"normative row without decision criteria: {sentence_id}")
+            require(row["exceptions"], f"normative row without exceptions: {sentence_id}")
+        if row["appropriateness_verdict"] == "APPROPRIATE_AFTER_QUALIFICATION":
+            require(row["revised_sentence"], f"qualification verdict without revised sentence: {sentence_id}")
         if queue_by_id[sentence_id]["source_projection_adequacy"].startswith("CONTROLLED") and row["appropriateness_verdict"] != "BLOCKED":
             require(row["source_claim_role"] in SOURCE_ROLES, f"controlled projection without polarity review: {sentence_id}")
         if row["appropriateness_verdict"] in {"REWRITE_REQUIRED", "REMOVE_OR_REPLACE", "CONTRADICTED", "APPROPRIATE_AFTER_QUALIFICATION"}:
             require(row["action"], f"actionable verdict without action: {sentence_id}")
+        if row["lean_theorem"]:
+            require(row["lean_assurance"] == "MODEL_PROVED", f"Lean theorem without MODEL_PROVED label: {sentence_id}")
+            require(row["axiom_audit"] == "NO_AXIOMS", f"Lean theorem without clean axiom audit: {sentence_id}")
 
     blocked = sum(row["appropriateness_verdict"] == "BLOCKED" for row in decisions)
     independent = sum(bool(row["independent_reviewer"]) for row in decisions)

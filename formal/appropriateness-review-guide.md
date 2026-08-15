@@ -15,7 +15,7 @@
 | 成果物 | 役割 | 更新方法 |
 |---|---|---|
 | `appropriateness_review_queue.csv` | 678文の機械生成された固定対象と現在の未証明理由 | generatorで再生成 |
-| `appropriateness_review_decisions.csv` | 人手判定、根拠、対応、二名のレビュー証跡 | reviewerが編集。generatorは上書きしない |
+| `appropriateness_review_decisions.csv` | 人手判定、根拠、規範の判断基準・例外、対応、二名のレビュー証跡 | reviewerが編集。generatorは上書きしない |
 | `appropriateness_gold_fixture.csv` | 三つの未証明状態を含む24文の校正集合 | 合意後に判定と不一致理由を記録 |
 | `appropriateness_review_summary.csv` | 完了率、BLOCKED、主張極性レビュー率 | generatorで再生成 |
 | `appropriateness_review_manifest.json` | 正本commit、件数、SHA-256、保証境界 | generatorで再生成 |

@@ -64,7 +64,8 @@ DECISION_FIELDS = [
     "semantic_proposition", "logical_operator", "claim_type", "modality",
     "scope", "primary_source_ids", "source_locator", "source_claim_role",
     "supported_atoms", "unsupported_atoms", "unsupported_relation",
-    "appropriateness_verdict", "verdict_reason", "external_truth_level",
+    "appropriateness_verdict", "verdict_reason", "normative_criteria",
+    "exceptions", "external_truth_level",
     "action", "owner", "due_date", "unblock_condition", "lean_theorem",
     "lean_assurance", "axiom_audit", "primary_reviewer",
     "primary_review_date", "independent_reviewer", "independent_review_date",
@@ -79,7 +80,7 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 
 def write_csv(path: Path, rows: list[dict[str, object]], fields: list[str]) -> None:
     with path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -193,6 +194,8 @@ def initialize_decisions(queue: list[dict[str, object]]) -> None:
             "unsupported_relation": unsupported_relation,
             "appropriateness_verdict": "BLOCKED",
             "verdict_reason": "一次資料・日本語意味・領域知識の独立レビューが未完了",
+            "normative_criteria": "",
+            "exceptions": "",
             "external_truth_level": "UNVERIFIED",
             "action": initial_action(row),
             "owner": "rag-guide-maintainers",
