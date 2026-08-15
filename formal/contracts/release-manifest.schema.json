@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag-guide/release-manifest.schema.json",
+  "title": "RAG release manifest",
+  "type": "object",
+  "required": ["release_id", "source_snapshot", "parser", "chunker", "embedding", "index_schema", "retriever", "reranker", "prompt", "generation_model", "policy", "output_schema", "evaluation_dataset"],
+  "properties": {
+    "release_id": {"type": "string", "minLength": 1},
+    "source_snapshot": {"$ref": "#/$defs/component"},
+    "parser": {"$ref": "#/$defs/component"},
+    "chunker": {"$ref": "#/$defs/component"},
+    "embedding": {"$ref": "#/$defs/component"},
+    "index_schema": {"$ref": "#/$defs/component"},
+    "retriever": {"$ref": "#/$defs/component"},
+    "reranker": {"$ref": "#/$defs/component"},
+    "prompt": {"$ref": "#/$defs/component"},
+    "generation_model": {"$ref": "#/$defs/component"},
+    "policy": {"$ref": "#/$defs/component"},
+    "output_schema": {"$ref": "#/$defs/component"},
+    "evaluation_dataset": {"$ref": "#/$defs/component"}
+  },
+  "$defs": {
+    "component": {
+      "type": "object",
+      "required": ["id", "compatibility_group"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "compatibility_group": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

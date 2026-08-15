@@ -18,3 +18,7 @@ SCN-016,承認済み副作用操作,認可・承認・監査付きで実行,INV-
 SCN-017,Release gate未通過,公開不能,INV-017,publishWithoutGateBlockedTest
 SCN-018,公開後の切り戻し,直前の既知良好版へ復帰,INV-017;INV-018;INV-019,releaseAndRollbackTest
 SCN-019,公開後の権限剥奪,選択済み根拠を無効化,INV-001;INV-003;INV-019,revocationClearsSelectedEvidenceTest
+SCN-020,補助論点のみ根拠不足,中核論点だけを限定回答し不足を明示,INV-009;INV-013,partialEvidenceProducesLimitedAnswerTest
+SCN-021,中核論点の判定がUNKNOWN,全体結論を確定せず回答保留,INV-009;INV-013,unknownCoreEvidenceIsWithheldTest
+SCN-022,事前承認済み低リスク副作用操作,可逆性・上限・方針・監査を満たす場合だけ実行,INV-015;INV-016;INV-019,preapprovedLowRiskSideEffectExecutesTest
+SCN-023,非互換release,release gate通過不能,INV-017;INV-018,incompatibleReleaseGateBlockedTest

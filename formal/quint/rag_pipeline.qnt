@@ -1,5 +1,5 @@
 // RAG guide cross-cutting behavioral model.
-// Canonical prose snapshot: 52bebecfb2a435d0e7ff2efea557c5799674ded6
+// Canonical prose snapshot: f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111
 //
 // This is an abstraction of the contracts repeated across chapters 3-9.
 // It proves properties of this finite model; it does not prove factual claims
@@ -15,8 +15,19 @@ module rag_pipeline {
     validAtQuestionTime: bool,
     embeddingCompatible: bool,
     queryIntentPreserved: bool,
+    entitiesPreserved: bool,
+    timeRangePreserved: bool,
+    versionScopePreserved: bool,
+    polarityPreserved: bool,
+    tenantConditionPreserved: bool,
+    hardFiltersPreserved: bool,
     evidenceSelected: bool,
     evidenceSufficient: bool,
+    coreEvidenceSufficient: bool,
+    allFacetsSufficient: bool,
+    sufficiencyKnown: bool,
+    policyVersionMatches: bool,
+    documentStatusCurrent: bool,
     conflictLevel: str,
     conflictDisclosed: bool,
     responseKind: str,
@@ -27,14 +38,21 @@ module rag_pipeline {
     userRequestedTool: bool,
     toolRequested: bool,
     toolReadOnly: bool,
+    toolLowRisk: bool,
+    toolReversible: bool,
+    toolBounded: bool,
+    toolPreapproved: bool,
     toolPolicyAllows: bool,
     humanApproved: bool,
     toolExecuted: bool,
     releaseGatePassed: bool,
+    releaseCompatible: bool,
+    publishedReleaseCompatible: bool,
     published: bool,
     currentRelease: int,
     lastKnownGoodRelease: int,
     auditLinked: bool,
+    traceIdsValid: bool,
   }
 
   var s: State
@@ -48,8 +66,19 @@ module rag_pipeline {
     validAtQuestionTime: false,
     embeddingCompatible: false,
     queryIntentPreserved: false,
+    entitiesPreserved: false,
+    timeRangePreserved: false,
+    versionScopePreserved: false,
+    polarityPreserved: false,
+    tenantConditionPreserved: false,
+    hardFiltersPreserved: false,
     evidenceSelected: false,
     evidenceSufficient: false,
+    coreEvidenceSufficient: false,
+    allFacetsSufficient: false,
+    sufficiencyKnown: false,
+    policyVersionMatches: false,
+    documentStatusCurrent: false,
     conflictLevel: "none",
     conflictDisclosed: false,
     responseKind: "none",
@@ -60,14 +89,21 @@ module rag_pipeline {
     userRequestedTool: false,
     toolRequested: false,
     toolReadOnly: true,
+    toolLowRisk: false,
+    toolReversible: false,
+    toolBounded: false,
+    toolPreapproved: false,
     toolPolicyAllows: false,
     humanApproved: false,
     toolExecuted: false,
     releaseGatePassed: false,
+    releaseCompatible: false,
+    publishedReleaseCompatible: false,
     published: false,
     currentRelease: 0,
     lastKnownGoodRelease: 0,
     auditLinked: false,
+    traceIdsValid: false,
   }
 
   action catalogSafe = all {
@@ -81,6 +117,8 @@ module rag_pipeline {
       provenanceOk: true,
       validAtQuestionTime: true,
       embeddingCompatible: true,
+      policyVersionMatches: true,
+      documentStatusCurrent: true,
     },
   }
 
@@ -94,6 +132,8 @@ module rag_pipeline {
       provenanceOk: true,
       validAtQuestionTime: true,
       embeddingCompatible: true,
+      policyVersionMatches: true,
+      documentStatusCurrent: true,
     },
   }
 
@@ -108,6 +148,8 @@ module rag_pipeline {
       provenanceOk: true,
       validAtQuestionTime: true,
       embeddingCompatible: true,
+      policyVersionMatches: true,
+      documentStatusCurrent: false,
     },
   }
 
@@ -121,6 +163,8 @@ module rag_pipeline {
       provenanceOk: true,
       validAtQuestionTime: true,
       embeddingCompatible: true,
+      policyVersionMatches: true,
+      documentStatusCurrent: true,
     },
   }
 
@@ -134,6 +178,8 @@ module rag_pipeline {
       provenanceOk: false,
       validAtQuestionTime: true,
       embeddingCompatible: true,
+      policyVersionMatches: true,
+      documentStatusCurrent: true,
     },
   }
 
@@ -147,6 +193,8 @@ module rag_pipeline {
       provenanceOk: true,
       validAtQuestionTime: false,
       embeddingCompatible: true,
+      policyVersionMatches: true,
+      documentStatusCurrent: true,
     },
   }
 
@@ -160,6 +208,8 @@ module rag_pipeline {
       provenanceOk: true,
       validAtQuestionTime: true,
       embeddingCompatible: false,
+      policyVersionMatches: true,
+      documentStatusCurrent: true,
     },
   }
 
@@ -180,7 +230,17 @@ module rag_pipeline {
 
   action rewritePreservingIntent = all {
     s.phase == "queried",
-    s' = { ...s, phase: "planned", queryIntentPreserved: true },
+    s' = {
+      ...s,
+      phase: "planned",
+      queryIntentPreserved: true,
+      entitiesPreserved: true,
+      timeRangePreserved: true,
+      versionScopePreserved: true,
+      polarityPreserved: true,
+      tenantConditionPreserved: true,
+      hardFiltersPreserved: true,
+    },
   }
 
   action rewriteLosingIntent = all {
@@ -197,17 +257,63 @@ module rag_pipeline {
     s.validAtQuestionTime,
     s.embeddingCompatible,
     s.queryIntentPreserved,
+    s.entitiesPreserved,
+    s.timeRangePreserved,
+    s.versionScopePreserved,
+    s.polarityPreserved,
+    s.tenantConditionPreserved,
+    s.hardFiltersPreserved,
+    s.policyVersionMatches,
+    s.documentStatusCurrent,
     s' = { ...s, phase: "evidence", evidenceSelected: true },
   }
 
-  action markEvidenceSufficient = all {
+  action classifyCompleteEvidence = all {
     s.phase == "evidence",
-    s' = { ...s, phase: "validated", evidenceSufficient: true },
+    s' = {
+      ...s,
+      phase: "validated",
+      evidenceSufficient: true,
+      coreEvidenceSufficient: true,
+      allFacetsSufficient: true,
+      sufficiencyKnown: true,
+    },
   }
 
-  action markEvidenceInsufficient = all {
+  action classifyPartialEvidence = all {
     s.phase == "evidence",
-    s' = { ...s, phase: "validated", evidenceSufficient: false },
+    s' = {
+      ...s,
+      phase: "validated",
+      evidenceSufficient: true,
+      coreEvidenceSufficient: true,
+      allFacetsSufficient: false,
+      sufficiencyKnown: true,
+    },
+  }
+
+  action classifyWithheldEvidence = all {
+    s.phase == "evidence",
+    s' = {
+      ...s,
+      phase: "validated",
+      evidenceSufficient: false,
+      coreEvidenceSufficient: false,
+      allFacetsSufficient: false,
+      sufficiencyKnown: true,
+    },
+  }
+
+  action classifyUnknownEvidence = all {
+    s.phase == "evidence",
+    s' = {
+      ...s,
+      phase: "validated",
+      evidenceSufficient: false,
+      coreEvidenceSufficient: false,
+      allFacetsSufficient: false,
+      sufficiencyKnown: false,
+    },
   }
 
   action markExplainableConflict = all {
@@ -223,7 +329,8 @@ module rag_pipeline {
   action produceCompleteAnswer = all {
     s.phase == "validated",
     s.evidenceSelected,
-    s.evidenceSufficient,
+    s.allFacetsSufficient,
+    s.sufficiencyKnown,
     s.conflictLevel == "none",
     s' = {
       ...s,
@@ -233,14 +340,16 @@ module rag_pipeline {
       grounded: true,
       citationsValid: true,
       auditLinked: true,
+      traceIdsValid: true,
     },
   }
 
   action produceLimitedAnswer = all {
     s.phase == "validated",
     s.evidenceSelected,
-    s.evidenceSufficient,
-    s.conflictLevel == "explainable",
+    s.coreEvidenceSufficient,
+    s.sufficiencyKnown,
+    not(s.allFacetsSufficient) or s.conflictLevel == "explainable",
     s' = {
       ...s,
       phase: "responded",
@@ -250,6 +359,7 @@ module rag_pipeline {
       grounded: true,
       citationsValid: true,
       auditLinked: true,
+      traceIdsValid: true,
     },
   }
 
@@ -265,6 +375,7 @@ module rag_pipeline {
       grounded: true,
       citationsValid: true,
       auditLinked: true,
+      traceIdsValid: true,
     },
   }
 
@@ -277,6 +388,7 @@ module rag_pipeline {
       responseKind: "withheld",
       claimCommitted: false,
       auditLinked: true,
+      traceIdsValid: true,
     },
   }
 
@@ -290,6 +402,10 @@ module rag_pipeline {
       userRequestedTool: true,
       toolRequested: true,
       toolReadOnly: true,
+      toolLowRisk: true,
+      toolReversible: true,
+      toolBounded: true,
+      toolPreapproved: false,
       toolPolicyAllows: true,
       humanApproved: false,
       toolExecuted: false,
@@ -302,6 +418,10 @@ module rag_pipeline {
       userRequestedTool: true,
       toolRequested: true,
       toolReadOnly: false,
+      toolLowRisk: false,
+      toolReversible: false,
+      toolBounded: false,
+      toolPreapproved: false,
       toolPolicyAllows: true,
       humanApproved: false,
       toolExecuted: false,
@@ -314,24 +434,56 @@ module rag_pipeline {
     s' = { ...s, humanApproved: true },
   }
 
+  action requestPreapprovedLowRiskTool = all {
+    s' = {
+      ...s,
+      userRequestedTool: true,
+      toolRequested: true,
+      toolReadOnly: false,
+      toolLowRisk: true,
+      toolReversible: true,
+      toolBounded: true,
+      toolPreapproved: true,
+      toolPolicyAllows: true,
+      humanApproved: false,
+      toolExecuted: false,
+    },
+  }
+
   action executeTool = all {
     s.toolRequested,
     s.userRequestedTool,
     s.toolPolicyAllows,
-    s.toolReadOnly or s.humanApproved,
-    s' = { ...s, toolExecuted: true, auditLinked: true },
+    s.toolReadOnly or s.humanApproved or all {
+      s.toolLowRisk,
+      s.toolReversible,
+      s.toolBounded,
+      s.toolPreapproved,
+    },
+    s' = { ...s, toolExecuted: true, auditLinked: true, traceIdsValid: true },
   }
 
-  action passReleaseGate = s' = { ...s, releaseGatePassed: true }
+  action configureCompatibleRelease =
+    s' = { ...s, releaseCompatible: true, releaseGatePassed: false }
+
+  action configureIncompatibleRelease =
+    s' = { ...s, releaseCompatible: false, releaseGatePassed: false }
+
+  action passReleaseGate = all {
+    s.releaseCompatible,
+    s' = { ...s, releaseGatePassed: true },
+  }
 
   action publishNextRelease = all {
     s.releaseGatePassed,
     s' = {
       ...s,
       published: true,
+      publishedReleaseCompatible: s.releaseCompatible,
       lastKnownGoodRelease: s.currentRelease,
       currentRelease: s.currentRelease + 1,
       auditLinked: true,
+      traceIdsValid: true,
     },
   }
 
@@ -342,6 +494,7 @@ module rag_pipeline {
       ...s,
       currentRelease: s.lastKnownGoodRelease,
       auditLinked: true,
+      traceIdsValid: true,
     },
   }
 
@@ -357,6 +510,8 @@ module rag_pipeline {
       grounded: false,
       citationsValid: false,
       auditLinked: true,
+      traceIdsValid: true,
+      policyVersionMatches: false,
     },
   }
 
@@ -376,8 +531,10 @@ module rag_pipeline {
     rewritePreservingIntent,
     rewriteLosingIntent,
     selectEvidence,
-    markEvidenceSufficient,
-    markEvidenceInsufficient,
+    classifyCompleteEvidence,
+    classifyPartialEvidence,
+    classifyWithheldEvidence,
+    classifyUnknownEvidence,
     markExplainableConflict,
     markMajorConflict,
     produceCompleteAnswer,
@@ -387,8 +544,11 @@ module rag_pipeline {
     observeInjectedToolInstruction,
     requestReadOnlyTool,
     requestSideEffectTool,
+    requestPreapprovedLowRiskTool,
     approveSideEffect,
     executeTool,
+    configureCompatibleRelease,
+    configureIncompatibleRelease,
     passReleaseGate,
     publishNextRelease,
     rollback,
@@ -418,6 +578,14 @@ module rag_pipeline {
     s.validAtQuestionTime,
     s.embeddingCompatible,
     s.queryIntentPreserved,
+    s.entitiesPreserved,
+    s.timeRangePreserved,
+    s.versionScopePreserved,
+    s.polarityPreserved,
+    s.tenantConditionPreserved,
+    s.hardFiltersPreserved,
+    s.policyVersionMatches,
+    s.documentStatusCurrent,
   })
 
   val groundedCommittedClaims = s.claimCommitted.implies(all {
@@ -442,10 +610,22 @@ module rag_pipeline {
     s.userRequestedTool,
     s.toolRequested,
     s.toolPolicyAllows,
-    s.toolReadOnly or s.humanApproved,
+    s.toolReadOnly or s.humanApproved or all {
+      s.toolLowRisk,
+      s.toolReversible,
+      s.toolBounded,
+      s.toolPreapproved,
+    },
   })
 
-  val publishRequiresGate = s.published.implies(s.releaseGatePassed)
+  val publishRequiresGate = s.published.implies(s.publishedReleaseCompatible)
+
+  val deterministicAnswerability = all {
+    s.allFacetsSufficient.implies(s.coreEvidenceSufficient and s.sufficiencyKnown),
+    (s.responseKind == "complete").implies(s.allFacetsSufficient),
+    (s.responseKind == "partial").implies(s.coreEvidenceSufficient and s.sufficiencyKnown),
+    (not(s.coreEvidenceSufficient) or not(s.sufficiencyKnown)).implies(not(s.claimCommitted)),
+  }
 
   val releaseOrderIsSafe = all {
     s.currentRelease >= 0,
@@ -455,7 +635,7 @@ module rag_pipeline {
 
   val materialOutputsAreAudited = any {
     not(s.claimCommitted or s.toolExecuted or s.published),
-    s.auditLinked,
+    s.auditLinked and s.traceIdsValid,
   }
 
   val allInvariants = all {
@@ -469,6 +649,7 @@ module rag_pipeline {
     withholdingDoesNotCommitClaims,
     injectedDataCannotAuthorizeTools,
     toolExecutionIsAuthorized,
+    deterministicAnswerability,
     publishRequiresGate,
     releaseOrderIsSafe,
     materialOutputsAreAudited,
@@ -481,7 +662,7 @@ module rag_pipeline {
     .then(submitQuery)
     .then(rewritePreservingIntent)
     .then(selectEvidence)
-    .then(markEvidenceSufficient)
+    .then(classifyCompleteEvidence)
     .then(produceCompleteAnswer)
     .expect(s.responseKind == "complete" and s.claimCommitted and allInvariants)
 
@@ -492,7 +673,7 @@ module rag_pipeline {
     .then(submitQuery)
     .then(rewritePreservingIntent)
     .then(selectEvidence)
-    .then(markEvidenceSufficient)
+    .then(classifyCompleteEvidence)
     .then(produceCompleteAnswer)
     .expect(allInvariants)
 
@@ -559,7 +740,7 @@ module rag_pipeline {
     .then(submitQuery)
     .then(rewritePreservingIntent)
     .then(selectEvidence)
-    .then(markEvidenceInsufficient)
+    .then(classifyWithheldEvidence)
     .then(withholdForInsufficientEvidence)
     .expect(s.responseKind == "withheld" and not(s.claimCommitted) and allInvariants)
 
@@ -570,7 +751,7 @@ module rag_pipeline {
     .then(submitQuery)
     .then(rewritePreservingIntent)
     .then(selectEvidence)
-    .then(markEvidenceSufficient)
+    .then(classifyCompleteEvidence)
     .then(markExplainableConflict)
     .then(produceLimitedAnswer)
     .expect(s.responseKind == "partial" and s.conflictDisclosed and allInvariants)
@@ -582,7 +763,7 @@ module rag_pipeline {
     .then(submitQuery)
     .then(rewritePreservingIntent)
     .then(selectEvidence)
-    .then(markEvidenceSufficient)
+    .then(classifyCompleteEvidence)
     .then(markMajorConflict)
     .then(discloseConflictWithoutConclusion)
     .expect(s.responseKind == "conflict" and not(s.claimCommitted) and allInvariants)
@@ -600,6 +781,11 @@ module rag_pipeline {
     .then(requestSideEffectTool)
     .then(executeTool.fail())
 
+  run preapprovedLowRiskSideEffectExecutesTest = init
+    .then(requestPreapprovedLowRiskTool)
+    .then(executeTool)
+    .expect(s.toolExecuted and not(s.humanApproved) and allInvariants)
+
   run approvedSideEffectExecutesTest = init
     .then(requestSideEffectTool)
     .then(approveSideEffect)
@@ -609,7 +795,12 @@ module rag_pipeline {
   run publishWithoutGateBlockedTest = init
     .then(publishNextRelease.fail())
 
+  run incompatibleReleaseGateBlockedTest = init
+    .then(configureIncompatibleRelease)
+    .then(passReleaseGate.fail())
+
   run releaseAndRollbackTest = init
+    .then(configureCompatibleRelease)
     .then(passReleaseGate)
     .then(publishNextRelease.expect(s.currentRelease == 1))
     .then(rollback)
@@ -624,4 +815,26 @@ module rag_pipeline {
     .then(selectEvidence)
     .then(revokeAccess)
     .expect(not(s.aclAllowed) and not(s.evidenceSelected) and allInvariants)
+
+  run partialEvidenceProducesLimitedAnswerTest = init
+    .then(catalogSafe)
+    .then(ingest)
+    .then(buildIndex)
+    .then(submitQuery)
+    .then(rewritePreservingIntent)
+    .then(selectEvidence)
+    .then(classifyPartialEvidence)
+    .then(produceLimitedAnswer)
+    .expect(s.responseKind == "partial" and s.claimCommitted and allInvariants)
+
+  run unknownCoreEvidenceIsWithheldTest = init
+    .then(catalogSafe)
+    .then(ingest)
+    .then(buildIndex)
+    .then(submitQuery)
+    .then(rewritePreservingIntent)
+    .then(selectEvidence)
+    .then(classifyUnknownEvidence)
+    .then(withholdForInsufficientEvidence)
+    .expect(s.responseKind == "withheld" and not(s.claimCommitted) and allInvariants)
 }

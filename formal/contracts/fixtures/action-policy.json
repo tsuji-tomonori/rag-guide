@@ -1,0 +1,7 @@
+[
+  {"case_id": "read-only", "risk_tier": "READ_ONLY", "side_effect": false, "low_risk": true, "reversible": true, "bounded": true, "preapproved": false, "human_approved": false, "decision": "ALLOW", "audit_linked": true},
+  {"case_id": "ordinary-write", "risk_tier": "WRITE_REQUIRES_APPROVAL", "side_effect": true, "low_risk": true, "reversible": true, "bounded": true, "preapproved": false, "human_approved": false, "decision": "REQUIRE_HUMAN_APPROVAL", "audit_linked": true},
+  {"case_id": "approved-write", "risk_tier": "WRITE_REQUIRES_APPROVAL", "side_effect": true, "low_risk": false, "reversible": false, "bounded": true, "preapproved": false, "human_approved": true, "decision": "ALLOW", "audit_linked": true},
+  {"case_id": "preapproved-low-risk-write", "risk_tier": "PREAPPROVED_LOW_RISK_WRITE", "side_effect": true, "low_risk": true, "reversible": true, "bounded": true, "preapproved": true, "human_approved": false, "decision": "ALLOW", "audit_linked": true},
+  {"case_id": "high-risk-write", "risk_tier": "HIGH_RISK_WRITE", "side_effect": true, "low_risk": false, "reversible": false, "bounded": false, "preapproved": true, "human_approved": false, "decision": "DENY_AUTOMATION", "audit_linked": true}
+]

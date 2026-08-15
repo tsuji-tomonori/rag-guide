@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag-guide/action-policy.schema.json",
+  "title": "Side-effect action policy decision",
+  "type": "object",
+  "required": ["case_id", "risk_tier", "side_effect", "low_risk", "reversible", "bounded", "preapproved", "human_approved", "decision", "audit_linked"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "risk_tier": {"enum": ["READ_ONLY", "WRITE_REQUIRES_APPROVAL", "PREAPPROVED_LOW_RISK_WRITE", "HIGH_RISK_WRITE"]},
+    "side_effect": {"type": "boolean"},
+    "low_risk": {"type": "boolean"},
+    "reversible": {"type": "boolean"},
+    "bounded": {"type": "boolean"},
+    "preapproved": {"type": "boolean"},
+    "human_approved": {"type": "boolean"},
+    "decision": {"enum": ["ALLOW", "REQUIRE_HUMAN_APPROVAL", "DENY_AUTOMATION"]},
+    "audit_linked": {"const": true}
+  },
+  "additionalProperties": false
+}

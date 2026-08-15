@@ -1,5 +1,5 @@
 // Concrete retrieval-technology contracts for the RAG guide.
-// Canonical prose snapshot: 52bebecfb2a435d0e7ff2efea557c5799674ded6
+// Canonical prose snapshot: f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111
 //
 // The model captures mechanism and pipeline-role contracts.  It intentionally
 // does not claim that one technique is empirically better than another.

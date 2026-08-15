@@ -27,7 +27,8 @@ ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
 OUT = ROOT / "formal" / "review-data"
 LEAN_OUT = ROOT / "formal" / "lean" / "RagEvidence" / "Generated.lean"
-CANONICAL_COMMIT = "52bebecfb2a435d0e7ff2efea557c5799674ded6"
+CANONICAL_COMMIT = "f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111"
+MANUAL_REVIEWS = OUT / "manual_sentence_reviews.csv"
 
 EXTERNAL_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 NUMBERED_HEADING = re.compile(r"^##\s+(\d+\.\d+\.\d+)\.\s+(.+)$")
@@ -404,6 +405,96 @@ def build_sentence_evidence(
     return rows
 
 
+def apply_manual_reviews(
+    sentences: list[dict[str, object]],
+    trusted_sources: list[dict[str, str]],
+) -> tuple[list[dict[str, object]], dict[str, int]]:
+    """Apply the sentence-by-sentence adjudications preserved in the review ledger.
+
+    Sentence numbers are generated data and can move when prose is edited, so a
+    review is joined by the stable pair of document path and exact sentence text.
+    A changed sentence intentionally falls out of the join and must be reviewed
+    again instead of inheriting an obsolete conclusion.
+    """
+
+    if not MANUAL_REVIEWS.exists():
+        return sentences, {"available": 0, "applied": 0, "stale": 0}
+
+    reviews = read_csv(MANUAL_REVIEWS)
+    trust_by_id = {source["source_id"]: source for source in trusted_sources}
+    review_by_key: dict[tuple[str, str], dict[str, str]] = {}
+    for review in reviews:
+        key = (review["file"], review["sentence"])
+        if key in review_by_key:
+            raise SystemExit(f"duplicate manual sentence review: {key!r}")
+        review_by_key[key] = review
+
+    applied = 0
+    for sentence in sentences:
+        review = review_by_key.get((str(sentence["file"]), str(sentence["sentence"])))
+        if review is None:
+            continue
+        applied += 1
+        judgment = review["validity_judgment"]
+        source_ids = [source_id for source_id in review["source_ids"].split(";") if source_id]
+        invalid_sources = [
+            source_id
+            for source_id in source_ids
+            if source_id not in trust_by_id or trust_by_id[source_id]["eligibility"] != "eligible"
+        ]
+        if invalid_sources:
+            raise SystemExit(
+                f"manual review uses missing or ineligible sources for {sentence['sentence_id']}: {invalid_sources}"
+            )
+
+        if judgment == "妥当（一次資料対象外）":
+            sentence.update(
+                evidence_required="no",
+                coverage_status="not_required_reviewed",
+                semantic_review_status="human_reviewed_not_applicable",
+                source_ids="",
+                source_urls="",
+                mapping_basis="human_review:not_external_claim",
+                source_count=0,
+            )
+        elif judgment in {"妥当（一次資料で支持）", "妥当（限定付き）"}:
+            if not source_ids:
+                raise SystemExit(f"supported manual review has no source: {sentence['sentence_id']}")
+            sentence.update(
+                evidence_required="yes",
+                coverage_status=review["coverage_status"],
+                semantic_review_status=review["semantic_review_status"],
+                source_ids=";".join(source_ids),
+                source_urls=review["source_urls"],
+                mapping_basis=(
+                    "human_review:direct_semantic_support"
+                    if judgment == "妥当（一次資料で支持）"
+                    else "human_review:qualified_semantic_support"
+                ),
+                source_count=len(source_ids),
+            )
+        else:
+            sentence.update(
+                evidence_required="yes",
+                coverage_status=review["coverage_status"],
+                semantic_review_status=review["semantic_review_status"],
+                source_ids=";".join(source_ids),
+                source_urls=review["source_urls"],
+                mapping_basis="human_review:requires_remediation",
+                source_count=len(source_ids),
+            )
+        sentence["review_note"] = (
+            f"{judgment}｜{review['human_review_basis']}｜対応: {review['remediation']}"
+            f"｜評価者: {review['reviewer']}（{review['review_date']}）"
+        )
+
+    return sentences, {
+        "available": len(reviews),
+        "applied": applied,
+        "stale": len(reviews) - applied,
+    }
+
+
 def concrete_technology_rows(
     sentence_rows: list[dict[str, object]],
     sources: list[dict[str, str]],
@@ -454,7 +545,11 @@ def coverage_rows(
 ) -> list[dict[str, object]]:
     required = [row for row in sentences if row["evidence_required"] == "yes"]
     covered = [row for row in required if str(row["coverage_status"]).startswith("covered_")]
-    direct = [row for row in required if row["coverage_status"] == "covered_direct"]
+    direct = [
+        row
+        for row in required
+        if row["coverage_status"] in {"covered_direct", "covered_direct_reviewed"}
+    ]
     files = {str(row["file"]) for row in sentences}
     eligible_sources = [row for row in trusted_sources if row["eligibility"] == "eligible"]
     quint_techniques = [row for row in technologies if row["quint_scenario"]]
@@ -502,7 +597,7 @@ def generate_lean(
             % (
                 number,
                 lean_bool(source_count > 0),
-                lean_bool(row["coverage_status"] == "covered_direct"),
+                lean_bool(row["coverage_status"] in {"covered_direct", "covered_direct_reviewed"}),
                 source_count,
             )
         )
@@ -567,6 +662,7 @@ def main() -> int:
     trusted_sources = trusted_source_rows(sources)
     raw_sentences = extract_sentence_rows()
     sentences = build_sentence_evidence(raw_sentences, sources, trusted_sources)
+    sentences, manual_review_stats = apply_manual_reviews(sentences, trusted_sources)
     technologies = concrete_technology_rows(raw_sentences, sources, trusted_sources)
     coverage = coverage_rows(sentences, technologies, trusted_sources)
     uncovered = [row for row in sentences if row["coverage_status"] == "uncovered"]
@@ -579,6 +675,8 @@ def main() -> int:
     generate_lean(sentences, technologies, coverage)
 
     generated = [
+        OUT / "manual_primary_sources.csv",
+        MANUAL_REVIEWS,
         OUT / "trusted_primary_sources.csv",
         OUT / "sentence_evidence.csv",
         OUT / "uncovered_sentences.csv",
@@ -599,6 +697,7 @@ def main() -> int:
         "direct_covered_sentences": int(direct_metric["numerator"]),
         "direct_coverage_percent": direct_metric["coverage_percent"],
         "uncovered_sentences": len(uncovered),
+        "manual_sentence_reviews": manual_review_stats,
         "concrete_technologies": len(technologies),
         "trusted_primary_sources": sum(row["eligibility"] == "eligible" for row in trusted_sources),
         "source_trust_tiers": {
@@ -606,8 +705,8 @@ def main() -> int:
         },
         "coverage_definition": {
             "denominator": "externally checkable technical, empirical, research, or official-product sentences",
-            "covered": "at least one eligible primary source mapped by direct link, concrete-technique mapping, or same paragraph",
-            "direct": "sentence-local link or curated concrete-technique primary source",
+            "covered": "eligible primary source mapped by direct link, concrete-technique mapping, same paragraph, or preserved sentence-level semantic adjudication",
+            "direct": "sentence-local link, curated concrete-technique primary source, or human-reviewed direct semantic support",
             "not_required": "normative design instructions, examples, transitions, and structural prose",
         },
         "semantic_validation_boundary": "Lean proves ledger consistency, not that a source semantically entails the Japanese sentence.",

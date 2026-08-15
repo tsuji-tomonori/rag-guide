@@ -1,7 +1,7 @@
 {
   "method_version": 1,
-  "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "required_sentences": 1067,
+  "authoritative_commit": "f0c3e0f48309e2d1c2684dd6de3a5ac66a6e3111",
+  "required_sentences": 1022,
   "controlled_formalizations": 39,
   "relative_entailments_proved": 39,
   "contract_rejections": 0,
@@ -14,9 +14,9 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/semantic_assurance.csv": "84eef25b1e7f87a0d2d8964a4716eddf0c1aec77163ac2ece6334c97e350e8ac",
+    "formal/review-data/semantic_assurance.csv": "7aedb3ae60709b001809fc1d6e888692ab56ace4a487489c66a990c38098d8c7",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "c9b9e202870cad29cfcd620f976538a53bb3230cdeec4a6ba664c6b5292b5139",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "3de66d54efd7a3c6e105ba9987dd7314e19053448441bd88c33c039bfa224f1e"
+    "formal/review-data/semantic_assurance_summary.csv": "ee7a044ca9cd019a2587b20ec4e91029f7e665efa5f1465fb63bd61fbacc5a82",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "09aacc220a5eb242d6546e1f4f372db2f7b987a5afd3b23ad771c3cbb95ccc64"
   }
 }

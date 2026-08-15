@@ -39,7 +39,11 @@ def main() -> int:
     required = [row for row in sentences if row["evidence_required"] == "yes"]
     computed_uncovered = [row for row in required if row["coverage_status"] == "uncovered"]
     covered = [row for row in required if row["coverage_status"].startswith("covered_")]
-    direct = [row for row in required if row["coverage_status"] == "covered_direct"]
+    direct = [
+        row
+        for row in required
+        if row["coverage_status"] in {"covered_direct", "covered_direct_reviewed"}
+    ]
     require(
         [row["sentence_id"] for row in computed_uncovered] == [row["sentence_id"] for row in uncovered],
         "uncovered_sentences.csv is not the exact uncovered projection",
