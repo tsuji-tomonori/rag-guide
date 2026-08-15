@@ -1,6 +1,6 @@
 {
-  "authoritative_spec": "docs/ at commit 52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "spec_version": "RAG guide 1.1.1 plus evidence-ledger, semantic-assurance, and literature-entailment methods v1",
+  "authoritative_spec": "docs/ at commit 5324ee5f0aa630fc5d933470d9be63351fa703cf",
+  "spec_version": "RAG guide 1.1.1 plus evidence-ledger, semantic-assurance, literature-entailment, and appropriateness-review methods v2",
   "requirements": [
     {
       "id": "EV-REQ-001",
@@ -157,6 +157,19 @@
       "assumptions": ["The inspected primary-source controlled projection and guide-sentence logical decomposition are accepted as the finite formal model", "Source summaries are conditional premises and do not assert external truth"],
       "out_of_scope": ["Claim-polarity review for 177 paper and primary-page term projections", "Meaning-preserving Japanese/English natural-language translation", "Independent reproduction of empirical claims", "Hosted-service runtime conformance"],
       "verdict": "MODEL_PROVED"
+    },
+    {
+      "id": "EV-REQ-013",
+      "source": "formal/appropriateness-review-guide.md; formal/review-data/appropriateness_review_manifest.json",
+      "claim": "The 678 baseline unresolved sentences are represented exactly once and completion remains false unless independent review, gold calibration, controlled source-projection review, actionable-doc application, NOT/IMPLIES relation evidence, Google Sheets readback, and post-review recalculation are all complete.",
+      "lean_theorems": ["review_queue_count_exact", "completion_not_claimed_while_blocked"],
+      "proof_status": "ledger count and the fail-closed implication from any BLOCKED row are kernel checked; the remaining completion inputs are regenerated and externally checked before the Lean build; all #print axioms reports are empty",
+      "implementation_symbols": ["generate_appropriateness_review.queue_rows", "generate_appropriateness_review.summary_rows", "generate_appropriateness_review.generate_post_review_recalculation", "check_appropriateness_review.main"],
+      "bridge": "external-conformance",
+      "evidence": ["appropriateness_review_queue.csv", "appropriateness_review_decisions.csv", "appropriateness_gold_fixture.csv", "appropriateness_review_application_map.csv", "appropriateness_relation_evidence.csv", "appropriateness_sheet_export_manifest.json", "appropriateness_sheet_readback.json", "appropriateness_post_review_recalculation.json", "python3 tools/formal_review/check_appropriateness_review.py", "python3 tools/formal_review/audit_lean_trust.py formal/lean", "python3 tools/formal_review/check_lean_traceability.py formal/lean/traceability.json --lean-root formal/lean", "lake build"],
+      "assumptions": ["The pinned baseline sentence_logical_proofs.csv is the accepted inventory of unresolved sentences", "Reviewer identities, evidence judgments, Google Drive revision identity, and natural-language meaning are supplied outside Lean"],
+      "out_of_scope": ["Correctness of a human appropriateness verdict", "Natural-language semantic equivalence", "External truth of source claims"],
+      "verdict": "MODEL_PROVED_IMPLEMENTATION_TESTED"
     }
   ]
 }

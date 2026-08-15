@@ -1,24 +1,30 @@
 {
-  "method_version": 1,
-  "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "primary_sources": 193,
-  "required_sentences": 1067,
-  "formalized_sentences": 906,
-  "sourced_sentences": 1067,
-  "conditional_logical_proofs": 389,
+  "method_version": 2,
+  "authoritative_commit": "5324ee5f0aa630fc5d933470d9be63351fa703cf",
+  "primary_sources": 194,
+  "required_sentences": 689,
+  "formalized_sentences": 644,
+  "sourced_sentences": 689,
+  "conditional_logical_proofs": 469,
   "end_to_end_proofs": 0,
   "source_projections_claim_polarity_reviewed": 16,
-  "atom_count": 144,
+  "curated_official_sources": 16,
+  "atom_count": 141,
   "assurance_boundary": {
     "proved": "For reported rows, Lean proves source-summary facts entail the decomposed positive guide formula under any valuation.",
     "not_proved": "External truth of paper claims and semantic adequacy of bilingual natural-language formalization.",
     "anti_circularity": "Source summaries are explicit theorem premises, not custom Lean axioms and not copied from guide sentences."
   },
   "sha256": {
-    "formal/review-data/literature_source_theorems.csv": "1e985d5a6024fcf8d9358bfc4a6bb84ae2607a73f9c3e71c9894a557f9959232",
-    "formal/review-data/sentence_logical_proofs.csv": "a2f98f5cdf5a696a07b7e60fc8b79f04addc7a9c471e8de6a2d416fbe303e06b",
-    "formal/review-data/logical_proof_summary.csv": "fea6205ee45526f876d9b59d5a24a1acbbf0816ef4fbac06cec89310fd03cee2",
-    "formal/lean/RagEvidence/LiteratureGenerated.lean": "470e5637375d0b8646cfabbfb73e8af47a92b64292550e1b4367a71048db0e0f",
-    "formal/lean/RagEvidence/LiteratureProofs.lean": "0b759354538cb5c2cf92b8d8f48d877f58ddce3183481fe7ef0dccaf7b52609c"
+    "formal/review-data/coverage_manifest.json": "b418564eca59f66f7a4e23fb9644a40f0f78a6c9325f1a423049cfd5a6390a01",
+    "formal/review-data/semantic_assurance_manifest.json": "a978c0fa354c9195f5a470edfea198a520932247feacb5c1383626fde72eb856",
+    "formal/review-data/sentence_evidence.csv": "411d3922d7983fbd21fc50f4ccab75aa58f3443d161e5c68cc756af23fb081f2",
+    "formal/review-data/trusted_primary_sources.csv": "32497ef5492a02e612093e897ff3844b1811ff20de8fadb9748f02eb8647dac9",
+    "formal/review-data/source_summary_formalizations.csv": "e3890e8c7ef4b77c6de4a6d9ec240fca1ee54246d5d36f1fb2fb67ef21463648",
+    "formal/review-data/literature_source_theorems.csv": "0e483867826608612f09642cfd0cbf2bb05be9a3a34918c687fea51b69d0d1a7",
+    "formal/review-data/sentence_logical_proofs.csv": "f29da3a9f900f12e8d4c069dcd230ece9fe7a7b88d7f587819c4480b81b678e2",
+    "formal/review-data/logical_proof_summary.csv": "ada7e6de2ead3757388210860acdfe0e7f5c2db4e8fa317663ffc0b5d837ff8c",
+    "formal/lean/RagEvidence/LiteratureGenerated.lean": "02a2f474faa55c1b2ded2f8381d4440bfbd1cf6fefd087ac0fcb2c91ff4a2964",
+    "formal/lean/RagEvidence/LiteratureProofs.lean": "8ce0a638751be6bff75e4cc96ee2c95c0221fc3652d77c64b1170893a6edc738"
   }
 }

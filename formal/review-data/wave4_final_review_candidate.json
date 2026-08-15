@@ -1,0 +1,43 @@
+{
+  "baseline_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
+  "row_count": 678,
+  "verdict_counts": {
+    "APPROPRIATE_AFTER_QUALIFICATION": 3,
+    "APPROPRIATE_NORMATIVE": 341,
+    "APPROPRIATE_SUPPORTED": 23,
+    "REMOVE_OR_REPLACE": 38,
+    "REWRITE_REQUIRED": 273
+  },
+  "primary_reviewer": "codex-primary-wave4",
+  "independent_reviewer": "codex-independent-wave4",
+  "review_date": "2026-08-15",
+  "candidate_sha256": "433ee3576f4b03189ee2f500e65c519acf48aff4562f7738d4d8d01a020aa08e",
+  "input_sha256": {
+    "formal/review-data/appropriateness_review_queue.csv": "a854a00f75236dcc551e298660c9ced415e6a0bf643355a06d1633d58ab1c13b",
+    "formal/review-data/appropriateness_review_decisions.csv": "a331afe5e6d84cba6b0e6e306473e422112269bf79a4e4e84ec9ed780bb12d35",
+    "formal/review-data/wave4_primary_proposal.csv": "2c33501b577c7e7e3edbdb29b39ad24d478e232ec2c8262e156d736f3322c1c0",
+    "formal/review-data/wave4_independent_proposal.csv": "7073b6b528fcf4e9ce4661bd988b15456fe8513d7a0de39550eb8cef77ab2717",
+    "formal/review-data/wave4_verdict_reconciliation.csv": "dbb99ef74af25fcda5534a3f396924f388b71c062db5548a87270ef86be86272",
+    "formal/review-data/wave4_source_reconciliation.csv": "7d1cabffc5057ffb901d102f65c75d84971103a0a98d53ccb257ac0a194f363f",
+    "formal/review-data/wave4_gold_reconciliation.csv": "e8b1d778c00743d6a775cc2f5b3187bd44c1d37698bb010b0ebc2bd3d781ba93",
+    "formal/review-data/appropriateness_gold_fixture.csv": "19d4dec1d2619474570e880f00c20408b04e3762486138b62bf248bea0e24640",
+    "formal/review-data/trusted_primary_sources.csv": "afba9c837df197e447f806aef97c8f9ed5b4dea2cf6f55393b64b969d93a011a"
+  },
+  "correction_ledgers": {
+    "wave4_primary_candidate_corrections.csv": "bafacc31f1c3864eb2ef3362f47ee27806db4a8a48f7ab543904f411921ef5de",
+    "wave4_independent_candidate_corrections.csv": "ba58c2e44322254687181cb1cc12f021ac38b5939bde0476bab4e955f4b37240",
+    "wave4_adjudicator_candidate_corrections.csv": "c31882382e4c3c2f23aeedc440b67d7e400eaf808ec7301ee65d113418d26b46",
+    "wave4_candidate_correction_reconciliation.csv": "576219c62254147d2f4edd1a30f07702e1e5b4ff028b16fcea07b9330974abb1",
+    "wave4_primary_second_pass_corrections.csv": "eac29395e9d09990900ceae2b53363e37ee424a59a5afabbf96b2f3c32c5fee2",
+    "wave4_independent_second_pass_corrections.csv": "d6dfc027e90408786c8db0ad1113bae13a845fd42cf5afe4c672a830bcc330c3",
+    "wave4_exact_audit_corrections.csv": "026505a2ac42c328073ad8753fb75857d4c3fbb184c02f14cda0503951ffce06",
+    "wave4_independent_third_pass_corrections.csv": "2b49dcddb29d747aebbf241fb0efee6990b7c4c61774d3571f2de41b7000cf44",
+    "wave4_independent_fourth_pass_corrections.csv": "7ca2fc04601c9cbb7c56807c3fb643d85ca7ccbae1ab00aea10967c0ddb9ca23",
+    "wave4_independent_fifth_pass_corrections.csv": "32285162c1ca3dc0d78d30e7ff0cdea5b9da8dffac2d0392be6ffbe06840a910",
+    "wave4_independent_sixth_pass_corrections.csv": "6f326dbe2aa9d837a42ca15788ad0dd4d3d6818082c82530041e7923d6ac0e4a",
+    "wave4_exact_grammar_corrections.csv": "67b924831696815971855da988a1553af0c5b794dbb41f5af1c6ef8b6557e8d8",
+    "wave4_independent_eighth_pass_corrections.csv": "9be021cdeae9c1c600c5f2a8a2b06f605928792954f574a01a5140a0d11083ce",
+    "wave4_independent_ninth_pass_corrections.csv": "e91e7eeae5a67a757adc979ffb5cec344b2acb39893e2dc372cb21bbd639c002"
+  },
+  "status": "PENDING_EXACT_CANDIDATE_SIGNOFF"
+}

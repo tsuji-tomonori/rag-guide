@@ -29,10 +29,17 @@ def split_values(value: str) -> list[str]:
 
 def main() -> int:
     manifest = json.loads((OUT / "semantic_assurance_manifest.json").read_text(encoding="utf-8"))
+    coverage_manifest = json.loads((OUT / "coverage_manifest.json").read_text(encoding="utf-8"))
     semantic = rows("semantic_assurance.csv")
     sentences = rows("sentence_evidence.csv")
     claims = rows("source_claim_formalizations.csv")
     summary = {row["metric_id"]: row for row in rows("semantic_assurance_summary.csv")}
+
+    require(manifest.get("method_version") == 2, "semantic manifest method version mismatch")
+    require(
+        manifest.get("authoritative_commit") == coverage_manifest.get("canonical_commit"),
+        "semantic and coverage commit pins differ",
+    )
 
     required = [row for row in sentences if row["evidence_required"] == "yes"]
     require([row["sentence_id"] for row in semantic] == [row["sentence_id"] for row in required], "semantic ledger is not the exact required-sentence projection")
@@ -67,6 +74,9 @@ def main() -> int:
     require(int(summary["SEM-COV-003"]["numerator"]) == len(rejected), "SEM-COV-003 mismatch")
     require(int(summary["SEM-COV-004"]["numerator"]) == len(full_sentence_proved), "SEM-COV-004 mismatch")
     require(int(summary["TRUTH-COV-004"]["numerator"]) == len(independent_truth), "TRUTH-COV-004 mismatch")
+    for metric_id in ("SEM-COV-001", "SEM-COV-002", "SEM-COV-004", "TRUTH-COV-001", "TRUTH-COV-004"):
+        require(int(summary[metric_id]["denominator"]) == len(semantic), f"{metric_id} dynamic denominator mismatch")
+    require(int(summary["SEM-COV-003"]["denominator"]) == len(formalized), "SEM-COV-003 dynamic denominator mismatch")
     require(manifest["required_sentences"] == len(semantic), "semantic manifest count mismatch")
     require(manifest["controlled_formalizations"] == len(formalized), "semantic formalization count mismatch")
     require(manifest["relative_entailments_proved"] == len(entailed), "semantic entailment count mismatch")

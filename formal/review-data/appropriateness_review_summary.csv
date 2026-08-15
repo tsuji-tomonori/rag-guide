@@ -1,0 +1,12 @@
+﻿metric_id,metric,numerator,denominator,coverage_percent
+APR-001,未証明レビュー対象,678,678,100.0
+APR-002,BLOCKED以外の最終判定,678,678,100.0
+APR-003,独立レビュー完了,678,678,100.0
+APR-004,主張極性レビュー完了,632,632,100.0
+APR-005,BLOCKED,0,678,0.0
+APR-006,Issue #35完了ゲート,1,1,100.0
+APR-007,gold校正完了,1,1,100.0
+APR-008,本文反映完了,655,655,100.0
+APR-009,NOT・IMPLIES関係レビュー完了,187,187,100.0
+APR-010,Google Sheets readback一致,1,1,100.0
+APR-011,新docs commit再計算,1,1,100.0

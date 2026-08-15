@@ -1,10 +1,10 @@
 {
-  "method_version": 1,
-  "authoritative_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "required_sentences": 1067,
-  "controlled_formalizations": 39,
-  "relative_entailments_proved": 39,
-  "contract_rejections": 0,
+  "method_version": 2,
+  "authoritative_commit": "5324ee5f0aa630fc5d933470d9be63351fa703cf",
+  "required_sentences": 689,
+  "controlled_formalizations": 41,
+  "relative_entailments_proved": 40,
+  "contract_rejections": 1,
   "automatic_full_sentence_entailments": 0,
   "independently_verified_source_truths": 0,
   "atom_count": 77,
@@ -14,9 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/semantic_assurance.csv": "84eef25b1e7f87a0d2d8964a4716eddf0c1aec77163ac2ece6334c97e350e8ac",
+    "formal/review-data/coverage_manifest.json": "b418564eca59f66f7a4e23fb9644a40f0f78a6c9325f1a423049cfd5a6390a01",
+    "formal/review-data/sentence_evidence.csv": "411d3922d7983fbd21fc50f4ccab75aa58f3443d161e5c68cc756af23fb081f2",
+    "formal/review-data/concrete_technologies.csv": "98a82d603badaa502145c7fc30b9fe27fc9d6294ecd2fd68e9224ca6b83cad71",
+    "formal/review-data/semantic_assurance.csv": "dec00d2713470606544a08f0b46c1830165f389b89a4e33156064db2fe2dbfcf",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "c9b9e202870cad29cfcd620f976538a53bb3230cdeec4a6ba664c6b5292b5139",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "3de66d54efd7a3c6e105ba9987dd7314e19053448441bd88c33c039bfa224f1e"
+    "formal/review-data/semantic_assurance_summary.csv": "4cf1bf2e1ec1a263b2212f59496a043cdfbf6b92aedc5cdb77b53020ebb2fef4",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "81cf0921aec2e27e51ed16ab3a5f8f59932cdf48ddef0b4670aef27c51ea6941"
   }
 }
