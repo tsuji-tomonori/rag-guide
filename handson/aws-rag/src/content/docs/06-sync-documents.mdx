@@ -9,11 +9,53 @@ import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
 
-同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、文書単位の状態、vector indexの4層で確認します。
+同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、文書単位の状態、vector indexの4層で確認します。また、ingestion開始前にKnowledge Baseが利用するservice roleとembedding model呼び出し権限を再確認し、IAM不足を同期処理の途中まで持ち越さないようにします。
 
-<CloudShellStep number="6.1" title="ingestion jobを開始する">
+<CloudShellStep number="6.1" title="ingestion前提を検証してjobを開始する">
 
-<Command>
+まず、Knowledge Baseが4章で作成したservice roleを使っていることと、そのroleにTitan Text Embeddings V2への`bedrock:InvokeModel`が付与されていることを確認します。
+
+<Command title="Knowledge Baseのroleとembedding model権限をpreflight">
+
+```bash
+export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
+
+export RAG_KB_ROLE_ARN="$(aws bedrock-agent get-knowledge-base \
+  --knowledge-base-id "$RAG_KB_ID" \
+  --query 'knowledgeBase.roleArn' \
+  --output text)"
+
+test "$RAG_KB_ROLE_ARN" = "$RAG_ROLE_ARN"
+
+aws iam get-role-policy \
+  --role-name "$RAG_ROLE_NAME" \
+  --policy-name "$RAG_POLICY_NAME" \
+  --query 'PolicyDocument' \
+  --output json \
+  | tee "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+
+jq -e --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" '
+  any(.Statement[];
+    .Effect == "Allow"
+    and ((.Action | if type == "array" then . else [.] end) | index("bedrock:InvokeModel") != null)
+    and (.Resource == $modelArn)
+  )
+' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+```
+
+</Command>
+
+<ExpectedResult>
+
+すべてのコマンドが終了コード`0`で完了します。特に最後の`jq -e`が成功すれば、Knowledge Baseが利用するroleに、東京リージョンの`amazon.titan-embed-text-v2:0`を呼び出すidentity-based policyが存在します。
+
+</ExpectedResult>
+
+<Aside type="caution" title="bedrock:InvokeModel の検証で失敗した場合">
+  ingestion jobを開始する前に4章のpermissions policyを再適用してください。`aws iam put-role-policy --role-name "$RAG_ROLE_NAME" --policy-name "$RAG_POLICY_NAME" --policy-document "file://$RAG_WORK_DIR/bedrock-kb-permissions.json"`を実行し、このpreflightをもう一度実行します。`bedrock:InvokeModel`がないまま`start-ingestion-job`を実行すると、embedding時に403の`ValidationException`で失敗します。
+</Aside>
+
+<Command title="ingestion jobを開始">
 
 ```bash
 aws bedrock-agent start-ingestion-job \
@@ -137,6 +179,8 @@ aws s3vectors list-vectors \
 
 <Checkpoint>
 
+- Knowledge Baseが4章で作成したservice roleを使用している
+- service roleにTitan Text Embeddings V2への`bedrock:InvokeModel`がある
 - ingestion jobは`COMPLETE`である
 - failure reasonがない
 - Well-Architected Framework PDFが`INDEXED`である
