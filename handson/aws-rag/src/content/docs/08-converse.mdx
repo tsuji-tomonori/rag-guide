@@ -122,9 +122,9 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 ```bash
 test -s "$RAG_WORK_DIR/answer.txt"
-grep -q 'セキュリティ' "$RAG_WORK_DIR/answer.txt"
-grep -q '信頼性' "$RAG_WORK_DIR/answer.txt"
-grep -q '持続可能性' "$RAG_WORK_DIR/answer.txt"
+grep -q 'ナレッジベース' "$RAG_WORK_DIR/answer.txt"
+grep -q 'Retrieve' "$RAG_WORK_DIR/answer.txt"
+grep -q 'RetrieveAndGenerate' "$RAG_WORK_DIR/answer.txt"
 grep -Eq '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt"
 
 for citation in $(grep -oE '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt" | sort -u); do
