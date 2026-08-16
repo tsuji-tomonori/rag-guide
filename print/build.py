@@ -26,7 +26,7 @@ IMAGE_RE = re.compile(
 )
 IMAGE_CAPTION_RE = re.compile(
     r"(!\[[^\]\n]*\]\(print/build/images/[^)\s]+\))"
-    r"\n\n\*\*(図\d+-\d+[^\n*]*)\*\*"
+    r"\n\n\*\*((?:図\d+-\d+|アルゴリズム図A\d+)[^\n*]*)\*\*"
 )
 LOCAL_DOC_LINK_RE = re.compile(
     r"\[(?P<label>[^\]\n]+)\]\((?P<target>[^)\n]+?\.md)\)"
@@ -35,7 +35,7 @@ PRINT_IMAGE_RE = re.compile(
     r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+(?:\s+\"[^\"]*\")?\)"
 )
 PRINT_CAPTION_RE = re.compile(
-    r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+\s+\"図\d+-\d+[^\"]*\"\)"
+    r"!\[[^\]\n]*\]\(print/build/images/[^)\s]+\s+\"(?:図\d+-\d+|アルゴリズム図A\d+)[^\"]*\"\)"
 )
 STRONG_RE = re.compile(r"\*\*(?P<text>[^*\n]+)\*\*")
 MAX_CODE_LINE_LENGTH = 88
