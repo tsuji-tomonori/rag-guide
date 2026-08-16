@@ -1,9 +1,9 @@
 ---
 title: AWS RAG ハンズオン
-description: CloudShellだけで、根拠を検索して回答するRAGをAWS上に構築します。
+description: AWS CLIを使って、根拠を検索して回答するRAGをAWS上に構築します。
 template: splash
 hero:
-  tagline: CloudShellだけで、S3の文書を検索し、根拠に基づいて回答するRAGをAWS上に構築します。
+  tagline: AWS CLIを使って、S3の文書を検索し、根拠に基づいて回答するRAGをAWS上に構築します。
   actions:
     - text: ハンズオンを始める
       link: /rag-guide/00-overview/
@@ -28,17 +28,25 @@ import BuildProgress from '../../components/BuildProgress.astro';
   <figcaption>まず全体構成を確認してから、0. 全体像と進め方へ進みます。</figcaption>
 </figure>
 
+<figure class="architecture-figure diagram-figure">
+  <img
+    src="/rag-guide/images/aws-rag-physical-architecture.svg"
+    alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
+  />
+  <figcaption>物理構成：S3、Knowledge Bases、S3 Vectors、Converseの接続関係を先に確認できます。</figcaption>
+</figure>
+
 ## このハンズオンで作るもの
 
 <CardGrid>
-  <Card title="すべてCloudShellで実行" icon="seti:shell">
-    AWS Management Console内のCloudShellから、コピー可能なAWS CLIコマンドだけで構築します。
+  <Card title="AWS CLIで実行" icon="seti:shell">
+    AWS CLIを実行できるターミナルから、コピー可能なコマンドだけで構築します。
   </Card>
   <Card title="毎回、完了を検証" icon="approve-check-circle">
     作成コマンドの直後にread-onlyの確認コマンドを実行し、期待値を見てから次へ進みます。
   </Card>
-  <Card title="検索と生成を分離" icon="puzzle">
-    `Retrieve`で根拠を確認した後、そのEvidence Setだけを`Converse`へ渡します。
+  <Card title="分離型と一体型を体験" icon="puzzle">
+    7・8では`Retrieve`と`Converse`を分け、9では`RetrieveAndGenerate`を1回呼び出して検索から回答生成までを実行します。
   </Card>
   <Card title="最後に確実に削除" icon="delete">
     Knowledge Base、vector index、S3、IAM roleを依存順に削除し、課金リソースが残っていないことを確認します。
@@ -47,9 +55,11 @@ import BuildProgress from '../../components/BuildProgress.astro';
 
 ## 完成する構成
 
-`S3 data source → Amazon Bedrock Knowledge Bases → S3 Vectors → Retrieve → Converse`
+分離型：`S3 data source → Amazon Bedrock Knowledge Bases → S3 Vectors → Retrieve → Converse`
 
-基準構成は密ベクトルによるsemantic searchです。検索結果を見ずに生成へ進まず、まず`Retrieve`で「適切な根拠が返っているか」を確認します。
+一体型：`S3 data source → Amazon Bedrock Knowledge Bases → S3 Vectors → RetrieveAndGenerate → 回答・citation`
+
+基準構成は密ベクトルによるsemantic searchです。7・8では検索結果を見ずに生成へ進まず、まず`Retrieve`で「適切な根拠が返っているか」を確認します。9では同じKnowledge Baseに対して、検索と回答生成を一撃で試します。
 
 ## 所要時間と費用
 

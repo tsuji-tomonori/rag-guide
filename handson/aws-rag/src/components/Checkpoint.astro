@@ -78,6 +78,25 @@ const { title = '次へ進む前のチェック' } = Astro.props;
     return wrapper;
   };
 
+  const getCheckpointGroup = (sourceInput: HTMLInputElement) => {
+    const sourceResult = sourceInput.closest<HTMLElement>('[data-check-source]');
+    const step = sourceResult?.closest<HTMLElement>('.shell-step');
+    const number = step?.dataset.stepNumber?.trim();
+    const title = step?.dataset.stepTitle?.trim();
+
+    if (number || title) {
+      return {
+        key: `step:${number ?? title}`,
+        label: [number ? `${number}.` : '', title].filter(Boolean).join(' '),
+      };
+    }
+
+    return {
+      key: `result:${sourceResult?.dataset.resultId ?? 'start'}`,
+      label: sourceResult?.dataset.resultTitle ?? '開始前の確認',
+    };
+  };
+
   const convertResultLists = () => {
     const state = readState();
     document.querySelectorAll<HTMLElement>('[data-check-source]').forEach((result, resultIndex) => {
@@ -148,16 +167,38 @@ const { title = '次へ進む前のチェック' } = Astro.props;
     }
 
     if (sourceInputs.length > 0) {
-      list.replaceChildren();
+      const groups = new Map<string, { label: string; inputs: HTMLInputElement[] }>();
       sourceInputs.forEach((sourceInput) => {
-        const sourceResult = sourceInput.closest<HTMLElement>('[data-check-source]');
-        const sourceText = sourceInput.closest('.check-item')?.textContent?.trim() ?? '';
-        const resultTitle = sourceResult?.dataset.resultTitle ?? '開始前の確認';
-        const item = document.createElement('li');
-        item.dataset.resultTitle = resultTitle;
-        item.append(makeCheckItem(sourceInput.dataset.checkKey!, `${resultTitle}：${sourceText}`));
-        list.append(item);
-        setInputState(item.querySelector('input')!, sourceInput.checked);
+        const group = getCheckpointGroup(sourceInput);
+        const existing = groups.get(group.key);
+        if (existing) {
+          existing.inputs.push(sourceInput);
+        } else {
+          groups.set(group.key, { label: group.label, inputs: [sourceInput] });
+        }
+      });
+
+      list.replaceChildren();
+      groups.forEach((group) => {
+        const stepItem = document.createElement('li');
+        stepItem.className = 'checkpoint-step';
+
+        const stepTitle = document.createElement('strong');
+        stepTitle.className = 'checkpoint-step-title';
+        stepTitle.textContent = group.label;
+
+        const conditions = document.createElement('ul');
+        conditions.className = 'checkpoint-step-conditions';
+        group.inputs.forEach((sourceInput) => {
+          const sourceText = sourceInput.closest('.check-item')?.textContent?.trim() ?? '';
+          const condition = document.createElement('li');
+          condition.append(makeCheckItem(sourceInput.dataset.checkKey!, sourceText));
+          conditions.append(condition);
+          setInputState(condition.querySelector('input')!, sourceInput.checked);
+        });
+
+        stepItem.append(stepTitle, conditions);
+        list.append(stepItem);
       });
       staticBlock?.querySelectorAll('ul').forEach((staticList) => {
         staticList.hidden = true;

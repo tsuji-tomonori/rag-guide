@@ -14,12 +14,12 @@ import { Aside } from '@astrojs/starlight/components';
 - 算定日：2026-08-16
 - リージョン：アジアパシフィック（東京）`ap-northeast-1`
 - 通貨：USD。日本円への換算、税、組織契約割引は含めません。
-- 1回の範囲：PDFを1回取り込み、検索を5回、生成を2回実行し、同日中にCleanupを完了するケース
-- 文書：AWS公式 Well-Architected Framework 日本語PDF。取得時のサイズは約10.5 MBですが、`latest`のため将来変わる可能性があります。
-- 埋め込み入力：取り込み時100,000 token、検索クエリ20 token × 5回を仮定します。実際の請求は実際に処理したtoken数で変わります。
+- 1回の範囲：PDFを1回取り込み、`Retrieve`を1回、`RetrieveAndGenerate`を1回、`Converse`を2回実行し、同日中にCleanupを完了するケース
+- 文書：AWS公式のRAGガイダンス日本語PDF（39ページ）。`latest`のためサイズと抽出token数は取得時に変わる可能性があります。計算表は安全側にPDF 10 MB・embedding入力100,000 tokenを仮定します。
+- 埋め込み入力：取り込み時100,000 token、検索クエリ20 token × 2回（7章の`Retrieve`と9章の`RetrieveAndGenerate`内部の検索）を仮定します。実際の請求は実際に処理したtoken数で変わります。
 - ベクトル：300 token、overlap 10%から約370 chunkとなるため、計算上は400 vectorへ丸めます。
 - S3 Vectorsの1 vectorあたり論理サイズ：AWSの料金例に合わせて6.17 KB（1024次元のvector data、metadata、key）を仮定します。
-- 生成：1.4の疎通確認は入力20 token・出力8 token、8.2の回答生成は入力2,000 token・出力400 token（`maxTokens`上限）で計算します。
+- 生成：1.4の疎通確認は入力20 token・出力8 token、8.2の`Converse`は入力2,000 token・出力400 token、9.2の`RetrieveAndGenerate`は入力2,000 token・出力400 token（いずれも`maxTokens`上限）で計算します。
 - S3 request：明示的な操作とKnowledge Baseの読み取りを合わせて50 request程度と仮定します。
 
 <Aside type="caution" title="このページの金額は見積もりです">
@@ -31,9 +31,10 @@ import { Aside } from '@astrojs/starlight/components';
 | 操作 | 手順上の回数 | 料金計算に使う量 |
 |---|---:|---:|
 | PDF取り込み | 1回 | embedding input 100,000 token |
-| Retrieve | 1回（7章）+ 4回（9章） | 5 query × 20 token |
+| Retrieve | 1回（7章） | 1 query × 20 token |
+| RetrieveAndGenerate | 1回（9.2章） | 内部検索1 query × 20 token + generation input 2,000 / output 最大400 token |
 | Converse | 1回（1.4章の疎通確認）+ 1回（8.2章の回答） | input 2,020 token、output 最大408 token |
-| S3オブジェクト | PDF + sidecar metadata | 約10.5 MB、2 object |
+| S3オブジェクト | PDF + sidecar metadata | 実測サイズ + sidecar metadata、2 object |
 | S3 Vectors | Knowledge BaseがchunkをPutVectors | 約400 vector、約2.468 MB |
 
 ## 内訳
@@ -45,10 +46,12 @@ import { Aside } from '@astrojs/starlight/components';
 | モデル | 計算 | 金額 |
 |---|---|---:|
 | Titan Text Embeddings V2：取り込み | 100,000 token × $0.000029 / 1,000 token | $0.002900 |
-| Titan Text Embeddings V2：Retrieveのquery embedding | 100 token × $0.000029 / 1,000 token | $0.0000029 |
+| Titan Text Embeddings V2：Retrieve / RetrieveAndGenerateのquery embedding | 40 token × $0.000029 / 1,000 token | $0.0000012 |
 | Nova Lite：Converse input | 2,020 token × $0.000072 / 1,000 token | $0.000145 |
 | Nova Lite：Converse output | 408 token × $0.000288 / 1,000 token | $0.000118 |
-| **Bedrock小計** |  | **約$0.00317** |
+| Nova Lite：RetrieveAndGenerate input | 2,000 token × $0.000072 / 1,000 token | $0.000144 |
+| Nova Lite：RetrieveAndGenerate output | 400 token × $0.000288 / 1,000 token | $0.000115 |
+| **Bedrock小計** |  | **約$0.00342** |
 
 Knowledge Baseの取り込みは、ここでは別の固定料金として二重計上せず、内部で発生するembedding tokenを計上しています。実行する構成は、S3 Vectorsを接続した自前管理のKnowledge Baseです。Managed Knowledge BaseやOpenSearch Serverlessは作成しないため、それらの料金は含みません。
 
@@ -58,11 +61,11 @@ Knowledge Baseの取り込みは、ここでは別の固定料金として二重
 |---|---|---:|
 | vector upload | 400 vector × 6.17 KB × $0.219 / GB | 約$0.00054 |
 | vector API control request | 15 request × $0.06 / 1,000 request | $0.00090 |
-| QueryVectors API | 5 query × $0.0027 / 1,000 query | $0.0000135 |
-| query processed bytes | 5 query × 400 vector × 5.17 KB × $0.004278 / TB | 0.000001 USD未満 |
+| QueryVectors API | 2 query × $0.0027 / 1,000 query | $0.0000054 |
+| query processed bytes | 2 query × 400 vector × 5.17 KB × $0.004278 / TB | 0.000001 USD未満 |
 | query returned bytes | 1 queryあたり512 KBまで無料。5件の短いchunkは無料範囲内と仮定 | $0 |
 | 1日分のvector storage | 0.002468 GB × $0.066 / GB-month × 1/30 | 約$0.000006 |
-| **S3 Vectors小計** | PUTの128 KB未満の最小課金などを含めて丸める前 | **約$0.00146** |
+| **S3 Vectors小計** | PUTの128 KB未満の最小課金などを含めて丸める前 | **約$0.00145** |
 
 S3 VectorsのPUT料金は論理データ量で、1回のPUTごとに128 KBの最小課金があります。Knowledge Base内部のbatch分割は固定されていないため、上表は400 vectorをまとめて送る代表値です。batchが細かく分かれる場合は、PUT行だけ少し増えます。
 
@@ -70,17 +73,16 @@ S3 VectorsのPUT料金は論理データ量で、1回のPUTごとに128 KBの最
 
 | 項目 | 計算 | 金額 |
 |---|---|---:|
-| Standard storage | 約0.0098 GB × $0.025 / GB-month × 1/30 | 約$0.000008 |
+| Standard storage | 10 MB上限仮定（約0.0098 GB） × $0.025 / GB-month × 1/30 | 約$0.000008 |
 | request | PUT/LIST 10回 × $0.0047 / 1,000 + GET/HEAD 40回 × $0.00037 / 1,000 | 約$0.000062 |
 | **S3小計** |  | **約$0.00008** |
 
-S3から同一リージョンのAWSサービスへ転送するデータ転送量は、この構成では0円として扱います。CloudShell自体にも追加の利用料金はありません。ただし、ハンズオンの範囲外で大容量のインターネット転送を行う場合は、標準のデータ転送料金が適用されることがあります。
+S3から同一リージョンのAWSサービスへ転送するデータ転送量は、この構成では0円として扱います。ただし、ハンズオンの範囲外で大容量のインターネット転送を行う場合は、標準のデータ転送料金が適用されることがあります。
 
 ### 4. 固定料金がないもの
 
 | 対象 | 基準ケースでの扱い |
 |---|---|
-| CloudShell | 追加利用料金なし |
 | IAM role / inline policy | 管理操作の固定料金なし |
 | Knowledge Base、data source、ingestionの管理API | この構成では固定の時間課金を計上しない |
 | CleanupのDELETE | 削除自体の料金は計上しない |
@@ -89,11 +91,11 @@ S3から同一リージョンのAWSサービスへ転送するデータ転送量
 
 | 区分 | 金額 |
 |---|---:|
-| Amazon Bedrock model token | 約$0.00317 |
-| Amazon S3 Vectors | 約$0.00146 |
+| Amazon Bedrock model token | 約$0.00342 |
+| Amazon S3 Vectors | 約$0.00145 |
 | Amazon S3 | 約$0.00008 |
 | その他 | $0 |
-| **合計（1人1回）** | **約$0.00470 → 約$0.005** |
+| **合計（1人1回）** | **約$0.00495 → 約$0.005** |
 
 したがって、教材上の一人一回あたりの予算目安は **0.01 USD未満**です。実際の請求では、同じrunでの再実行、PDFの更新、token数、S3 Vectorsのbatch分割、税・為替・Free Tierなどを反映してください。
 
@@ -103,17 +105,16 @@ S3から同一リージョンのAWSサービスへ転送するデータ転送量
 
 | 残るデータ | 計算 | 月額の目安 |
 |---|---|---:|
-| S3 source bucket | 0.0098 GB × $0.025 / GB-month | 約$0.00025 |
+| S3 source bucket | 10 MB上限仮定（約0.0098 GB） × $0.025 / GB-month | 約$0.00025 |
 | S3 Vectors | 0.002468 GB × $0.066 / GB-month | 約$0.00016 |
 | **合計** | request・追加検索を除く | **約$0.00042 / month** |
 
-これは小さな基準文書だけを残した場合の値です。vector数、metadata、chunk長が増えると増加します。また、リソースを残したまま追加のRetrieve、PutVectors、データ更新を実行すれば、その利用料金も継続します。実習後は必ず[10. リソースを削除する](/rag-guide/10-cleanup/)まで実行してください。
+これは小さな基準文書だけを残した場合の値です。vector数、metadata、chunk長が増えると増加します。また、リソースを残したまま追加の`Retrieve`、`RetrieveAndGenerate`、`Converse`、PutVectors、データ更新を実行すれば、その利用料金も継続します。実習後は必ず[10. リソースを削除する](/rag-guide/10-cleanup/)まで実行してください。
 
 ## 料金の公式資料
 
 - [Amazon Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
 - [Amazon S3 Pricing（S3 Vectorsを含む）](https://aws.amazon.com/s3/pricing/)
-- [AWS CloudShell Pricing](https://aws.amazon.com/cloudshell/pricing/)
 - [Amazon Bedrock 東京リージョン Price List API](https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/ap-northeast-1/index.json)
 - [Amazon S3 東京リージョン Price List API](https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/ap-northeast-1/index.json)
 - [Amazon Nova Lite model card](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-lite.html)

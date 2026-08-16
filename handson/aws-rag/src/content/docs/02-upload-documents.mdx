@@ -1,10 +1,10 @@
 ---
 title: 2. AWS公式PDFをS3へ配置する
-description: AWS Well-Architected Frameworkの日本語PDFをcurlで取得し、完全性を確認してS3へアップロードします。
+description: AWS規範ガイダンス「RAGのオプションとアーキテクチャ」の日本語PDFをcurlで取得し、完全性を確認してS3へアップロードします。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -26,7 +26,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
     "resource": "原文書用S3バケット",
     "setting": "リージョン",
     "value": "ap-northeast-1",
-    "note": "CloudShell、Bedrock、S3 Vectorsと同じリージョンです。"
+    "note": "Bedrock、S3、S3 Vectorsと同じリージョンです。"
   },
   {
     "resource": "パブリックアクセス",
@@ -37,13 +37,13 @@ import ResourceTable from '../../components/ResourceTable.astro';
   {
     "resource": "PDFオブジェクト",
     "setting": "キー",
-    "value": "documents/aws-well-architected-framework.pdf",
+    "value": "documents/aws-rag-options-and-architectures.pdf",
     "note": "AWS公式日本語PDFを配置します。"
   },
   {
     "resource": "メタデータオブジェクト",
     "setting": "キー",
-    "value": "documents/aws-well-architected-framework.pdf.metadata.json",
+    "value": "documents/aws-rag-options-and-architectures.pdf.metadata.json",
     "note": "category、status、language、source URLをchunkへ引き継ぎます。"
   },
   {
@@ -56,9 +56,9 @@ import ResourceTable from '../../components/ResourceTable.astro';
 />
 
 
-数行の自作文書ではなく、AWSが公開している日本語版 **AWS Well-Architected Framework** PDFを検索対象にします。複数ページにまたがる実文書を使うことで、PDF解析、chunk分割、複数candidateのscoreと本文を実際に観察できます。
+数行の自作文書ではなく、AWSが公開している日本語版 **AWSのRAGオプションとアーキテクチャ** PDFを検索対象にします。複数ページにまたがる実文書を使うことで、PDF解析、chunk分割、複数candidateのscoreと本文を実際に観察できます。
 
-<CloudShellStep number="2.1" title="AWS公式PDFをcurlで取得する">
+<CliStep number="2.1" title="AWS公式PDFをcurlで取得する">
 
 AWS Docsの`latest` URLからPDFを取得します。途中で切れたファイルを完成品として扱わないよう、`.part`へ保存してからrenameします。
 
@@ -88,7 +88,7 @@ test "$RAG_PDF_BYTES" -lt 50000000
 
 printf 'PDF bytes: %s\n' "$RAG_PDF_BYTES"
 sha256sum "$RAG_DOCUMENT_PATH" \
-  | tee "$RAG_WORK_DIR/aws-well-architected-framework.sha256"
+  | tee "$RAG_WORK_DIR/aws-rag-options-and-architectures.sha256"
 ```
 
 </Command>
@@ -104,7 +104,7 @@ downloaded=6843210 bytes
 content_type=application/pdf
 url=https://docs.aws.amazon.com/ja_jp/wellarchitected/latest/framework/wellarchitected-framework.pdf
 PDF bytes: 6843210
-9f2c...  /home/cloudshell-user/rag-handson-0816071530-a41f92/documents/aws-well-architected-framework.pdf
+9f2c...  $HOME/rag-handson-0816071530-a41f92/documents/aws-rag-options-and-architectures.pdf
 ```
 
 - `content_type=application/pdf`と`PDF bytes:`が表示される
@@ -117,9 +117,9 @@ PDF bytes: 6843210
   このハンズオンでは、AWSの現行文書を試すため`latest`を使います。そのため取得時期によってfile size、hash、ページ内容が変わる場合があります。本番評価で同じcorpusを再現する場合は、取得日、hash、S3 Version IDを固定してください。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="2.2" title="出典メタデータを作成する">
+<CliStep number="2.2" title="出典メタデータを作成する">
 
 Amazon Bedrock Knowledge Basesは、`元ファイル名.metadata.json`というsidecar fileからmetadata属性を取り込みます。出典URL、取得日、文書種別を検索結果へ引き継ぎます。
 
@@ -133,10 +133,10 @@ jq -n \
   --arg retrievedAt "$RAG_RETRIEVED_AT" \
   '{
     metadataAttributes:{
-      category:"framework",
+      category:"rag-guidance",
       status:"published",
       language:"ja",
-      source_title:"AWS Well-Architected Framework",
+      source_title:"AWSのRAGオプションとアーキテクチャ",
       source_url:$sourceUrl,
       retrieved_at:$retrievedAt
     }
@@ -177,15 +177,15 @@ test "$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")" -lt 10240
 }
 ```
 
-- `category=framework`、`status=published`、`language=ja`が確認できる
+- `category=rag-guidance`、`status=published`、`language=ja`が確認できる
 - `source_url`がAWS公式URLである
 - metadata fileが10 KiB未満である
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="2.3" title="S3バケットを作成してアップロードする">
+<CliStep number="2.3" title="S3バケットを作成してアップロードする">
 
 <Command phase="execute" title="S3バケットを作成してアップロード">
 
@@ -226,7 +226,7 @@ aws s3api list-objects-v2 \
 
 test "$(aws s3api head-object \
   --bucket "$RAG_SOURCE_BUCKET" \
-  --key documents/aws-well-architected-framework.pdf \
+  --key documents/aws-rag-options-and-architectures.pdf \
   --query ContentLength --output text)" = "$RAG_PDF_BYTES"
 
 printf '[CHECK] source bucket creation: COMPLETE (%s)\n' "$RAG_SOURCE_BUCKET"
@@ -263,7 +263,7 @@ upload verification: PASS
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

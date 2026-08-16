@@ -8,7 +8,7 @@ export default defineConfig({
     starlight({
       title: 'AWS RAG ハンズオン',
       description:
-        'AWS CloudShellからAmazon Bedrock Knowledge BasesとS3 VectorsでRAGを構築するハンズオン',
+        'AWS CLIからAmazon Bedrock Knowledge BasesとS3 VectorsでRAGを構築するハンズオン',
       locales: {
         root: { label: '日本語', lang: 'ja' },
       },
@@ -36,8 +36,9 @@ export default defineConfig({
           label: 'AWS RAG ハンズオン',
           items: [
             { label: '0. 全体像と進め方', link: '/00-overview/' },
+            { label: 'AWSリソースのパラメータシート', link: '/parameters/' },
             { label: 'ハンズオン費用（1人1回）', link: '/cost/' },
-            { label: '1. CloudShellを準備', link: '/01-prepare-cloudshell/' },
+            { label: '1. CLI実行環境を準備', link: '/01-prepare-cli/' },
             { label: '2. AWS公式PDFをS3へ配置', link: '/02-upload-documents/' },
             { label: '3. S3 Vectorsを作成', link: '/03-create-vector-store/' },
             { label: '4. ナレッジベース用IAMロール', link: '/04-create-iam-role/' },
@@ -45,7 +46,7 @@ export default defineConfig({
             { label: '6. 文書を同期', link: '/06-sync-documents/' },
             { label: '7. Retrieveで検索', link: '/07-retrieve/' },
             { label: '8. Converseで回答生成', link: '/08-converse/' },
-            { label: '9. 検索設定を比較', link: '/09-improve-retrieval/' },
+            { label: '9. KBで検索＋回答を一撃実行', link: '/09-improve-retrieval/' },
             { label: '10. リソースを削除', link: '/10-cleanup/' },
           ],
         },

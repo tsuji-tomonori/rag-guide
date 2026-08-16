@@ -9,7 +9,7 @@ description: ハンズオンのbaseline値、選定理由、AWS・Astro公式資
 |---|---|---|
 | Region | `ap-northeast-1` | 東京でBedrockとS3 Vectorsを同一リージョンに配置 |
 | Data source | Amazon S3 | AWS公式PDFとsidecar metadataをそのまま取り込める |
-| Corpus | 日本語版AWS Well-Architected Framework PDF | 複数ページの実文書でchunkと検索結果を観察 |
+| Corpus | 日本語版AWS規範ガイダンス「RAGのオプションとアーキテクチャ」PDF | 複数ページの実文書でchunkと検索結果を観察 |
 | Embedding | Titan Text Embeddings V2 | Knowledge Basesで1024次元floatを利用 |
 | Dimension | 1024 | embedding設定とvector indexを明示的に一致 |
 | Vector store | S3 Vectors | infrastructure provision不要のsemantic baseline |
@@ -19,10 +19,12 @@ description: ハンズオンのbaseline値、選定理由、AWS・Astro公式資
 | Generation | Amazon Nova Lite / Converse | Evidence Setを明示的に入力 |
 | Data deletion | `DELETE` | data source削除時に取り込みvectorも削除 |
 
+この資料は39ページあり、RAGの基本フロー、Amazon Bedrock Knowledge Bases、S3データソース、ベクトルデータベース、`Retrieve` / `RetrieveAndGenerate`を一つの検索対象で確認できます。Well-Architected Frameworkのような大規模資料より取り込み待ちを短くしつつ、数行のサンプル文書より実際のchunk検索に近い検証ができます。
+
 ## AWS公式資料
 
-- [検索対象：AWS Well-Architected Framework（日本語）](https://docs.aws.amazon.com/ja_jp/wellarchitected/latest/framework/welcome.html)
-- [検索対象PDFのdownload URL](https://docs.aws.amazon.com/ja_jp/wellarchitected/latest/framework/wellarchitected-framework.pdf)
+- [検索対象：AWSのRAGオプションとアーキテクチャ（日本語）](https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/introduction.html)
+- [検索対象PDFのdownload URL](https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/retrieval-augmented-generation-options.pdf)
 - [Knowledge Basesが対応するfile形式と50 MB制限](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html)
 - [S3 Vectorsのリージョンとquota](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-regions-quotas.html)
 - [S3 VectorsとKnowledge Basesの統合](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-bedrock-kb.html)
