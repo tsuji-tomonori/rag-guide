@@ -110,7 +110,7 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 <ExpectedResult>
 
-回答に、運用上の優秀性、セキュリティ、信頼性、パフォーマンス効率、コスト最適化、持続可能性の6本の柱と`[E1]`形式のcitationが含まれます。Evidence Setにない柱や説明を創作していません。
+回答に、Knowledge Basesが文書をchunk化・embeddingしてベクトルデータベースへ保存する流れ、`Retrieve`と`RetrieveAndGenerate`の役割の違い、`[E1]`形式のcitationが含まれます。Evidence Setにない説明を創作していません。
 
 </ExpectedResult>
 
