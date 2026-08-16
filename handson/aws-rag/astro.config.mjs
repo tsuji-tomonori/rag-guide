@@ -45,7 +45,7 @@ export default defineConfig({
             { label: '6. 文書を同期', link: '/06-sync-documents/' },
             { label: '7. Retrieveで検索', link: '/07-retrieve/' },
             { label: '8. Converseで回答生成', link: '/08-converse/' },
-            { label: '9. 検索設定を比較', link: '/09-improve-retrieval/' },
+            { label: '9. KBで検索＋回答を一撃実行', link: '/09-improve-retrieval/' },
             { label: '10. リソースを削除', link: '/10-cleanup/' },
           ],
         },

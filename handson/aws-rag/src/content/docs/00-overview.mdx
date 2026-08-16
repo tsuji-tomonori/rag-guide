@@ -15,7 +15,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 ## ゴール
 
-このハンズオンでは、AWS公式の日本語版RAGガイダンスPDFをCloudShellから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。質問時は`Retrieve`で候補を取得し、取得本文だけをEvidence Setとして`Converse`へ渡します。
+このハンズオンでは、AWS公式の日本語版RAGガイダンスPDFをCloudShellから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。7・8では`Retrieve`で候補を取得し、取得本文だけをEvidence Setとして`Converse`へ渡します。9では同じKnowledge Baseに対して`RetrieveAndGenerate`を1回呼び出し、検索から回答生成までを一撃で試します。
 
 <figure class="architecture-figure">
   <img
@@ -60,11 +60,11 @@ import ResourceTable from '../../components/ResourceTable.astro';
 />
 
 <Aside type="note" title="この構成で学べる境界">
-  Knowledge Basesは取り込みと検索を担当し、生成はConverseへ分離します。検索結果の`text`、`score`、`source URI`を先に観察できるため、「検索できた」と「正しく回答できた」を混同しません。
+  Knowledge Basesは取り込みと検索を担当します。7・8では生成をConverseへ分離し、検索結果の`text`、`score`、`source URI`を先に観察できます。9では標準の`RetrieveAndGenerate`を使い、検索と回答生成を一つのAPI呼び出しで確認します。
 </Aside>
 
 <Aside type="note" title="1人1回の費用目安">
-  基準ケース（PDF 1回取り込み、Retrieve 5回、Converse 2回、同日中にCleanup）では、東京リージョンの公式Price Listに基づき、合計は約`0.005 USD`（税・為替・割引・再実行を除く）です。内訳と計算式は[ハンズオン費用（1人1回）](/rag-guide/cost/)を参照してください。
+  基準ケース（PDF 1回取り込み、Retrieve 1回、RetrieveAndGenerate 1回、Converse 2回、同日中にCleanup）では、東京リージョンの公式Price Listに基づき、合計は約`0.005 USD`（税・為替・割引・再実行を除く）です。内訳と計算式は[ハンズオン費用（1人1回）](/rag-guide/cost/)を参照してください。
 </Aside>
 
 ## 進め方
@@ -73,8 +73,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 1. **準備**：CloudShellの認証、リージョン、CLI、モデルを検証します。
 2. **Offline Layer**：文書、vector store、IAM role、Knowledge Base、data sourceを作成して同期します。
-3. **Online Layer**：`Retrieve`で検索し、metadata filterと候補数を比較します。
-4. **Generation**：取得した根拠だけを`Converse`へ渡し、citation ID付きの回答を生成します。
+3. **Online Layer**：`Retrieve`で検索結果を確認し、`RetrieveAndGenerate`で同じKnowledge Baseの一体型実行も試します。
+4. **Generation**：8では取得した根拠だけを`Converse`へ渡し、9ではKnowledge Baseに検索と回答生成を一度に依頼します。
 5. **Cleanup**：作成したリソースを依存順に削除し、残存がないことを確認します。
 
 </Steps>
@@ -88,7 +88,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 | STS | `sts:GetCallerIdentity` |
 | S3 | bucketとobjectの作成・取得・削除 |
 | S3 Vectors | vector bucket、policy、indexの作成・参照・削除 |
-| Bedrock | model一覧・呼び出し、Knowledge Base・data source・ingestionの管理、`Retrieve` |
+| Bedrock | model一覧・呼び出し、Knowledge Base・data source・ingestionの管理、`Retrieve`、`RetrieveAndGenerate` |
 | IAM | roleとinline policyの作成・参照・削除、`iam:PassRole` |
 
 <Aside type="caution" title="本番アカウントでは実施しないでください">
