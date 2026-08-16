@@ -66,7 +66,7 @@ Knowledge Baseのembedding設定とindex設定を接続します。両方を`102
 
 <CloudShellStep number="5.1" title="ナレッジベースを作成する">
 
-<Command>
+<Command phase="prepare" title="Knowledge Baseの作成設定を生成">
 
 ```bash
 jq -n \
@@ -90,6 +90,13 @@ jq -n \
     storageConfiguration:{type:"S3_VECTORS",s3VectorsConfiguration:{vectorBucketArn:$vectorBucketArn,indexArn:$indexArn}}
   }' | tee "$RAG_WORK_DIR/create-kb.json"
 
+```
+
+</Command>
+
+<Command phase="execute" title="Knowledge Baseを作成してIDを保存">
+
+```bash
 aws bedrock-agent create-knowledge-base \
   --region "$AWS_REGION" \
   --cli-input-json "file://$RAG_WORK_DIR/create-kb.json" \
@@ -106,7 +113,7 @@ declare -p RAG_KB_ID >> "$RAG_STATE_FILE"
   `Invalid service role`などが返った場合は60秒以内を目安に待ち、roleとpolicyのread-backに成功することを確認してから、この作成コマンドを1回再実行します。異なるroleを作り直す必要はありません。
 </Aside>
 
-<Command title="ナレッジベースを検証">
+<Command phase="verify" title="ナレッジベースを検証" final>
 
 ```bash
 for attempt in {1..20}; do
@@ -130,13 +137,39 @@ aws bedrock-agent get-knowledge-base \
   --knowledge-base-id "$RAG_KB_ID" \
   --query 'knowledgeBase.{id:knowledgeBaseId,status:status,role:roleArn,type:storageConfiguration.type,index:storageConfiguration.s3VectorsConfiguration.indexArn,dimensions:knowledgeBaseConfiguration.vectorKnowledgeBaseConfiguration.embeddingModelConfiguration.bedrockEmbeddingModelConfiguration.dimensions}' \
   --output table
+
+printf '[CHECK] knowledge base creation: COMPLETE\n'
+printf '[CHECK] knowledge base ID: %s\n' "$RAG_KB_ID"
+printf '[CHECK] knowledge base status: %s\n' "$RAG_KB_STATUS"
+printf '[CHECK] storage type: S3_VECTORS\n'
+printf '[CHECK] embedding dimension: 1024\n'
+printf 'knowledge base verification: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s5-1-kb" verification="ナレッジベースを検証">
 
 statusは`ACTIVE`、store typeは`S3_VECTORS`、dimensionは`1024`です。role ARNとindex ARNが前ページで作成した値に一致します。
+
+```text
+| id         | RQVIZHNFAN |
+| status     | ACTIVE     |
+| type       | S3_VECTORS |
+| dimensions | 1024       |
+[CHECK] knowledge base creation: COMPLETE
+[CHECK] knowledge base ID: RQVIZHNFAN
+[CHECK] knowledge base status: ACTIVE
+[CHECK] storage type: S3_VECTORS
+[CHECK] embedding dimension: 1024
+knowledge base verification: PASS
+```
+
+- `[CHECK] knowledge base creation: COMPLETE`が表示される
+- statusが`ACTIVE`である
+- storage typeが`S3_VECTORS`である
+- embedding dimensionが`1024`である
+- role ARNとindex ARNがこのrunの値である
 
 </ExpectedResult>
 
@@ -146,7 +179,7 @@ statusは`ACTIVE`、store typeは`S3_VECTORS`、dimensionは`1024`です。role 
 
 300 token、10% overlapの固定長chunkingを開始値にします。これは万能な推奨値ではなく、後から評価データで比較するbaselineです。chunking設定はdata source作成後に変更できません。
 
-<Command>
+<Command phase="prepare" title="S3データソースの作成設定を生成">
 
 ```bash
 jq -n \
@@ -162,6 +195,13 @@ jq -n \
     vectorIngestionConfiguration:{chunkingConfiguration:{chunkingStrategy:"FIXED_SIZE",fixedSizeChunkingConfiguration:{maxTokens:300,overlapPercentage:10}}}
   }' | tee "$RAG_WORK_DIR/create-data-source.json"
 
+```
+
+</Command>
+
+<Command phase="execute" title="S3データソースを作成してIDを保存">
+
+```bash
 aws bedrock-agent create-data-source \
   --region "$AWS_REGION" \
   --cli-input-json "file://$RAG_WORK_DIR/create-data-source.json" \
@@ -174,7 +214,7 @@ declare -p RAG_DS_ID >> "$RAG_STATE_FILE"
 
 </Command>
 
-<Command title="データソースを検証">
+<Command phase="verify" title="データソースを検証" final>
 
 ```bash
 aws bedrock-agent get-data-source \
@@ -183,13 +223,45 @@ aws bedrock-agent get-data-source \
   --data-source-id "$RAG_DS_ID" \
   --query 'dataSource.{id:dataSourceId,status:status,type:dataSourceConfiguration.type,bucket:dataSourceConfiguration.s3Configuration.bucketArn,prefixes:dataSourceConfiguration.s3Configuration.inclusionPrefixes,deletion:dataDeletionPolicy,chunking:vectorIngestionConfiguration.chunkingConfiguration}' \
   --output yaml
+
+printf '[CHECK] data source creation: COMPLETE\n'
+printf '[CHECK] data source ID: %s\n' "$RAG_DS_ID"
+printf '[CHECK] data source status: AVAILABLE\n'
+printf '[CHECK] inclusion prefix: documents/\n'
+printf '[CHECK] deletion policy: DELETE\n'
+printf 'data source verification: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s5-2-data-source" verification="データソースを検証">
 
 statusは`AVAILABLE`、typeは`S3`、prefixは`documents/`、deletion policyは`DELETE`、chunkingは`FIXED_SIZE / 300 / 10`です。`RAG_KB_ID`と`RAG_DS_ID`はstate fileへ保存されています。
+
+```yaml
+id: H63CPNRSM9
+status: AVAILABLE
+type: S3
+prefixes:
+  - documents/
+deletion: DELETE
+chunking:
+  chunkingStrategy: FIXED_SIZE
+  maxTokens: 300
+  overlapPercentage: 10
+[CHECK] data source creation: COMPLETE
+[CHECK] data source ID: H63CPNRSM9
+[CHECK] data source status: AVAILABLE
+[CHECK] inclusion prefix: documents/
+[CHECK] deletion policy: DELETE
+data source verification: PASS
+```
+
+- `[CHECK] data source creation: COMPLETE`が表示される
+- data sourceが`AVAILABLE`である
+- `documents/`だけを取り込む設定である
+- `DELETE`、`FIXED_SIZE / 300 / 10`が一致する
+- `RAG_DS_ID`がstate fileへ保存される
 
 </ExpectedResult>
 

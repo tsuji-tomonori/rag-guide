@@ -1,15 +1,26 @@
 ---
 interface Props {
   title?: string;
+  id?: string;
+  verification?: string;
 }
 
-const { title = 'こうなれば成功' } = Astro.props;
+const {
+  title = 'こうなれば成功',
+  id,
+  verification,
+} = Astro.props;
 ---
 
-<aside class="expected-result">
+<aside class="expected-result" data-check-source data-result-id={id} data-result-title={title}>
   <div class="result-icon" aria-hidden="true">✓</div>
   <div>
     <strong>{title}</strong>
+    {verification && (
+      <div class="result-verification">
+        <span>結果確認に対応：</span><code>{verification}</code>
+      </div>
+    )}
     <div class="result-content"><slot /></div>
   </div>
 </aside>
