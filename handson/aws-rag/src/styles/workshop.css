@@ -51,7 +51,12 @@
 
 .command-frame { margin-block: 1.25rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.65rem; overflow: hidden; background: #243746; }
 .command-title { display: flex; align-items: center; gap: 0.55rem; padding: 0.6rem 0.8rem; color: #edf3f6; background: var(--workshop-navy); font-size: 0.82rem; }
-.command-title > span { color: var(--workshop-pale); font-family: ui-monospace, monospace; }
+.command-title > span:first-child { color: var(--workshop-pale); font-family: ui-monospace, monospace; }
+.command-phase-label, .command-final-label { padding: 0.2rem 0.45rem; border: 1px solid color-mix(in srgb, #fff 30%, transparent); border-radius: 999px; color: #fff !important; font: 800 0.68rem/1 var(--sl-font); letter-spacing: 0.04em; }
+.command-phase-prepare .command-phase-label { background: #7b8f9e; }
+.command-phase-execute .command-phase-label { background: var(--workshop-blue); }
+.command-phase-verify .command-phase-label { background: var(--workshop-green); }
+.command-final-label { background: #b7791f; }
 .command-title small { margin-left: auto; color: #94a3b8; }
 .command-body .expressive-code { margin: 0; }
 .command-body .frame { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
@@ -61,11 +66,33 @@
 .result-icon { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; color: white; background: var(--workshop-green); font-weight: 900; }
 .result-content > :first-child, .checkpoint-content > :first-child { margin-top: 0.35rem; }
 .result-content > :last-child, .checkpoint-content > :last-child { margin-bottom: 0; }
+.result-verification { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; margin-top: 0.55rem; color: var(--sl-color-gray-2); font-size: 0.82rem; }
+.result-verification code { color: var(--workshop-navy); }
+:root[data-theme='dark'] .result-verification code { color: var(--sl-color-white); }
+.expected-result.is-complete { border-color: color-mix(in srgb, var(--workshop-green) 75%, var(--sl-color-gray-5)); box-shadow: 0 0 0 2px color-mix(in srgb, var(--workshop-green) 15%, transparent); }
+.result-content ul { padding-left: 0; list-style: none; }
+.result-content li { margin-block: 0.45rem; }
+.check-item { display: flex; align-items: flex-start; gap: 0.55rem; cursor: pointer; line-height: 1.55; }
+.check-item input { width: 1.05rem; height: 1.05rem; flex: 0 0 auto; margin-top: 0.25rem; accent-color: var(--workshop-green); }
+.check-item.is-checked > span { color: var(--sl-color-gray-3); text-decoration: line-through; text-decoration-thickness: 0.08em; }
+.check-item-single { margin-top: 0.9rem; padding-top: 0.75rem; border-top: 1px dashed var(--workshop-line); }
 .checkpoint { grid-template-columns: 1fr; border: 1px solid color-mix(in srgb, var(--workshop-blue) 45%, var(--sl-color-gray-5)); background: color-mix(in srgb, var(--workshop-blue) 8%, var(--sl-color-bg)); }
 .checkpoint-heading { display: flex; gap: 0.55rem; color: color-mix(in srgb, var(--workshop-blue) 75%, var(--sl-color-text)); }
 .checkpoint-heading span { font-size: 0.75rem; }
 .checkpoint-content ul { padding-left: 0; list-style: none; }
-.checkpoint-content li::before { content: "□"; margin-right: 0.55rem; color: var(--workshop-blue); font-weight: 800; }
+.checkpoint-static > ul { margin-block: 0.5rem; }
+.checkpoint-static > ul[hidden] { display: none; }
+.checkpoint-sync { margin-top: 1rem; padding: 0.9rem; border: 1px solid color-mix(in srgb, var(--workshop-blue) 28%, var(--sl-color-gray-5)); border-radius: 0.55rem; background: color-mix(in srgb, var(--workshop-blue) 4%, var(--sl-color-bg)); }
+.checkpoint-sync[hidden] { display: none; }
+.checkpoint-sync-heading { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; color: var(--workshop-navy); }
+:root[data-theme='dark'] .checkpoint-sync-heading { color: var(--sl-color-white); }
+.checkpoint-progress { padding: 0.2rem 0.5rem; border-radius: 999px; color: #fff; background: var(--workshop-blue); font: 800 0.75rem/1 ui-monospace, monospace; white-space: nowrap; }
+.checkpoint-sync-list { margin: 0.75rem 0 0; }
+.checkpoint-sync-list li { margin-block: 0.45rem; }
+.checkpoint-ok { margin: 0.8rem 0 0; padding: 0.7rem 0.8rem; border-radius: 0.45rem; color: #245b45; background: color-mix(in srgb, var(--workshop-green) 18%, var(--sl-color-bg)); font-weight: 900; }
+:root[data-theme='dark'] .checkpoint-ok { color: #b7f0d0; }
+.checkpoint-ok[hidden] { display: none; }
+.checkpoint.is-complete { border-color: color-mix(in srgb, var(--workshop-green) 70%, var(--sl-color-gray-5)); }
 
 .sl-markdown-content h2 { border-top: 1px solid var(--sl-color-gray-5); padding-top: 1.8rem; }
 .sl-markdown-content .workshop-panel h2 { border-top: 0; padding-top: 0; }

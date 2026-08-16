@@ -50,7 +50,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 AWS CLIを実行できるターミナルを開き、想定したAWSアカウントへ認証されていることを確認します。認証方式は、AWS CLIの設定済みprofile、IAM Identity Center、環境変数など、利用する実行環境に合わせてください。
 
-<Command>
+<Command phase="verify" title="AWS CLIの認証を確認" final>
 
 ```bash
 aws sts get-caller-identity --output table
@@ -58,9 +58,22 @@ aws sts get-caller-identity --output table
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s1-1-identity" verification="AWS CLIの認証を確認">
 
 `Account`、`Arn`、`UserId`が表示されます。`Arn`が想定したハンズオン用principalであることを確認してください。
+
+```text
+---------------------------------------------
+|                 GetCallerIdentity          |
++-------------+-----------------------------+
+| Account     | 123456789012                |
+| Arn         | arn:aws:iam::123456789012:role/WorkshopRole |
+| UserId      | AIDA...:terminal-session    |
++-------------+-----------------------------+
+```
+
+- `Account`、`Arn`、`UserId`の3項目が出力される
+- `Arn`が今回の実習用principalである
 
 </ExpectedResult>
 
@@ -70,7 +83,7 @@ aws sts get-caller-identity --output table
 
 以降は同じターミナルセッションで作業します。複数人が同じAWS account・Regionで同時に実施しても名前が衝突しにくいよう、UTC時刻に6桁のランダムな16進数を加えたrun IDを使います。また、ターミナルセッションが途中で再作成されても復旧できるよう、環境変数を`$HOME`配下へ保存します。
 
-<Command>
+<Command phase="prepare" title="共通変数と設定値を準備">
 
 ```bash
 export AWS_REGION="ap-northeast-1"
@@ -110,7 +123,7 @@ cat "$RAG_STATE_FILE"
 
 </Command>
 
-<Command title="変数を検証">
+<Command phase="verify" title="変数を検証" final>
 
 ```bash
 test "$AWS_REGION" = "ap-northeast-1"
@@ -125,9 +138,19 @@ printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s1-2-variables" verification="変数を検証">
 
 3行の値が表示され、エラーが出ません。`region=ap-northeast-1`になっていることを確認します。`run`には`0816071530-a41f92`のような時刻と6桁の16進数が入り、受講者ごとに異なる値になります。
+
+```text
+region=ap-northeast-1
+run=0816071530-a41f92
+work=$HOME/rag-handson-0816071530-a41f92
+```
+
+- `region=ap-northeast-1`が表示される
+- `run`が`10桁のUTC時刻-6桁hex`形式である
+- state fileと復元用ファイルが空でない
 
 </ExpectedResult>
 
@@ -139,7 +162,7 @@ printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR
 
 <CliStep number="1.3" title="CLIとAWSサービスを検証する">
 
-<Command>
+<Command phase="verify" title="CLIとAWSサービスを検証" final>
 
 ```bash
 aws --version
@@ -150,11 +173,18 @@ aws bedrock list-foundation-models --query 'length(modelSummaries)' --output tex
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s1-3-cli" verification="CLIとAWSサービスを検証">
 
 - AWS CLIと`jq`のversionが表示されます。
 - `list-vector-buckets`がJSONを返します。vector bucketが0件でも問題ありません。
 - foundation model数が`1`以上です。
+
+```text
+aws-cli/2.x.x ...
+jq-1.7
+[]
+20
+```
 
 </ExpectedResult>
 
@@ -168,7 +198,7 @@ aws bedrock list-foundation-models --query 'length(modelSummaries)' --output tex
 
 まず、東京リージョンにmodel IDが存在することを確認します。その後、Nova Liteへ短い`Converse`を1回だけ実行し、実際にinvokeできることを確認します。
 
-<Command>
+<Command phase="verify" title="利用モデルを検証">
 
 ```bash
 aws bedrock get-foundation-model \
@@ -184,7 +214,7 @@ aws bedrock get-foundation-model \
 
 </Command>
 
-<Command title="Converseの疎通確認（少量の推論料金が発生します）">
+<Command phase="execute" title="Converseの疎通確認（少量の推論料金が発生します）">
 
 ```bash
 aws bedrock-runtime converse \
@@ -197,9 +227,18 @@ aws bedrock-runtime converse \
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s1-4-models" verification="Converseの疎通確認（少量の推論料金が発生します）">
 
 embedding modelとgeneration modelの表が表示され、最後のコマンドが`OK`を含む短い応答を返します。
+
+```text
+amazon.titan-embed-text-v2:0   TEXT   FLOAT
+amazon.nova-lite-v1:0          TEXT   TEXT
+OK
+```
+
+- 2つのmodel IDの表が表示される
+- 最後に`OK`を含む応答が表示される
 
 </ExpectedResult>
 

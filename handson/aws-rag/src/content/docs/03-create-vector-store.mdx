@@ -66,7 +66,7 @@ S3 Vectorsにvector bucketとindexを作成します。indexの`dimension`、`di
 
 <CliStep number="3.1" title="ベクトルバケットを作成する">
 
-<Command>
+<Command phase="execute" title="ベクトルバケットを作成">
 
 ```bash
 aws s3vectors create-vector-bucket \
@@ -76,7 +76,7 @@ aws s3vectors create-vector-bucket \
 
 </Command>
 
-<Command title="ベクトルバケットを検証する">
+<Command phase="verify" title="ベクトルバケットを検証する" final>
 
 ```bash
 aws s3vectors get-vector-bucket \
@@ -92,13 +92,29 @@ export RAG_VECTOR_BUCKET_ARN="$(aws s3vectors get-vector-bucket \
   --output text)"
 test "$RAG_VECTOR_BUCKET_ARN" != "None"
 declare -p RAG_VECTOR_BUCKET_ARN >> "$RAG_STATE_FILE"
+
+printf '[CHECK] vector bucket creation: COMPLETE (%s)\n' "$RAG_VECTOR_BUCKET"
+printf '[CHECK] vector bucket ARN saved: %s\n' "$RAG_VECTOR_BUCKET_ARN"
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s3-1-vector-bucket" verification="ベクトルバケットを検証する">
 
 vector bucket名とARNが表示されます。暗号化を明示しない場合も、S3管理キーによるSSE-S3が既定で適用されます。
+
+```text
+| name       | rag-handson-vectors-123456789012-0816071530-a41f92 |
+| arn        | arn:aws:s3vectors:ap-northeast-1:123456789012:bucket/... |
+| encryption | AES256                                           |
+[CHECK] vector bucket creation: COMPLETE (rag-handson-vectors-123456789012-0816071530-a41f92)
+[CHECK] vector bucket ARN saved: arn:aws:s3vectors:...
+```
+
+- `[CHECK] vector bucket creation: COMPLETE`が表示される
+- vector bucket名とARNが表示される
+- `RAG_VECTOR_BUCKET_ARN`がstate fileへ保存される
+- 暗号化欄が表示される
 
 </ExpectedResult>
 
@@ -108,7 +124,7 @@ vector bucket名とARNが表示されます。暗号化を明示しない場合�
 
 Titan Text Embeddings V2の1024次元float vectorへ合わせます。Knowledge Basesがchunk本文と内部metadataを保存できるよう、AWS公式手順で指定される2つのkeyをnon-filterableにします。
 
-<Command>
+<Command phase="execute" title="1024次元のベクトルインデックスを作成">
 
 ```bash
 aws s3vectors create-index \
@@ -124,7 +140,7 @@ aws s3vectors create-index \
 
 </Command>
 
-<Command title="インデックス設定を読み戻して検証する">
+<Command phase="verify" title="インデックス設定を読み戻して検証する" final>
 
 ```bash
 aws s3vectors get-index \
@@ -144,13 +160,39 @@ export RAG_INDEX_ARN="$(aws s3vectors get-index \
 test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --region "$AWS_REGION" --query 'index.dimension' --output text)" = "1024"
 test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --region "$AWS_REGION" --query 'index.distanceMetric' --output text)" = "cosine"
 declare -p RAG_INDEX_ARN >> "$RAG_STATE_FILE"
+
+printf '[CHECK] vector index creation: COMPLETE (%s)\n' "$RAG_INDEX_NAME"
+printf '[CHECK] index data type: float32\n'
+printf '[CHECK] index dimension: 1024\n'
+printf '[CHECK] index distance metric: cosine\n'
+printf '[CHECK] index ARN saved: %s\n' "$RAG_INDEX_ARN"
+printf 'vector index verification: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s3-2-vector-index" verification="インデックス設定を読み戻して検証する">
 
 `float32`、`1024`、`cosine`、2つの`AMAZON_BEDROCK_*` keyとindex ARNが表示され、`test`がエラーなく終了します。取得したARNはstate fileへ追記されるため、ターミナルを開き直しても復元できます。
+
+```text
+| name      | rag-titan-v2-1024 |
+| dataType  | float32           |
+| dimension | 1024              |
+| distance  | cosine            |
+| metadata  | AMAZON_BEDROCK_TEXT, AMAZON_BEDROCK_METADATA |
+[CHECK] vector index creation: COMPLETE (rag-titan-v2-1024)
+[CHECK] index data type: float32
+[CHECK] index dimension: 1024
+[CHECK] index distance metric: cosine
+[CHECK] index ARN saved: arn:aws:s3vectors:...
+vector index verification: PASS
+```
+
+- `[CHECK] vector index creation: COMPLETE`が表示される
+- `float32 / 1024 / cosine`が一致する
+- non-filterable metadata keyが2つ表示される
+- `RAG_INDEX_ARN`がstate fileへ保存される
 
 </ExpectedResult>
 

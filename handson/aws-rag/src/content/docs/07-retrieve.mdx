@@ -54,7 +54,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 <CliStep number="7.1" title="意味検索を実行する">
 
-<Command>
+<Command phase="prepare" title="検索条件を準備">
 
 ```bash
 export RAG_QUESTION="AWS Well-Architected Frameworkの6本の柱を教えてください。"
@@ -73,6 +73,13 @@ jq -n \
     }
   }' | tee "$RAG_WORK_DIR/retrieve-input.json"
 
+```
+
+</Command>
+
+<Command phase="execute" title="Retrieveを実行">
+
+```bash
 aws bedrock-agent-runtime retrieve \
   --cli-input-json "file://$RAG_WORK_DIR/retrieve-input.json" \
   | tee "$RAG_WORK_DIR/retrieve-output.json"
@@ -80,11 +87,33 @@ aws bedrock-agent-runtime retrieve \
 
 </Command>
 
+<ExpectedResult id="s7-1-retrieve" verification="Retrieveを実行">
+
+`retrieve-output.json`に`retrievalResults`が入り、各candidateに本文、score、source URI、metadataが返ります。
+
+```json
+{
+  "retrievalResults": [
+    {
+      "score": 0.82,
+      "location": {"s3Location": {"uri": "s3://rag-handson-.../documents/aws-well-architected-framework.pdf"}},
+      "content": {"text": "セキュリティ、信頼性、パフォーマンス効率、コスト最適化、運用上の優秀性、持続可能性..."},
+      "metadata": {"category": "framework", "language": "ja"}
+    }
+  ]
+}
+```
+
+- `retrievalResults`が1件以上ある
+- candidateに`text`、`score`、source URI、metadataがある
+
+</ExpectedResult>
+
 </CliStep>
 
 <CliStep number="7.2" title="検索結果を検証する">
 
-<Command>
+<Command phase="verify" title="検索結果を検証する" final>
 
 ```bash
 jq -r '
@@ -99,15 +128,35 @@ jq -e '
   ([.retrievalResults[].content.text] | join("\n") | contains("信頼性")) and
   ([.retrievalResults[].content.text] | join("\n") | contains("持続可能性"))
 ' "$RAG_WORK_DIR/retrieve-output.json" >/dev/null
+
+printf '[CHECK] retrieval candidates: >= 1\n'
+printf '[CHECK] pillars found: セキュリティ / 信頼性 / 持続可能性\n'
+printf '[CHECK] source: aws-well-architected-framework.pdf\n'
+printf 'retrieval verification: PASS\n'
 ```
 
 </Command>
 
 表示される各candidateでは、`rank`が返却順、`score`が同一条件内での関連度比較、`source`が根拠PDFのS3 URI、`text`が実際に取り出されたchunk本文です。まず`text`を読み、質問への根拠が含まれるかを確認します。
 
-<ExpectedResult>
+<ExpectedResult id="s7-2-results" verification="検索結果を検証する">
 
 1件以上のcandidateが返り、取得本文全体に`セキュリティ`、`信頼性`、`持続可能性`が含まれます。source URIは`aws-well-architected-framework.pdf`を指し、metadataのcategoryは`framework`です。
+
+```text
+rank=1 score=0.82 category=framework
+source=s3://rag-handson-.../documents/aws-well-architected-framework.pdf
+text=セキュリティ ... 信頼性 ... 持続可能性 ...
+[CHECK] retrieval candidates: >= 1
+[CHECK] pillars found: セキュリティ / 信頼性 / 持続可能性
+[CHECK] source: aws-well-architected-framework.pdf
+retrieval verification: PASS
+```
+
+- candidateが1件以上である
+- 本文に期待した柱の語が含まれる
+- source URIとmetadata categoryが期待値である
+- `retrieval verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -119,7 +168,7 @@ jq -e '
 
 <CliStep number="7.3" title="検索結果を根拠セットへ整形する">
 
-<Command>
+<Command phase="verify" title="検索結果を根拠セットへ整形" final>
 
 ```bash
 jq -r '
@@ -137,13 +186,34 @@ jq -r '
 test -s "$RAG_WORK_DIR/evidence.txt"
 grep -q '\[E1\]' "$RAG_WORK_DIR/evidence.txt"
 grep -q 'source=s3://' "$RAG_WORK_DIR/evidence.txt"
+
+printf '[CHECK] evidence IDs: E1..E%d\n' "$(grep -c '^\[E[0-9][0-9]*\]$' "$RAG_WORK_DIR/evidence.txt")"
+printf '[CHECK] evidence source URI: present\n'
+printf 'evidence set verification: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s7-3-evidence" verification="検索結果を根拠セットへ整形">
 
 各candidateに`E1`、`E2`…のcitation IDが付き、本文とS3 source URIが同じblockに保存されます。
+
+```text
+[E1]
+セキュリティ、信頼性、...
+source=s3://rag-handson-.../documents/aws-well-architected-framework.pdf
+
+[E2]
+...
+source=s3://rag-handson-.../documents/aws-well-architected-framework.pdf
+[CHECK] evidence IDs: E1..E5
+[CHECK] evidence source URI: present
+evidence set verification: PASS
+```
+
+- `[E1]`以降のcitation IDがある
+- 各blockに本文と`source=s3://`がある
+- `evidence set verification: PASS`が表示される
 
 </ExpectedResult>
 
