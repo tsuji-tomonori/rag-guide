@@ -177,7 +177,7 @@ knowledge base verification: PASS
 
 <CloudShellStep number="5.2" title="S3データソースを作成する">
 
-300 token、10% overlapの固定長chunkingを開始値にします。これは万能な推奨値ではなく、後から評価データで比較するbaselineです。chunking設定はdata source作成後に変更できません。
+AWS PDFが説明するRAGの最初のステップでは、データのクリーニング、フォーマット、チャンク化、埋め込み、ベクトルデータベースへの保存を行います。ここでは300 token、10% overlapの固定長chunkingを開始値にします。これは万能な推奨値ではなく、後から検索結果のcoverageとノイズで比較するbaselineです。chunking設定はdata source作成後に変更できません。
 
 <Command phase="prepare" title="S3データソースの作成設定を生成">
 

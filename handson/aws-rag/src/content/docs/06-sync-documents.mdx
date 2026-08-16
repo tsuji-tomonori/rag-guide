@@ -50,7 +50,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 />
 
 
-同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。CloudShell sessionが途中で切り替わっても、このrunで保存したIDとARNを復元してから進めます。
+同期は、PDFのRAG 4ステップのうち「文書をチャンク化・埋め込みしてベクトルデータベースへ取り込む」段階です。成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。ここで確認するのは取り込みの成功であり、質問に対する根拠の関連性や回答の正しさは7〜9章で別に判定します。CloudShell sessionが途中で切り替わっても別の受講者のresourceを誤って使わないよう、このrunで保存したIDとARNを復元してから進めます。
 
 <CloudShellStep number="6.1" title="状態と取り込み前提を検証してジョブを開始する">
 
@@ -342,8 +342,9 @@ printf 'sync verification: PASS\n'
 <ExpectedResult id="s6-3-sync" verification="ベクトルが登録されたことを確認">
 
 - jobは`COMPLETE`で、failure reasonがありません。
-- `bedrock:ListKnowledgeBaseDocuments`が許可されている場合、Well-Architected Framework PDFが`INDEXED`です。
+- `bedrock:ListKnowledgeBaseDocuments`が許可されている場合、RAGガイダンスPDFが`INDEXED`です。
 - vector countは`1`以上です。文書数とvector数はchunkingによって一致しない場合があります。
+- これは取り込み段階の合格であり、検索結果のrelevanceや生成回答の正しさを意味しません。
 
 ```text
 status: COMPLETE

@@ -50,7 +50,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 />
 
 
-ここでは`RetrieveAndGenerate`を使わず、検索と生成を明示的に分けます。これにより、生成前の重複排除、版の確認、根拠不足判定を後から追加できます。
+ここでは`RetrieveAndGenerate`を使わず、PDFの4ステップのうち「リトリーバー」と「ジェネレーター」を明示的に分けます。`Retrieve`で返ったコンテキストを確認してから`Converse`へ渡すため、生成前の重複排除、版の確認、根拠不足判定を追加できます。`RetrieveAndGenerate`は、取得・プロンプト拡張・生成を一つのAPIで行う比較対象です。
 
 <CloudShellStep number="8.1" title="根拠セット付きメッセージを作成する">
 
@@ -68,6 +68,8 @@ jq -n \
       text:(
         "あなたは根拠に基づいて回答するアシスタントです。\n" +
         "次のEvidence Setだけを使って日本語で簡潔に回答してください。\n" +
+        "PDFのRAG 4ステップ（文書の取り込み、自然言語クエリ、類似度検索による関連データの取得、クエリとコンテキストを使ったLLM回答）に沿って説明してください。\n" +
+        "Knowledge Basesのチャンク化・埋め込み・ベクトルデータベースへの保存、RetrieveとRetrieveAndGenerateの役割の違いを区別してください。\n" +
         "各主張の末尾に[E1]形式のcitation IDを付けてください。\n" +
         "根拠が不足する場合は、推測せず『根拠不足です』と回答してください。\n\n" +
         "質問:\n" + $question + "\n\n" +
@@ -124,7 +126,7 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 <ExpectedResult id="s8-2-answer" verification="Converseを呼び出す">
 
-回答に、運用上の優秀性、セキュリティ、信頼性、パフォーマンス効率、コスト最適化、持続可能性の6本の柱と`[E1]`形式のcitationが含まれます。Evidence Setにない柱や説明を創作していません。
+回答に、PDFのRAG 4ステップ、Knowledge Basesが文書をチャンク化・埋め込みしてベクトルデータベースへ保存する流れ、リトリーバーによる類似度検索、`Retrieve`と`RetrieveAndGenerate`の役割の違いが含まれます。各主張にはEvidence Setに対応する`[E1]`形式のcitationが付き、Evidence Setにない説明を創作していません。
 
 ```text
 AWS Well-Architected Frameworkの柱は次の6つです。
@@ -150,9 +152,14 @@ AWS Well-Architected Frameworkの柱は次の6つです。
 
 ```bash
 test -s "$RAG_WORK_DIR/answer.txt"
-grep -q 'セキュリティ' "$RAG_WORK_DIR/answer.txt"
-grep -q '信頼性' "$RAG_WORK_DIR/answer.txt"
-grep -q '持続可能性' "$RAG_WORK_DIR/answer.txt"
+grep -Eq 'ナレッジベース|Knowledge Bases' "$RAG_WORK_DIR/answer.txt"
+grep -Eq '4[[:space:]]*つのステップ|4[[:space:]]*ステップ' "$RAG_WORK_DIR/answer.txt"
+grep -Eq 'チャンク|chunk' "$RAG_WORK_DIR/answer.txt"
+grep -Eq '埋め込み|embedding' "$RAG_WORK_DIR/answer.txt"
+grep -q 'ベクトルデータベース' "$RAG_WORK_DIR/answer.txt"
+grep -Eq '類似度検索|関連データ' "$RAG_WORK_DIR/answer.txt"
+grep -Eq '取得|Retrieve' "$RAG_WORK_DIR/answer.txt"
+grep -q 'RetrieveAndGenerate' "$RAG_WORK_DIR/answer.txt"
 grep -Eq '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt"
 
 for citation in $(grep -oE '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt" | sort -u); do
@@ -169,7 +176,7 @@ printf 'citation validation: PASS\n'
 
 <ExpectedResult id="s8-3-citation" verification="最低限の引用検査を行う">
 
-`citation validation: PASS`と表示されます。回答内のcitation IDが、実際のEvidence Setに存在します。
+`citation validation: PASS`と表示されます。回答内のcitation IDが、実際のEvidence Setに存在します。さらに、RAG 4ステップ、Knowledge Basesの取り込み、リトリーバーの類似度検索、2つのAPIの役割が質問に対応して説明されます。
 
 ```text
 citation validation: PASS
@@ -183,7 +190,7 @@ citation validation: PASS
 </ExpectedResult>
 
 <Aside type="note" title="この検査だけでは主張の根拠付けを証明できません">
-  citation IDの存在確認は最低限の構文検査です。本番では、各claimが参照本文に支持されるか、根拠の版や権限が正しいか、回答可能性が十分かを別途評価します。
+  citation IDの存在確認とキーワード検査は最低限の構文検査です。合格判定は、(1) PDFの4ステップに沿っている、(2) `Retrieve`と`RetrieveAndGenerate`を混同していない、(3)各claimが参照本文に支持されている、(4)根拠がなければ推測せず「根拠不足です」と答える、の4点で行います。
 </Aside>
 
 </CloudShellStep>
