@@ -33,7 +33,7 @@ aws sts get-caller-identity --output table
 
 <CloudShellStep number="1.2" title="共通変数を設定する">
 
-以降は同じCloudShell tabで作業します。複数人が同じAWS account・Regionで同時に実施しても名前が衝突しにくいよう、UTC時刻に4桁の乱数を加えたrun IDを使います。また、CloudShellのshell sessionが途中で再作成されても復旧できるよう、環境変数を`$HOME`配下へ保存します。
+以降は同じCloudShell tabで作業します。複数人が同じAWS account・Regionで同時に実施しても名前が衝突しにくいよう、UTC時刻に6桁のランダムな16進数を加えたrun IDを使います。また、CloudShellのshell sessionが途中で再作成されても復旧できるよう、環境変数を`$HOME`配下へ保存します。
 
 <Command>
 
@@ -42,7 +42,7 @@ export AWS_REGION="ap-northeast-1"
 export AWS_DEFAULT_REGION="$AWS_REGION"
 
 export RAG_ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
-export RAG_RUN_ID="$(date -u +%m%d%H%M%S)-$(printf '%04x' $((RANDOM % 65536)))"
+export RAG_RUN_ID="$(date -u +%m%d%H%M%S)-$(openssl rand -hex 3)"
 export RAG_WORK_DIR="$HOME/rag-handson-$RAG_RUN_ID"
 export RAG_STATE_FILE="$RAG_WORK_DIR/state.env"
 
@@ -80,6 +80,7 @@ cat "$RAG_STATE_FILE"
 ```bash
 test "$AWS_REGION" = "ap-northeast-1"
 test "${#RAG_ACCOUNT_ID}" -eq 12
+[[ "$RAG_RUN_ID" =~ ^[0-9]{10}-[0-9a-f]{6}$ ]]
 test -d "$RAG_WORK_DIR/documents"
 test -s "$RAG_STATE_FILE"
 test -s "$HOME/.rag-handson-current"
@@ -91,7 +92,7 @@ printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR
 
 <ExpectedResult>
 
-3行の値が表示され、エラーが出ません。`region=ap-northeast-1`になっていることを確認します。`run`には時刻と4桁の16進数が入り、受講者ごとに異なる値になります。
+3行の値が表示され、エラーが出ません。`region=ap-northeast-1`になっていることを確認します。`run`には`0816071530-a41f92`のような時刻と6桁の16進数が入り、受講者ごとに異なる値になります。
 
 </ExpectedResult>
 
@@ -173,7 +174,7 @@ embedding modelとgeneration modelの表が表示され、最後のコマンド�
 
 - caller identityが想定した実習用principalである
 - `AWS_REGION`は`ap-northeast-1`である
-- run IDが受講者ごとに一意になっている
+- `RAG_RUN_ID`はUTC時刻と6桁hexのランダムサフィックスを含む
 - `$HOME/.rag-handson-current`から現在のrunを復元できる
 - `aws s3vectors`を実行できる
 - Titan Text Embeddings V2とNova Liteを東京リージョンで利用できる
