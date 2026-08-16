@@ -8,6 +8,41 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={1} />
+
+<ResourceTable
+  title="このページで固定する基準値"
+  rows={[
+  {
+    "resource": "AWS Region",
+    "setting": "AWS_REGION",
+    "value": "ap-northeast-1",
+    "note": "後続のAPI呼び出しで明示する東京リージョンです。"
+  },
+  {
+    "resource": "Run",
+    "setting": "RAG_RUN_ID",
+    "value": "UTC時刻-6桁hex",
+    "note": "同じaccount・Regionで複数人が実施しても名前が衝突しにくくなります。"
+  },
+  {
+    "resource": "Embedding",
+    "setting": "RAG_EMBED_MODEL_ID",
+    "value": "amazon.titan-embed-text-v2:0",
+    "note": "S3 Vectors indexの1024次元float32と対応します。"
+  },
+  {
+    "resource": "Generation",
+    "setting": "RAG_GENERATION_MODEL_ID",
+    "value": "amazon.nova-lite-v1:0",
+    "note": "後のConverseで使うモデルです。"
+  }
+]}
+/>
+
 
 このページではまだAWSリソースを作りません。後続の失敗を早期に見つけるため、認証、リージョン、AWS CLIのservice command、利用モデルを先に確認します。
 

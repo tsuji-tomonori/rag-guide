@@ -8,6 +8,47 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={6} />
+
+<ResourceTable
+  title="実行するingestionの設定値と完了条件"
+  rows={[
+  {
+    "resource": "Ingestion job",
+    "setting": "Knowledge Base / data source",
+    "value": "RAG_KB_ID / RAG_DS_ID",
+    "note": "listの先頭を使わず、state fileの同一runを参照します。"
+  },
+  {
+    "resource": "Ingestion job",
+    "setting": "Description",
+    "value": "Initial sync for RAG hands-on ${RAG_RUN_ID}",
+    "note": "job IDを取得して監視します。"
+  },
+  {
+    "resource": "Job end state",
+    "setting": "Required status",
+    "value": "COMPLETE",
+    "note": "STARTINGやIN_PROGRESSでは次へ進みません。"
+  },
+  {
+    "resource": "Document",
+    "setting": "Expected status",
+    "value": "INDEXED（caller権限がある場合）",
+    "note": "文書単位の確認は追加caller権限がある場合に実施します。"
+  },
+  {
+    "resource": "Vector index",
+    "setting": "Expected result",
+    "value": "vector count >= 1",
+    "note": "PDFのchunkがvectorへ登録されたことを確認します。"
+  }
+]}
+/>
+
 
 同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。CloudShell sessionが途中で切り替わっても別の受講者のresourceを誤って使わないよう、このrunで保存したIDとARNを復元してから進めます。
 

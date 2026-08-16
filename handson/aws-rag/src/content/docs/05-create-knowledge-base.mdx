@@ -8,6 +8,59 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={5} />
+
+<ResourceTable
+  title="作成するKnowledge Baseとdata sourceの設定値"
+  rows={[
+  {
+    "resource": "Knowledge Base",
+    "setting": "Name",
+    "value": "rag-handson-kb-${RAG_RUN_ID}",
+    "note": "作成後にRAG_KB_IDをstate fileへ保存します。"
+  },
+  {
+    "resource": "Knowledge Base",
+    "setting": "Type",
+    "value": "VECTOR",
+    "note": "dense embeddingを使うKnowledge Baseです。"
+  },
+  {
+    "resource": "Embedding",
+    "setting": "Model / dimensions / type",
+    "value": "amazon.titan-embed-text-v2:0 / 1024 / FLOAT32",
+    "note": "S3 Vector indexのfloat32 / 1024と一致させます。"
+  },
+  {
+    "resource": "Storage",
+    "setting": "Type",
+    "value": "S3_VECTORS",
+    "note": "既に作成したvector bucketとindexへ接続します。"
+  },
+  {
+    "resource": "Data source",
+    "setting": "Bucket / prefix",
+    "value": "RAG_SOURCE_BUCKET / documents/",
+    "note": "AWS公式PDFとmetadata sidecarだけを取り込みます。"
+  },
+  {
+    "resource": "Data source",
+    "setting": "Deletion policy",
+    "value": "DELETE",
+    "note": "Cleanup時に取り込みvectorの削除も要求します。"
+  },
+  {
+    "resource": "Chunking",
+    "setting": "Strategy / maxTokens / overlap",
+    "value": "FIXED_SIZE / 300 / 10%",
+    "note": "比較を始めるbaselineであり、評価後に見直します。"
+  }
+]}
+/>
+
 
 Knowledge Baseのembedding設定とindex設定を接続します。両方を`1024 / FLOAT32`へ固定し、作成後にAPIからread-backします。作成されたIDはstate fileへ保存し、CloudShell sessionが切り替わっても同じrunを継続できるようにします。
 

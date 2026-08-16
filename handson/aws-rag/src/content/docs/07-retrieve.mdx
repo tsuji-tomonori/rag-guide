@@ -8,6 +8,47 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={7} />
+
+<ResourceTable
+  title="Retrieveで使う設定値"
+  rows={[
+  {
+    "resource": "Query",
+    "setting": "Text",
+    "value": "AWS Well-Architected Frameworkの6本の柱を教えてください。",
+    "note": "複数chunkから6本の柱の根拠を取得します。"
+  },
+  {
+    "resource": "Search",
+    "setting": "overrideSearchType",
+    "value": "SEMANTIC",
+    "note": "S3 Vectorsのdense semantic searchを明示します。"
+  },
+  {
+    "resource": "Search",
+    "setting": "numberOfResults",
+    "value": "5",
+    "note": "候補を5件取得し、rankとscoreを比較します。"
+  },
+  {
+    "resource": "Result fields",
+    "setting": "Observed values",
+    "value": "text / score / source URI / metadata",
+    "note": "生成前に根拠本文と出典を確認します。"
+  },
+  {
+    "resource": "Evidence Set",
+    "setting": "Citation ID",
+    "value": "[E1], [E2], ...",
+    "note": "本文とS3 source URIを同じblockへ整形します。"
+  }
+]}
+/>
+
 
 生成モデルを呼ぶ前に、検索結果だけを観察します。適切な根拠が候補に含まれなければ、生成モデルを変更しても根本原因は解消しません。
 

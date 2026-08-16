@@ -8,6 +8,47 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={10} />
+
+<ResourceTable
+  title="削除対象と依存順"
+  rows={[
+  {
+    "resource": "1",
+    "setting": "Bedrock",
+    "value": "data source → Knowledge Base",
+    "note": "dataDeletionPolicy=DELETEのvector削除を待ってから次へ進みます。"
+  },
+  {
+    "resource": "2",
+    "setting": "S3 Vectors",
+    "value": "bucket policy → index → vector bucket",
+    "note": "indexが削除されたことを確認してbucketを削除します。"
+  },
+  {
+    "resource": "3",
+    "setting": "S3",
+    "value": "objects → source bucket",
+    "note": "PDFとmetadataをrecursive deleteしてbucketを空にします。"
+  },
+  {
+    "resource": "4",
+    "setting": "IAM",
+    "value": "inline policies → attached policies → role",
+    "note": "実在するpolicyを列挙してからroleを削除します。"
+  },
+  {
+    "resource": "Final check",
+    "setting": "Required output",
+    "value": "cleanup verification: PASS",
+    "note": "S3 bucket、vector bucket、IAM roleの残存を独立確認します。"
+  }
+]}
+/>
+
 
 <Aside type="danger" title="値を確認してから削除してください">
   このページのコマンドは、このハンズオンで作成したAWSリソースを削除します。`RAG_RUN_ID`と各resource名が現在のrunの値であることを必ず確認してください。別の名前へ置き換えないでください。

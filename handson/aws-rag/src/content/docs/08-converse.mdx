@@ -8,6 +8,47 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={8} />
+
+<ResourceTable
+  title="Converseで使う設定値"
+  rows={[
+  {
+    "resource": "Generation model",
+    "setting": "Model ID",
+    "value": "amazon.nova-lite-v1:0",
+    "note": "1章で疎通確認したモデルを使用します。"
+  },
+  {
+    "resource": "Input",
+    "setting": "Messages",
+    "value": "質問 + Retrieve結果のEvidence Set",
+    "note": "Evidence Setにない情報を使わない制約を含めます。"
+  },
+  {
+    "resource": "Inference",
+    "setting": "maxTokens / temperature / topP",
+    "value": "400 / 0.1 / 0.9",
+    "note": "教材用の固定値です。用途に応じて評価します。"
+  },
+  {
+    "resource": "Grounding",
+    "setting": "Citation format",
+    "value": "[E1]形式",
+    "note": "回答中のcitation IDがEvidence Setに存在するか検査します。"
+  },
+  {
+    "resource": "Fallback",
+    "setting": "Insufficient evidence",
+    "value": "根拠不足です",
+    "note": "根拠がないときに推測で補わないための条件です。"
+  }
+]}
+/>
+
 
 ここでは`RetrieveAndGenerate`を使わず、検索と生成を明示的に分けます。これにより、生成前の重複排除、版の確認、根拠不足判定を後から追加できます。
 
