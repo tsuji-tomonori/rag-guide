@@ -12,14 +12,14 @@ import { Aside } from '@astrojs/starlight/components';
 ## 算定条件
 
 - 算定日：2026-08-16
-- リージョン：アジアパシフィック（東京）\`ap-northeast-1\`
+- リージョン：アジアパシフィック（東京）`ap-northeast-1`
 - 通貨：USD。日本円への換算、税、組織契約割引は含めません。
 - 1回の範囲：PDFを1回取り込み、検索を5回、生成を2回実行し、同日中にCleanupを完了するケース
-- 文書：AWS公式 Well-Architected Framework 日本語PDF。取得時のサイズは約10.5 MBですが、\`latest\`のため将来変わる可能性があります。
+- 文書：AWS公式 Well-Architected Framework 日本語PDF。取得時のサイズは約10.5 MBですが、`latest`のため将来変わる可能性があります。
 - 埋め込み入力：取り込み時100,000 token、検索クエリ20 token × 5回を仮定します。実際の請求は実際に処理したtoken数で変わります。
 - ベクトル：300 token、overlap 10%から約370 chunkとなるため、計算上は400 vectorへ丸めます。
 - S3 Vectorsの1 vectorあたり論理サイズ：AWSの料金例に合わせて6.17 KB（1024次元のvector data、metadata、key）を仮定します。
-- 生成：1.4の疎通確認は入力20 token・出力8 token、8.2の回答生成は入力2,000 token・出力400 token（\`maxTokens\`上限）で計算します。
+- 生成：1.4の疎通確認は入力20 token・出力8 token、8.2の回答生成は入力2,000 token・出力400 token（`maxTokens`上限）で計算します。
 - S3 request：明示的な操作とKnowledge Baseの読み取りを合わせて50 request程度と仮定します。
 
 <Aside type="caution" title="このページの金額は見積もりです">
