@@ -59,6 +59,10 @@ import ResourceTable from '../../components/ResourceTable.astro';
   Knowledge Basesは取り込みと検索を担当し、生成はConverseへ分離します。検索結果の`text`、`score`、`source URI`を先に観察できるため、「検索できた」と「正しく回答できた」を混同しません。
 </Aside>
 
+<Aside type="note" title="1人1回の費用目安">
+  基準ケース（PDF 1回取り込み、Retrieve 5回、Converse 2回、同日中にCleanup）では、東京リージョンの公式Price Listに基づき、合計は約`0.005 USD`（税・為替・割引・再実行を除く）です。内訳と計算式は[ハンズオン費用（1人1回）](/rag-guide/cost/)を参照してください。
+</Aside>
+
 ## 進め方
 
 <Steps>
