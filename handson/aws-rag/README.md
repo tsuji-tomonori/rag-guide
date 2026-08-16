@@ -1,6 +1,6 @@
 # AWS RAG Hands-on site
 
-AWS公式Well-Architected Framework PDFをCloudShellから`curl`で取得し、Amazon Bedrock Knowledge Bases、S3 Vectors、S3、Converseを構築するAstro Starlight教材です。
+AWS公式Well-Architected Framework PDFをAWS CLIから`curl`で取得し、Amazon Bedrock Knowledge Bases、S3 Vectors、S3、Converseを構築するAstro Starlight教材です。
 
 ## Local development
 

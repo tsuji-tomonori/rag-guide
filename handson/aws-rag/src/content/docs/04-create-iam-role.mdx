@@ -4,7 +4,7 @@ description: Bedrockが埋め込みモデル、S3文書、S3ベクトルイン�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -64,7 +64,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 Knowledge Basesはservice roleを引き受け、S3文書の読み取り、embedding modelの呼び出し、vectorの登録・検索を行います。対象resourceをこのrunで作成したものへ限定します。
 
-<CloudShellStep number="4.1" title="信頼ポリシーを作成する">
+<CliStep number="4.1" title="信頼ポリシーを作成する">
 
 <Command>
 
@@ -97,9 +97,9 @@ trust policyが表示され、`SourceAccount`と東京リージョンのKnowledg
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="4.2" title="サービスロールと最小権限ポリシーを作成する">
+<CliStep number="4.2" title="サービスロールと最小権限ポリシーを作成する">
 
 <Command>
 
@@ -216,9 +216,9 @@ jq -e \
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="4.3" title="ベクトルバケットポリシーを設定する">
+<CliStep number="4.3" title="ベクトルバケットポリシーを設定する">
 
 custom roleだけに、このindexへの必要操作を許可するresource-based policyを追加します。
 
@@ -287,7 +287,7 @@ aws s3vectors get-vector-bucket-policy \
   次のKnowledge Base作成で`ValidationException`やassume role関連のerrorが出た場合は、policy内容を変更せず30〜60秒待ってから同じ作成コマンドを1回再実行します。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

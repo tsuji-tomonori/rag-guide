@@ -4,7 +4,7 @@ description: メタデータフィルターと候補数を一つずつ変更し�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -52,7 +52,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 RAGの改善はmodel変更から始めず、検索条件を一つずつ変更して結果を比較します。このページではcandidate数とmetadata filterを扱います。
 
-<CloudShellStep number="9.1" title="候補数を比較する">
+<CliStep number="9.1" title="候補数を比較する">
 
 同じ質問で`numberOfResults`だけを変え、返却件数、上位score、正解根拠の有無を記録します。
 
@@ -103,9 +103,9 @@ column -t -s $'\t' "$RAG_WORK_DIR/k-comparison.tsv"
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="9.2" title="メタデータフィルターを必須条件として適用する">
+<CliStep number="9.2" title="メタデータフィルターを必須条件として適用する">
 
 質問を「設計の考え方を教えてください」のように広くしても、`category=framework`かつ`status=published`だけを検索対象にします。
 
@@ -168,9 +168,9 @@ jq -e '
   公開状態、tenant、ACL、版などの必須条件を「回答に使わないでください」というpromptだけで制御しません。検索前のfilterとnegative testで、条件外の文書がcandidateやcitationへ混入しないことを確認します。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="9.3" title="改善の次の一手を判断する">
+<CliStep number="9.3" title="改善の次の一手を判断する">
 
 | 観測した失敗 | 最初に試す変更 |
 |---|---|
@@ -184,7 +184,7 @@ jq -e '
   S3 Vectorsはsemantic search用の基準構成です。HYBRIDを評価する場合は対応vector storeへ切り替え、同じ質問・gold evidence・権限条件で比較します。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

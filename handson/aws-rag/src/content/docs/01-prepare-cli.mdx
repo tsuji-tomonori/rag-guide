@@ -1,10 +1,10 @@
 ---
-title: 1. CloudShellを準備する
+title: 1. AWS CLI実行環境を準備する
 description: AWS認証、東京リージョン、CLI機能、埋め込み・生成モデルを事前検証します。
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -46,9 +46,9 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 このページではまだAWSリソースを作りません。後続の失敗を早期に見つけるため、認証、リージョン、AWS CLIのservice command、利用モデルを先に確認します。
 
-<CloudShellStep number="1.1" title="CloudShellを開く">
+<CliStep number="1.1" title="AWS CLI実行環境を確認する">
 
-AWS Management Console右上のCloudShellアイコンを選び、promptが表示されるまで待ちます。CloudShellはConsoleへsign-inしたprincipalの一時credentialsを自動で利用します。
+AWS CLIを実行できるターミナルを開き、想定したAWSアカウントへ認証されていることを確認します。認証方式は、AWS CLIの設定済みprofile、IAM Identity Center、環境変数など、利用する実行環境に合わせてください。
 
 <Command>
 
@@ -64,11 +64,11 @@ aws sts get-caller-identity --output table
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="1.2" title="共通変数を設定する">
+<CliStep number="1.2" title="共通変数を設定する">
 
-以降は同じCloudShell tabで作業します。複数人が同じAWS account・Regionで同時に実施しても名前が衝突しにくいよう、UTC時刻に6桁のランダムな16進数を加えたrun IDを使います。また、CloudShellのshell sessionが途中で再作成されても復旧できるよう、環境変数を`$HOME`配下へ保存します。
+以降は同じターミナルセッションで作業します。複数人が同じAWS account・Regionで同時に実施しても名前が衝突しにくいよう、UTC時刻に6桁のランダムな16進数を加えたrun IDを使います。また、ターミナルセッションが途中で再作成されても復旧できるよう、環境変数を`$HOME`配下へ保存します。
 
 <Command>
 
@@ -131,13 +131,13 @@ printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR
 
 </ExpectedResult>
 
-<Aside type="note" title="CloudShellを開き直した場合">
-  shell sessionが切り替わると、`export`した環境変数は消えます。ハンズオンの作業ファイルと状態ファイルは`$HOME`配下へ保存しているため、`source "$HOME/.rag-handson-current"`を実行すれば、現在のrunの環境変数を復元できます。AWSリソースを`list`して先頭のIDを使う方法は、複数人で同時実施すると他の受講者のリソースを選ぶ可能性があるため、通常の復旧方法にはしません。
+<Aside type="note" title="ターミナルを開き直した場合">
+  セッションが切り替わると、`export`した環境変数は消えます。ハンズオンの作業ファイルと状態ファイルは`$HOME`配下へ保存しているため、`source "$HOME/.rag-handson-current"`を実行すれば、現在のrunの環境変数を復元できます。AWSリソースを`list`して先頭のIDを使う方法は、複数人で同時実施すると他の受講者のリソースを選ぶ可能性があるため、通常の復旧方法にはしません。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="1.3" title="CLIとAWSサービスを検証する">
+<CliStep number="1.3" title="CLIとAWSサービスを検証する">
 
 <Command>
 
@@ -159,12 +159,12 @@ aws bedrock list-foundation-models --query 'length(modelSummaries)' --output tex
 </ExpectedResult>
 
 <Aside type="caution" title="aws: error: argument command: Invalid choice の場合">
-  CloudShellのAWS CLIが`aws s3vectors`へ未対応です。古いCLIのままハンズオンを進めず、[AWS CLIの更新手順](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)で最新版へ更新するか、管理者が更新済みの実習環境を使用してください。
+  利用中のAWS CLIが`aws s3vectors`へ未対応です。古いCLIのままハンズオンを進めず、[AWS CLIの更新手順](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)で最新版へ更新してください。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="1.4" title="利用モデルを検証する">
+<CliStep number="1.4" title="利用モデルを検証する">
 
 まず、東京リージョンにmodel IDが存在することを確認します。その後、Nova Liteへ短い`Converse`を1回だけ実行し、実際にinvokeできることを確認します。
 
@@ -203,7 +203,7 @@ embedding modelとgeneration modelの表が表示され、最後のコマンド�
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

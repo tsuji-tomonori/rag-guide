@@ -15,7 +15,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 ## ゴール
 
-このハンズオンでは、AWS公式の日本語版Well-Architected Framework PDFをCloudShellから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。質問時は`Retrieve`で候補を取得し、取得本文だけをEvidence Setとして`Converse`へ渡します。
+このハンズオンでは、AWS公式の日本語版Well-Architected Framework PDFをAWS CLIから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。質問時は`Retrieve`で候補を取得し、取得本文だけをEvidence Setとして`Converse`へ渡します。
 
 <figure class="architecture-figure">
   <img
@@ -32,17 +32,17 @@ import ResourceTable from '../../components/ResourceTable.astro';
 <figure class="architecture-figure diagram-figure">
   <img
     src="/rag-guide/images/aws-rag-physical-architecture.svg"
-    alt="CloudShellからS3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、Converseへ接続するAWS RAGの物理構成図"
+    alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
   />
-  <figcaption>物理構成：CloudShellから文書を取り込み、S3 Vectorsを検索し、Amazon Bedrock Converseで回答を生成します。</figcaption>
+  <figcaption>物理構成：S3の文書をKnowledge Basesで取り込み、S3 Vectorsを検索し、Amazon Bedrock Converseで回答を生成します。</figcaption>
 </figure>
 
 <figure class="architecture-figure diagram-figure">
   <img
     src="/rag-guide/images/aws-rag-logical-architecture.svg"
-    alt="Batch Layer、Real-time Layer、Control PlaneとAWSリソースの対応を示すAWS RAGの論理構成図"
+    alt="Batch LayerとReal-time Layer、およびAWSリソースの対応を示すAWS RAGの論理構成図"
   />
-  <figcaption>論理構成：Batch Layer、Real-time Layer、Control Planeの各責務と、対応するAWSリソースを結び付けています。</figcaption>
+  <figcaption>論理構成：Batch LayerとReal-time Layerの各責務を、対応するAWSリソースに結び付けています。</figcaption>
 </figure>
 
 <ResourceTable
@@ -52,13 +52,13 @@ import ResourceTable from '../../components/ResourceTable.astro';
     "resource": "AWSリージョン",
     "setting": "配置リージョン",
     "value": "ap-northeast-1",
-    "note": "CloudShell、S3、S3 Vectors、Bedrockを同一リージョンにそろえます。"
+    "note": "S3、S3 Vectors、Bedrockを同一リージョンにそろえます。"
   },
   {
     "resource": "原文書",
     "setting": "検索対象",
     "value": "AWS Well-Architected Framework（日本語PDF）",
-    "note": "CloudShellからcurlで取得し、取得日時とSHA-256を保存します。"
+    "note": "AWS CLIからcurlで取得し、取得日時とSHA-256を保存します。"
   },
   {
     "resource": "ベクトルストア",
@@ -87,7 +87,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 <Steps>
 
-1. **準備**：CloudShellの認証、リージョン、CLI、モデルを検証します。
+1. **準備**：AWS CLIの認証、リージョン、CLI機能、モデルを検証します。
 2. **Offline Layer**：文書、vector store、IAM role、Knowledge Base、data sourceを作成して同期します。
 3. **Online Layer**：`Retrieve`で検索し、metadata filterと候補数を比較します。
 4. **Generation**：取得した根拠だけを`Converse`へ渡し、citation ID付きの回答を生成します。
@@ -114,11 +114,11 @@ import ResourceTable from '../../components/ResourceTable.astro';
 <Checkpoint>
 
 - 検証用AWSアカウントを使える
-- 東京リージョンでCloudShellを起動できる
+- AWS CLIを実行できるターミナルを用意できる
 - IAM roleを作成し、Bedrockへpassできる
 - 終了後にCleanupまで実行できる時間がある
 - 数MB以上のPDF downloadとembeddingに伴う通信・少量の利用料金を許容できる
 
 </Checkpoint>
 
-[CloudShellを準備する →](/rag-guide/01-prepare-cloudshell/)
+[AWS CLI実行環境を準備する →](/rag-guide/01-prepare-cli/)

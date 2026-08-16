@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="1050" viewBox="0 0 1600 1050" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="800" viewBox="0 0 1600 800" role="img" aria-labelledby="title desc">
   <title id="title">AWS RAGハンズオンの論理構成とAWSリソースの対応</title>
-  <desc id="desc">Batch Layer、Real-time Layer、Control Planeの論理構成と対応するAWSリソースを示す図</desc>
+  <desc id="desc">Batch Layer、Real-time Layerの論理構成と対応するAWSリソースを示す図</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#315b7d"/>
@@ -16,7 +16,6 @@
       .lane { stroke-width: 2; }
       .batch { fill: #eef5f2; stroke: #9db9ae; }
       .online { fill: #eef3f8; stroke: #a7bfd1; }
-      .control { fill: #f4f1f8; stroke: #c2b4d8; }
       .lane-title { font-size: 20px; font-weight: 800; }
       .lane-note { font-size: 13px; fill: #617786; }
       .logical-card { fill: #ffffff; stroke: #c5d4dc; stroke-width: 2; }
@@ -34,7 +33,7 @@
     </style>
   </defs>
 
-  <rect width="1600" height="1050" fill="#f7f6f1"/>
+  <rect width="1600" height="800" fill="#f7f6f1"/>
   <text x="42" y="52" class="title">論理構成｜RAGの責務とAWSリソースの対応</text>
   <text x="42" y="80" class="subtitle">「どの処理を行うか」と「どのAWSリソースで実現するか」を同じ図で確認します</text>
 
@@ -43,8 +42,8 @@
   <rect x="230" y="105" width="30" height="14" rx="7" class="aws-badge"/>
   <text x="274" y="117" class="legend">各論理カード内のAWSタグで対応を表示</text>
 
-  <rect x="32" y="142" width="1000" height="850" rx="22" class="panel"/>
-  <rect x="1058" y="142" width="510" height="850" rx="22" class="panel"/>
+  <rect x="32" y="142" width="1000" height="600" rx="22" class="panel"/>
+  <rect x="1058" y="142" width="510" height="600" rx="22" class="panel"/>
   <rect x="58" y="123" width="190" height="38" rx="19" fill="#315b7d"/>
   <text x="153" y="148" class="resource-tag" font-size="13">論理構成</text>
   <rect x="1085" y="123" width="236" height="38" rx="19" fill="#315b7d"/>
@@ -129,11 +128,10 @@
 
   <g filter="url(#shadow)">
     <rect x="82" y="550" width="170" height="108" rx="12" class="logical-card"/>
-    <image x="93" y="564" width="36" height="36" href="aws-icons/aws-cloudshell-48.svg" xlink:href="aws-icons/aws-cloudshell-48.svg" preserveAspectRatio="xMidYMid meet"/>
+    <circle cx="111" cy="582" r="18" fill="#5e7e96"/>
+    <text x="111" y="589" class="icon-label" font-size="18">?</text>
     <text x="142" y="586" class="logical-title">質問入力</text>
-    <text x="102" y="620" class="logical-note">queryを受け取る</text>
-    <rect x="96" y="628" width="142" height="20" rx="7" class="aws-badge"/>
-    <text x="167" y="642" class="aws-badge-text">AWS: CloudShell</text>
+    <text x="102" y="620" class="logical-note">利用者からqueryを受け取る</text>
   </g>
   <g filter="url(#shadow)">
     <rect x="282" y="550" width="190" height="108" rx="12" class="logical-card"/>
@@ -164,13 +162,6 @@
   <path d="M682 604 H712" class="process-edge"/>
 
   <g>
-    <rect x="1082" y="492" width="220" height="78" rx="12" class="resource-card"/>
-    <image x="1100" y="510" width="36" height="36" href="aws-icons/aws-cloudshell-48.svg" xlink:href="aws-icons/aws-cloudshell-48.svg" preserveAspectRatio="xMidYMid meet"/>
-    <text x="1150" y="519" class="resource-title">CloudShell / CLI</text>
-    <text x="1150" y="541" class="resource-note">質問を送信</text>
-    <rect x="1082" y="554" width="94" height="14" rx="7" fill="#315b7d"/><text x="1129" y="565" class="resource-tag">Real-time</text>
-  </g>
-  <g>
     <rect x="1320" y="492" width="220" height="78" rx="12" class="resource-card"/>
     <image x="1338" y="510" width="36" height="36" href="aws-icons/amazon-bedrock-48.svg" xlink:href="aws-icons/amazon-bedrock-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="1388" y="519" class="resource-title">Knowledge Bases</text>
@@ -192,64 +183,5 @@
     <rect x="1320" y="666" width="94" height="14" rx="7" fill="#315b7d"/><text x="1367" y="677" class="resource-tag">Real-time</text>
   </g>
 
-  <!-- Control Plane -->
-  <rect x="58" y="724" width="948" height="240" rx="18" class="lane control"/>
-  <text x="82" y="758" class="lane-title" fill="#664d85">Control Plane｜安全・再現性・検証</text>
-  <text x="82" y="780" class="lane-note">各処理を誰が、どの設定で、どの状態として実行したかを管理</text>
-
-  <g filter="url(#shadow)">
-    <rect x="82" y="822" width="250" height="104" rx="12" class="logical-card"/>
-    <image x="93" y="836" width="36" height="36" href="aws-icons/aws-iam-48.svg" xlink:href="aws-icons/aws-iam-48.svg" preserveAspectRatio="xMidYMid meet"/>
-    <text x="142" y="858" class="logical-title">認証・権限</text>
-    <text x="102" y="892" class="logical-note">KBがS3・vectorへ</text>
-    <rect x="96" y="899" width="222" height="19" rx="7" class="aws-badge"/>
-    <text x="207" y="913" class="aws-badge-text">AWS: IAM role</text>
-  </g>
-  <g filter="url(#shadow)">
-    <rect x="370" y="822" width="250" height="104" rx="12" class="logical-card"/>
-    <image x="381" y="836" width="36" height="36" href="aws-icons/aws-region-32.svg" xlink:href="aws-icons/aws-region-32.svg" preserveAspectRatio="xMidYMid meet"/>
-    <text x="430" y="858" class="logical-title">設定・評価</text>
-    <text x="390" y="892" class="logical-note">region・model・index</text>
-    <rect x="384" y="899" width="222" height="19" rx="7" class="aws-badge"/>
-    <text x="495" y="913" class="aws-badge-text">AWS: Region / model</text>
-  </g>
-  <g filter="url(#shadow)">
-    <rect x="658" y="822" width="304" height="104" rx="12" class="logical-card"/>
-    <image x="669" y="836" width="36" height="36" href="aws-icons/aws-cloudshell-48.svg" xlink:href="aws-icons/aws-cloudshell-48.svg" preserveAspectRatio="xMidYMid meet"/>
-    <text x="718" y="858" class="logical-title">実行・検証・後片付け</text>
-    <text x="678" y="892" class="logical-note">read-only確認とCleanup</text>
-    <rect x="672" y="899" width="276" height="19" rx="7" class="aws-badge"/>
-    <text x="810" y="913" class="aws-badge-text">AWS: CloudShell CLI</text>
-  </g>
-
-  <g>
-    <rect x="1082" y="770" width="220" height="78" rx="12" class="resource-card"/>
-    <image x="1100" y="788" width="36" height="36" href="aws-icons/aws-iam-48.svg" xlink:href="aws-icons/aws-iam-48.svg" preserveAspectRatio="xMidYMid meet"/>
-    <text x="1150" y="797" class="resource-title">Knowledge Base role</text>
-    <text x="1150" y="819" class="resource-note">S3・embedding・vector</text>
-    <rect x="1082" y="832" width="78" height="14" rx="7" fill="#664d85"/><text x="1121" y="843" class="resource-tag">Control</text>
-  </g>
-  <g>
-    <rect x="1320" y="770" width="220" height="78" rx="12" class="resource-card"/>
-    <image x="1338" y="788" width="36" height="36" href="aws-icons/aws-region-32.svg" xlink:href="aws-icons/aws-region-32.svg" preserveAspectRatio="xMidYMid meet"/>
-    <text x="1388" y="797" class="resource-title">Region / model access</text>
-    <text x="1388" y="819" class="resource-note">ap-northeast-1・Nova</text>
-    <rect x="1320" y="832" width="78" height="14" rx="7" fill="#664d85"/><text x="1359" y="843" class="resource-tag">Control</text>
-  </g>
-  <g>
-    <rect x="1082" y="882" width="220" height="78" rx="12" class="resource-card"/>
-    <image x="1100" y="900" width="36" height="36" href="aws-icons/aws-cloudshell-48.svg" xlink:href="aws-icons/aws-cloudshell-48.svg" preserveAspectRatio="xMidYMid meet"/>
-    <text x="1150" y="909" class="resource-title">CloudShell / CLI</text>
-    <text x="1150" y="931" class="resource-note">確認・Cleanupを実行</text>
-    <rect x="1082" y="944" width="78" height="14" rx="7" fill="#664d85"/><text x="1121" y="955" class="resource-tag">Control</text>
-  </g>
-  <g>
-    <rect x="1320" y="882" width="220" height="78" rx="12" class="resource-card"/>
-    <image x="1338" y="900" width="36" height="36" href="aws-icons/aws-cloudshell-48.svg" xlink:href="aws-icons/aws-cloudshell-48.svg" preserveAspectRatio="xMidYMid meet"/>
-    <text x="1388" y="909" class="resource-title">CloudShellの検証</text>
-    <text x="1388" y="931" class="resource-note">状態・費用・残存確認</text>
-    <rect x="1320" y="944" width="78" height="14" rx="7" fill="#664d85"/><text x="1359" y="955" class="resource-tag">Control</text>
-  </g>
-
-  <text x="42" y="1024" class="subtitle">同じAWSリソースが複数の論理責務に関わる場合は、図中で同じ名称を再掲しています（例：Knowledge Bases、S3 Vectors、CloudShell）。</text>
+  <text x="42" y="775" class="subtitle">同じAWSリソースが複数の論理責務に関わる場合は、図中で同じ名称を再掲しています（例：Knowledge Bases、S3 Vectors）。</text>
 </svg>

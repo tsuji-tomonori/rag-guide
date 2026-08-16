@@ -4,7 +4,7 @@ description: 取り込みジョブを開始し、完了状態・統計・文書�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -50,11 +50,11 @@ import ResourceTable from '../../components/ResourceTable.astro';
 />
 
 
-同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。CloudShell sessionが途中で切り替わっても別の受講者のresourceを誤って使わないよう、このrunで保存したIDとARNを復元してから進めます。
+同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。ターミナルセッションが途中で切り替わっても別の受講者のresourceを誤って使わないよう、このrunで保存したIDとARNを復元してから進めます。
 
-<CloudShellStep number="6.1" title="状態と取り込み前提を検証してジョブを開始する">
+<CliStep number="6.1" title="状態と取り込み前提を検証してジョブを開始する">
 
-CloudShellを開き直した場合は、最初にこのrunのstate fileを読み戻します。`list-*`の先頭要素からIDを推測しません。同じAWS account・Regionで複数人が同時に実施すると、別の受講者のKnowledge Baseを選ぶ可能性があるためです。
+ターミナルを開き直した場合は、最初にこのrunのstate fileを読み戻します。`list-*`の先頭要素からIDを推測しません。同じAWS account・Regionで複数人が同時に実施すると、別の受講者のKnowledge Baseを選ぶ可能性があるためです。
 
 <Command title="現在のrunを復元して必須変数を検証">
 
@@ -167,9 +167,9 @@ declare -p RAG_INGESTION_JOB_ID >> "$RAG_STATE_FILE"
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="6.2" title="終端状態まで監視する">
+<CliStep number="6.2" title="終端状態まで監視する">
 
 AWS CLIの既定Regionに依存せず、各API callでこのrunの`AWS_REGION`を明示します。
 
@@ -212,9 +212,9 @@ test "$RAG_INGESTION_STATUS" = "COMPLETE"
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="6.3" title="同期結果を多層で検証する">
+<CliStep number="6.3" title="同期結果を多層で検証する">
 
 <Command title="ジョブ統計を確認">
 
@@ -288,7 +288,7 @@ aws s3vectors list-vectors \
   Knowledge Basesは長いPDFを多数のchunkへ分割してからembeddingします。同期確認では「vector数が文書数と同じ」を条件にせず、job statistics、可能ならdocument status、vectorの存在を分けて検証します。`list-vectors --max-items 20`の`count`は全vector数ではなく、取得した先頭pageの件数です。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

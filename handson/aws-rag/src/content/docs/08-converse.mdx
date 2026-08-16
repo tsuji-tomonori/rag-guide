@@ -4,7 +4,7 @@ description: Retrieveで取得した根拠セットだけをNova Liteへ渡し�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -52,7 +52,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 ここでは`RetrieveAndGenerate`を使わず、検索と生成を明示的に分けます。これにより、生成前の重複排除、版の確認、根拠不足判定を後から追加できます。
 
-<CloudShellStep number="8.1" title="根拠セット付きメッセージを作成する">
+<CliStep number="8.1" title="根拠セット付きメッセージを作成する">
 
 <Command>
 
@@ -88,9 +88,9 @@ message JSONが表示され、質問、制約、`[E1]`を含むEvidence Setが1�
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="8.2" title="Converseを呼び出す">
+<CliStep number="8.2" title="Converseを呼び出す">
 
 <Command>
 
@@ -114,9 +114,9 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="8.3" title="最低限の引用検査を行う">
+<CliStep number="8.3" title="最低限の引用検査を行う">
 
 <Command>
 
@@ -149,7 +149,7 @@ printf 'citation validation: PASS\n'
   citation IDの存在確認は最低限の構文検査です。本番では、各claimが参照本文に支持されるか、根拠の版や権限が正しいか、回答可能性が十分かを別途評価します。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

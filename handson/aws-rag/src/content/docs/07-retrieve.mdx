@@ -4,7 +4,7 @@ description: ナレッジベースへ意味検索クエリを送り、本文・�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -52,7 +52,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 生成モデルを呼ぶ前に、検索結果だけを観察します。適切な根拠が候補に含まれなければ、生成モデルを変更しても根本原因は解消しません。
 
-<CloudShellStep number="7.1" title="意味検索を実行する">
+<CliStep number="7.1" title="意味検索を実行する">
 
 <Command>
 
@@ -80,9 +80,9 @@ aws bedrock-agent-runtime retrieve \
 
 </Command>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="7.2" title="検索結果を検証する">
+<CliStep number="7.2" title="検索結果を検証する">
 
 <Command>
 
@@ -115,9 +115,9 @@ jq -e '
   scoreの尺度はmodel、store、query、設定によって変わります。単発の値から「0.7以上なら正しい」と決めず、gold evidenceを持つ複数queryでRecall@kと誤検索を測ります。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="7.3" title="検索結果を根拠セットへ整形する">
+<CliStep number="7.3" title="検索結果を根拠セットへ整形する">
 
 <Command>
 
@@ -147,7 +147,7 @@ grep -q 'source=s3://' "$RAG_WORK_DIR/evidence.txt"
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 
