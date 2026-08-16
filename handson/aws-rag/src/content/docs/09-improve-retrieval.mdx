@@ -1,6 +1,6 @@
 ---
 title: 9. 検索設定を比較する
-description: metadata filterとcandidate数を一つずつ変更し、検索結果への影響を観察します。
+description: メタデータフィルターと候補数を一つずつ変更し、検索結果への影響を観察します。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -8,10 +8,51 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={9} />
+
+<ResourceTable
+  title="比較する検索設定"
+  rows={[
+  {
+    "resource": "候補数",
+    "setting": "numberOfResults",
+    "value": "1 / 3 / 5",
+    "note": "同じ質問で件数だけを変え、k-comparison.tsvへ保存します。"
+  },
+  {
+    "resource": "検索方式",
+    "setting": "overrideSearchType",
+    "value": "SEMANTIC",
+    "note": "S3 Vectorsの対応範囲内で比較します。"
+  },
+  {
+    "resource": "メタデータフィルター",
+    "setting": "category",
+    "value": "framework",
+    "note": "検索前に文書種別を限定します。"
+  },
+  {
+    "resource": "メタデータフィルター",
+    "setting": "status",
+    "value": "published",
+    "note": "公開状態を検索前条件として適用します。"
+  },
+  {
+    "resource": "比較結果",
+    "setting": "成果物",
+    "value": "k-comparison.tsv / retrieve-filtered-output.json",
+    "note": "検索失敗と生成失敗を分けて評価します。"
+  }
+]}
+/>
+
 
 RAGの改善はmodel変更から始めず、検索条件を一つずつ変更して結果を比較します。このページではcandidate数とmetadata filterを扱います。
 
-<CloudShellStep number="9.1" title="candidate数を比較する">
+<CloudShellStep number="9.1" title="候補数を比較する">
 
 同じ質問で`numberOfResults`だけを変え、返却件数、上位score、正解根拠の有無を記録します。
 
@@ -64,7 +105,7 @@ column -t -s $'\t' "$RAG_WORK_DIR/k-comparison.tsv"
 
 </CloudShellStep>
 
-<CloudShellStep number="9.2" title="metadata filterを必須条件として適用する">
+<CloudShellStep number="9.2" title="メタデータフィルターを必須条件として適用する">
 
 質問を「設計の考え方を教えてください」のように広くしても、`category=framework`かつ`status=published`だけを検索対象にします。
 
@@ -100,7 +141,7 @@ aws bedrock-agent-runtime retrieve \
 
 </Command>
 
-<Command title="filter結果を検証">
+<Command title="フィルター結果を検証">
 
 ```bash
 jq -r '
@@ -123,7 +164,7 @@ jq -e '
 
 </ExpectedResult>
 
-<Aside type="note" title="filterはpromptの指示より前に適用します">
+<Aside type="note" title="フィルターはプロンプトの指示より前に適用します">
   公開状態、tenant、ACL、版などの必須条件を「回答に使わないでください」というpromptだけで制御しません。検索前のfilterとnegative testで、条件外の文書がcandidateやcitationへ混入しないことを確認します。
 </Aside>
 

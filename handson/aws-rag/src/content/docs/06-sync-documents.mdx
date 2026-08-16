@@ -1,6 +1,6 @@
 ---
 title: 6. 文書を同期する
-description: ingestion jobを開始し、完了状態・統計・文書状態・vector登録を多層で確認します。
+description: 取り込みジョブを開始し、完了状態・統計・文書状態・ベクトル登録を多層で確認します。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -8,10 +8,51 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={6} />
+
+<ResourceTable
+  title="実行する取り込みの設定値と完了条件"
+  rows={[
+  {
+    "resource": "取り込みジョブ",
+    "setting": "ナレッジベース／データソース",
+    "value": "RAG_KB_ID / RAG_DS_ID",
+    "note": "listの先頭を使わず、state fileの同一runを参照します。"
+  },
+  {
+    "resource": "取り込みジョブ",
+    "setting": "説明",
+    "value": "Initial sync for RAG hands-on ${RAG_RUN_ID}",
+    "note": "job IDを取得して監視します。"
+  },
+  {
+    "resource": "ジョブ終了状態",
+    "setting": "必須ステータス",
+    "value": "COMPLETE",
+    "note": "STARTINGやIN_PROGRESSでは次へ進みません。"
+  },
+  {
+    "resource": "文書",
+    "setting": "期待ステータス",
+    "value": "INDEXED（caller権限がある場合）",
+    "note": "文書単位の確認は追加caller権限がある場合に実施します。"
+  },
+  {
+    "resource": "ベクトルインデックス",
+    "setting": "期待結果",
+    "value": "vector count >= 1",
+    "note": "PDFのchunkがvectorへ登録されたことを確認します。"
+  }
+]}
+/>
+
 
 同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。CloudShell sessionが途中で切り替わっても別の受講者のresourceを誤って使わないよう、このrunで保存したIDとARNを復元してから進めます。
 
-<CloudShellStep number="6.1" title="状態とingestion前提を検証してjobを開始する">
+<CloudShellStep number="6.1" title="状態と取り込み前提を検証してジョブを開始する">
 
 CloudShellを開き直した場合は、最初にこのrunのstate fileを読み戻します。`list-*`の先頭要素からIDを推測しません。同じAWS account・Regionで複数人が同時に実施すると、別の受講者のKnowledge Baseを選ぶ可能性があるためです。
 
@@ -49,7 +90,7 @@ printf 'region=%s\nrun=%s\nkb=%s\nds=%s\nindex=%s\n' \
 
 まず、Knowledge Baseが4章で作成したservice roleを使っていることと、ingestionに必要な4系統の権限が実際にroleへ付与されていることを確認します。
 
-<Command title="Knowledge Base roleとingestion権限をpreflight">
+<Command title="ナレッジベースのロールと取り込み権限を事前検証">
 
 ```bash
 export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
@@ -99,11 +140,11 @@ jq -e \
 
 </ExpectedResult>
 
-<Aside type="caution" title="preflightで失敗した場合">
+<Aside type="caution" title="事前検証で失敗した場合">
   4章のpermissions policyを再生成・再適用してから、このpreflightを再実行してください。特に`s3:ListBucket`がない場合、ingestion jobはS3 documentをscanする前に403で`FAILED`になります。すでに`FAILED`になったjobは再開せず、権限修正後にこの6.1から新しいingestion jobを開始します。
 </Aside>
 
-<Command title="ingestion jobを開始してIDを保存">
+<Command title="取り込みジョブを開始してIDを保存">
 
 ```bash
 aws bedrock-agent start-ingestion-job \
@@ -175,7 +216,7 @@ test "$RAG_INGESTION_STATUS" = "COMPLETE"
 
 <CloudShellStep number="6.3" title="同期結果を多層で検証する">
 
-<Command title="job統計を確認">
+<Command title="ジョブ統計を確認">
 
 ```bash
 aws bedrock-agent get-ingestion-job \
@@ -210,7 +251,7 @@ fi
   ingestionで使うKnowledge Base service roleの権限とは別に、この確認コマンドを実行するcallerには`bedrock:ListKnowledgeBaseDocuments`が必要です。実習環境のpermission setや組織ポリシーで許可されていない場合、この確認だけをskipできます。jobの`COMPLETE`とvector登録確認は引き続き必須です。
 </Aside>
 
-<Command title="vectorが登録されたことを確認">
+<Command title="ベクトルが登録されたことを確認">
 
 ```bash
 if [ -z "${RAG_INDEX_ARN:-}" ]; then
@@ -243,7 +284,7 @@ aws s3vectors list-vectors \
 
 </ExpectedResult>
 
-<Aside type="note" title="1 PDF = 1 vectorではありません">
+<Aside type="note" title="1 PDF = 1ベクトルではありません">
   Knowledge Basesは長いPDFを多数のchunkへ分割してからembeddingします。同期確認では「vector数が文書数と同じ」を条件にせず、job statistics、可能ならdocument status、vectorの存在を分けて検証します。`list-vectors --max-items 20`の`count`は全vector数ではなく、取得した先頭pageの件数です。
 </Aside>
 

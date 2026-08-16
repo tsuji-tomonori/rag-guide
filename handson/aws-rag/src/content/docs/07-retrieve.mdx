@@ -1,6 +1,6 @@
 ---
 title: 7. Retrieveで検索する
-description: Knowledge Baseへsemantic queryを送り、本文・score・source URI・metadataを確認します。
+description: ナレッジベースへ意味検索クエリを送り、本文・スコア・ソースURI・メタデータを確認します。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -8,10 +8,51 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={7} />
+
+<ResourceTable
+  title="Retrieveで使う設定値"
+  rows={[
+  {
+    "resource": "検索質問",
+    "setting": "テキスト",
+    "value": "AWS Well-Architected Frameworkの6本の柱を教えてください。",
+    "note": "複数chunkから6本の柱の根拠を取得します。"
+  },
+  {
+    "resource": "検索",
+    "setting": "overrideSearchType",
+    "value": "SEMANTIC",
+    "note": "S3 Vectorsのdense semantic searchを明示します。"
+  },
+  {
+    "resource": "検索",
+    "setting": "numberOfResults",
+    "value": "5",
+    "note": "候補を5件取得し、rankとscoreを比較します。"
+  },
+  {
+    "resource": "結果フィールド",
+    "setting": "観測値",
+    "value": "text / score / source URI / metadata",
+    "note": "生成前に根拠本文と出典を確認します。"
+  },
+  {
+    "resource": "根拠セット",
+    "setting": "引用ID",
+    "value": "[E1], [E2], ...",
+    "note": "本文とS3 source URIを同じblockへ整形します。"
+  }
+]}
+/>
+
 
 生成モデルを呼ぶ前に、検索結果だけを観察します。適切な根拠が候補に含まれなければ、生成モデルを変更しても根本原因は解消しません。
 
-<CloudShellStep number="7.1" title="semantic searchを実行する">
+<CloudShellStep number="7.1" title="意味検索を実行する">
 
 <Command>
 
@@ -70,13 +111,13 @@ jq -e '
 
 </ExpectedResult>
 
-<Aside type="caution" title="scoreへ固定閾値を置かないでください">
+<Aside type="caution" title="スコアへ固定閾値を置かないでください">
   scoreの尺度はmodel、store、query、設定によって変わります。単発の値から「0.7以上なら正しい」と決めず、gold evidenceを持つ複数queryでRecall@kと誤検索を測ります。
 </Aside>
 
 </CloudShellStep>
 
-<CloudShellStep number="7.3" title="検索結果をEvidence Setへ整形する">
+<CloudShellStep number="7.3" title="検索結果を根拠セットへ整形する">
 
 <Command>
 

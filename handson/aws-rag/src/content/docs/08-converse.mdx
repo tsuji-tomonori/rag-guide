@@ -1,6 +1,6 @@
 ---
 title: 8. Converseで回答を生成する
-description: Retrieveで取得したEvidence SetだけをNova Liteへ渡し、citation ID付きの回答を生成します。
+description: Retrieveで取得した根拠セットだけをNova Liteへ渡し、引用ID付きの回答を生成します。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -8,10 +8,51 @@ import CloudShellStep from '../../components/CloudShellStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={8} />
+
+<ResourceTable
+  title="Converseで使う設定値"
+  rows={[
+  {
+    "resource": "生成モデル",
+    "setting": "モデルID",
+    "value": "amazon.nova-lite-v1:0",
+    "note": "1章で疎通確認したモデルを使用します。"
+  },
+  {
+    "resource": "入力",
+    "setting": "メッセージ",
+    "value": "質問 + Retrieve結果のEvidence Set",
+    "note": "Evidence Setにない情報を使わない制約を含めます。"
+  },
+  {
+    "resource": "推論",
+    "setting": "maxTokens / temperature / topP",
+    "value": "400 / 0.1 / 0.9",
+    "note": "教材用の固定値です。用途に応じて評価します。"
+  },
+  {
+    "resource": "根拠付け",
+    "setting": "引用形式",
+    "value": "[E1]形式",
+    "note": "回答中のcitation IDがEvidence Setに存在するか検査します。"
+  },
+  {
+    "resource": "フォールバック",
+    "setting": "根拠不足時の動作",
+    "value": "根拠不足です",
+    "note": "根拠がないときに推測で補わないための条件です。"
+  }
+]}
+/>
+
 
 ここでは`RetrieveAndGenerate`を使わず、検索と生成を明示的に分けます。これにより、生成前の重複排除、版の確認、根拠不足判定を後から追加できます。
 
-<CloudShellStep number="8.1" title="Evidence Set付きmessageを作成する">
+<CloudShellStep number="8.1" title="根拠セット付きメッセージを作成する">
 
 <Command>
 
@@ -75,7 +116,7 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 </CloudShellStep>
 
-<CloudShellStep number="8.3" title="最低限のcitation検査を行う">
+<CloudShellStep number="8.3" title="最低限の引用検査を行う">
 
 <Command>
 
@@ -104,7 +145,7 @@ printf 'citation validation: PASS\n'
 
 </ExpectedResult>
 
-<Aside type="note" title="この検査だけではclaim supportを証明できません">
+<Aside type="note" title="この検査だけでは主張の根拠付けを証明できません">
   citation IDの存在確認は最低限の構文検査です。本番では、各claimが参照本文に支持されるか、根拠の版や権限が正しいか、回答可能性が十分かを別途評価します。
 </Aside>
 

@@ -7,20 +7,53 @@ sidebar:
 
 import { Aside, Steps } from '@astrojs/starlight/components';
 import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={0} />
+
 
 ## ゴール
 
 このハンズオンでは、AWS公式の日本語版Well-Architected Framework PDFをCloudShellから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。質問時は`Retrieve`で候補を取得し、取得本文だけをEvidence Setとして`Converse`へ渡します。
 
-```mermaid
-flowchart LR
-  A[S3 documents] --> B[Knowledge Bases]
-  B --> C[S3 Vectors]
-  D[Question] --> E[Retrieve]
-  C --> E
-  E --> F[Evidence Set]
-  F --> G[Converse]
-```
+<figure class="architecture-figure">
+  <img
+    src="/rag-guide/images/aws-rag-architecture-overview.png"
+    alt="S3 DocumentsからKnowledge Base、S3 Vectors、Retrieve、Evidence Set、Converseを経てAnswerへ進むAWS RAG構成図"
+  />
+  <figcaption>図はImageGen 2.0で作成した全体構成図です。Offline / Indexing、Online / Retrieval、Generationの境界を示しています。</figcaption>
+</figure>
+
+<ResourceTable
+  title="このハンズオンで固定する基準値"
+  rows={[
+  {
+    "resource": "AWSリージョン",
+    "setting": "配置リージョン",
+    "value": "ap-northeast-1",
+    "note": "CloudShell、S3、S3 Vectors、Bedrockを同一リージョンにそろえます。"
+  },
+  {
+    "resource": "原文書",
+    "setting": "検索対象",
+    "value": "AWS Well-Architected Framework（日本語PDF）",
+    "note": "CloudShellからcurlで取得し、取得日時とSHA-256を保存します。"
+  },
+  {
+    "resource": "ベクトルストア",
+    "setting": "基準構成",
+    "value": "S3 Vectors / float32 / 1024 / cosine",
+    "note": "Titan Text Embeddings V2のembedding設定と一致させます。"
+  },
+  {
+    "resource": "生成モデル",
+    "setting": "モデル",
+    "value": "amazon.nova-lite-v1:0",
+    "note": "Retrieveで確認したEvidence SetだけをConverseへ渡します。"
+  }
+]}
+/>
 
 <Aside type="note" title="この構成で学べる境界">
   Knowledge Basesは取り込みと検索を担当し、生成はConverseへ分離します。検索結果の`text`、`score`、`source URI`を先に観察できるため、「検索できた」と「正しく回答できた」を混同しません。
