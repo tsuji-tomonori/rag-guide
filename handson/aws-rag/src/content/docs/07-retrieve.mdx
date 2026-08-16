@@ -19,7 +19,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
   {
     "resource": "検索質問",
     "setting": "テキスト",
-    "value": "AWS Well-Architected Frameworkの6本の柱を教えてください。",
+    "value": "Amazon Bedrock Knowledge Basesは、データソースの文書をどのように取り込み、RetrieveとRetrieveAndGenerateでどのように使い分けますか。",
     "note": "複数chunkから6本の柱の根拠を取得します。"
   },
   {
@@ -57,7 +57,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 <Command>
 
 ```bash
-export RAG_QUESTION="AWS Well-Architected Frameworkの6本の柱を教えてください。"
+export RAG_QUESTION="Amazon Bedrock Knowledge Basesは、データソースの文書をどのように取り込み、RetrieveとRetrieveAndGenerateでどのように使い分けますか。"
 
 jq -n \
   --arg kbId "$RAG_KB_ID" \
@@ -95,9 +95,9 @@ jq -r '
 
 jq -e '
   (.retrievalResults | length) > 0 and
-  ([.retrievalResults[].content.text] | join("\n") | contains("セキュリティ")) and
-  ([.retrievalResults[].content.text] | join("\n") | contains("信頼性")) and
-  ([.retrievalResults[].content.text] | join("\n") | contains("持続可能性"))
+  ([.retrievalResults[].content.text] | join("\n") | contains("データソース")) and
+  ([.retrievalResults[].content.text] | join("\n") | contains("Retrieve")) and
+  ([.retrievalResults[].content.text] | join("\n") | contains("RetrieveAndGenerate"))
 ' "$RAG_WORK_DIR/retrieve-output.json" >/dev/null
 ```
 
@@ -107,7 +107,7 @@ jq -e '
 
 <ExpectedResult>
 
-1件以上のcandidateが返り、取得本文全体に`セキュリティ`、`信頼性`、`持続可能性`が含まれます。source URIは`aws-well-architected-framework.pdf`を指し、metadataのcategoryは`framework`です。
+1件以上のcandidateが返り、取得本文全体に`データソース`、`Retrieve`、`RetrieveAndGenerate`が含まれます。source URIは`aws-rag-options-and-architectures.pdf`を指し、metadataのcategoryは`rag-guidance`です。
 
 </ExpectedResult>
 
@@ -152,8 +152,8 @@ grep -q 'source=s3://' "$RAG_WORK_DIR/evidence.txt"
 <Checkpoint>
 
 - `Retrieve`は1件以上を返した
-- 6本の柱を説明する正しい根拠が候補にある
-- source URIが`aws-well-architected-framework.pdf`を指す
+- Knowledge Basesの取り込みとAPIの使い分けを説明する正しい根拠が候補にある
+- source URIが`aws-rag-options-and-architectures.pdf`を指す
 - `evidence.txt`にcitation ID、本文、source URIがある
 
 </Checkpoint>
