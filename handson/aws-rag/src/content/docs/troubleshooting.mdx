@@ -55,7 +55,7 @@ curl --fail --location --retry 3 --retry-all-errors \
 head -c 5 "$RAG_DOCUMENT_PATH.part"
 ```
 
-- `curl: (22)`：HTTP 4xx/5xxです。URLを推測して変更せず、[AWS公式文書](https://docs.aws.amazon.com/ja_jp/wellarchitected/latest/framework/welcome.html)のPDFリンクを確認します。
+- `curl: (22)`：HTTP 4xx/5xxです。URLを推測して変更せず、[AWS公式文書](https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/introduction.html)のPDFリンクを確認します。
 - 先頭が`%PDF-`ではない：HTMLのerror pageやredirect先を保存しています。完成fileへrenameせず停止します。
 - timeout：実行環境のnetwork到達性を確認し、時間を置いて再試行します。失敗時に別サイトの転載PDFへ切り替えません。
 - AWSが`latest`を更新した場合：sizeとhashが以前と異なるのは正常です。取得日時と今回のhashを記録します。

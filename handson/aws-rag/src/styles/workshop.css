@@ -79,20 +79,37 @@
 .checkpoint { grid-template-columns: 1fr; border: 1px solid color-mix(in srgb, var(--workshop-blue) 45%, var(--sl-color-gray-5)); background: color-mix(in srgb, var(--workshop-blue) 8%, var(--sl-color-bg)); }
 .checkpoint-heading { display: flex; gap: 0.55rem; color: color-mix(in srgb, var(--workshop-blue) 75%, var(--sl-color-text)); }
 .checkpoint-heading span { font-size: 0.75rem; }
+.checkpoint-content,
+.checkpoint-sync,
+.checkpoint-sync-list,
+.checkpoint-step,
+.checkpoint-step-conditions { min-width: 0; }
 .checkpoint-content ul { padding-left: 0; list-style: none; }
 .checkpoint-static > ul { margin-block: 0.5rem; }
 .checkpoint-static > ul[hidden] { display: none; }
 .checkpoint-sync { margin-top: 1rem; padding: 0.9rem; border: 1px solid color-mix(in srgb, var(--workshop-blue) 28%, var(--sl-color-gray-5)); border-radius: 0.55rem; background: color-mix(in srgb, var(--workshop-blue) 4%, var(--sl-color-bg)); }
 .checkpoint-sync[hidden] { display: none; }
 .checkpoint-sync-heading { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; color: var(--workshop-navy); }
+.checkpoint-sync-heading strong { min-width: 0; overflow-wrap: anywhere; }
 :root[data-theme='dark'] .checkpoint-sync-heading { color: var(--sl-color-white); }
 .checkpoint-progress { padding: 0.2rem 0.5rem; border-radius: 999px; color: #fff; background: var(--workshop-blue); font: 800 0.75rem/1 ui-monospace, monospace; white-space: nowrap; }
 .checkpoint-sync-list { margin: 0.75rem 0 0; }
-.checkpoint-sync-list li { margin-block: 0.45rem; }
+.checkpoint-step { margin-block: 0.85rem; }
+.checkpoint-step:first-child { margin-top: 0; }
+.checkpoint-step:last-child { margin-bottom: 0; }
+.checkpoint-step-title { display: block; color: var(--workshop-navy); overflow-wrap: anywhere; }
+:root[data-theme='dark'] .checkpoint-step-title { color: var(--sl-color-white); }
+.checkpoint-step-conditions { margin: 0.45rem 0 0; padding-left: 1rem !important; list-style: none; border-left: 2px solid color-mix(in srgb, var(--workshop-blue) 26%, transparent); }
+.checkpoint-step-conditions > li { min-width: 0; margin-block: 0.45rem; }
 .checkpoint-ok { margin: 0.8rem 0 0; padding: 0.7rem 0.8rem; border-radius: 0.45rem; color: #245b45; background: color-mix(in srgb, var(--workshop-green) 18%, var(--sl-color-bg)); font-weight: 900; }
 :root[data-theme='dark'] .checkpoint-ok { color: #b7f0d0; }
 .checkpoint-ok[hidden] { display: none; }
 .checkpoint.is-complete { border-color: color-mix(in srgb, var(--workshop-green) 70%, var(--sl-color-gray-5)); }
+
+.check-item { min-width: 0; }
+.check-item > span { min-width: 0; overflow-wrap: anywhere; }
+.checkpoint-content code,
+.result-content code { overflow-wrap: anywhere; white-space: normal; }
 
 .sl-markdown-content h2 { border-top: 1px solid var(--sl-color-gray-5); padding-top: 1.8rem; }
 .sl-markdown-content .workshop-panel h2 { border-top: 0; padding-top: 0; }

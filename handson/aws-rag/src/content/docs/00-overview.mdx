@@ -15,7 +15,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 ## ゴール
 
-このハンズオンでは、AWS公式の日本語版Well-Architected Framework PDFをAWS CLIから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。質問時は`Retrieve`で候補を取得し、取得本文だけをEvidence Setとして`Converse`へ渡します。
+このハンズオンでは、AWS公式の日本語版RAGガイダンスPDFをAWS CLIから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。質問時は`Retrieve`で候補を取得し、呼び出し元でEvidence Setを整えてから`Converse`へ渡します。
 
 <figure class="architecture-figure">
   <img
@@ -45,6 +45,10 @@ import ResourceTable from '../../components/ResourceTable.astro';
   <figcaption>論理構成：Batch LayerとReal-time Layerの各責務を、対応するAWSリソースに結び付けています。</figcaption>
 </figure>
 
+<Aside type="note" title="採用PDFのRAG 4ステップとの対応">
+  採用したAWS PDFは、RAGを「1. 文書を埋め込みとして取り込む」「2. 人が自然言語でクエリする」「3. リトリーバーが類似度検索で関連データを取得する」「4. クエリとコンテキストをLLMへ渡して回答を生成する」の4ステップで説明しています。このハンズオンでは、1をKnowledge Basesの同期、3を`Retrieve`、4を`Converse`として観察します。`RetrieveAndGenerate`は、3と4を一つのAPIで実行する場合の比較対象です。
+</Aside>
+
 <ResourceTable
   title="このハンズオンで固定する基準値"
   rows={[
@@ -57,7 +61,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
   {
     "resource": "原文書",
     "setting": "検索対象",
-    "value": "AWS Well-Architected Framework（日本語PDF）",
+    "value": "AWS規範ガイダンス「RAGのオプションとアーキテクチャ」（日本語PDF）",
     "note": "AWS CLIからcurlで取得し、取得日時とSHA-256を保存します。"
   },
   {

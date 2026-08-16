@@ -19,8 +19,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
   {
     "resource": "検索質問",
     "setting": "テキスト",
-    "value": "AWS Well-Architected Frameworkの6本の柱を教えてください。",
-    "note": "複数chunkから6本の柱の根拠を取得します。"
+    "value": "この資料の説明に沿って、RAGの4つのステップ（文書の取り込み、自然言語クエリ、類似度検索による関連データの取得、クエリとコンテキストを使ったLLM回答）を説明してください。さらに、Amazon Bedrockナレッジベースの文書のチャンク化・埋め込み・ベクトルデータベースへの保存と、取得API（Retrieve）／RetrieveAndGenerate APIの違いも説明してください。",
+    "note": "PDFのRAG 4ステップとKnowledge BasesのAPI境界を、複数chunkの根拠で確認します。"
   },
   {
     "resource": "検索",
@@ -37,8 +37,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
   {
     "resource": "結果フィールド",
     "setting": "観測値",
-    "value": "text / score / source URI / metadata",
-    "note": "生成前に根拠本文と出典を確認します。"
+    "value": "rank / text / score / source URI / metadata",
+    "note": "リトリーバーの順位、根拠本文、出典、フィルター属性を生成前に確認します。"
   },
   {
     "resource": "根拠セット",
@@ -50,14 +50,21 @@ import ResourceTable from '../../components/ResourceTable.astro';
 />
 
 
-生成モデルを呼ぶ前に、検索結果だけを観察します。適切な根拠が候補に含まれなければ、生成モデルを変更しても根本原因は解消しません。
+生成モデルを呼ぶ前に、PDFが説明する「リトリーバーが関連データを取得する」段階だけを観察します。検索結果に必要な根拠がなければ、生成モデルを変更しても根本原因は解消しません。
+
+| 判定対象 | PDFに対応する根拠 | 合格の見方 |
+|---|---|---|
+| 取り込み | チャンク、埋め込み、ベクトルデータベース | 文書を分割して埋め込みを保存する説明が候補にある |
+| リトリーバー | 自然言語クエリ、類似度検索、関連データ | 質問に対応する本文が上位候補にあり、source URIへ追跡できる |
+| API境界 | 取得（`Retrieve`）と`RetrieveAndGenerate` | 取得結果を後続処理へ渡すAPIと、取得・生成をまとめるAPIを区別できる |
+| スコア | 同一条件内の順位比較 | 固定閾値ではなく、根拠の有無と順位を比較する |
 
 <CliStep number="7.1" title="意味検索を実行する">
 
 <Command phase="prepare" title="検索条件を準備">
 
 ```bash
-export RAG_QUESTION="AWS Well-Architected Frameworkの6本の柱を教えてください。"
+export RAG_QUESTION="この資料の説明に沿って、RAGの4つのステップ（文書の取り込み、自然言語クエリ、類似度検索による関連データの取得、クエリとコンテキストを使ったLLM回答）を説明してください。さらに、Amazon Bedrockナレッジベースの文書のチャンク化・埋め込み・ベクトルデータベースへの保存と、取得API（Retrieve）／RetrieveAndGenerate APIの違いも説明してください。"
 
 jq -n \
   --arg kbId "$RAG_KB_ID" \
@@ -96,8 +103,8 @@ aws bedrock-agent-runtime retrieve \
   "retrievalResults": [
     {
       "score": 0.82,
-      "location": {"s3Location": {"uri": "s3://rag-handson-.../documents/aws-well-architected-framework.pdf"}},
-      "content": {"text": "セキュリティ、信頼性、パフォーマンス効率、コスト最適化、運用上の優秀性、持続可能性..."},
+      "location": {"s3Location": {"uri": "s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf"}},
+      "content": {"text": "チャンク化、埋め込み、ベクトルデータベース、類似度検索、Retrieve、RetrieveAndGenerate..."},
       "metadata": {"category": "framework", "language": "ja"}
     }
   ]
@@ -119,49 +126,69 @@ aws bedrock-agent-runtime retrieve \
 jq -r '
   .retrievalResults
   | to_entries[]
-  | "rank=\(.key + 1) score=\(.value.score) category=\(.value.metadata.category // "-")\nsource=\(.value.location.s3Location.uri // "-")\ntext=\(.value.content.text)\n"
+  | "rank=\(.key + 1) score=\(.value.score) category=\(.value.metadata.category // "-") status=\(.value.metadata.status // "-")\nlanguage=\(.value.metadata.language // "-")\nsource=\(.value.location.s3Location.uri // "-")\ntext=\(.value.content.text)\n"
 ' "$RAG_WORK_DIR/retrieve-output.json"
 
+jq '
+  (.retrievalResults // []) as $results |
+  ($results | map(.content.text // "") | join("\n")) as $text |
+  {
+    returned: ($results | length),
+    topScore: ($results[0].score // null),
+    coverage: {
+      ingestion: ($text | (test("チャンク|チャンキング") and contains("埋め込み") and contains("ベクトルデータベース"))),
+      retrieval: ($text | (test("自然言語|クエリ|質問") and test("類似度検索|類似性検索|関連データ"))),
+      api: ($text | (test("取得|Retrieve") and contains("RetrieveAndGenerate")))
+    },
+    sourceTraceable: all($results[];
+      ((.location.s3Location.uri // "") | contains("aws-rag-options-and-architectures.pdf"))
+      and (.metadata.category // "") == "rag-guidance"
+    )
+  }
+' "$RAG_WORK_DIR/retrieve-output.json" \
+  | tee "$RAG_WORK_DIR/retrieve-coverage.json"
+
 jq -e '
-  (.retrievalResults | length) > 0 and
-  ([.retrievalResults[].content.text] | join("\n") | contains("セキュリティ")) and
-  ([.retrievalResults[].content.text] | join("\n") | contains("信頼性")) and
-  ([.retrievalResults[].content.text] | join("\n") | contains("持続可能性"))
-' "$RAG_WORK_DIR/retrieve-output.json" >/dev/null
+  .returned > 0 and
+  .coverage.ingestion and
+  .coverage.retrieval and
+  .coverage.api and
+  .sourceTraceable
+' "$RAG_WORK_DIR/retrieve-coverage.json" >/dev/null
 
 printf '[CHECK] retrieval candidates: >= 1\n'
-printf '[CHECK] pillars found: セキュリティ / 信頼性 / 持続可能性\n'
-printf '[CHECK] source: aws-well-architected-framework.pdf\n'
-printf 'retrieval verification: PASS\n'
+printf '[CHECK] RAG 4-step coverage: ingestion / retrieval / api\n'
+printf '[CHECK] source: aws-rag-options-and-architectures.pdf\n'
+printf 'retrieval verification: PASS'
 ```
 
 </Command>
 
-表示される各candidateでは、`rank`が返却順、`score`が同一条件内での関連度比較、`source`が根拠PDFのS3 URI、`text`が実際に取り出されたchunk本文です。まず`text`を読み、質問への根拠が含まれるかを確認します。
+表示される各candidateでは、`rank`がリトリーバーの返却順、`score`が同一条件内の関連度比較、`source`が根拠PDFのS3 URI、`text`が実際に取り出されたchunk本文です。`retrieve-coverage.json`では、PDFの「取り込み」「リトリーバー」「API境界」に対応する根拠が検索結果全体に含まれるかを確認します。候補数だけでなく、質問への根拠があり、source URIへ追跡できることを合格条件にします。
 
 <ExpectedResult id="s7-2-results" verification="検索結果を検証する">
 
-1件以上のcandidateが返り、取得本文全体に`セキュリティ`、`信頼性`、`持続可能性`が含まれます。source URIは`aws-well-architected-framework.pdf`を指し、metadataのcategoryは`framework`です。
+1件以上のcandidateが返り、`retrieve-coverage.json`で`ingestion`、`retrieval`、`api`、`sourceTraceable`がすべて`true`になります。検索本文には、チャンク化・埋め込み・ベクトルデータベース、類似度検索、取得（`Retrieve`）と`RetrieveAndGenerate`の説明が含まれます。source URIは`aws-rag-options-and-architectures.pdf`を指し、metadataのcategoryは`rag-guidance`です。
 
 ```text
-rank=1 score=0.82 category=framework
-source=s3://rag-handson-.../documents/aws-well-architected-framework.pdf
+rank=1 score=0.82 category=rag-guidance
+source=s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf
 text=セキュリティ ... 信頼性 ... 持続可能性 ...
 [CHECK] retrieval candidates: >= 1
-[CHECK] pillars found: セキュリティ / 信頼性 / 持続可能性
-[CHECK] source: aws-well-architected-framework.pdf
+[CHECK] RAG 4-step coverage: ingestion / retrieval / api
+[CHECK] source: aws-rag-options-and-architectures.pdf
 retrieval verification: PASS
 ```
 
 - candidateが1件以上である
-- 本文に期待した柱の語が含まれる
+- `retrieve-coverage.json`の取り込み・リトリーバー・API境界がすべて`true`である
 - source URIとmetadata categoryが期待値である
 - `retrieval verification: PASS`が表示される
 
 </ExpectedResult>
 
 <Aside type="caution" title="スコアへ固定閾値を置かないでください">
-  scoreの尺度はmodel、store、query、設定によって変わります。単発の値から「0.7以上なら正しい」と決めず、gold evidenceを持つ複数queryでRecall@kと誤検索を測ります。
+  scoreの尺度はmodel、store、query、設定によって変わります。単発の値から「0.7以上なら正しい」と決めず、同じ質問・同じ設定で順位を比較し、必要な根拠が上位候補にあるか、無関係なchunkが増えていないか、source URIへ追跡できるかで判断します。
 </Aside>
 
 </CliStep>
@@ -200,12 +227,12 @@ printf 'evidence set verification: PASS\n'
 
 ```text
 [E1]
-セキュリティ、信頼性、...
-source=s3://rag-handson-.../documents/aws-well-architected-framework.pdf
+チャンク化、埋め込み、類似度検索...
+source=s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf
 
 [E2]
 ...
-source=s3://rag-handson-.../documents/aws-well-architected-framework.pdf
+source=s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf
 [CHECK] evidence IDs: E1..E5
 [CHECK] evidence source URI: present
 evidence set verification: PASS
@@ -222,8 +249,9 @@ evidence set verification: PASS
 <Checkpoint>
 
 - `Retrieve`は1件以上を返した
-- 6本の柱を説明する正しい根拠が候補にある
-- source URIが`aws-well-architected-framework.pdf`を指す
+- `retrieve-coverage.json`でPDFの取り込み・リトリーバー・API境界のcoverageがすべて`true`である
+- source URIが`aws-rag-options-and-architectures.pdf`を指す
+- scoreの固定閾値ではなく、根拠本文・順位・source traceabilityで合否を判断した
 - `evidence.txt`にcitation ID、本文、source URIがある
 
 </Checkpoint>
