@@ -6,7 +6,7 @@ export default defineConfig({
   base: '/rag-guide',
   integrations: [
     starlight({
-      title: 'AWS RAG Hands-on',
+      title: 'AWS RAG ハンズオン',
       description:
         'AWS CloudShellからAmazon Bedrock Knowledge BasesとS3 VectorsでRAGを構築するハンズオン',
       locales: {

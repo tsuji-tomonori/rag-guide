@@ -4,34 +4,35 @@ interface Props {
 }
 
 const stages = [
-  { number: 0, label: '全体像', short: 'Overview', href: '/rag-guide/00-overview/' },
-  { number: 1, label: 'CloudShell準備', short: 'Prepare', href: '/rag-guide/01-prepare-cloudshell/' },
-  { number: 2, label: '文書をS3へ配置', short: 'S3 Documents', href: '/rag-guide/02-upload-documents/' },
-  { number: 3, label: 'S3 Vectors作成', short: 'Vector Store', href: '/rag-guide/03-create-vector-store/' },
-  { number: 4, label: 'IAM role作成', short: 'IAM Role', href: '/rag-guide/04-create-iam-role/' },
-  { number: 5, label: 'Knowledge Base作成', short: 'Knowledge Base', href: '/rag-guide/05-create-knowledge-base/' },
-  { number: 6, label: '文書を同期', short: 'Ingestion', href: '/rag-guide/06-sync-documents/' },
-  { number: 7, label: 'Retrieveで検索', short: 'Retrieve', href: '/rag-guide/07-retrieve/' },
-  { number: 8, label: 'Converseで生成', short: 'Converse', href: '/rag-guide/08-converse/' },
-  { number: 9, label: '検索設定を比較', short: 'Compare', href: '/rag-guide/09-improve-retrieval/' },
-  { number: 10, label: 'Cleanup', short: 'Cleanup', href: '/rag-guide/10-cleanup/' },
+  { number: 0, label: '全体像', short: '構成確認', href: '/rag-guide/00-overview/' },
+  { number: 1, label: 'CloudShell準備', short: '事前準備', href: '/rag-guide/01-prepare-cloudshell/' },
+  { number: 2, label: '文書をS3へ配置', short: '文書配置', href: '/rag-guide/02-upload-documents/' },
+  { number: 3, label: 'S3ベクトル作成', short: 'ベクトルストア', href: '/rag-guide/03-create-vector-store/' },
+  { number: 4, label: 'IAMロール作成', short: '権限設定', href: '/rag-guide/04-create-iam-role/' },
+  { number: 5, label: 'ナレッジベース作成', short: '検索基盤', href: '/rag-guide/05-create-knowledge-base/' },
+  { number: 6, label: '文書を同期', short: '取り込み', href: '/rag-guide/06-sync-documents/' },
+  { number: 7, label: '根拠を検索', short: '検索', href: '/rag-guide/07-retrieve/' },
+  { number: 8, label: '回答を生成', short: '回答生成', href: '/rag-guide/08-converse/' },
+  { number: 9, label: '検索設定を比較', short: '設定比較', href: '/rag-guide/09-improve-retrieval/' },
+  { number: 10, label: '後片付け', short: '削除確認', href: '/rag-guide/10-cleanup/' },
 ];
 
-const current = Math.min(Math.max(current, 0), stages.length - 1);
-const currentStage = stages[current];
-const nextStage = stages[current + 1];
+const { current } = Astro.props;
+const currentIndex = Math.min(Math.max(current, 0), stages.length - 1);
+const currentStage = stages[currentIndex];
+const nextStage = stages[currentIndex + 1];
 const roadmapSrc = `${import.meta.env.BASE_URL}images/aws-rag-construction-roadmap.png`;
 ---
 
 <section class="build-progress" aria-label="ハンズオンの構築状況">
   <div class="build-progress-heading">
     <div>
-      <span class="build-progress-kicker">CONSTRUCTION MAP</span>
+      <span class="build-progress-kicker">構築状況</span>
       <strong>現在地：{currentStage.number}. {currentStage.label}</strong>
       <p>
         {nextStage
           ? `次は「${nextStage.number}. ${nextStage.label}」へ進みます。`
-          : '最後のCleanupまで到達しました。'}
+          : '最後の後片付けまで到達しました。'}
       </p>
     </div>
     <span class="build-progress-count">{currentStage.number} / {stages.length - 1}</span>
@@ -43,13 +44,13 @@ const roadmapSrc = `${import.meta.env.BASE_URL}images/aws-rag-construction-roadm
       alt="AWS RAGハンズオンの0から10までの構築ロードマップ"
       loading="lazy"
     />
-    <figcaption>図はImageGen 2.0で作成した構築ロードマップです。下の現在地表示で、このページの段階を確認できます。</figcaption>
+    <figcaption>PDF本文の図版デザインに合わせた構築ロードマップです。下の現在地表示で、このページの段階を確認できます。</figcaption>
   </figure>
 
   <ol class="build-progress-steps">
     {stages.map((stage) => (
-      <li class:list={{ 'is-current': stage.number === current, 'is-complete': stage.number < current }}>
-        <a href={stage.href} aria-current={stage.number === current ? 'step' : undefined}>
+      <li class:list={{ 'is-current': stage.number === currentIndex, 'is-complete': stage.number < currentIndex }}>
+        <a href={stage.href} aria-current={stage.number === currentIndex ? 'step' : undefined}>
           <span class="build-progress-number">{stage.number}</span>
           <span>
             <strong>{stage.label}</strong>
