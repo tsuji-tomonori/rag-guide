@@ -1,7 +1,7 @@
 {
   "method_version": 2,
-  "authoritative_commit": "cfc2572291a2676933b08b7466d1ea1e7e76bebb",
-  "required_sentences": 709,
+  "authoritative_commit": "4c1e458869e03a544d03b3aba0ab8db33cd2cf6b",
+  "required_sentences": 731,
   "controlled_formalizations": 42,
   "relative_entailments_proved": 40,
   "contract_rejections": 2,
@@ -14,12 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "08a287f329487fa7340c1f1b8b31f02881b2acb3530686e76c752b3bdb1df875",
-    "formal/review-data/sentence_evidence.csv": "3278c810999718fead6b09b832277a549b75b53adc852800db41036196a3837b",
-    "formal/review-data/concrete_technologies.csv": "ae26a7b68adb43e9b2699383b0258e66e0820c8ef965e0edc226d8ad88cef28e",
-    "formal/review-data/semantic_assurance.csv": "5492065b0f636c2bd82f6d7a82cfcaeac072f1fb9ae6c0417a21a95fd24fafd5",
+    "formal/review-data/coverage_manifest.json": "a2da2e63eb14c20ec07b46c6fb6a071300fd9b0ca4fd2d7a9e0b887a92681477",
+    "formal/review-data/sentence_evidence.csv": "ee60755f96eb7d7132b37f4adf9277aee459dcbf47566261c83f39d5e8278311",
+    "formal/review-data/concrete_technologies.csv": "2967c2ef04865cf9a90c5858edf9713977c338101d28addef118fbf3ea54ddde",
+    "formal/review-data/semantic_assurance.csv": "49b8385282d0b24baa03c75ffe4f8f81bd997843cad57e19e0555d73f08c46df",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "9477ecadd4674ca000765fbd4ee5c1adf06c3c57a7b9810dfe7d15f99cba8fa4",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "9be47dcdef79020c46a736b691a5f75326d0729df61af489f1f6753cdac3a771"
+    "formal/review-data/semantic_assurance_summary.csv": "15861cc4f29a8a1cb42c9e724a9f37ad6efb0f66a0b5d43cf6643e6a60f0c06e",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "34030be681cdb98a56a48b235b7b0a673240a1cbc90fa30b9d3a4f31b40935e1"
   }
 }
