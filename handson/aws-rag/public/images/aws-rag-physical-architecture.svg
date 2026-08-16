@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
   <title id="title">AWS RAGハンズオンの物理構成</title>
   <desc id="desc">CloudShellからS3、Amazon Bedrock Knowledge Bases、S3 Vectors、Retrieve、Converseへ接続する構成図</desc>
   <defs>
@@ -58,8 +58,7 @@
 
   <g filter="url(#shadow)">
     <rect x="325" y="220" width="210" height="132" rx="14" class="card"/>
-    <rect x="345" y="244" width="54" height="54" rx="12" fill="#e36b28"/>
-    <text x="372" y="280" class="icon-label">&gt;_</text>
+    <image x="345" y="244" width="54" height="54" href="aws-icons/aws-cloudshell-48.svg" xlink:href="aws-icons/aws-cloudshell-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="414" y="258" class="card-title">AWS</text>
     <text x="414" y="280" class="card-title">CloudShell</text>
     <text x="414" y="302" class="card-subtitle">AWS CLIを実行</text>
@@ -72,8 +71,7 @@
 
   <g filter="url(#shadow)">
     <rect x="590" y="280" width="194" height="122" rx="13" class="card"/>
-    <rect x="612" y="303" width="52" height="52" rx="11" fill="#7aa116"/>
-    <path d="M625 318 h26 l7 8 v25 h-33 z M625 318 v-7 h18 l8 7" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/>
+    <image x="612" y="303" width="52" height="52" href="aws-icons/amazon-s3-48.svg" xlink:href="aws-icons/amazon-s3-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="678" y="321" class="card-title">Amazon S3</text>
     <text x="678" y="345" class="card-subtitle">source bucket</text>
     <text x="612" y="380" class="mini">日本語PDF・metadata</text>
@@ -81,8 +79,7 @@
 
   <g filter="url(#shadow)">
     <rect x="850" y="253" width="298" height="176" rx="13" class="card"/>
-    <rect x="873" y="278" width="58" height="58" rx="12" fill="#2fa9a1"/>
-    <path d="M887 302 q15-22 30 0 v17 q-15 22-30 0 z M893 294 h18 M893 324 h18" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <image x="873" y="278" width="58" height="58" href="aws-icons/amazon-bedrock-48.svg" xlink:href="aws-icons/amazon-bedrock-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="947" y="297" class="card-title">Amazon Bedrock</text>
     <text x="947" y="321" class="card-subtitle">Knowledge Bases</text>
     <rect x="873" y="351" width="108" height="28" rx="8" fill="#eaf5f3"/>
@@ -94,9 +91,7 @@
 
   <g filter="url(#shadow)">
     <rect x="1240" y="280" width="238" height="122" rx="13" class="card"/>
-    <rect x="1262" y="303" width="52" height="52" rx="11" fill="#6c47f5"/>
-    <ellipse cx="1288" cy="317" rx="15" ry="6" fill="none" stroke="#ffffff" stroke-width="3"/>
-    <path d="M1273 317 v23 c0 4 30 4 30 0 v-23 M1273 329 c0 4 30 4 30 0" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <image x="1262" y="303" width="52" height="52" href="aws-icons/s3-vectors-48.svg" xlink:href="aws-icons/s3-vectors-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="1328" y="321" class="card-title">S3 Vectors</text>
     <text x="1328" y="345" class="card-subtitle">vector bucket</text>
     <text x="1262" y="380" class="mini">index：1024 / cosine</text>
@@ -115,8 +110,7 @@
 
   <g filter="url(#shadow)">
     <rect x="590" y="584" width="205" height="132" rx="13" class="card"/>
-    <rect x="612" y="608" width="52" height="52" rx="11" fill="#2fa9a1"/>
-    <path d="M623 627 h30 M623 637 h20 M623 647 h26" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <image x="612" y="608" width="52" height="52" href="aws-icons/amazon-bedrock-48.svg" xlink:href="aws-icons/amazon-bedrock-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="678" y="620" class="card-title">Knowledge</text>
     <text x="678" y="642" class="card-title">Bases</text>
     <text x="678" y="663" class="card-subtitle">Retrieve API</text>
@@ -125,10 +119,7 @@
 
   <g filter="url(#shadow)">
     <rect x="835" y="584" width="205" height="132" rx="13" class="card"/>
-    <rect x="857" y="608" width="52" height="52" rx="11" fill="#6c47f5"/>
-    <circle cx="873" cy="624" r="5" fill="#ffffff"/><circle cx="893" cy="624" r="5" fill="#ffffff"/>
-    <circle cx="873" cy="644" r="5" fill="#ffffff"/><circle cx="893" cy="644" r="5" fill="#ffffff"/>
-    <path d="M878 624 L888 624 M878 644 L888 644 M873 629 L873 639 M893 629 L893 639" stroke="#ffffff" stroke-width="2"/>
+    <image x="857" y="608" width="52" height="52" href="aws-icons/s3-vectors-48.svg" xlink:href="aws-icons/s3-vectors-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="923" y="625" class="card-title">S3 Vectors</text>
     <text x="923" y="649" class="card-subtitle">semantic search</text>
     <text x="857" y="692" class="mini">ベクトルindexを参照</text>
@@ -146,8 +137,7 @@
 
   <g filter="url(#shadow)">
     <rect x="1300" y="560" width="205" height="180" rx="13" class="card"/>
-    <rect x="1322" y="584" width="52" height="52" rx="11" fill="#2fa9a1"/>
-    <path d="M1333 613 q15-22 30 0 v17 q-15 22-30 0 z M1339 605 h18 M1339 635 h18" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <image x="1322" y="584" width="52" height="52" href="aws-icons/amazon-bedrock-48.svg" xlink:href="aws-icons/amazon-bedrock-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="1388" y="600" class="card-title">Bedrock</text>
     <text x="1388" y="622" class="card-title">Converse</text>
     <text x="1388" y="644" class="card-subtitle">Amazon Nova Lite</text>
@@ -173,8 +163,7 @@
   <text x="596" y="842" class="lane-title">Control Plane｜権限・前提</text>
   <g>
     <rect x="842" y="824" width="190" height="48" rx="10" fill="#ffffff" stroke="#d64545" stroke-width="2"/>
-    <rect x="856" y="836" width="25" height="25" rx="6" fill="#d64545"/>
-    <text x="868" y="854" class="icon-label" font-size="13">IAM</text>
+    <image x="856" y="836" width="25" height="25" href="aws-icons/aws-iam-48.svg" xlink:href="aws-icons/aws-iam-48.svg" preserveAspectRatio="xMidYMid meet"/>
     <text x="894" y="854" class="mini">KB role</text>
     <path d="M942 824 V455 H1180 V341 H1148" class="edge-dashed"/>
   </g>

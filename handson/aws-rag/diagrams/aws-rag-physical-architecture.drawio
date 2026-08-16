@@ -53,6 +53,15 @@
           <mxGeometry x="1278" y="824" width="220" height="48" as="geometry"/>
         </mxCell>
 
+        <mxCell id="icon-cloudshell" value="" style="shape=image;image=../public/images/aws-icons/aws-cloudshell-48.svg;aspect=fixed;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1"><mxGeometry x="345" y="244" width="54" height="54" as="geometry"/></mxCell>
+        <mxCell id="icon-s3-source" value="" style="shape=image;image=../public/images/aws-icons/amazon-s3-48.svg;aspect=fixed;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1"><mxGeometry x="612" y="303" width="52" height="52" as="geometry"/></mxCell>
+        <mxCell id="icon-kb-ingestion" value="" style="shape=image;image=../public/images/aws-icons/amazon-bedrock-48.svg;aspect=fixed;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1"><mxGeometry x="873" y="278" width="58" height="58" as="geometry"/></mxCell>
+        <mxCell id="icon-s3-vectors" value="" style="shape=image;image=../public/images/aws-icons/s3-vectors-48.svg;aspect=fixed;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1"><mxGeometry x="1262" y="303" width="52" height="52" as="geometry"/></mxCell>
+        <mxCell id="icon-retrieve" value="" style="shape=image;image=../public/images/aws-icons/amazon-bedrock-48.svg;aspect=fixed;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1"><mxGeometry x="612" y="608" width="52" height="52" as="geometry"/></mxCell>
+        <mxCell id="icon-vector-search" value="" style="shape=image;image=../public/images/aws-icons/s3-vectors-48.svg;aspect=fixed;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1"><mxGeometry x="857" y="608" width="52" height="52" as="geometry"/></mxCell>
+        <mxCell id="icon-converse" value="" style="shape=image;image=../public/images/aws-icons/amazon-bedrock-48.svg;aspect=fixed;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1"><mxGeometry x="1322" y="584" width="52" height="52" as="geometry"/></mxCell>
+        <mxCell id="icon-iam" value="" style="shape=image;image=../public/images/aws-icons/aws-iam-48.svg;aspect=fixed;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1"><mxGeometry x="856" y="836" width="25" height="25" as="geometry"/></mxCell>
+
         <mxCell id="edge-user" value="操作" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;" edge="1" parent="1" source="user" target="cloudshell"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="edge-upload" value="aws s3 cp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;" edge="1" parent="1" source="cloudshell" target="s3-source"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="edge-ingest" value="data source" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;" edge="1" parent="1" source="s3-source" target="knowledge-base-ingestion"><mxGeometry relative="1" as="geometry"/></mxCell>
