@@ -121,6 +121,35 @@ aws iam put-role-policy \
 
 </Command>
 
+<Command title="embedding model権限をread-backして強制検証">
+
+```bash
+export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
+
+aws iam get-role-policy \
+  --role-name "$RAG_ROLE_NAME" \
+  --policy-name "$RAG_POLICY_NAME" \
+  --query 'PolicyDocument' \
+  --output json \
+  | tee "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+
+jq -e --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" '
+  any(.Statement[];
+    .Effect == "Allow"
+    and ((.Action | if type == "array" then . else [.] end) | index("bedrock:InvokeModel") != null)
+    and (.Resource == $modelArn)
+  )
+' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+```
+
+</Command>
+
+<ExpectedResult>
+
+最後の`jq -e`が終了コード`0`で完了します。これにより、後続のingestionで利用するTitan Text Embeddings V2への`bedrock:InvokeModel`がidentity-based policyとして実際にroleへ付与されたことを確認できます。
+
+</ExpectedResult>
+
 </CloudShellStep>
 
 <CloudShellStep number="4.3" title="vector bucket policyを設定する">
@@ -168,7 +197,7 @@ aws iam get-role \
 aws iam get-role-policy \
   --role-name "$RAG_ROLE_NAME" \
   --policy-name "$RAG_POLICY_NAME" \
-  --query 'PolicyDocument.Statement[].{sid:Sid,resource:Resource}' \
+  --query 'PolicyDocument.Statement[].{sid:Sid,action:Action,resource:Resource}' \
   --output table
 
 aws s3vectors get-vector-bucket-policy \
@@ -183,6 +212,7 @@ aws s3vectors get-vector-bucket-policy \
 
 - role ARNが`RAG_ROLE_ARN`と一致します。
 - 4つのstatementが、embedding model、source bucket、`documents/*`、このrunのindexだけを参照します。
+- `InvokeEmbeddingModel` statementには`bedrock:InvokeModel`とTitan Text Embeddings V2のARNが表示されます。
 - vector bucket policyのprincipalは作成したroleです。
 
 </ExpectedResult>
@@ -198,6 +228,7 @@ aws s3vectors get-vector-bucket-policy \
 - service roleのtrust先は`bedrock.amazonaws.com`である
 - `SourceAccount`と`SourceArn`でconfused deputy対策を入れた
 - source S3、embedding model、vector indexへresourceを限定した
+- Titan Text Embeddings V2への`bedrock:InvokeModel`をread-backして検証した
 - vector bucket policyのprincipalは作成したservice roleである
 
 </Checkpoint>
