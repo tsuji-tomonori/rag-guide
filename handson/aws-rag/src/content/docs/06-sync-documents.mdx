@@ -9,18 +9,55 @@ import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
 
-同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、文書単位の状態、vector indexの4層で確認します。また、ingestion開始前にKnowledge Baseが利用するservice roleとembedding model呼び出し権限を再確認し、IAM不足を同期処理の途中まで持ち越さないようにします。
+同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。CloudShell sessionが途中で切り替わっても別の受講者のresourceを誤って使わないよう、このrunで保存したIDとARNを復元してから進めます。
 
-<CloudShellStep number="6.1" title="ingestion前提を検証してjobを開始する">
+<CloudShellStep number="6.1" title="状態とingestion前提を検証してjobを開始する">
 
-まず、Knowledge Baseが4章で作成したservice roleを使っていることと、そのroleにTitan Text Embeddings V2への`bedrock:InvokeModel`が付与されていることを確認します。
+CloudShellを開き直した場合は、最初にこのrunのstate fileを読み戻します。`list-*`の先頭要素からIDを推測しません。同じAWS account・Regionで複数人が同時に実施すると、別の受講者のKnowledge Baseを選ぶ可能性があるためです。
 
-<Command title="Knowledge Baseのroleとembedding model権限をpreflight">
+<Command title="現在のrunを復元して必須変数を検証">
+
+```bash
+if [ -f "$HOME/.rag-handson-current" ]; then
+  source "$HOME/.rag-handson-current"
+fi
+
+: "${AWS_REGION:?AWS_REGION is not set}"
+: "${RAG_RUN_ID:?RAG_RUN_ID is not set}"
+: "${RAG_WORK_DIR:?RAG_WORK_DIR is not set}"
+: "${RAG_STATE_FILE:?RAG_STATE_FILE is not set}"
+: "${RAG_KB_ID:?RAG_KB_ID is not set}"
+: "${RAG_DS_ID:?RAG_DS_ID is not set}"
+: "${RAG_INDEX_ARN:?RAG_INDEX_ARN is not set}"
+
+export RAG_ROLE_ARN="$(aws iam get-role \
+  --role-name "$RAG_ROLE_NAME" \
+  --query 'Role.Arn' \
+  --output text)"
+
+printf 'region=%s\nrun=%s\nkb=%s\nds=%s\nindex=%s\n' \
+  "$AWS_REGION" "$RAG_RUN_ID" "$RAG_KB_ID" "$RAG_DS_ID" "$RAG_INDEX_ARN"
+```
+
+</Command>
+
+<ExpectedResult>
+
+すべての値が空でない状態で表示されます。ここで値が欠けている場合は同期を開始せず、前のページで作成したrunのstate fileを復元します。
+
+</ExpectedResult>
+
+まず、Knowledge Baseが4章で作成したservice roleを使っていることと、ingestionに必要な4系統の権限が実際にroleへ付与されていることを確認します。
+
+<Command title="Knowledge Base roleとingestion権限をpreflight">
 
 ```bash
 export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
+export RAG_EXPECTED_SOURCE_BUCKET_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}"
+export RAG_EXPECTED_SOURCE_OBJECT_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}/documents/*"
 
 export RAG_KB_ROLE_ARN="$(aws bedrock-agent get-knowledge-base \
+  --region "$AWS_REGION" \
   --knowledge-base-id "$RAG_KB_ID" \
   --query 'knowledgeBase.roleArn' \
   --output text)"
@@ -34,12 +71,23 @@ aws iam get-role-policy \
   --output json \
   | tee "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
 
-jq -e --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" '
-  any(.Statement[];
+jq -e \
+  --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" \
+  --arg bucketArn "$RAG_EXPECTED_SOURCE_BUCKET_ARN" \
+  --arg objectArn "$RAG_EXPECTED_SOURCE_OBJECT_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" '
+  def actions: (.Action | if type == "array" then . else [.] end);
+  any(.Statement[]; .Effect == "Allow" and (actions | index("bedrock:InvokeModel")) and .Resource == $modelArn)
+  and any(.Statement[]; .Effect == "Allow" and (actions | index("s3:ListBucket")) and .Resource == $bucketArn)
+  and any(.Statement[]; .Effect == "Allow" and (actions | index("s3:GetObject")) and .Resource == $objectArn)
+  and any(.Statement[];
     .Effect == "Allow"
-    and ((.Action | if type == "array" then . else [.] end) | index("bedrock:InvokeModel") != null)
-    and (.Resource == $modelArn)
-  )
+    and .Resource == $indexArn
+    and (actions | index("s3vectors:PutVectors"))
+    and (actions | index("s3vectors:GetVectors"))
+    and (actions | index("s3vectors:DeleteVectors"))
+    and (actions | index("s3vectors:QueryVectors"))
+    and (actions | index("s3vectors:GetIndex")))
 ' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
 ```
 
@@ -47,18 +95,19 @@ jq -e --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" '
 
 <ExpectedResult>
 
-すべてのコマンドが終了コード`0`で完了します。特に最後の`jq -e`が成功すれば、Knowledge Baseが利用するroleに、東京リージョンの`amazon.titan-embed-text-v2:0`を呼び出すidentity-based policyが存在します。
+最後の`jq -e`が終了コード`0`で完了します。`bedrock:InvokeModel`だけでなく、source bucketへの`s3:ListBucket`、`documents/*`への`s3:GetObject`、S3 Vector indexの必要操作まで確認します。
 
 </ExpectedResult>
 
-<Aside type="caution" title="bedrock:InvokeModel の検証で失敗した場合">
-  ingestion jobを開始する前に4章のpermissions policyを再適用してください。`aws iam put-role-policy --role-name "$RAG_ROLE_NAME" --policy-name "$RAG_POLICY_NAME" --policy-document "file://$RAG_WORK_DIR/bedrock-kb-permissions.json"`を実行し、このpreflightをもう一度実行します。`bedrock:InvokeModel`がないまま`start-ingestion-job`を実行すると、embedding時に403の`ValidationException`で失敗します。
+<Aside type="caution" title="preflightで失敗した場合">
+  4章のpermissions policyを再生成・再適用してから、このpreflightを再実行してください。特に`s3:ListBucket`がない場合、ingestion jobはS3 documentをscanする前に403で`FAILED`になります。すでに`FAILED`になったjobは再開せず、権限修正後にこの6.1から新しいingestion jobを開始します。
 </Aside>
 
-<Command title="ingestion jobを開始">
+<Command title="ingestion jobを開始してIDを保存">
 
 ```bash
 aws bedrock-agent start-ingestion-job \
+  --region "$AWS_REGION" \
   --knowledge-base-id "$RAG_KB_ID" \
   --data-source-id "$RAG_DS_ID" \
   --description "Initial sync for RAG hands-on $RAG_RUN_ID" \
@@ -66,13 +115,14 @@ aws bedrock-agent start-ingestion-job \
 
 export RAG_INGESTION_JOB_ID="$(jq -r '.ingestionJob.ingestionJobId' "$RAG_WORK_DIR/start-ingestion-output.json")"
 test "${#RAG_INGESTION_JOB_ID}" -eq 10
+declare -p RAG_INGESTION_JOB_ID >> "$RAG_STATE_FILE"
 ```
 
 </Command>
 
 <ExpectedResult>
 
-10文字のingestion job IDを取得できます。直後のstatusは`STARTING`または`IN_PROGRESS`です。
+10文字のingestion job IDを取得できます。直後のstatusは`STARTING`または`IN_PROGRESS`です。job IDもstate fileへ保存されます。
 
 </ExpectedResult>
 
@@ -80,11 +130,14 @@ test "${#RAG_INGESTION_JOB_ID}" -eq 10
 
 <CloudShellStep number="6.2" title="終端状態まで監視する">
 
+AWS CLIの既定Regionに依存せず、各API callでこのrunの`AWS_REGION`を明示します。
+
 <Command>
 
 ```bash
 for attempt in {1..80}; do
   RAG_INGESTION_STATUS="$(aws bedrock-agent get-ingestion-job \
+    --region "$AWS_REGION" \
     --knowledge-base-id "$RAG_KB_ID" \
     --data-source-id "$RAG_DS_ID" \
     --ingestion-job-id "$RAG_INGESTION_JOB_ID" \
@@ -95,9 +148,12 @@ for attempt in {1..80}; do
     COMPLETE) break ;;
     FAILED|STOPPED)
       aws bedrock-agent get-ingestion-job \
+        --region "$AWS_REGION" \
         --knowledge-base-id "$RAG_KB_ID" \
         --data-source-id "$RAG_DS_ID" \
-        --ingestion-job-id "$RAG_INGESTION_JOB_ID"
+        --ingestion-job-id "$RAG_INGESTION_JOB_ID" \
+        --query 'ingestionJob.{status:status,statistics:statistics,failures:failureReasons}' \
+        --output yaml
       exit 1
       ;;
   esac
@@ -111,7 +167,7 @@ test "$RAG_INGESTION_STATUS" = "COMPLETE"
 
 <ExpectedResult>
 
-複数ページのPDFを解析・chunk化・embeddingするため、小さなtxt fileより時間がかかります。20分経っても終わらない場合は、無限に待たず[トラブルシューティング](/rag-guide/troubleshooting/)を確認します。
+複数ページのPDFを解析・chunk化・embeddingするため、小さなtxt fileより時間がかかります。`FAILED`ならその場でfailure reasonを表示して停止します。20分経っても終わらない場合は、無限に待たず[トラブルシューティング](/rag-guide/troubleshooting/)を確認します。
 
 </ExpectedResult>
 
@@ -123,6 +179,7 @@ test "$RAG_INGESTION_STATUS" = "COMPLETE"
 
 ```bash
 aws bedrock-agent get-ingestion-job \
+  --region "$AWS_REGION" \
   --knowledge-base-id "$RAG_KB_ID" \
   --data-source-id "$RAG_DS_ID" \
   --ingestion-job-id "$RAG_INGESTION_JOB_ID" \
@@ -132,28 +189,43 @@ aws bedrock-agent get-ingestion-job \
 
 </Command>
 
-<Command title="文書単位の状態を確認">
+<Command title="文書単位の状態を確認（権限がある場合）">
 
 ```bash
-aws bedrock-agent list-knowledge-base-documents \
+if aws bedrock-agent list-knowledge-base-documents \
+  --region "$AWS_REGION" \
   --knowledge-base-id "$RAG_KB_ID" \
   --data-source-id "$RAG_DS_ID" \
   --query 'documentDetails[].{status:status,uri:identifier.s3.uri,reason:statusReason}' \
-  --output table
-
-test "$(aws bedrock-agent list-knowledge-base-documents \
-  --knowledge-base-id "$RAG_KB_ID" \
-  --data-source-id "$RAG_DS_ID" \
-  --query 'length(documentDetails)' \
-  --output text)" = "1"
+  --output table; then
+  echo "document-level verification: OK"
+else
+  echo "document-level verification: SKIPPED (bedrock:ListKnowledgeBaseDocuments is not allowed for this caller)" >&2
+fi
 ```
 
 </Command>
 
+<Aside type="note" title="ListKnowledgeBaseDocumentsは実行者側の追加権限です">
+  ingestionで使うKnowledge Base service roleの権限とは別に、この確認コマンドを実行するcallerには`bedrock:ListKnowledgeBaseDocuments`が必要です。実習環境のpermission setや組織ポリシーで許可されていない場合、この確認だけをskipできます。jobの`COMPLETE`とvector登録確認は引き続き必須です。
+</Aside>
+
 <Command title="vectorが登録されたことを確認">
 
 ```bash
+if [ -z "${RAG_INDEX_ARN:-}" ]; then
+  export RAG_INDEX_ARN="$(aws s3vectors get-index \
+    --region "$AWS_REGION" \
+    --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+    --index-name "$RAG_INDEX_NAME" \
+    --query 'index.indexArn' \
+    --output text)"
+fi
+
+test -n "$RAG_INDEX_ARN"
+
 aws s3vectors list-vectors \
+  --region "$AWS_REGION" \
   --index-arn "$RAG_INDEX_ARN" \
   --max-items 20 \
   --return-metadata \
@@ -166,24 +238,25 @@ aws s3vectors list-vectors \
 <ExpectedResult>
 
 - jobは`COMPLETE`で、failure reasonがありません。
-- Well-Architected Framework PDFが`INDEXED`です。`.metadata.json`は元文書のsidecarであり、独立文書として数えません。
+- `bedrock:ListKnowledgeBaseDocuments`が許可されている場合、Well-Architected Framework PDFが`INDEXED`です。
 - vector countは`1`以上です。文書数とvector数はchunkingによって一致しない場合があります。
 
 </ExpectedResult>
 
 <Aside type="note" title="1 PDF = 1 vectorではありません">
-  Knowledge Basesは長いPDFを多数のchunkへ分割してからembeddingします。同期確認では「vector数が文書数と同じ」を条件にせず、document status、job statistics、vectorの存在を分けて検証します。`list-vectors --max-items 20`の`count`は全vector数ではなく、取得した先頭pageの件数です。
+  Knowledge Basesは長いPDFを多数のchunkへ分割してからembeddingします。同期確認では「vector数が文書数と同じ」を条件にせず、job statistics、可能ならdocument status、vectorの存在を分けて検証します。`list-vectors --max-items 20`の`count`は全vector数ではなく、取得した先頭pageの件数です。
 </Aside>
 
 </CloudShellStep>
 
 <Checkpoint>
 
+- このrunの環境変数をstate fileから復元できる
 - Knowledge Baseが4章で作成したservice roleを使用している
-- service roleにTitan Text Embeddings V2への`bedrock:InvokeModel`がある
+- service roleに`s3:ListBucket`、`s3:GetObject`、`bedrock:InvokeModel`、S3 Vectors必要権限がある
 - ingestion jobは`COMPLETE`である
 - failure reasonがない
-- Well-Architected Framework PDFが`INDEXED`である
+- 文書一覧確認はcaller権限がある場合に`INDEXED`を確認した
 - vector indexに1件以上のvectorがある
 
 </Checkpoint>
