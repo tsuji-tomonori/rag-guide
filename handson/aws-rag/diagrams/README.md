@@ -9,6 +9,6 @@
 
 図を変更した場合は、Draw.ioでSVGを書き出し、公開用SVGを更新してください。論理構成図では、交差する対応線を使わず、各論理カード内の `AWS:` タグで対応リソースを示しています。
 
-AWSサービスのアイコンは、[AWS Architecture Icons](https://aws.amazon.com/architecture/icons/) の公式アイコンパッケージから必要なSVGだけを同梱しています。公開SVGは `public/images/aws-icons/` の相対パスを参照するため、GitHub Pagesのサブパスでも外部URLに依存せず表示できます。
+Draw.io正本のAWSサービス／AWS Cloud枠は、Draw.ioに組み込まれているAWS4ライブラリ（`mxgraph.aws4.resourceIcon` と `mxgraph.aws4.group`）を使用しています。公開用SVGは、書き出し後にアイコンをSVG内へ埋め込み、GitHub Pagesやraw表示で相対パスが解決されない場合でも壊れないようにしています。
 
 Knowledge Bases、Retrieve、Converse、Titan Embeddingsは、公式パッケージに専用のサービスアイコンがないため、Amazon Bedrockの公式サービスアイコンで表現しています。
