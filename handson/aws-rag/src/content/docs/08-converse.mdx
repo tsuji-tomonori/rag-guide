@@ -4,7 +4,7 @@ description: Retrieveで取得した根拠セットだけをNova Liteへ渡し�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -52,7 +52,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 ここでは`RetrieveAndGenerate`を使わず、PDFの4ステップのうち「リトリーバー」と「ジェネレーター」を明示的に分けます。`Retrieve`で返ったコンテキストを確認してから`Converse`へ渡すため、生成前の重複排除、版の確認、根拠不足判定を追加できます。`RetrieveAndGenerate`は、取得・プロンプト拡張・生成を一つのAPIで行う比較対象です。
 
-<CloudShellStep number="8.1" title="根拠セット付きメッセージを作成する">
+<CliStep number="8.1" title="根拠セット付きメッセージを作成する">
 
 <Command phase="prepare" title="根拠セット付きメッセージを準備">
 
@@ -104,9 +104,9 @@ message JSONが表示され、質問、制約、`[E1]`を含むEvidence Setが1�
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="8.2" title="Converseを呼び出す">
+<CliStep number="8.2" title="Converseを呼び出す">
 
 <Command phase="execute" title="Converseを呼び出す">
 
@@ -144,9 +144,9 @@ AWS Well-Architected Frameworkの柱は次の6つです。
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="8.3" title="最低限の引用検査を行う">
+<CliStep number="8.3" title="最低限の引用検査を行う">
 
 <Command phase="verify" title="最低限の引用検査を行う" final>
 
@@ -193,7 +193,7 @@ citation validation: PASS
   citation IDの存在確認とキーワード検査は最低限の構文検査です。合格判定は、(1) PDFの4ステップに沿っている、(2) `Retrieve`と`RetrieveAndGenerate`を混同していない、(3)各claimが参照本文に支持されている、(4)根拠がなければ推測せず「根拠不足です」と答える、の4点で行います。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

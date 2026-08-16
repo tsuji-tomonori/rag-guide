@@ -4,7 +4,7 @@ description: ナレッジベース、データソース、S3 Vectors、S3、IAM�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -54,7 +54,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
   このページのコマンドは、このハンズオンで作成したAWSリソースを削除します。`RAG_RUN_ID`と各resource名が現在のrunの値であることを必ず確認してください。別の名前へ置き換えないでください。
 </Aside>
 
-<CloudShellStep number="10.1" title="削除対象を固定する">
+<CliStep number="10.1" title="削除対象を固定する">
 
 <Command phase="prepare" title="削除対象を固定して確認">
 
@@ -80,7 +80,7 @@ test "${#RAG_DS_ID}" -eq 10
 
 <ExpectedResult id="s10-1-targets" verification="削除対象を固定して確認">
 
-すべての名前がこのrun IDを含み、検証コマンドがエラーなく終了します。一つでも失敗した場合は削除を止め、[変数の復元](/rag-guide/troubleshooting/#cloudshellを再起動して変数が消えた)を行います。
+すべての名前がこのrun IDを含み、検証コマンドがエラーなく終了します。一つでも失敗した場合は削除を止め、[変数の復元](/rag-guide/troubleshooting/#環境変数が消えた場合)を行います。
 
 ```text
 run ID                  0816071530-a41f92
@@ -98,9 +98,9 @@ IAM role                BedrockKnowledgeBaseRole-0816071530-a41f92
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="10.2" title="データソースとナレッジベースを削除する">
+<CliStep number="10.2" title="データソースとナレッジベースを削除する">
 
 data deletion policyを`DELETE`にしているため、data source削除時に取り込んだvectorの削除も要求されます。service roleはこの処理が終わるまで残します。
 
@@ -183,9 +183,9 @@ Bedrock deletion: PASS
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="10.3" title="S3 Vectorsを削除する">
+<CliStep number="10.3" title="S3 Vectorsを削除する">
 
 <Command phase="execute" title="S3 Vectorsを削除">
 
@@ -256,9 +256,9 @@ S3 Vectors deletion: PASS
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="10.4" title="S3とIAMロールを削除する">
+<CliStep number="10.4" title="S3とIAMロールを削除する">
 
 <Command phase="execute" title="原文書用バケットを削除">
 
@@ -391,7 +391,7 @@ cleanup verification: PASS
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint title="ハンズオン完了">
 

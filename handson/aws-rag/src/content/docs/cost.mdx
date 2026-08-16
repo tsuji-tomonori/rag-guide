@@ -74,13 +74,12 @@ S3 VectorsのPUT料金は論理データ量で、1回のPUTごとに128 KBの最
 | request | PUT/LIST 10回 × $0.0047 / 1,000 + GET/HEAD 40回 × $0.00037 / 1,000 | 約$0.000062 |
 | **S3小計** |  | **約$0.00008** |
 
-S3から同一リージョンのAWSサービスへ転送するデータ転送量は、この構成では0円として扱います。CloudShell自体にも追加の利用料金はありません。ただし、ハンズオンの範囲外で大容量のインターネット転送を行う場合は、標準のデータ転送料金が適用されることがあります。
+S3から同一リージョンのAWSサービスへ転送するデータ転送量は、この構成では0円として扱います。ただし、ハンズオンの範囲外で大容量のインターネット転送を行う場合は、標準のデータ転送料金が適用されることがあります。
 
 ### 4. 固定料金がないもの
 
 | 対象 | 基準ケースでの扱い |
 |---|---|
-| CloudShell | 追加利用料金なし |
 | IAM role / inline policy | 管理操作の固定料金なし |
 | Knowledge Base、data source、ingestionの管理API | この構成では固定の時間課金を計上しない |
 | CleanupのDELETE | 削除自体の料金は計上しない |
@@ -113,7 +112,6 @@ S3から同一リージョンのAWSサービスへ転送するデータ転送量
 
 - [Amazon Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
 - [Amazon S3 Pricing（S3 Vectorsを含む）](https://aws.amazon.com/s3/pricing/)
-- [AWS CloudShell Pricing](https://aws.amazon.com/cloudshell/pricing/)
 - [Amazon Bedrock 東京リージョン Price List API](https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/ap-northeast-1/index.json)
 - [Amazon S3 東京リージョン Price List API](https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/ap-northeast-1/index.json)
 - [Amazon Nova Lite model card](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-lite.html)

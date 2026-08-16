@@ -190,6 +190,14 @@
   background: #fff;
 }
 
+.diagram-figure {
+  margin-block: 1.5rem 2rem;
+}
+
+.diagram-figure img {
+  min-height: 18rem;
+}
+
 .build-progress-figure figcaption,
 .architecture-figure figcaption {
   margin-top: 0.5rem;

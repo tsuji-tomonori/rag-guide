@@ -1,12 +1,12 @@
 ---
 title: トラブルシューティング
-description: CloudShell、権限、モデル、Knowledge Base、同期、検索、Cleanupで起きやすい問題を切り分けます。
+description: AWS CLI、権限、モデル、Knowledge Base、同期、検索、Cleanupで起きやすい問題を切り分けます。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 import Command from '../../components/Command.astro';
 
-## CloudShellを再起動して変数が消えた
+## 環境変数が消えた場合
 
 `manifest.env`を保存した作業directoryを探し、値を復元します。ID類は作成後に追加されていないため、APIから名前で検索して復元します。
 
@@ -57,7 +57,7 @@ head -c 5 "$RAG_DOCUMENT_PATH.part"
 
 - `curl: (22)`：HTTP 4xx/5xxです。URLを推測して変更せず、[AWS公式文書](https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/introduction.html)のPDFリンクを確認します。
 - 先頭が`%PDF-`ではない：HTMLのerror pageやredirect先を保存しています。完成fileへrenameせず停止します。
-- timeout：CloudShellのnetwork到達性を確認し、時間を置いて再試行します。失敗時に別サイトの転載PDFへ切り替えません。
+- timeout：実行環境のnetwork到達性を確認し、時間を置いて再試行します。失敗時に別サイトの転載PDFへ切り替えません。
 - AWSが`latest`を更新した場合：sizeとhashが以前と異なるのは正常です。取得日時と今回のhashを記録します。
 
 ## `AccessDeniedException`になる

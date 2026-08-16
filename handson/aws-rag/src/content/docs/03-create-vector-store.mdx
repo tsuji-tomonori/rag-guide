@@ -4,7 +4,7 @@ description: Titan Text Embeddings V2と互換な1024次元のS3ベクトルイ�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -64,7 +64,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 S3 Vectorsにvector bucketとindexを作成します。indexの`dimension`、`distanceMetric`、non-filterable metadata keyは後から変更できないため、Knowledge Baseと接続する前にread-backします。
 
-<CloudShellStep number="3.1" title="ベクトルバケットを作成する">
+<CliStep number="3.1" title="ベクトルバケットを作成する">
 
 <Command phase="execute" title="ベクトルバケットを作成">
 
@@ -118,9 +118,9 @@ vector bucket名とARNが表示されます。暗号化を明示しない場合�
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="3.2" title="1024次元のベクトルインデックスを作成する">
+<CliStep number="3.2" title="1024次元のベクトルインデックスを作成する">
 
 Titan Text Embeddings V2の1024次元float vectorへ合わせます。Knowledge Basesがchunk本文と内部metadataを保存できるよう、AWS公式手順で指定される2つのkeyをnon-filterableにします。
 
@@ -173,7 +173,7 @@ printf 'vector index verification: PASS\n'
 
 <ExpectedResult id="s3-2-vector-index" verification="インデックス設定を読み戻して検証する">
 
-`float32`、`1024`、`cosine`、2つの`AMAZON_BEDROCK_*` keyとindex ARNが表示され、`test`がエラーなく終了します。取得したARNはstate fileへ追記されるため、CloudShellを開き直しても復元できます。
+`float32`、`1024`、`cosine`、2つの`AMAZON_BEDROCK_*` keyとindex ARNが表示され、`test`がエラーなく終了します。取得したARNはstate fileへ追記されるため、ターミナルを開き直しても復元できます。
 
 ```text
 | name      | rag-titan-v2-1024 |
@@ -200,7 +200,7 @@ vector index verification: PASS
   このハンズオンのstoreはdense vectorによるSEMANTIC検索です。AWS PDFでいうリトリーバーの候補取得を意味検索で観察する構成であり、score自体を回答の正しさとは判定しません。BM25などの語彙一致が必要な場合は、OpenSearch Serverless等の対応storeへ変更するか、別retrieverの結果をRRFやrerankerで統合します。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

@@ -1,9 +1,9 @@
 ---
 title: AWS RAG ハンズオン
-description: CloudShellだけで、根拠を検索して回答するRAGをAWS上に構築します。
+description: AWS CLIを使って、根拠を検索して回答するRAGをAWS上に構築します。
 template: splash
 hero:
-  tagline: CloudShellだけで、S3の文書を検索し、根拠に基づいて回答するRAGをAWS上に構築します。
+  tagline: AWS CLIを使って、S3の文書を検索し、根拠に基づいて回答するRAGをAWS上に構築します。
   actions:
     - text: ハンズオンを始める
       link: /rag-guide/00-overview/
@@ -28,11 +28,19 @@ import BuildProgress from '../../components/BuildProgress.astro';
   <figcaption>まず全体構成を確認してから、0. 全体像と進め方へ進みます。</figcaption>
 </figure>
 
+<figure class="architecture-figure diagram-figure">
+  <img
+    src="/rag-guide/images/aws-rag-physical-architecture.svg"
+    alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
+  />
+  <figcaption>物理構成：S3、Knowledge Bases、S3 Vectors、Converseの接続関係を先に確認できます。</figcaption>
+</figure>
+
 ## このハンズオンで作るもの
 
 <CardGrid>
-  <Card title="すべてCloudShellで実行" icon="seti:shell">
-    AWS Management Console内のCloudShellから、コピー可能なAWS CLIコマンドだけで構築します。
+  <Card title="AWS CLIで実行" icon="seti:shell">
+    AWS CLIを実行できるターミナルから、コピー可能なコマンドだけで構築します。
   </Card>
   <Card title="毎回、完了を検証" icon="approve-check-circle">
     作成コマンドの直後にread-onlyの確認コマンドを実行し、期待値を見てから次へ進みます。

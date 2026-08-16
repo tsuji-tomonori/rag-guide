@@ -4,7 +4,7 @@ description: ナレッジベースへ意味検索クエリを送り、本文・�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -59,7 +59,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 | API境界 | 取得（`Retrieve`）と`RetrieveAndGenerate` | 取得結果を後続処理へ渡すAPIと、取得・生成をまとめるAPIを区別できる |
 | スコア | 同一条件内の順位比較 | 固定閾値ではなく、根拠の有無と順位を比較する |
 
-<CloudShellStep number="7.1" title="意味検索を実行する">
+<CliStep number="7.1" title="意味検索を実行する">
 
 <Command phase="prepare" title="検索条件を準備">
 
@@ -116,9 +116,9 @@ aws bedrock-agent-runtime retrieve \
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="7.2" title="検索結果を検証する">
+<CliStep number="7.2" title="検索結果を検証する">
 
 <Command phase="verify" title="検索結果を検証する" final>
 
@@ -191,9 +191,9 @@ retrieval verification: PASS
   scoreの尺度はmodel、store、query、設定によって変わります。単発の値から「0.7以上なら正しい」と決めず、同じ質問・同じ設定で順位を比較し、必要な根拠が上位候補にあるか、無関係なchunkが増えていないか、source URIへ追跡できるかで判断します。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="7.3" title="検索結果を根拠セットへ整形する">
+<CliStep number="7.3" title="検索結果を根拠セットへ整形する">
 
 <Command phase="verify" title="検索結果を根拠セットへ整形" final>
 
@@ -244,7 +244,7 @@ evidence set verification: PASS
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 

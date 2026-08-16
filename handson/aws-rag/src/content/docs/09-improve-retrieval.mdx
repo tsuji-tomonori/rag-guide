@@ -4,7 +4,7 @@ description: メタデータフィルターと候補数を一つずつ変更し�
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import CloudShellStep from '../../components/CloudShellStep.astro';
+import CliStep from '../../components/CliStep.astro';
 import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
@@ -52,7 +52,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 RAGの改善はmodel変更から始めず、PDFが示すコンポーネント境界に沿って、データ処理・埋め込み・リトリーバー・メタデータフィルターを一つずつ変更して結果を比較します。このページではcandidate数とS3データソースのmetadata filterを扱います。
 
-<CloudShellStep number="9.1" title="候補数を比較する">
+<CliStep number="9.1" title="候補数を比較する">
 
 7章と同じ質問で`numberOfResults`だけを変え、返却件数、上位score、PDFの根拠coverage、source traceabilityを記録します。`score`が高いことだけでは合格にせず、必要な根拠が上位候補に含まれるか、無関係なchunkが増えていないかを見ます。
 
@@ -119,7 +119,7 @@ k  returned  top_score  has_gold
 3  3         0.82       true
 5  5         0.82       true
 [CHECK] compared k values: 1 / 3 / 5
-[CHECK] comparison file: /home/cloudshell-user/rag-handson-.../k-comparison.tsv
+[CHECK] comparison file: $HOME/rag-handson-.../k-comparison.tsv
 k comparison: PASS
 ```
 
@@ -129,9 +129,9 @@ k comparison: PASS
 
 </ExpectedResult>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="9.2" title="メタデータフィルターを必須条件として適用する">
+<CliStep number="9.2" title="メタデータフィルターを必須条件として適用する">
 
 PDFは、S3データソースのドキュメントメタデータを使って関連性をフィルタリング・改善でき、包含／除外フィルターや増分同期も扱えると説明しています。ここでは質問をその内容に合わせ、`category=rag-guidance`かつ`status=published`だけを検索対象にします。
 
@@ -233,9 +233,9 @@ metadata filter verification: PASS
   公開状態、tenant、ACL、版などの必須条件を「回答に使わないでください」というpromptだけで制御しません。PDFが説明するドキュメントメタデータのフィルタリングと同じく、検索前のpositive／negative testで、条件外の文書がcandidateやcitationへ混入しないことを確認します。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
-<CloudShellStep number="9.3" title="改善の次の一手を判断する">
+<CliStep number="9.3" title="改善の次の一手を判断する">
 
 | 観測した失敗 | PDF上の境界 | 最初に試す変更 |
 |---|---|---|
@@ -250,7 +250,7 @@ metadata filter verification: PASS
   S3 Vectorsはこのハンズオンのsemantic search用の基準構成です。HYBRIDやcustom retrieverを評価する場合は対応vector storeへ切り替え、同じ質問・PDFのcoverage基準・権限条件で比較します。PDFの選択基準に沿い、Knowledge Basesを外すのは、未対応vector DBやRAG workflowをカスタマイズする明確な理由がある場合に限ります。
 </Aside>
 
-</CloudShellStep>
+</CliStep>
 
 <Checkpoint>
 
