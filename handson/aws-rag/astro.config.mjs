@@ -36,6 +36,7 @@ export default defineConfig({
           label: 'AWS RAG ハンズオン',
           items: [
             { label: '0. 全体像と進め方', link: '/00-overview/' },
+            { label: 'ハンズオン費用（1人1回）', link: '/cost/' },
             { label: '1. CloudShellを準備', link: '/01-prepare-cloudshell/' },
             { label: '2. AWS公式PDFをS3へ配置', link: '/02-upload-documents/' },
             { label: '3. S3 Vectorsを作成', link: '/03-create-vector-store/' },
