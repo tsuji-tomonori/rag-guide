@@ -26,200 +26,204 @@ structure SentenceProofRow where
   endToEnd : Bool
   deriving Repr, DecidableEq
 
-def SRC_001_sourceTheorem : List Nat := [40, 42, 45, 55, 69, 88, 91, 97, 109, 117, 140]
-def SRC_002_sourceTheorem : List Nat := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140]
-def SRC_003_sourceTheorem : List Nat := [18, 55, 117]
-def SRC_004_sourceTheorem : List Nat := [8, 55, 138, 140]
-def SRC_005_sourceTheorem : List Nat := [37, 43, 49, 74, 75, 117, 126, 134]
-def SRC_006_sourceTheorem : List Nat := [13, 42, 117]
-def SRC_007_sourceTheorem : List Nat := [13, 43, 55, 140]
-def SRC_008_sourceTheorem : List Nat := [55, 109, 117]
-def SRC_009_sourceTheorem : List Nat := [26]
-def SRC_010_sourceTheorem : List Nat := [28, 117]
-def SRC_011_sourceTheorem : List Nat := [28, 140]
-def SRC_012_sourceTheorem : List Nat := [55, 109, 117, 131]
-def SRC_013_sourceTheorem : List Nat := [13, 40, 42, 43, 46, 55, 59, 62, 117, 131]
-def SRC_014_sourceTheorem : List Nat := [30, 140]
-def SRC_015_sourceTheorem : List Nat := [45, 55, 83, 117]
-def SRC_016_sourceTheorem : List Nat := [117]
-def SRC_017_sourceTheorem : List Nat := [40, 42, 117]
-def SRC_018_sourceTheorem : List Nat := [27, 42, 117]
-def SRC_019_sourceTheorem : List Nat := [26, 43, 117]
-def SRC_020_sourceTheorem : List Nat := [27]
-def SRC_021_sourceTheorem : List Nat := [2, 10, 25, 117]
-def SRC_022_sourceTheorem : List Nat := [18, 25, 48, 55, 71, 121]
-def SRC_023_sourceTheorem : List Nat := [119, 130]
-def SRC_024_sourceTheorem : List Nat := [87]
-def SRC_025_sourceTheorem : List Nat := [13, 40, 42, 72, 117]
-def SRC_026_sourceTheorem : List Nat := [13, 40, 43, 72, 117, 123]
-def SRC_027_sourceTheorem : List Nat := [40, 72, 117]
-def SRC_028_sourceTheorem : List Nat := [25, 40, 90, 117]
-def SRC_029_sourceTheorem : List Nat := [13, 40, 42, 117, 123, 129]
-def SRC_030_sourceTheorem : List Nat := [90, 117]
-def SRC_031_sourceTheorem : List Nat := [17, 31, 40, 55, 109, 117]
-def SRC_032_sourceTheorem : List Nat := [76, 123, 140]
-def SRC_033_sourceTheorem : List Nat := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117]
-def SRC_034_sourceTheorem : List Nat := [17, 22, 39, 41, 79, 117]
-def SRC_035_sourceTheorem : List Nat := [42, 55, 79, 117]
-def SRC_036_sourceTheorem : List Nat := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117]
-def SRC_037_sourceTheorem : List Nat := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117]
-def SRC_038_sourceTheorem : List Nat := [13, 40, 42, 55, 117, 131]
-def SRC_039_sourceTheorem : List Nat := [40, 42, 45, 55, 59, 109, 117, 122, 131]
-def SRC_040_sourceTheorem : List Nat := [11]
-def SRC_041_sourceTheorem : List Nat := [11, 42, 117]
-def SRC_042_sourceTheorem : List Nat := [24, 31, 40, 42, 65, 117]
-def SRC_043_sourceTheorem : List Nat := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134]
-def SRC_044_sourceTheorem : List Nat := [13, 40, 42, 116, 117]
-def SRC_045_sourceTheorem : List Nat := [25, 31, 40, 42, 55, 70, 86, 116, 117]
-def SRC_046_sourceTheorem : List Nat := [25, 33, 40, 73, 117]
-def SRC_047_sourceTheorem : List Nat := [5, 40, 42, 58, 61, 64, 114, 117]
-def SRC_048_sourceTheorem : List Nat := [5, 31, 40, 66, 74, 75, 117, 126, 134]
-def SRC_049_sourceTheorem : List Nat := [3, 5, 13, 31, 40, 42, 50, 58, 61, 117, 128]
-def SRC_050_sourceTheorem : List Nat := [4, 5, 31, 34, 40, 42, 50, 51, 61, 117]
-def SRC_051_sourceTheorem : List Nat := [7, 21, 22, 117]
-def SRC_052_sourceTheorem : List Nat := [5, 22, 33, 40, 56, 61, 117, 121]
-def SRC_053_sourceTheorem : List Nat := [5, 25, 34, 40, 58, 64, 71, 115, 117, 131]
-def SRC_054_sourceTheorem : List Nat := [5, 25, 34, 40, 58, 64, 71, 115, 117, 131]
-def SRC_055_sourceTheorem : List Nat := [5, 25, 29, 33, 40, 64, 71, 117, 121, 131]
-def SRC_056_sourceTheorem : List Nat := [39, 55, 117, 121]
-def SRC_057_sourceTheorem : List Nat := [40, 55, 117]
-def SRC_058_sourceTheorem : List Nat := [4, 12, 45, 55, 84, 91, 97, 109, 117]
-def SRC_059_sourceTheorem : List Nat := [13, 25, 40, 42, 55, 79, 109, 117, 124]
-def SRC_060_sourceTheorem : List Nat := [14, 40, 44, 45, 55, 59, 67, 69, 84, 117, 131]
-def SRC_061_sourceTheorem : List Nat := [40, 42, 55, 69, 91, 94, 106, 109, 117, 121]
-def SRC_062_sourceTheorem : List Nat := [40, 52, 54, 71, 95, 116, 117]
-def SRC_063_sourceTheorem : List Nat := [31, 40, 52, 55, 74, 93, 117, 134]
-def SRC_064_sourceTheorem : List Nat := [16, 40, 68, 112]
-def SRC_065_sourceTheorem : List Nat := [31, 40, 52, 55, 60, 117, 140]
-def SRC_066_sourceTheorem : List Nat := [13, 25, 40, 42, 74, 75, 116, 117, 134]
-def SRC_067_sourceTheorem : List Nat := [37, 75, 117, 126]
-def SRC_068_sourceTheorem : List Nat := [5, 40, 66, 73, 75, 117, 126, 134]
-def SRC_069_sourceTheorem : List Nat := [40, 55, 66, 73, 75, 116, 117, 126, 132]
-def SRC_070_sourceTheorem : List Nat := [5, 13, 35, 40, 42, 52, 66, 73, 75, 111, 117, 126]
-def SRC_071_sourceTheorem : List Nat := [37, 40, 55, 74, 75, 117, 126, 134, 140]
-def SRC_072_sourceTheorem : List Nat := [5, 6, 31, 117]
-def SRC_073_sourceTheorem : List Nat := [13, 31, 39, 40, 42, 74, 100, 117, 134]
-def SRC_074_sourceTheorem : List Nat := [13, 31, 40, 42, 74, 115, 117, 134, 139]
-def SRC_075_sourceTheorem : List Nat := [13, 20, 22, 31, 40, 42, 69, 70, 86, 117, 121]
-def SRC_076_sourceTheorem : List Nat := [13, 31, 39, 40, 42, 86, 117, 126]
-def SRC_077_sourceTheorem : List Nat := [40, 75, 115, 116, 117]
-def SRC_078_sourceTheorem : List Nat := [40, 75, 89, 112, 117, 141]
-def SRC_079_sourceTheorem : List Nat := [50, 117, 140]
-def SRC_080_sourceTheorem : List Nat := [30, 42, 55, 117]
-def SRC_081_sourceTheorem : List Nat := [9, 30]
-def SRC_082_sourceTheorem : List Nat := [36, 96, 116]
-def SRC_083_sourceTheorem : List Nat := [13, 36, 40, 42, 55, 116, 117]
-def SRC_084_sourceTheorem : List Nat := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117]
-def SRC_085_sourceTheorem : List Nat := [38, 40, 55, 63, 77, 113, 116, 117]
-def SRC_086_sourceTheorem : List Nat := [40, 55, 96, 99, 113, 116, 117]
-def SRC_087_sourceTheorem : List Nat := [40, 55, 96, 110, 113, 117]
-def SRC_088_sourceTheorem : List Nat := [13, 40, 42, 55, 63, 77, 78, 113, 116, 117, 140]
-def SRC_089_sourceTheorem : List Nat := [22, 23, 25, 40, 42, 55, 91, 104, 109, 117]
-def SRC_090_sourceTheorem : List Nat := [13, 40, 42, 55, 59, 109, 117]
-def SRC_091_sourceTheorem : List Nat := [22, 25, 40, 55, 103, 117]
-def SRC_092_sourceTheorem : List Nat := [13, 22, 25, 42, 55, 71, 79, 107, 117]
-def SRC_093_sourceTheorem : List Nat := [22, 23, 25, 40, 55, 71, 79, 108, 117]
-def SRC_094_sourceTheorem : List Nat := [25, 40, 42, 46, 55, 62, 109, 117]
-def SRC_095_sourceTheorem : List Nat := [40, 55, 79, 109, 117]
-def SRC_096_sourceTheorem : List Nat := [55, 102, 117, 122]
-def SRC_097_sourceTheorem : List Nat := [40, 55, 59, 97, 109, 117, 122]
-def SRC_098_sourceTheorem : List Nat := [13, 40, 42, 55, 59, 117]
-def SRC_099_sourceTheorem : List Nat := [40, 42, 45, 55, 69, 88, 91, 97, 109, 117]
-def SRC_100_sourceTheorem : List Nat := [18, 40, 42, 43, 46, 55, 59, 62, 117]
-def SRC_101_sourceTheorem : List Nat := [8, 55, 117, 138]
-def SRC_102_sourceTheorem : List Nat := [10, 40, 42, 55, 62, 117]
-def SRC_103_sourceTheorem : List Nat := [40, 55, 59, 117, 140]
-def SRC_104_sourceTheorem : List Nat := [10, 40, 43, 55, 117]
-def SRC_105_sourceTheorem : List Nat := [13, 42, 55, 109, 117]
-def SRC_106_sourceTheorem : List Nat := [33, 42, 55, 69, 109, 117]
-def SRC_107_sourceTheorem : List Nat := [40, 42, 45, 55, 84, 109, 116, 117, 121]
-def SRC_108_sourceTheorem : List Nat := [42, 55, 140]
-def SRC_109_sourceTheorem : List Nat := [13, 42, 55, 59, 109, 117]
-def SRC_110_sourceTheorem : List Nat := [42, 45, 55, 83, 109, 117]
-def SRC_111_sourceTheorem : List Nat := [42, 111]
-def SRC_112_sourceTheorem : List Nat := [33, 42, 55, 59, 109, 117]
-def SRC_113_sourceTheorem : List Nat := [36, 40, 42, 55, 62, 78, 117]
-def SRC_114_sourceTheorem : List Nat := [13, 42, 55, 78, 117, 121, 140]
-def SRC_115_sourceTheorem : List Nat := [10, 13, 18, 42, 55, 62, 117]
-def SRC_116_sourceTheorem : List Nat := [12, 13, 40, 42, 45, 55, 59, 117, 135, 140]
-def SRC_117_sourceTheorem : List Nat := [1, 40]
-def SRC_118_sourceTheorem : List Nat := [11, 122]
-def SRC_119_sourceTheorem : List Nat := [42, 81, 85, 117]
-def SRC_120_sourceTheorem : List Nat := [11, 25, 42, 55, 71, 85, 109, 117, 122, 135]
-def SRC_121_sourceTheorem : List Nat := [12, 40, 45, 55, 109, 117, 122]
-def SRC_122_sourceTheorem : List Nat := [40, 55, 59, 80, 101, 109, 117, 122]
-def SRC_123_sourceTheorem : List Nat := [42, 55, 101, 122, 136]
-def SRC_124_sourceTheorem : List Nat := [32, 40, 42, 55, 80, 101, 117, 122]
-def SRC_125_sourceTheorem : List Nat := [25, 32, 40, 101, 117]
-def SRC_126_sourceTheorem : List Nat := [55, 102, 117, 122]
-def SRC_127_sourceTheorem : List Nat := [40, 55, 102, 117, 122]
-def SRC_128_sourceTheorem : List Nat := [13, 40, 42, 55, 102, 117, 122]
-def SRC_129_sourceTheorem : List Nat := [55, 61, 102, 117, 122]
-def SRC_130_sourceTheorem : List Nat := [13, 42, 82, 117]
-def SRC_131_sourceTheorem : List Nat := [40, 48, 71, 117]
-def SRC_132_sourceTheorem : List Nat := [40, 42, 55, 71, 117]
-def SRC_133_sourceTheorem : List Nat := [25, 40, 55, 117]
-def SRC_134_sourceTheorem : List Nat := [13, 25, 42, 55, 117]
-def SRC_135_sourceTheorem : List Nat := [29, 33, 117]
-def SRC_136_sourceTheorem : List Nat := [40, 45, 55, 59, 101, 109, 117, 122, 131]
-def SRC_137_sourceTheorem : List Nat := [47, 119]
-def SRC_138_sourceTheorem : List Nat := [47, 119]
-def SRC_139_sourceTheorem : List Nat := [13, 40, 42, 55, 59, 69, 83, 109, 117, 131]
-def SRC_140_sourceTheorem : List Nat := [55, 69, 83, 109, 117]
-def SRC_141_sourceTheorem : List Nat := [13, 40, 42, 43, 45, 55, 91, 117]
-def SRC_142_sourceTheorem : List Nat := [13, 40, 42, 55, 83, 91, 109, 117]
-def SRC_143_sourceTheorem : List Nat := [55, 69, 117, 121]
-def SRC_144_sourceTheorem : List Nat := [13, 40, 42, 91, 106, 117]
-def SRC_145_sourceTheorem : List Nat := [40, 106, 117]
-def SRC_146_sourceTheorem : List Nat := [31, 40, 73, 106, 115, 117, 125]
-def SRC_147_sourceTheorem : List Nat := [13, 25, 40, 42, 55, 59, 109, 115, 117, 140]
-def SRC_148_sourceTheorem : List Nat := [31, 40, 55, 74, 75, 83, 109, 117, 134, 140]
-def SRC_149_sourceTheorem : List Nat := [4, 33, 55, 69, 109, 117, 140]
-def SRC_150_sourceTheorem : List Nat := [133]
-def SRC_151_sourceTheorem : List Nat := [13, 40, 42, 55, 117, 133]
-def SRC_152_sourceTheorem : List Nat := [13, 40, 42, 55, 79, 84, 117]
-def SRC_153_sourceTheorem : List Nat := [13, 40, 42, 55, 79, 117, 140]
-def SRC_154_sourceTheorem : List Nat := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140]
-def SRC_155_sourceTheorem : List Nat := [17, 40, 55, 61, 109, 117, 137, 140]
-def SRC_156_sourceTheorem : List Nat := [19, 57, 61, 109, 117, 140]
-def SRC_157_sourceTheorem : List Nat := [36, 40, 45, 55, 57, 109, 117]
-def SRC_158_sourceTheorem : List Nat := [13, 40, 42, 55, 57, 59, 109, 117, 128]
-def SRC_159_sourceTheorem : List Nat := [55, 57, 84]
-def SRC_160_sourceTheorem : List Nat := [13, 25, 40, 42, 55, 57, 59, 109, 117, 128, 140]
-def SRC_161_sourceTheorem : List Nat := [13, 17, 31, 39, 40, 42, 55, 70, 72, 86, 87, 90, 109, 117]
-def SRC_162_sourceTheorem : List Nat := [55, 109, 117, 124]
-def SRC_163_sourceTheorem : List Nat := [40, 55, 117, 135]
-def SRC_164_sourceTheorem : List Nat := [40, 55, 106, 117, 140]
-def SRC_165_sourceTheorem : List Nat := [106, 117]
-def SRC_166_sourceTheorem : List Nat := [4, 12, 45, 55, 84, 91, 97, 109, 117, 140]
-def SRC_167_sourceTheorem : List Nat := [4, 55, 71, 97, 117, 140]
-def SRC_168_sourceTheorem : List Nat := [13, 133]
-def SRC_169_sourceTheorem : List Nat := [40, 75, 133, 140]
-def SRC_170_sourceTheorem : List Nat := [55, 79, 117, 140]
-def SRC_171_sourceTheorem : List Nat := [42, 55, 79, 117, 140]
-def SRC_172_sourceTheorem : List Nat := [13, 40, 42, 45, 55, 61, 117]
-def SRC_173_sourceTheorem : List Nat := [87, 117]
-def SRC_174_sourceTheorem : List Nat := [55, 135, 140]
-def SRC_175_sourceTheorem : List Nat := [40, 45, 55, 59, 67, 69, 84, 117, 131, 140]
-def SRC_176_sourceTheorem : List Nat := [13, 40, 42, 55, 83, 91, 109, 117]
-def SRC_177_sourceTheorem : List Nat := [55, 117, 121]
-def SRC_178_sourceTheorem : List Nat := [12, 18, 55, 117, 118]
-def SRC_179_sourceTheorem : List Nat := [12, 31, 45, 81, 117, 120]
-def SRC_180_sourceTheorem : List Nat := [12, 33, 39]
-def SRC_181_sourceTheorem : List Nat := [12, 31, 33, 39]
-def SRC_182_sourceTheorem : List Nat := [12, 31, 33, 39]
-def SRC_183_sourceTheorem : List Nat := [31, 33, 81, 120]
-def SRC_184_sourceTheorem : List Nat := [12, 72, 90, 98]
-def SRC_185_sourceTheorem : List Nat := [12, 17, 98]
-def SRC_186_sourceTheorem : List Nat := [12, 17, 61]
-def SRC_187_sourceTheorem : List Nat := [12, 50, 116, 117]
-def SRC_188_sourceTheorem : List Nat := [12, 81]
-def SRC_189_sourceTheorem : List Nat := [81, 120]
-def SRC_190_sourceTheorem : List Nat := [12, 116]
-def SRC_191_sourceTheorem : List Nat := [12, 127]
-def SRC_192_sourceTheorem : List Nat := [12, 42, 109]
-def SRC_193_sourceTheorem : List Nat := [12, 55, 87, 117]
-def SRC_195_sourceTheorem : List Nat := [13, 40, 42, 91, 97]
+def SRC_001_sourceTheorem : List Nat := [41, 43, 46, 56, 71, 90, 93, 99, 111, 119, 142]
+def SRC_002_sourceTheorem : List Nat := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142]
+def SRC_003_sourceTheorem : List Nat := [19, 56, 119]
+def SRC_004_sourceTheorem : List Nat := [8, 56, 140, 142]
+def SRC_005_sourceTheorem : List Nat := [38, 44, 50, 76, 77, 119, 128, 136]
+def SRC_006_sourceTheorem : List Nat := [14, 43, 119]
+def SRC_007_sourceTheorem : List Nat := [14, 44, 56, 142]
+def SRC_008_sourceTheorem : List Nat := [56, 111, 119]
+def SRC_009_sourceTheorem : List Nat := [27]
+def SRC_010_sourceTheorem : List Nat := [29, 119]
+def SRC_011_sourceTheorem : List Nat := [29, 142]
+def SRC_012_sourceTheorem : List Nat := [56, 111, 119, 133]
+def SRC_013_sourceTheorem : List Nat := [14, 41, 43, 44, 47, 56, 61, 64, 119, 133]
+def SRC_014_sourceTheorem : List Nat := [31, 142]
+def SRC_015_sourceTheorem : List Nat := [46, 56, 85, 119]
+def SRC_016_sourceTheorem : List Nat := [119]
+def SRC_017_sourceTheorem : List Nat := [41, 43, 119]
+def SRC_018_sourceTheorem : List Nat := [28, 43, 119]
+def SRC_019_sourceTheorem : List Nat := [27, 44, 119]
+def SRC_020_sourceTheorem : List Nat := [28]
+def SRC_021_sourceTheorem : List Nat := [2, 10, 26, 119]
+def SRC_022_sourceTheorem : List Nat := [19, 26, 49, 56, 73, 123]
+def SRC_023_sourceTheorem : List Nat := [121, 132]
+def SRC_024_sourceTheorem : List Nat := [89]
+def SRC_025_sourceTheorem : List Nat := [14, 41, 43, 74, 119]
+def SRC_026_sourceTheorem : List Nat := [14, 41, 44, 74, 119, 125]
+def SRC_027_sourceTheorem : List Nat := [41, 74, 119]
+def SRC_028_sourceTheorem : List Nat := [26, 41, 92, 119]
+def SRC_029_sourceTheorem : List Nat := [14, 41, 43, 119, 125, 131]
+def SRC_030_sourceTheorem : List Nat := [92, 119]
+def SRC_031_sourceTheorem : List Nat := [18, 32, 41, 56, 111, 119]
+def SRC_032_sourceTheorem : List Nat := [78, 125, 142]
+def SRC_033_sourceTheorem : List Nat := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119]
+def SRC_034_sourceTheorem : List Nat := [18, 23, 40, 42, 81, 119]
+def SRC_035_sourceTheorem : List Nat := [43, 56, 81, 119]
+def SRC_036_sourceTheorem : List Nat := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119]
+def SRC_037_sourceTheorem : List Nat := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119]
+def SRC_038_sourceTheorem : List Nat := [14, 41, 43, 56, 119, 133]
+def SRC_039_sourceTheorem : List Nat := [41, 43, 46, 56, 61, 111, 119, 124, 133]
+def SRC_040_sourceTheorem : List Nat := [12]
+def SRC_041_sourceTheorem : List Nat := [12, 43, 119]
+def SRC_042_sourceTheorem : List Nat := [25, 32, 41, 43, 67, 119]
+def SRC_043_sourceTheorem : List Nat := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136]
+def SRC_044_sourceTheorem : List Nat := [14, 41, 43, 118, 119]
+def SRC_045_sourceTheorem : List Nat := [26, 32, 41, 43, 56, 72, 88, 118, 119]
+def SRC_046_sourceTheorem : List Nat := [26, 34, 41, 75, 119]
+def SRC_047_sourceTheorem : List Nat := [5, 41, 43, 59, 63, 66, 116, 119]
+def SRC_048_sourceTheorem : List Nat := [5, 32, 41, 68, 76, 77, 119, 128, 136]
+def SRC_049_sourceTheorem : List Nat := [3, 5, 14, 32, 41, 43, 51, 59, 63, 119, 130]
+def SRC_050_sourceTheorem : List Nat := [4, 5, 32, 35, 41, 43, 51, 52, 63, 119]
+def SRC_051_sourceTheorem : List Nat := [7, 22, 23, 119]
+def SRC_052_sourceTheorem : List Nat := [5, 23, 34, 41, 57, 63, 119, 123]
+def SRC_053_sourceTheorem : List Nat := [5, 26, 35, 41, 59, 66, 73, 117, 119, 133]
+def SRC_054_sourceTheorem : List Nat := [5, 26, 35, 41, 59, 66, 73, 117, 119, 133]
+def SRC_055_sourceTheorem : List Nat := [5, 26, 30, 34, 41, 66, 73, 119, 123, 133]
+def SRC_056_sourceTheorem : List Nat := [40, 56, 119, 123]
+def SRC_057_sourceTheorem : List Nat := [41, 56, 119]
+def SRC_058_sourceTheorem : List Nat := [4, 13, 46, 56, 86, 93, 99, 111, 119]
+def SRC_059_sourceTheorem : List Nat := [14, 26, 41, 43, 56, 81, 111, 119, 126]
+def SRC_060_sourceTheorem : List Nat := [15, 41, 45, 46, 56, 61, 69, 71, 86, 119, 133]
+def SRC_061_sourceTheorem : List Nat := [41, 43, 56, 71, 93, 96, 108, 111, 119, 123]
+def SRC_062_sourceTheorem : List Nat := [41, 53, 55, 73, 97, 118, 119]
+def SRC_063_sourceTheorem : List Nat := [32, 41, 53, 56, 76, 95, 119, 136]
+def SRC_064_sourceTheorem : List Nat := [17, 41, 70, 114]
+def SRC_065_sourceTheorem : List Nat := [32, 41, 53, 56, 62, 119, 142]
+def SRC_066_sourceTheorem : List Nat := [14, 26, 41, 43, 76, 77, 118, 119, 136]
+def SRC_067_sourceTheorem : List Nat := [38, 77, 119, 128]
+def SRC_068_sourceTheorem : List Nat := [5, 41, 68, 75, 77, 119, 128, 136]
+def SRC_069_sourceTheorem : List Nat := [41, 56, 68, 75, 77, 118, 119, 128, 134]
+def SRC_070_sourceTheorem : List Nat := [5, 14, 36, 41, 43, 53, 68, 75, 77, 113, 119, 128]
+def SRC_071_sourceTheorem : List Nat := [38, 41, 56, 76, 77, 119, 128, 136, 142]
+def SRC_072_sourceTheorem : List Nat := [5, 6, 32, 119]
+def SRC_073_sourceTheorem : List Nat := [14, 32, 40, 41, 43, 76, 102, 119, 136]
+def SRC_074_sourceTheorem : List Nat := [14, 32, 41, 43, 76, 117, 119, 136, 141]
+def SRC_075_sourceTheorem : List Nat := [14, 21, 23, 32, 41, 43, 71, 72, 88, 119, 123]
+def SRC_076_sourceTheorem : List Nat := [14, 32, 40, 41, 43, 88, 119, 128]
+def SRC_077_sourceTheorem : List Nat := [41, 77, 117, 118, 119]
+def SRC_078_sourceTheorem : List Nat := [41, 77, 91, 114, 119, 143]
+def SRC_079_sourceTheorem : List Nat := [51, 119, 142]
+def SRC_080_sourceTheorem : List Nat := [31, 43, 56, 119]
+def SRC_081_sourceTheorem : List Nat := [9, 31]
+def SRC_082_sourceTheorem : List Nat := [37, 98, 118]
+def SRC_083_sourceTheorem : List Nat := [14, 37, 41, 43, 56, 118, 119]
+def SRC_084_sourceTheorem : List Nat := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119]
+def SRC_085_sourceTheorem : List Nat := [39, 41, 56, 65, 79, 115, 118, 119]
+def SRC_086_sourceTheorem : List Nat := [41, 56, 98, 101, 115, 118, 119]
+def SRC_087_sourceTheorem : List Nat := [41, 56, 98, 112, 115, 119]
+def SRC_088_sourceTheorem : List Nat := [14, 41, 43, 56, 65, 79, 80, 115, 118, 119, 142]
+def SRC_089_sourceTheorem : List Nat := [23, 24, 26, 41, 43, 56, 93, 106, 111, 119]
+def SRC_090_sourceTheorem : List Nat := [14, 41, 43, 56, 61, 111, 119]
+def SRC_091_sourceTheorem : List Nat := [23, 26, 41, 56, 105, 119]
+def SRC_092_sourceTheorem : List Nat := [14, 23, 26, 43, 56, 73, 81, 109, 119]
+def SRC_093_sourceTheorem : List Nat := [23, 24, 26, 41, 56, 73, 81, 110, 119]
+def SRC_094_sourceTheorem : List Nat := [26, 41, 43, 47, 56, 64, 111, 119]
+def SRC_095_sourceTheorem : List Nat := [41, 56, 81, 111, 119]
+def SRC_096_sourceTheorem : List Nat := [56, 104, 119, 124]
+def SRC_097_sourceTheorem : List Nat := [41, 56, 61, 99, 111, 119, 124]
+def SRC_098_sourceTheorem : List Nat := [14, 41, 43, 56, 61, 119]
+def SRC_099_sourceTheorem : List Nat := [41, 43, 46, 56, 71, 90, 93, 99, 111, 119]
+def SRC_100_sourceTheorem : List Nat := [19, 41, 43, 44, 47, 56, 61, 64, 119]
+def SRC_101_sourceTheorem : List Nat := [8, 56, 119, 140]
+def SRC_102_sourceTheorem : List Nat := [10, 41, 43, 56, 64, 119]
+def SRC_103_sourceTheorem : List Nat := [41, 56, 61, 119, 142]
+def SRC_104_sourceTheorem : List Nat := [10, 41, 44, 56, 119]
+def SRC_105_sourceTheorem : List Nat := [14, 43, 56, 111, 119]
+def SRC_106_sourceTheorem : List Nat := [34, 43, 56, 71, 111, 119]
+def SRC_107_sourceTheorem : List Nat := [41, 43, 46, 56, 86, 111, 118, 119, 123]
+def SRC_108_sourceTheorem : List Nat := [43, 56, 142]
+def SRC_109_sourceTheorem : List Nat := [14, 43, 56, 61, 111, 119]
+def SRC_110_sourceTheorem : List Nat := [43, 46, 56, 85, 111, 119]
+def SRC_111_sourceTheorem : List Nat := [43, 113]
+def SRC_112_sourceTheorem : List Nat := [34, 43, 56, 61, 111, 119]
+def SRC_113_sourceTheorem : List Nat := [37, 41, 43, 56, 64, 80, 119]
+def SRC_114_sourceTheorem : List Nat := [14, 43, 56, 80, 119, 123, 142]
+def SRC_115_sourceTheorem : List Nat := [10, 14, 19, 43, 56, 64, 119]
+def SRC_116_sourceTheorem : List Nat := [13, 14, 41, 43, 46, 56, 61, 119, 137, 142]
+def SRC_117_sourceTheorem : List Nat := [1, 41]
+def SRC_118_sourceTheorem : List Nat := [12, 124]
+def SRC_119_sourceTheorem : List Nat := [43, 83, 87, 119]
+def SRC_120_sourceTheorem : List Nat := [12, 26, 43, 56, 73, 87, 111, 119, 124, 137]
+def SRC_121_sourceTheorem : List Nat := [13, 41, 46, 56, 111, 119, 124]
+def SRC_122_sourceTheorem : List Nat := [41, 56, 61, 82, 103, 111, 119, 124]
+def SRC_123_sourceTheorem : List Nat := [43, 56, 103, 124, 138]
+def SRC_124_sourceTheorem : List Nat := [33, 41, 43, 56, 82, 103, 119, 124]
+def SRC_125_sourceTheorem : List Nat := [26, 33, 41, 103, 119]
+def SRC_126_sourceTheorem : List Nat := [56, 104, 119, 124]
+def SRC_127_sourceTheorem : List Nat := [41, 56, 104, 119, 124]
+def SRC_128_sourceTheorem : List Nat := [14, 41, 43, 56, 104, 119, 124]
+def SRC_129_sourceTheorem : List Nat := [56, 63, 104, 119, 124]
+def SRC_130_sourceTheorem : List Nat := [14, 43, 84, 119]
+def SRC_131_sourceTheorem : List Nat := [41, 49, 73, 119]
+def SRC_132_sourceTheorem : List Nat := [41, 43, 56, 73, 119]
+def SRC_133_sourceTheorem : List Nat := [26, 41, 56, 119]
+def SRC_134_sourceTheorem : List Nat := [14, 26, 43, 56, 119]
+def SRC_135_sourceTheorem : List Nat := [30, 34, 119]
+def SRC_136_sourceTheorem : List Nat := [41, 46, 56, 61, 103, 111, 119, 124, 133]
+def SRC_137_sourceTheorem : List Nat := [48, 121]
+def SRC_138_sourceTheorem : List Nat := [48, 121]
+def SRC_139_sourceTheorem : List Nat := [14, 41, 43, 56, 61, 71, 85, 111, 119, 133]
+def SRC_140_sourceTheorem : List Nat := [56, 71, 85, 111, 119]
+def SRC_141_sourceTheorem : List Nat := [14, 41, 43, 44, 46, 56, 93, 119]
+def SRC_142_sourceTheorem : List Nat := [14, 41, 43, 56, 85, 93, 111, 119]
+def SRC_143_sourceTheorem : List Nat := [56, 71, 119, 123]
+def SRC_144_sourceTheorem : List Nat := [14, 41, 43, 93, 108, 119]
+def SRC_145_sourceTheorem : List Nat := [41, 108, 119]
+def SRC_146_sourceTheorem : List Nat := [32, 41, 75, 108, 117, 119, 127]
+def SRC_147_sourceTheorem : List Nat := [14, 26, 41, 43, 56, 61, 111, 117, 119, 142]
+def SRC_148_sourceTheorem : List Nat := [32, 41, 56, 76, 77, 85, 111, 119, 136, 142]
+def SRC_149_sourceTheorem : List Nat := [4, 34, 56, 71, 111, 119, 142]
+def SRC_150_sourceTheorem : List Nat := [135]
+def SRC_151_sourceTheorem : List Nat := [14, 41, 43, 56, 119, 135]
+def SRC_152_sourceTheorem : List Nat := [14, 41, 43, 56, 81, 86, 119]
+def SRC_153_sourceTheorem : List Nat := [14, 41, 43, 56, 81, 119, 142]
+def SRC_154_sourceTheorem : List Nat := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142]
+def SRC_155_sourceTheorem : List Nat := [18, 41, 56, 63, 111, 119, 139, 142]
+def SRC_156_sourceTheorem : List Nat := [20, 58, 63, 111, 119, 142]
+def SRC_157_sourceTheorem : List Nat := [37, 41, 46, 56, 58, 111, 119]
+def SRC_158_sourceTheorem : List Nat := [14, 41, 43, 56, 58, 61, 111, 119, 130]
+def SRC_159_sourceTheorem : List Nat := [56, 58, 86]
+def SRC_160_sourceTheorem : List Nat := [14, 26, 41, 43, 56, 58, 61, 111, 119, 130, 142]
+def SRC_161_sourceTheorem : List Nat := [14, 18, 32, 40, 41, 43, 56, 72, 74, 88, 89, 92, 111, 119]
+def SRC_162_sourceTheorem : List Nat := [56, 111, 119, 126]
+def SRC_163_sourceTheorem : List Nat := [41, 56, 119, 137]
+def SRC_164_sourceTheorem : List Nat := [41, 56, 108, 119, 142]
+def SRC_165_sourceTheorem : List Nat := [108, 119]
+def SRC_166_sourceTheorem : List Nat := [4, 13, 46, 56, 86, 93, 99, 111, 119, 142]
+def SRC_167_sourceTheorem : List Nat := [4, 56, 73, 99, 119, 142]
+def SRC_168_sourceTheorem : List Nat := [14, 135]
+def SRC_169_sourceTheorem : List Nat := [41, 77, 135, 142]
+def SRC_170_sourceTheorem : List Nat := [56, 81, 119, 142]
+def SRC_171_sourceTheorem : List Nat := [43, 56, 81, 119, 142]
+def SRC_172_sourceTheorem : List Nat := [14, 41, 43, 46, 56, 63, 119]
+def SRC_173_sourceTheorem : List Nat := [89, 119]
+def SRC_174_sourceTheorem : List Nat := [56, 137, 142]
+def SRC_175_sourceTheorem : List Nat := [41, 46, 56, 61, 69, 71, 86, 119, 133, 142]
+def SRC_176_sourceTheorem : List Nat := [14, 41, 43, 56, 85, 93, 111, 119]
+def SRC_177_sourceTheorem : List Nat := [56, 119, 123]
+def SRC_178_sourceTheorem : List Nat := [13, 19, 56, 119, 120]
+def SRC_179_sourceTheorem : List Nat := [13, 32, 46, 83, 119, 122]
+def SRC_180_sourceTheorem : List Nat := [13, 34, 40]
+def SRC_181_sourceTheorem : List Nat := [13, 32, 34, 40]
+def SRC_182_sourceTheorem : List Nat := [13, 32, 34, 40]
+def SRC_183_sourceTheorem : List Nat := [32, 34, 83, 122]
+def SRC_184_sourceTheorem : List Nat := [13, 74, 92, 100]
+def SRC_185_sourceTheorem : List Nat := [13, 18, 100]
+def SRC_186_sourceTheorem : List Nat := [13, 18, 63]
+def SRC_187_sourceTheorem : List Nat := [13, 51, 118, 119]
+def SRC_188_sourceTheorem : List Nat := [13, 83]
+def SRC_189_sourceTheorem : List Nat := [83, 122]
+def SRC_190_sourceTheorem : List Nat := [13, 118]
+def SRC_191_sourceTheorem : List Nat := [13, 129]
+def SRC_192_sourceTheorem : List Nat := [13, 43, 111]
+def SRC_193_sourceTheorem : List Nat := [13, 56, 89, 119]
+def SRC_195_sourceTheorem : List Nat := [14, 41, 43, 93, 99]
+def SRC_196_sourceTheorem : List Nat := [12, 13, 19, 46, 56, 89, 111, 118, 119]
+def SRC_197_sourceTheorem : List Nat := [11, 13, 32, 34, 40, 46, 83, 94, 119, 122]
+def SRC_198_sourceTheorem : List Nat := [12, 13, 19, 46, 56, 60, 118, 119, 142]
+def SRC_199_sourceTheorem : List Nat := [13, 46, 56, 119]
 
 def sourceTheorems : List SourceTheorem := [
   { id := 1, inspected := true, facts := SRC_001_sourceTheorem },
@@ -415,724 +419,750 @@ def sourceTheorems : List SourceTheorem := [
   { id := 191, inspected := true, facts := SRC_191_sourceTheorem },
   { id := 192, inspected := true, facts := SRC_192_sourceTheorem },
   { id := 193, inspected := true, facts := SRC_193_sourceTheorem },
-  { id := 195, inspected := true, facts := SRC_195_sourceTheorem }
+  { id := 195, inspected := true, facts := SRC_195_sourceTheorem },
+  { id := 196, inspected := true, facts := SRC_196_sourceTheorem },
+  { id := 197, inspected := true, facts := SRC_197_sourceTheorem },
+  { id := 198, inspected := true, facts := SRC_198_sourceTheorem },
+  { id := 199, inspected := true, facts := SRC_199_sourceTheorem }
 ]
 
 def sentenceProofRows : List SentenceProofRow := [
-  { id := 2, formalized := true, sourceIds := [1], sourceFacts := [40, 42, 45, 55, 69, 88, 91, 97, 109, 117, 140], guideFormula := .and (.and (.and (.atom 117) (.atom 55)) (.atom 97)) (.atom 88), reportedDerived := true, endToEnd := false },
-  { id := 22, formalized := true, sourceIds := [2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 23, formalized := true, sourceIds := [2], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 37, formalized := true, sourceIds := [3], sourceFacts := [18, 55, 117], guideFormula := .and (.atom 18) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 41, formalized := true, sourceIds := [4], sourceFacts := [8, 55, 138, 140], guideFormula := .and (.and (.atom 55) (.atom 138)) (.atom 8), reportedDerived := true, endToEnd := false },
-  { id := 51, formalized := true, sourceIds := [3, 1, 2, 5, 6], sourceFacts := [13, 18, 31, 37, 38, 40, 42, 43, 45, 49, 55, 69, 74, 75, 88, 91, 97, 109, 115, 117, 125, 126, 134, 140], guideFormula := .and (.atom 117) (.atom 18), reportedDerived := true, endToEnd := false },
-  { id := 75, formalized := true, sourceIds := [1, 3, 2, 5, 6], sourceFacts := [13, 18, 31, 37, 38, 40, 42, 43, 45, 49, 55, 69, 74, 75, 88, 91, 97, 109, 115, 117, 125, 126, 134, 140], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 76, formalized := true, sourceIds := [1, 2, 6], sourceFacts := [13, 31, 37, 38, 40, 42, 45, 55, 69, 74, 75, 88, 91, 97, 109, 115, 117, 125, 134, 140], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 77, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 78, formalized := true, sourceIds := [2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 79, formalized := true, sourceIds := [1], sourceFacts := [40, 42, 45, 55, 69, 88, 91, 97, 109, 117, 140], guideFormula := .and (.atom 109) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 80, formalized := true, sourceIds := [6], sourceFacts := [13, 42, 117], guideFormula := .and (.atom 117) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 84, formalized := true, sourceIds := [1, 2, 3, 5, 6], sourceFacts := [13, 18, 31, 37, 38, 40, 42, 43, 45, 49, 55, 69, 74, 75, 88, 91, 97, 109, 115, 117, 125, 126, 134, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 87, formalized := true, sourceIds := [1, 2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 45, 55, 69, 74, 75, 88, 91, 97, 109, 115, 117, 125, 134, 140], guideFormula := .or (.atom 18) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 106, formalized := true, sourceIds := [1, 2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 45, 55, 69, 74, 75, 88, 91, 97, 109, 115, 117, 125, 134, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 107, formalized := true, sourceIds := [178], sourceFacts := [12, 18, 55, 117, 118], guideFormula := .or (.and (.and (.atom 117) (.atom 45)) (.atom 12)) (.and (.and (.atom 117) (.atom 55)) (.atom 118)), reportedDerived := true, endToEnd := false },
-  { id := 110, formalized := true, sourceIds := [178], sourceFacts := [12, 18, 55, 117, 118], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 114, formalized := true, sourceIds := [178], sourceFacts := [12, 18, 55, 117, 118], guideFormula := .or (.and (.and (.atom 117) (.atom 55)) (.atom 118)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 116, formalized := true, sourceIds := [178], sourceFacts := [12, 18, 55, 117, 118], guideFormula := .or (.and (.and (.and (.and (.atom 117) (.atom 55)) (.atom 45)) (.atom 12)) (.atom 118)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 117, formalized := true, sourceIds := [178], sourceFacts := [12, 18, 55, 117, 118], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 118), reportedDerived := true, endToEnd := false },
-  { id := 118, formalized := true, sourceIds := [178], sourceFacts := [12, 18, 55, 117, 118], guideFormula := .and (.and (.and (.atom 117) (.atom 55)) (.atom 18)) (.atom 118), reportedDerived := true, endToEnd := false },
-  { id := 122, formalized := true, sourceIds := [179], sourceFacts := [12, 31, 45, 81, 117, 120], guideFormula := .and (.atom 120) (.atom 81), reportedDerived := true, endToEnd := false },
-  { id := 133, formalized := true, sourceIds := [179], sourceFacts := [12, 31, 45, 81, 117, 120], guideFormula := .and (.and (.atom 45) (.atom 12)) (.atom 120), reportedDerived := true, endToEnd := false },
-  { id := 134, formalized := true, sourceIds := [5, 64], sourceFacts := [16, 37, 40, 43, 49, 68, 74, 75, 112, 117, 126, 134], guideFormula := .neg (.and (.and (.and (.and (.and (.and (.and (.and (.atom 75) (.atom 116)) (.atom 117)) (.atom 45)) (.atom 43)) (.atom 12)) (.atom 120)) (.atom 92)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 135, formalized := true, sourceIds := [179], sourceFacts := [12, 31, 45, 81, 117, 120], guideFormula := .neg (.and (.and (.atom 45) (.atom 12)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 138, formalized := true, sourceIds := [179, 178, 5], sourceFacts := [12, 18, 31, 37, 43, 45, 49, 55, 74, 75, 81, 117, 118, 120, 126, 134], guideFormula := .or (.and (.and (.atom 45) (.atom 12)) (.atom 120)) (.and (.atom 117) (.atom 92)), reportedDerived := true, endToEnd := false },
-  { id := 139, formalized := true, sourceIds := [179, 178, 5], sourceFacts := [12, 18, 31, 37, 43, 45, 49, 55, 74, 75, 81, 117, 118, 120, 126, 134], guideFormula := .or (.and (.atom 45) (.atom 12)) (.and (.and (.atom 117) (.atom 45)) (.atom 12)), reportedDerived := true, endToEnd := false },
-  { id := 141, formalized := true, sourceIds := [179], sourceFacts := [12, 31, 45, 81, 117, 120], guideFormula := .atom 120, reportedDerived := true, endToEnd := false },
-  { id := 154, formalized := true, sourceIds := [181, 182], sourceFacts := [12, 31, 33, 39], guideFormula := .and (.atom 39) (.atom 33), reportedDerived := true, endToEnd := false },
-  { id := 158, formalized := true, sourceIds := [181], sourceFacts := [12, 31, 33, 39], guideFormula := .and (.atom 39) (.atom 33), reportedDerived := true, endToEnd := false },
-  { id := 159, formalized := true, sourceIds := [182], sourceFacts := [12, 31, 33, 39], guideFormula := .atom 39, reportedDerived := true, endToEnd := false },
-  { id := 164, formalized := false, sourceIds := [183], sourceFacts := [31, 33, 81, 120], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 179, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.atom 1) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 200, formalized := true, sourceIds := [187], sourceFacts := [12, 50, 116, 117], guideFormula := .and (.atom 92) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 211, formalized := true, sourceIds := [187, 190], sourceFacts := [12, 50, 116, 117], guideFormula := .neg (.and (.and (.and (.atom 45) (.atom 12)) (.atom 120)) (.atom 81)), reportedDerived := false, endToEnd := false },
-  { id := 235, formalized := true, sourceIds := [190], sourceFacts := [12, 116], guideFormula := .and (.atom 116) (.atom 12), reportedDerived := true, endToEnd := false },
-  { id := 244, formalized := true, sourceIds := [178, 193, 5, 179, 187], sourceFacts := [12, 18, 31, 37, 43, 45, 49, 50, 55, 74, 75, 81, 87, 116, 117, 118, 120, 126, 134], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 118), reportedDerived := true, endToEnd := false },
-  { id := 245, formalized := true, sourceIds := [191], sourceFacts := [12, 127], guideFormula := .or (.or (.and (.and (.atom 117) (.atom 45)) (.atom 12)) (.atom 117)) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 246, formalized := true, sourceIds := [178, 5, 179, 187, 193], sourceFacts := [12, 18, 31, 37, 43, 45, 49, 50, 55, 74, 75, 81, 87, 116, 117, 118, 120, 126, 134], guideFormula := .and (.atom 117) (.atom 18), reportedDerived := true, endToEnd := false },
-  { id := 253, formalized := true, sourceIds := [191], sourceFacts := [12, 127], guideFormula := .or (.atom 127) (.and (.atom 18) (.atom 8)), reportedDerived := true, endToEnd := false },
-  { id := 256, formalized := true, sourceIds := [178, 5, 193, 179, 187], sourceFacts := [12, 18, 31, 37, 43, 45, 49, 50, 55, 74, 75, 81, 87, 116, 117, 118, 120, 126, 134], guideFormula := .neg (.and (.and (.and (.and (.atom 117) (.atom 55)) (.atom 18)) (.atom 140)) (.atom 43)), reportedDerived := false, endToEnd := false },
-  { id := 270, formalized := true, sourceIds := [178], sourceFacts := [12, 18, 55, 117, 118], guideFormula := .atom 18, reportedDerived := true, endToEnd := false },
-  { id := 281, formalized := true, sourceIds := [179, 183, 181, 182, 189], sourceFacts := [12, 31, 33, 39, 45, 81, 117, 120], guideFormula := .and (.atom 31) (.atom 120), reportedDerived := true, endToEnd := false },
-  { id := 291, formalized := true, sourceIds := [5, 179, 178, 181, 182], sourceFacts := [12, 18, 31, 33, 37, 39, 43, 45, 49, 55, 74, 75, 81, 117, 118, 120, 126, 134], guideFormula := .and (.and (.and (.and (.atom 126) (.atom 31)) (.atom 64)) (.atom 117)) (.atom 11), reportedDerived := false, endToEnd := false },
-  { id := 301, formalized := true, sourceIds := [193], sourceFacts := [12, 55, 87, 117], guideFormula := .or (.atom 12) (.and (.and (.and (.atom 87) (.atom 117)) (.atom 45)) (.atom 12)), reportedDerived := true, endToEnd := false },
-  { id := 306, formalized := true, sourceIds := [178, 193, 5, 179, 187], sourceFacts := [12, 18, 31, 37, 43, 45, 49, 50, 55, 74, 75, 81, 87, 116, 117, 118, 120, 126, 134], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 315, formalized := true, sourceIds := [179, 178, 181, 182, 187], sourceFacts := [12, 18, 31, 33, 39, 45, 50, 55, 81, 116, 117, 118, 120], guideFormula := .and (.and (.and (.atom 117) (.atom 45)) (.atom 12)) (.atom 39), reportedDerived := true, endToEnd := false },
-  { id := 333, formalized := true, sourceIds := [5, 100, 141, 1, 2], sourceFacts := [13, 18, 31, 37, 38, 40, 42, 43, 45, 46, 49, 55, 59, 62, 69, 74, 75, 88, 91, 97, 109, 115, 117, 125, 126, 134, 140], guideFormula := .and (.and (.and (.atom 126) (.atom 117)) (.atom 43)) (.atom 98), reportedDerived := false, endToEnd := false },
-  { id := 334, formalized := true, sourceIds := [2, 5, 42, 43, 45], sourceFacts := [13, 24, 25, 31, 37, 38, 40, 42, 43, 49, 55, 65, 70, 74, 75, 86, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .and (.and (.atom 31) (.atom 117)) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 335, formalized := true, sourceIds := [5, 2, 42, 43, 45], sourceFacts := [13, 24, 25, 31, 37, 38, 40, 42, 43, 49, 55, 65, 70, 74, 75, 86, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .and (.and (.and (.atom 126) (.atom 31)) (.atom 117)) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 337, formalized := true, sourceIds := [5, 7, 44, 45, 66], sourceFacts := [13, 25, 31, 37, 40, 42, 43, 49, 55, 70, 74, 75, 86, 116, 117, 126, 134, 140], guideFormula := .and (.atom 116) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 338, formalized := true, sourceIds := [3, 100, 1, 33, 45], sourceFacts := [1, 13, 18, 25, 31, 40, 42, 43, 45, 46, 53, 55, 59, 61, 62, 69, 70, 84, 86, 88, 91, 97, 105, 109, 116, 117, 140], guideFormula := .and (.and (.and (.atom 17) (.atom 117)) (.atom 55)) (.atom 18), reportedDerived := false, endToEnd := false },
-  { id := 339, formalized := true, sourceIds := [1, 3, 4, 7, 33], sourceFacts := [1, 8, 13, 18, 40, 42, 43, 45, 53, 55, 61, 69, 84, 88, 91, 97, 105, 109, 117, 138, 140], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 344, formalized := true, sourceIds := [100, 3, 7, 141, 1], sourceFacts := [13, 18, 40, 42, 43, 45, 46, 55, 59, 62, 69, 88, 91, 97, 109, 117, 140], guideFormula := .and (.and (.atom 55) (.atom 18)) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 349, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.atom 117) (.atom 43), reportedDerived := false, endToEnd := false },
-  { id := 350, formalized := true, sourceIds := [1, 3, 33, 45, 47], sourceFacts := [1, 5, 13, 18, 25, 31, 40, 42, 45, 53, 55, 58, 61, 64, 69, 70, 84, 86, 88, 91, 97, 105, 109, 114, 116, 117, 140], guideFormula := .and (.and (.atom 5) (.atom 117)) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 353, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.atom 42) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 354, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.and (.atom 42) (.atom 119)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 355, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.and (.atom 42) (.atom 25)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 360, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 13, 24, 31, 37, 38, 40, 42, 45, 53, 55, 61, 65, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 361, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 13, 24, 31, 37, 38, 40, 42, 45, 53, 55, 61, 65, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 362, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 13, 24, 31, 37, 38, 40, 42, 45, 53, 55, 61, 65, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.and (.atom 117) (.atom 131)) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 363, formalized := true, sourceIds := [2, 43, 100, 141, 1], sourceFacts := [13, 18, 31, 37, 38, 40, 42, 43, 45, 46, 55, 59, 62, 69, 74, 75, 88, 91, 97, 109, 115, 117, 125, 134, 140], guideFormula := .or (.and (.and (.atom 117) (.atom 43)) (.atom 115)) (.and (.atom 42) (.atom 40)), reportedDerived := true, endToEnd := false },
-  { id := 364, formalized := true, sourceIds := [100, 141, 1, 2, 33], sourceFacts := [1, 13, 18, 31, 37, 38, 40, 42, 43, 45, 46, 53, 55, 59, 61, 62, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .or (.and (.atom 117) (.atom 43)) (.and (.and (.atom 117) (.atom 42)) (.atom 40)), reportedDerived := true, endToEnd := false },
-  { id := 365, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 13, 24, 31, 37, 38, 40, 42, 45, 53, 55, 61, 65, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 366, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 13, 24, 31, 37, 38, 40, 42, 45, 53, 55, 61, 65, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 367, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 13, 24, 31, 37, 38, 40, 42, 45, 53, 55, 61, 65, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.and (.atom 117) (.atom 42)) (.atom 111)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 368, formalized := true, sourceIds := [44, 45, 66, 84, 89], sourceFacts := [13, 15, 22, 23, 25, 31, 36, 40, 42, 55, 70, 74, 75, 86, 91, 96, 104, 109, 113, 116, 117, 134], guideFormula := .and (.and (.and (.and (.and (.atom 116) (.atom 22)) (.atom 117)) (.atom 43)) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 369, formalized := true, sourceIds := [100, 141, 1, 2, 33], sourceFacts := [1, 13, 18, 31, 37, 38, 40, 42, 43, 45, 46, 53, 55, 59, 61, 62, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .or (.atom 117) (.and (.and (.and (.and (.atom 30) (.atom 117)) (.atom 43)) (.atom 42)) (.atom 40)), reportedDerived := true, endToEnd := false },
-  { id := 370, formalized := true, sourceIds := [89, 100, 141, 1, 2], sourceFacts := [13, 18, 22, 23, 25, 31, 37, 38, 40, 42, 43, 45, 46, 55, 59, 62, 69, 74, 75, 88, 91, 97, 104, 109, 115, 117, 125, 134, 140], guideFormula := .or (.and (.atom 22) (.atom 117)) (.and (.and (.and (.atom 117) (.atom 43)) (.atom 42)) (.atom 40)), reportedDerived := true, endToEnd := false },
-  { id := 371, formalized := true, sourceIds := [1, 100, 141, 154, 2], sourceFacts := [1, 13, 18, 31, 37, 38, 40, 42, 43, 45, 46, 53, 55, 59, 61, 62, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.and (.and (.atom 55) (.atom 140)) (.atom 43)) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 372, formalized := true, sourceIds := [100, 3, 7, 141, 1], sourceFacts := [13, 18, 40, 42, 43, 45, 46, 55, 59, 62, 69, 88, 91, 97, 109, 117, 140], guideFormula := .and (.and (.atom 55) (.atom 18)) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 373, formalized := true, sourceIds := [100, 3, 7, 141, 1], sourceFacts := [13, 18, 40, 42, 43, 45, 46, 55, 59, 62, 69, 88, 91, 97, 109, 117, 140], guideFormula := .and (.and (.atom 55) (.atom 18)) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 374, formalized := true, sourceIds := [1, 100, 141, 154, 2], sourceFacts := [1, 13, 18, 31, 37, 38, 40, 42, 43, 45, 46, 53, 55, 59, 61, 62, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.and (.and (.atom 55) (.atom 140)) (.atom 43)) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 375, formalized := true, sourceIds := [1, 33, 45, 84, 89], sourceFacts := [1, 13, 15, 22, 23, 25, 31, 36, 40, 42, 45, 53, 55, 61, 69, 70, 84, 86, 88, 91, 96, 97, 104, 105, 109, 113, 116, 117, 140], guideFormula := .and (.and (.and (.and (.atom 73) (.atom 55)) (.atom 138)) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 376, formalized := true, sourceIds := [1, 33, 45, 84, 89], sourceFacts := [1, 13, 15, 22, 23, 25, 31, 36, 40, 42, 45, 53, 55, 61, 69, 70, 84, 86, 88, 91, 96, 97, 104, 105, 109, 113, 116, 117, 140], guideFormula := .and (.and (.and (.and (.atom 73) (.atom 55)) (.atom 8)) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 377, formalized := true, sourceIds := [1, 154, 2, 33, 45], sourceFacts := [1, 13, 25, 31, 37, 38, 40, 42, 45, 53, 55, 61, 69, 70, 74, 75, 84, 86, 88, 91, 97, 105, 109, 115, 116, 117, 125, 134, 140], guideFormula := .and (.and (.and (.atom 55) (.atom 140)) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 378, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 13, 24, 31, 37, 38, 40, 42, 45, 53, 55, 61, 65, 69, 74, 75, 84, 88, 91, 97, 105, 109, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 73) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 387, formalized := true, sourceIds := [5, 47, 66], sourceFacts := [5, 13, 25, 37, 40, 42, 43, 49, 58, 61, 64, 74, 75, 114, 116, 117, 126, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 388, formalized := false, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 389, formalized := true, sourceIds := [82], sourceFacts := [36, 96, 116], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 390, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 391, formalized := false, sourceIds := [111], sourceFacts := [42, 111], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 392, formalized := false, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 393, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 13), reportedDerived := true, endToEnd := false },
-  { id := 394, formalized := false, sourceIds := [42], sourceFacts := [24, 31, 40, 42, 65, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 395, formalized := true, sourceIds := [2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 31) (.atom 117)) (.atom 91), reportedDerived := true, endToEnd := false },
-  { id := 396, formalized := false, sourceIds := [45], sourceFacts := [25, 31, 40, 42, 55, 70, 86, 116, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 397, formalized := false, sourceIds := [84], sourceFacts := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 398, formalized := false, sourceIds := [86], sourceFacts := [40, 55, 96, 99, 113, 116, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 399, formalized := false, sourceIds := [73], sourceFacts := [13, 31, 39, 40, 42, 74, 100, 117, 134], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 400, formalized := true, sourceIds := [44], sourceFacts := [13, 40, 42, 116, 117], guideFormula := .and (.atom 42) (.atom 13), reportedDerived := true, endToEnd := false },
-  { id := 401, formalized := true, sourceIds := [65], sourceFacts := [31, 40, 52, 55, 60, 117, 140], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 404, formalized := true, sourceIds := [176], sourceFacts := [13, 40, 42, 55, 83, 91, 109, 117], guideFormula := .and (.atom 109) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 405, formalized := true, sourceIds := [1], sourceFacts := [40, 42, 45, 55, 69, 88, 91, 97, 109, 117, 140], guideFormula := .and (.and (.atom 109) (.atom 117)) (.atom 69), reportedDerived := true, endToEnd := false },
-  { id := 406, formalized := true, sourceIds := [141], sourceFacts := [13, 40, 42, 43, 45, 55, 91, 117], guideFormula := .and (.atom 117) (.atom 91), reportedDerived := true, endToEnd := false },
-  { id := 407, formalized := false, sourceIds := [100], sourceFacts := [18, 40, 42, 43, 46, 55, 59, 62, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 408, formalized := true, sourceIds := [177], sourceFacts := [55, 117, 121], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 409, formalized := true, sourceIds := [3], sourceFacts := [18, 55, 117], guideFormula := .and (.atom 55) (.atom 18), reportedDerived := true, endToEnd := false },
-  { id := 410, formalized := true, sourceIds := [94], sourceFacts := [25, 40, 42, 46, 55, 62, 109, 117], guideFormula := .atom 46, reportedDerived := true, endToEnd := false },
-  { id := 411, formalized := true, sourceIds := [171], sourceFacts := [42, 55, 79, 117, 140], guideFormula := .atom 79, reportedDerived := true, endToEnd := false },
-  { id := 412, formalized := true, sourceIds := [89], sourceFacts := [22, 23, 25, 40, 42, 55, 91, 104, 109, 117], guideFormula := .and (.atom 109) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 413, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 414, formalized := true, sourceIds := [157], sourceFacts := [36, 40, 45, 55, 57, 109, 117], guideFormula := .atom 109, reportedDerived := true, endToEnd := false },
-  { id := 415, formalized := true, sourceIds := [162], sourceFacts := [55, 109, 117, 124], guideFormula := .and (.and (.and (.atom 109) (.atom 117)) (.atom 55)) (.atom 124), reportedDerived := true, endToEnd := false },
-  { id := 416, formalized := true, sourceIds := [97], sourceFacts := [40, 55, 59, 97, 109, 117, 122], guideFormula := .and (.atom 109) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 417, formalized := true, sourceIds := [174], sourceFacts := [55, 135, 140], guideFormula := .atom 135, reportedDerived := true, endToEnd := false },
-  { id := 418, formalized := true, sourceIds := [175], sourceFacts := [40, 45, 55, 59, 67, 69, 84, 117, 131, 140], guideFormula := .and (.atom 117) (.atom 69), reportedDerived := true, endToEnd := false },
-  { id := 419, formalized := true, sourceIds := [4], sourceFacts := [8, 55, 138, 140], guideFormula := .and (.atom 138) (.atom 8), reportedDerived := true, endToEnd := false },
-  { id := 420, formalized := true, sourceIds := [7], sourceFacts := [13, 43, 55, 140], guideFormula := .and (.atom 140) (.atom 121), reportedDerived := false, endToEnd := false },
-  { id := 421, formalized := false, sourceIds := [108], sourceFacts := [42, 55, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 422, formalized := false, sourceIds := [118], sourceFacts := [11, 122], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 423, formalized := false, sourceIds := [40], sourceFacts := [11], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 424, formalized := true, sourceIds := [23], sourceFacts := [119, 130], guideFormula := .atom 130, reportedDerived := true, endToEnd := false },
-  { id := 425, formalized := true, sourceIds := [10], sourceFacts := [28, 117], guideFormula := .atom 28, reportedDerived := true, endToEnd := false },
-  { id := 426, formalized := true, sourceIds := [130], sourceFacts := [13, 42, 82, 117], guideFormula := .atom 82, reportedDerived := true, endToEnd := false },
-  { id := 427, formalized := true, sourceIds := [96], sourceFacts := [55, 102, 117, 122], guideFormula := .atom 102, reportedDerived := true, endToEnd := false },
-  { id := 435, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .and (.and (.atom 84) (.atom 117)) (.atom 55), reportedDerived := false, endToEnd := false },
-  { id := 503, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .and (.and (.atom 75) (.atom 31)) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 504, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 511, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 513, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 522, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 553, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .and (.and (.and (.and (.atom 131) (.atom 42)) (.atom 71)) (.atom 25)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 559, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .and (.and (.atom 117) (.atom 122)) (.atom 102), reportedDerived := false, endToEnd := false },
-  { id := 575, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .imp (.atom 116) (.and (.and (.and (.and (.atom 18) (.atom 43)) (.atom 42)) (.atom 115)) (.atom 25)), reportedDerived := false, endToEnd := false },
-  { id := 598, formalized := true, sourceIds := [8], sourceFacts := [55, 109, 117], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 610, formalized := true, sourceIds := [9], sourceFacts := [26], guideFormula := .atom 119, reportedDerived := false, endToEnd := false },
-  { id := 627, formalized := true, sourceIds := [10], sourceFacts := [28, 117], guideFormula := .atom 28, reportedDerived := true, endToEnd := false },
-  { id := 645, formalized := true, sourceIds := [11], sourceFacts := [28, 140], guideFormula := .atom 28, reportedDerived := true, endToEnd := false },
-  { id := 655, formalized := true, sourceIds := [12], sourceFacts := [55, 109, 117, 131], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 131), reportedDerived := true, endToEnd := false },
-  { id := 656, formalized := true, sourceIds := [13], sourceFacts := [13, 40, 42, 43, 46, 55, 59, 62, 117, 131], guideFormula := .and (.atom 117) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 666, formalized := true, sourceIds := [14], sourceFacts := [30, 140], guideFormula := .atom 140, reportedDerived := true, endToEnd := false },
-  { id := 672, formalized := true, sourceIds := [15], sourceFacts := [45, 55, 83, 117], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 83), reportedDerived := true, endToEnd := false },
-  { id := 682, formalized := false, sourceIds := [16], sourceFacts := [117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 696, formalized := true, sourceIds := [17], sourceFacts := [40, 42, 117], guideFormula := .and (.atom 42) (.atom 27), reportedDerived := false, endToEnd := false },
-  { id := 705, formalized := true, sourceIds := [18], sourceFacts := [27, 42, 117], guideFormula := .atom 27, reportedDerived := true, endToEnd := false },
-  { id := 730, formalized := true, sourceIds := [20], sourceFacts := [27], guideFormula := .and (.and (.and (.atom 131) (.atom 25)) (.atom 27)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 737, formalized := true, sourceIds := [21], sourceFacts := [2, 10, 25, 117], guideFormula := .atom 2, reportedDerived := true, endToEnd := false },
-  { id := 745, formalized := true, sourceIds := [22], sourceFacts := [18, 25, 48, 55, 71, 121], guideFormula := .atom 48, reportedDerived := true, endToEnd := false },
-  { id := 748, formalized := true, sourceIds := [40, 41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 773, formalized := true, sourceIds := [28, 30], sourceFacts := [25, 40, 90, 117], guideFormula := .atom 90, reportedDerived := true, endToEnd := false },
-  { id := 807, formalized := true, sourceIds := [18, 21], sourceFacts := [2, 10, 25, 27, 42, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 808, formalized := true, sourceIds := [23], sourceFacts := [119, 130], guideFormula := .neg (.atom 130), reportedDerived := false, endToEnd := false },
-  { id := 816, formalized := true, sourceIds := [24], sourceFacts := [87], guideFormula := .atom 42, reportedDerived := false, endToEnd := false },
-  { id := 817, formalized := true, sourceIds := [25], sourceFacts := [13, 40, 42, 72, 117], guideFormula := .atom 72, reportedDerived := true, endToEnd := false },
-  { id := 818, formalized := true, sourceIds := [24, 25], sourceFacts := [13, 40, 42, 72, 87, 117], guideFormula := .atom 72, reportedDerived := true, endToEnd := false },
-  { id := 827, formalized := true, sourceIds := [26], sourceFacts := [13, 40, 43, 72, 117, 123], guideFormula := .atom 72, reportedDerived := true, endToEnd := false },
-  { id := 835, formalized := true, sourceIds := [27], sourceFacts := [40, 72, 117], guideFormula := .and (.atom 42) (.atom 33), reportedDerived := false, endToEnd := false },
-  { id := 836, formalized := true, sourceIds := [27], sourceFacts := [40, 72, 117], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 847, formalized := true, sourceIds := [25, 26], sourceFacts := [13, 40, 42, 43, 72, 117, 123], guideFormula := .and (.atom 72) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 856, formalized := true, sourceIds := [28], sourceFacts := [25, 40, 90, 117], guideFormula := .neg (.atom 55), reportedDerived := false, endToEnd := false },
-  { id := 863, formalized := true, sourceIds := [29], sourceFacts := [13, 40, 42, 117, 123, 129], guideFormula := .atom 129, reportedDerived := true, endToEnd := false },
-  { id := 869, formalized := true, sourceIds := [30], sourceFacts := [90, 117], guideFormula := .atom 98, reportedDerived := false, endToEnd := false },
-  { id := 892, formalized := true, sourceIds := [28, 25, 26, 27, 29], sourceFacts := [13, 25, 40, 42, 43, 72, 90, 117, 123, 129], guideFormula := .and (.atom 25) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 914, formalized := true, sourceIds := [31], sourceFacts := [17, 31, 40, 55, 109, 117], guideFormula := .and (.and (.atom 31) (.atom 117)) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 920, formalized := true, sourceIds := [31], sourceFacts := [17, 31, 40, 55, 109, 117], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 921, formalized := true, sourceIds := [2, 43, 53, 54], sourceFacts := [5, 13, 25, 31, 34, 37, 38, 40, 42, 58, 64, 71, 74, 75, 91, 115, 117, 125, 131, 134, 140], guideFormula := .atom 115, reportedDerived := true, endToEnd := false },
-  { id := 938, formalized := true, sourceIds := [32], sourceFacts := [76, 123, 140], guideFormula := .and (.atom 123) (.atom 76), reportedDerived := true, endToEnd := false },
-  { id := 959, formalized := true, sourceIds := [31], sourceFacts := [17, 31, 40, 55, 109, 117], guideFormula := .and (.and (.and (.atom 31) (.atom 117)) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 965, formalized := true, sourceIds := [33, 34], sourceFacts := [1, 13, 17, 22, 39, 40, 41, 42, 53, 55, 61, 79, 84, 105, 109, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 969, formalized := true, sourceIds := [5, 13, 26, 36, 37], sourceFacts := [13, 18, 33, 37, 40, 42, 43, 45, 46, 49, 55, 59, 62, 69, 72, 74, 75, 91, 117, 123, 126, 131, 134], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
-  { id := 972, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .and (.and (.atom 61) (.atom 53)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 977, formalized := false, sourceIds := [2, 5, 9, 10, 11], sourceFacts := [13, 26, 28, 31, 37, 38, 40, 42, 43, 49, 74, 75, 91, 115, 117, 125, 126, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 978, formalized := true, sourceIds := [33], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 982, formalized := true, sourceIds := [42], sourceFacts := [24, 31, 40, 42, 65, 117], guideFormula := .atom 65, reportedDerived := true, endToEnd := false },
-  { id := 984, formalized := true, sourceIds := [34], sourceFacts := [17, 22, 39, 41, 79, 117], guideFormula := .and (.atom 17) (.atom 41), reportedDerived := true, endToEnd := false },
-  { id := 992, formalized := true, sourceIds := [40, 41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 996, formalized := true, sourceIds := [31, 33, 35, 154], sourceFacts := [1, 13, 17, 31, 40, 42, 53, 55, 61, 79, 84, 105, 109, 117, 140], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 1004, formalized := true, sourceIds := [31], sourceFacts := [17, 31, 40, 55, 109, 117], guideFormula := .and (.and (.atom 31) (.atom 117)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1005, formalized := true, sourceIds := [35], sourceFacts := [42, 55, 79, 117], guideFormula := .atom 79, reportedDerived := true, endToEnd := false },
-  { id := 1016, formalized := true, sourceIds := [5, 13, 26, 36, 37], sourceFacts := [13, 18, 33, 37, 40, 42, 43, 45, 46, 49, 55, 59, 62, 69, 72, 74, 75, 91, 117, 123, 126, 131, 134], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
-  { id := 1035, formalized := true, sourceIds := [36], sourceFacts := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117], guideFormula := .and (.and (.atom 55) (.atom 43)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 1056, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 18), reportedDerived := true, endToEnd := false },
-  { id := 1058, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.and (.and (.atom 55) (.atom 18)) (.atom 43)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 1068, formalized := true, sourceIds := [38, 13], sourceFacts := [13, 40, 42, 43, 46, 55, 59, 62, 117, 131], guideFormula := .and (.atom 131) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 1084, formalized := true, sourceIds := [39], sourceFacts := [40, 42, 45, 55, 59, 109, 117, 122, 131], guideFormula := .and (.atom 55) (.atom 122), reportedDerived := true, endToEnd := false },
-  { id := 1092, formalized := true, sourceIds := [40], sourceFacts := [11], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 1093, formalized := true, sourceIds := [41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 1097, formalized := true, sourceIds := [40, 41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 1103, formalized := true, sourceIds := [40, 41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 1107, formalized := true, sourceIds := [41], sourceFacts := [11, 42, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1110, formalized := true, sourceIds := [41, 40], sourceFacts := [11, 42, 117], guideFormula := .and (.atom 117) (.atom 11), reportedDerived := true, endToEnd := false },
-  { id := 1151, formalized := true, sourceIds := [2, 5, 34, 42, 43], sourceFacts := [13, 17, 22, 24, 31, 37, 38, 39, 40, 41, 42, 43, 49, 65, 74, 75, 79, 91, 115, 117, 125, 126, 134, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1155, formalized := true, sourceIds := [42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1156, formalized := true, sourceIds := [42], sourceFacts := [24, 31, 40, 42, 65, 117], guideFormula := .atom 65, reportedDerived := true, endToEnd := false },
-  { id := 1157, formalized := true, sourceIds := [43, 2], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 31) (.atom 38)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1166, formalized := true, sourceIds := [42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134], guideFormula := .and (.atom 38) (.atom 65), reportedDerived := true, endToEnd := false },
-  { id := 1167, formalized := true, sourceIds := [42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1169, formalized := false, sourceIds := [5, 2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 43, 49, 74, 75, 91, 115, 117, 125, 126, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1174, formalized := true, sourceIds := [2, 42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.atom 125) (.atom 24), reportedDerived := true, endToEnd := false },
-  { id := 1176, formalized := true, sourceIds := [34], sourceFacts := [17, 22, 39, 41, 79, 117], guideFormula := .atom 39, reportedDerived := true, endToEnd := false },
-  { id := 1190, formalized := true, sourceIds := [44], sourceFacts := [13, 40, 42, 116, 117], guideFormula := .neg (.and (.and (.and (.atom 42) (.atom 13)) (.atom 39)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 1196, formalized := true, sourceIds := [44], sourceFacts := [13, 40, 42, 116, 117], guideFormula := .and (.and (.and (.atom 117) (.atom 42)) (.atom 13)) (.atom 39), reportedDerived := false, endToEnd := false },
-  { id := 1206, formalized := true, sourceIds := [45, 34], sourceFacts := [17, 22, 25, 31, 39, 40, 41, 42, 55, 70, 79, 86, 116, 117], guideFormula := .neg (.and (.and (.atom 31) (.atom 117)) (.atom 42)), reportedDerived := false, endToEnd := false },
-  { id := 1207, formalized := true, sourceIds := [5, 2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 43, 49, 74, 75, 91, 115, 117, 125, 126, 134, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1209, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.atom 49) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1211, formalized := true, sourceIds := [45], sourceFacts := [25, 31, 40, 42, 55, 70, 86, 116, 117], guideFormula := .atom 70, reportedDerived := true, endToEnd := false },
-  { id := 1216, formalized := true, sourceIds := [34], sourceFacts := [17, 22, 39, 41, 79, 117], guideFormula := .atom 39, reportedDerived := true, endToEnd := false },
-  { id := 1218, formalized := true, sourceIds := [34, 45], sourceFacts := [17, 22, 25, 31, 39, 40, 41, 42, 55, 70, 79, 86, 116, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1219, formalized := true, sourceIds := [34], sourceFacts := [17, 22, 39, 41, 79, 117], guideFormula := .and (.atom 17) (.atom 41), reportedDerived := true, endToEnd := false },
-  { id := 1223, formalized := true, sourceIds := [46], sourceFacts := [25, 33, 40, 73, 117], guideFormula := .and (.and (.and (.and (.and (.atom 5) (.atom 114)) (.atom 115)) (.atom 71)) (.atom 33)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 1226, formalized := true, sourceIds := [46], sourceFacts := [25, 33, 40, 73, 117], guideFormula := .and (.atom 73) (.atom 33), reportedDerived := true, endToEnd := false },
-  { id := 1236, formalized := true, sourceIds := [40, 41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 1237, formalized := true, sourceIds := [2], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .atom 140, reportedDerived := true, endToEnd := false },
-  { id := 1243, formalized := true, sourceIds := [45], sourceFacts := [25, 31, 40, 42, 55, 70, 86, 116, 117], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 1245, formalized := true, sourceIds := [2, 43, 44, 42, 45], sourceFacts := [13, 24, 25, 31, 37, 38, 40, 42, 55, 65, 70, 74, 75, 86, 91, 115, 116, 117, 125, 134, 140], guideFormula := .and (.atom 42) (.atom 13), reportedDerived := true, endToEnd := false },
-  { id := 1250, formalized := true, sourceIds := [2, 42, 43, 44, 45], sourceFacts := [13, 24, 25, 31, 37, 38, 40, 42, 55, 65, 70, 74, 75, 86, 91, 115, 116, 117, 125, 134, 140], guideFormula := .and (.atom 117) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1253, formalized := true, sourceIds := [47, 49, 50, 51, 52], sourceFacts := [3, 4, 5, 7, 13, 21, 22, 31, 33, 34, 40, 42, 50, 51, 56, 58, 61, 64, 114, 117, 121, 128], guideFormula := .and (.and (.atom 126) (.atom 66)) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 1254, formalized := true, sourceIds := [47, 49, 50, 52, 53], sourceFacts := [3, 4, 5, 13, 22, 25, 31, 33, 34, 40, 42, 50, 51, 56, 58, 61, 64, 71, 114, 115, 117, 121, 128, 131], guideFormula := .or (.atom 117) (.atom 5), reportedDerived := true, endToEnd := false },
-  { id := 1255, formalized := true, sourceIds := [47, 49, 50, 51, 52], sourceFacts := [3, 4, 5, 7, 13, 21, 22, 31, 33, 34, 40, 42, 50, 51, 56, 58, 61, 64, 114, 117, 121, 128], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1263, formalized := true, sourceIds := [53, 54, 55], sourceFacts := [5, 25, 29, 33, 34, 40, 58, 64, 71, 115, 117, 121, 131], guideFormula := .and (.atom 131) (.atom 71), reportedDerived := true, endToEnd := false },
-  { id := 1264, formalized := true, sourceIds := [47, 49, 50, 51, 52], sourceFacts := [3, 4, 5, 7, 13, 21, 22, 31, 33, 34, 40, 42, 50, 51, 56, 58, 61, 64, 114, 117, 121, 128], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1269, formalized := true, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .and (.atom 58) (.atom 61), reportedDerived := true, endToEnd := false },
-  { id := 1270, formalized := true, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .and (.atom 58) (.atom 61), reportedDerived := true, endToEnd := false },
-  { id := 1274, formalized := true, sourceIds := [47, 52], sourceFacts := [5, 22, 33, 40, 42, 56, 58, 61, 64, 114, 117, 121], guideFormula := .and (.atom 117) (.atom 131), reportedDerived := false, endToEnd := false },
-  { id := 1277, formalized := true, sourceIds := [49], sourceFacts := [3, 5, 13, 31, 40, 42, 50, 58, 61, 117, 128], guideFormula := .atom 50, reportedDerived := true, endToEnd := false },
-  { id := 1278, formalized := true, sourceIds := [50], sourceFacts := [4, 5, 31, 34, 40, 42, 50, 51, 61, 117], guideFormula := .atom 4, reportedDerived := true, endToEnd := false },
-  { id := 1283, formalized := true, sourceIds := [51], sourceFacts := [7, 21, 22, 117], guideFormula := .atom 21, reportedDerived := true, endToEnd := false },
-  { id := 1284, formalized := true, sourceIds := [51], sourceFacts := [7, 21, 22, 117], guideFormula := .and (.atom 22) (.atom 121), reportedDerived := false, endToEnd := false },
-  { id := 1285, formalized := true, sourceIds := [51], sourceFacts := [7, 21, 22, 117], guideFormula := .atom 22, reportedDerived := true, endToEnd := false },
-  { id := 1290, formalized := false, sourceIds := [52], sourceFacts := [5, 22, 33, 40, 56, 61, 117, 121], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1291, formalized := true, sourceIds := [52], sourceFacts := [5, 22, 33, 40, 56, 61, 117, 121], guideFormula := .and (.atom 56) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1295, formalized := true, sourceIds := [53], sourceFacts := [5, 25, 34, 40, 58, 64, 71, 115, 117, 131], guideFormula := .and (.atom 34) (.atom 121), reportedDerived := false, endToEnd := false },
-  { id := 1313, formalized := true, sourceIds := [52, 55], sourceFacts := [5, 22, 25, 29, 33, 40, 56, 61, 64, 71, 117, 121, 131], guideFormula := .atom 33, reportedDerived := true, endToEnd := false },
-  { id := 1319, formalized := true, sourceIds := [23], sourceFacts := [119, 130], guideFormula := .atom 130, reportedDerived := true, endToEnd := false },
-  { id := 1324, formalized := true, sourceIds := [40, 41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 1329, formalized := true, sourceIds := [56], sourceFacts := [39, 55, 117, 121], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 1330, formalized := false, sourceIds := [54, 55], sourceFacts := [5, 25, 29, 33, 34, 40, 58, 64, 71, 115, 117, 121, 131], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1332, formalized := true, sourceIds := [54, 55, 53], sourceFacts := [5, 25, 29, 33, 34, 40, 58, 64, 71, 115, 117, 121, 131], guideFormula := .and (.and (.atom 64) (.atom 117)) (.atom 121), reportedDerived := true, endToEnd := false },
-  { id := 1333, formalized := true, sourceIds := [54, 55], sourceFacts := [5, 25, 29, 33, 34, 40, 58, 64, 71, 115, 117, 121, 131], guideFormula := .and (.and (.and (.atom 117) (.atom 131)) (.atom 115)) (.atom 71), reportedDerived := true, endToEnd := false },
-  { id := 1348, formalized := false, sourceIds := [56], sourceFacts := [39, 55, 117, 121], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1349, formalized := true, sourceIds := [56], sourceFacts := [39, 55, 117, 121], guideFormula := .and (.atom 64) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 1357, formalized := true, sourceIds := [52], sourceFacts := [5, 22, 33, 40, 56, 61, 117, 121], guideFormula := .atom 33, reportedDerived := true, endToEnd := false },
-  { id := 1360, formalized := true, sourceIds := [40, 41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 1364, formalized := true, sourceIds := [52, 53], sourceFacts := [5, 22, 25, 33, 34, 40, 56, 58, 61, 64, 71, 115, 117, 121, 131], guideFormula := .atom 121, reportedDerived := true, endToEnd := false },
-  { id := 1369, formalized := true, sourceIds := [53], sourceFacts := [5, 25, 34, 40, 58, 64, 71, 115, 117, 131], guideFormula := .atom 131, reportedDerived := true, endToEnd := false },
-  { id := 1375, formalized := true, sourceIds := [52, 53], sourceFacts := [5, 22, 25, 33, 34, 40, 56, 58, 61, 64, 71, 115, 117, 121, 131], guideFormula := .and (.atom 5) (.atom 98), reportedDerived := false, endToEnd := false },
-  { id := 1396, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.and (.and (.atom 75) (.atom 117)) (.atom 55)) (.atom 43)) (.atom 11), reportedDerived := false, endToEnd := false },
-  { id := 1399, formalized := false, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1411, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.atom 31) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 1413, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.and (.atom 117) (.atom 55)) (.atom 18)) (.atom 11), reportedDerived := false, endToEnd := false },
-  { id := 1425, formalized := true, sourceIds := [13, 38, 39, 53, 54], sourceFacts := [5, 13, 25, 34, 40, 42, 43, 45, 46, 55, 58, 59, 62, 64, 71, 109, 115, 117, 122, 131], guideFormula := .and (.atom 131) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1427, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.atom 31) (.atom 116), reportedDerived := false, endToEnd := false },
-  { id := 1428, formalized := true, sourceIds := [31, 13, 33, 36, 37], sourceFacts := [1, 13, 17, 18, 31, 33, 40, 42, 43, 45, 46, 53, 55, 59, 61, 62, 69, 84, 91, 105, 109, 117, 131], guideFormula := .neg (.and (.and (.atom 17) (.atom 55)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 1434, formalized := true, sourceIds := [2, 43, 53, 54], sourceFacts := [5, 13, 25, 31, 34, 37, 38, 40, 42, 58, 64, 71, 74, 75, 91, 115, 117, 125, 131, 134, 140], guideFormula := .and (.atom 115) (.atom 111), reportedDerived := false, endToEnd := false },
-  { id := 1447, formalized := true, sourceIds := [2, 5, 9, 10, 11], sourceFacts := [13, 26, 28, 31, 37, 38, 40, 42, 43, 49, 74, 75, 91, 115, 117, 125, 126, 134, 140], guideFormula := .atom 98, reportedDerived := false, endToEnd := false },
-  { id := 1450, formalized := true, sourceIds := [12, 13, 38, 39, 41], sourceFacts := [11, 13, 40, 42, 43, 45, 46, 55, 59, 62, 109, 117, 122, 131], guideFormula := .and (.and (.atom 117) (.atom 131)) (.atom 11), reportedDerived := true, endToEnd := false },
-  { id := 1459, formalized := false, sourceIds := [57], sourceFacts := [40, 55, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1460, formalized := true, sourceIds := [58], sourceFacts := [4, 12, 45, 55, 84, 91, 97, 109, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1472, formalized := true, sourceIds := [58, 57], sourceFacts := [4, 12, 40, 45, 55, 84, 91, 97, 109, 117], guideFormula := .and (.atom 117) (.atom 45), reportedDerived := true, endToEnd := false },
-  { id := 1528, formalized := true, sourceIds := [59], sourceFacts := [13, 25, 40, 42, 55, 79, 109, 117, 124], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 1530, formalized := true, sourceIds := [59], sourceFacts := [13, 25, 40, 42, 55, 79, 109, 117, 124], guideFormula := .and (.atom 42) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1540, formalized := true, sourceIds := [59], sourceFacts := [13, 25, 40, 42, 55, 79, 109, 117, 124], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1541, formalized := true, sourceIds := [44, 45, 62, 66, 69], sourceFacts := [13, 25, 31, 40, 42, 52, 54, 55, 66, 70, 71, 73, 74, 75, 86, 95, 116, 117, 126, 132, 134], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 1550, formalized := true, sourceIds := [58, 60], sourceFacts := [4, 12, 14, 40, 44, 45, 55, 59, 67, 69, 84, 91, 97, 109, 117, 131], guideFormula := .and (.atom 67) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1563, formalized := true, sourceIds := [61], sourceFacts := [40, 42, 55, 69, 91, 94, 106, 109, 117, 121], guideFormula := .and (.atom 106) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1568, formalized := true, sourceIds := [61], sourceFacts := [40, 42, 55, 69, 91, 94, 106, 109, 117, 121], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1569, formalized := true, sourceIds := [61], sourceFacts := [40, 42, 55, 69, 91, 94, 106, 109, 117, 121], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1581, formalized := true, sourceIds := [62], sourceFacts := [40, 52, 54, 71, 95, 116, 117], guideFormula := .atom 54, reportedDerived := true, endToEnd := false },
-  { id := 1587, formalized := true, sourceIds := [63, 61], sourceFacts := [31, 40, 42, 52, 55, 69, 74, 91, 93, 94, 106, 109, 117, 121, 134], guideFormula := .and (.and (.atom 52) (.atom 117)) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 1597, formalized := true, sourceIds := [62, 63], sourceFacts := [31, 40, 52, 54, 55, 71, 74, 93, 95, 116, 117, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1598, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .neg (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 1602, formalized := true, sourceIds := [63], sourceFacts := [31, 40, 52, 55, 74, 93, 117, 134], guideFormula := .or (.and (.and (.atom 52) (.atom 117)) (.atom 55)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1604, formalized := true, sourceIds := [63], sourceFacts := [31, 40, 52, 55, 74, 93, 117, 134], guideFormula := .and (.and (.and (.and (.and (.atom 126) (.atom 31)) (.atom 52)) (.atom 117)) (.atom 55)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 1605, formalized := true, sourceIds := [63], sourceFacts := [31, 40, 52, 55, 74, 93, 117, 134], guideFormula := .and (.and (.and (.atom 117) (.atom 55)) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 1611, formalized := true, sourceIds := [65], sourceFacts := [31, 40, 52, 55, 60, 117, 140], guideFormula := .and (.and (.atom 52) (.atom 117)) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 1613, formalized := true, sourceIds := [65], sourceFacts := [31, 40, 52, 55, 60, 117, 140], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1615, formalized := true, sourceIds := [65], sourceFacts := [31, 40, 52, 55, 60, 117, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1623, formalized := true, sourceIds := [60], sourceFacts := [14, 40, 44, 45, 55, 59, 67, 69, 84, 117, 131], guideFormula := .and (.and (.atom 84) (.atom 117)) (.atom 43), reportedDerived := false, endToEnd := false },
-  { id := 1627, formalized := true, sourceIds := [60], sourceFacts := [14, 40, 44, 45, 55, 59, 67, 69, 84, 117, 131], guideFormula := .and (.atom 67) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1636, formalized := true, sourceIds := [65], sourceFacts := [31, 40, 52, 55, 60, 117, 140], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 1637, formalized := true, sourceIds := [65], sourceFacts := [31, 40, 52, 55, 60, 117, 140], guideFormula := .neg (.atom 55), reportedDerived := false, endToEnd := false },
-  { id := 1655, formalized := true, sourceIds := [5, 67, 68, 69, 70], sourceFacts := [5, 13, 35, 37, 40, 42, 43, 49, 52, 55, 66, 73, 74, 75, 111, 116, 117, 126, 132, 134], guideFormula := .and (.atom 126) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1657, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .and (.and (.and (.and (.atom 126) (.atom 31)) (.atom 117)) (.atom 115)) (.atom 25), reportedDerived := false, endToEnd := false },
-  { id := 1660, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .neg (.and (.and (.and (.atom 126) (.atom 31)) (.atom 117)) (.atom 98)), reportedDerived := false, endToEnd := false },
-  { id := 1662, formalized := true, sourceIds := [68, 69, 70, 5, 67], sourceFacts := [5, 13, 35, 37, 40, 42, 43, 49, 52, 55, 66, 73, 74, 75, 111, 116, 117, 126, 132, 134], guideFormula := .and (.atom 126) (.atom 66), reportedDerived := true, endToEnd := false },
-  { id := 1667, formalized := false, sourceIds := [67, 5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1668, formalized := true, sourceIds := [68, 69, 70, 5, 67], sourceFacts := [5, 13, 35, 37, 40, 42, 43, 49, 52, 55, 66, 73, 74, 75, 111, 116, 117, 126, 132, 134], guideFormula := .and (.atom 126) (.atom 66), reportedDerived := true, endToEnd := false },
-  { id := 1684, formalized := true, sourceIds := [67], sourceFacts := [37, 75, 117, 126], guideFormula := .and (.atom 75) (.atom 37), reportedDerived := true, endToEnd := false },
-  { id := 1686, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.atom 75) (.atom 74)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1692, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.atom 134) (.atom 74), reportedDerived := true, endToEnd := false },
-  { id := 1693, formalized := true, sourceIds := [67], sourceFacts := [37, 75, 117, 126], guideFormula := .neg (.atom 37), reportedDerived := false, endToEnd := false },
-  { id := 1694, formalized := true, sourceIds := [62], sourceFacts := [40, 52, 54, 71, 95, 116, 117], guideFormula := .and (.and (.and (.and (.atom 126) (.atom 54)) (.atom 73)) (.atom 31)) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 1695, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.and (.atom 75) (.atom 37)) (.atom 74)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1697, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1699, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1701, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 131, reportedDerived := false, endToEnd := false },
-  { id := 1702, formalized := true, sourceIds := [66, 70], sourceFacts := [5, 13, 25, 35, 40, 42, 52, 66, 73, 74, 75, 111, 116, 117, 126, 134], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 1716, formalized := true, sourceIds := [67, 5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.atom 75) (.atom 134)) (.atom 74), reportedDerived := true, endToEnd := false },
-  { id := 1718, formalized := false, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1719, formalized := false, sourceIds := [67, 5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1722, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.atom 74) (.atom 49)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1737, formalized := true, sourceIds := [62], sourceFacts := [40, 52, 54, 71, 95, 116, 117], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := false, endToEnd := false },
-  { id := 1742, formalized := true, sourceIds := [68, 69, 70, 62], sourceFacts := [5, 13, 35, 40, 42, 52, 54, 55, 66, 71, 73, 75, 95, 111, 116, 117, 126, 132, 134], guideFormula := .and (.and (.atom 126) (.atom 73)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1744, formalized := true, sourceIds := [68], sourceFacts := [5, 40, 66, 73, 75, 117, 126, 134], guideFormula := .and (.and (.and (.atom 126) (.atom 55)) (.atom 33)) (.atom 98), reportedDerived := false, endToEnd := false },
-  { id := 1745, formalized := true, sourceIds := [69], sourceFacts := [40, 55, 66, 73, 75, 116, 117, 126, 132], guideFormula := .and (.atom 132) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1746, formalized := true, sourceIds := [70], sourceFacts := [5, 13, 35, 40, 42, 52, 66, 73, 75, 111, 117, 126], guideFormula := .and (.atom 35) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1747, formalized := true, sourceIds := [68], sourceFacts := [5, 40, 66, 73, 75, 117, 126, 134], guideFormula := .and (.and (.atom 73) (.atom 117)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1749, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .imp (.atom 117) (.and (.and (.and (.and (.atom 126) (.atom 73)) (.atom 117)) (.atom 115)) (.atom 25)), reportedDerived := false, endToEnd := false },
-  { id := 1750, formalized := true, sourceIds := [68, 69, 70, 62], sourceFacts := [5, 13, 35, 40, 42, 52, 54, 55, 66, 71, 73, 75, 95, 111, 116, 117, 126, 132, 134], guideFormula := .and (.and (.atom 126) (.atom 66)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1753, formalized := true, sourceIds := [2, 42, 43, 45, 48], sourceFacts := [5, 13, 24, 25, 31, 37, 38, 40, 42, 55, 65, 66, 70, 74, 75, 86, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1758, formalized := true, sourceIds := [52], sourceFacts := [5, 22, 33, 40, 56, 61, 117, 121], guideFormula := .atom 33, reportedDerived := true, endToEnd := false },
-  { id := 1759, formalized := true, sourceIds := [42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134], guideFormula := .and (.and (.atom 38) (.atom 65)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1760, formalized := true, sourceIds := [43, 5, 2], sourceFacts := [13, 31, 37, 38, 40, 42, 43, 49, 74, 75, 91, 115, 117, 125, 126, 134, 140], guideFormula := .and (.and (.and (.atom 31) (.atom 38)) (.atom 117)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1764, formalized := true, sourceIds := [43], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134], guideFormula := .atom 38, reportedDerived := true, endToEnd := false },
-  { id := 1765, formalized := true, sourceIds := [42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1767, formalized := true, sourceIds := [2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.atom 125) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1768, formalized := false, sourceIds := [42], sourceFacts := [24, 31, 40, 42, 65, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1774, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.atom 31) (.atom 117)) (.atom 115), reportedDerived := false, endToEnd := false },
-  { id := 1776, formalized := false, sourceIds := [5, 2, 43], sourceFacts := [13, 31, 37, 38, 40, 42, 43, 49, 74, 75, 91, 115, 117, 125, 126, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1777, formalized := true, sourceIds := [72], sourceFacts := [5, 6, 31, 117], guideFormula := .and (.and (.atom 6) (.atom 5)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1778, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
-  { id := 1782, formalized := true, sourceIds := [44], sourceFacts := [13, 40, 42, 116, 117], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 39), reportedDerived := false, endToEnd := false },
-  { id := 1786, formalized := true, sourceIds := [73], sourceFacts := [13, 31, 39, 40, 42, 74, 100, 117, 134], guideFormula := .atom 100, reportedDerived := true, endToEnd := false },
-  { id := 1789, formalized := false, sourceIds := [74], sourceFacts := [13, 31, 40, 42, 74, 115, 117, 134, 139], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1790, formalized := true, sourceIds := [5, 74], sourceFacts := [13, 31, 37, 40, 42, 43, 49, 74, 75, 115, 117, 126, 134, 139], guideFormula := .and (.atom 115) (.atom 111), reportedDerived := false, endToEnd := false },
-  { id := 1793, formalized := true, sourceIds := [73], sourceFacts := [13, 31, 39, 40, 42, 74, 100, 117, 134], guideFormula := .atom 100, reportedDerived := true, endToEnd := false },
-  { id := 1794, formalized := true, sourceIds := [73], sourceFacts := [13, 31, 39, 40, 42, 74, 100, 117, 134], guideFormula := .atom 100, reportedDerived := true, endToEnd := false },
-  { id := 1799, formalized := true, sourceIds := [2, 42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.atom 125) (.atom 24), reportedDerived := true, endToEnd := false },
-  { id := 1800, formalized := true, sourceIds := [2, 42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.atom 125) (.atom 24), reportedDerived := true, endToEnd := false },
-  { id := 1802, formalized := true, sourceIds := [2, 43, 42], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.and (.atom 125) (.atom 24)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1807, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 43, 49, 65, 74, 75, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1809, formalized := true, sourceIds := [2, 42, 43], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 65, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.atom 125) (.atom 24), reportedDerived := true, endToEnd := false },
-  { id := 1811, formalized := true, sourceIds := [47, 48], sourceFacts := [5, 31, 40, 42, 58, 61, 64, 66, 74, 75, 114, 117, 126, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1812, formalized := true, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 43, 49, 65, 74, 75, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .atom 96, reportedDerived := false, endToEnd := false },
-  { id := 1814, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 43, 49, 65, 74, 75, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1815, formalized := true, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .and (.atom 58) (.atom 61), reportedDerived := true, endToEnd := false },
-  { id := 1818, formalized := true, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .and (.atom 21) (.atom 22), reportedDerived := false, endToEnd := false },
-  { id := 1819, formalized := false, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1820, formalized := false, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1821, formalized := true, sourceIds := [48, 47], sourceFacts := [5, 31, 40, 42, 58, 61, 64, 66, 74, 75, 114, 117, 126, 134], guideFormula := .and (.atom 117) (.atom 131), reportedDerived := false, endToEnd := false },
-  { id := 1822, formalized := true, sourceIds := [52], sourceFacts := [5, 22, 33, 40, 56, 61, 117, 121], guideFormula := .and (.and (.atom 114) (.atom 115)) (.atom 71), reportedDerived := false, endToEnd := false },
-  { id := 1824, formalized := true, sourceIds := [47, 48], sourceFacts := [5, 31, 40, 42, 58, 61, 64, 66, 74, 75, 114, 117, 126, 134], guideFormula := .and (.atom 117) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1837, formalized := true, sourceIds := [45], sourceFacts := [25, 31, 40, 42, 55, 70, 86, 116, 117], guideFormula := .and (.atom 86) (.atom 70), reportedDerived := true, endToEnd := false },
-  { id := 1840, formalized := true, sourceIds := [75], sourceFacts := [13, 20, 22, 31, 40, 42, 69, 70, 86, 117, 121], guideFormula := .and (.atom 20) (.atom 22), reportedDerived := true, endToEnd := false },
-  { id := 1841, formalized := true, sourceIds := [45, 75, 76], sourceFacts := [13, 20, 22, 25, 31, 39, 40, 42, 55, 69, 70, 86, 116, 117, 121, 126], guideFormula := .atom 31, reportedDerived := true, endToEnd := false },
-  { id := 1845, formalized := true, sourceIds := [45], sourceFacts := [25, 31, 40, 42, 55, 70, 86, 116, 117], guideFormula := .and (.atom 86) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1846, formalized := true, sourceIds := [76], sourceFacts := [13, 31, 39, 40, 42, 86, 117, 126], guideFormula := .and (.and (.and (.atom 126) (.atom 31)) (.atom 86)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1847, formalized := true, sourceIds := [45, 75, 76], sourceFacts := [13, 20, 22, 25, 31, 39, 40, 42, 55, 69, 70, 86, 116, 117, 121, 126], guideFormula := .and (.atom 86) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1857, formalized := true, sourceIds := [5, 66, 78], sourceFacts := [13, 25, 37, 40, 42, 43, 49, 74, 75, 89, 112, 116, 117, 126, 134, 141], guideFormula := .and (.and (.atom 126) (.atom 31)) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 1861, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .and (.atom 117) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 1863, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.atom 117) (.atom 115)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 1864, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .and (.atom 42) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1869, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .neg (.and (.atom 116) (.atom 117)), reportedDerived := false, endToEnd := false },
-  { id := 1872, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1876, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 1879, formalized := true, sourceIds := [60], sourceFacts := [14, 40, 44, 45, 55, 59, 67, 69, 84, 117, 131], guideFormula := .atom 131, reportedDerived := true, endToEnd := false },
-  { id := 1888, formalized := true, sourceIds := [5, 66, 78], sourceFacts := [13, 25, 37, 40, 42, 43, 49, 74, 75, 89, 112, 116, 117, 126, 134, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1894, formalized := false, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1896, formalized := true, sourceIds := [5, 64], sourceFacts := [16, 37, 40, 43, 49, 68, 74, 75, 112, 117, 126, 134], guideFormula := .neg (.atom 24), reportedDerived := false, endToEnd := false },
-  { id := 1897, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.atom 42) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 1898, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.atom 117) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 1899, formalized := true, sourceIds := [78], sourceFacts := [40, 75, 89, 112, 117, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1902, formalized := true, sourceIds := [78], sourceFacts := [40, 75, 89, 112, 117, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1903, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .neg (.and (.and (.atom 117) (.atom 55)) (.atom 8)), reportedDerived := false, endToEnd := false },
-  { id := 1905, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 43, 49, 65, 74, 75, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1906, formalized := false, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1915, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 112, reportedDerived := true, endToEnd := false },
-  { id := 1917, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 1919, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .neg (.atom 24), reportedDerived := false, endToEnd := false },
-  { id := 1920, formalized := true, sourceIds := [78], sourceFacts := [40, 75, 89, 112, 117, 141], guideFormula := .and (.atom 89) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 1922, formalized := true, sourceIds := [78], sourceFacts := [40, 75, 89, 112, 117, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1924, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.and (.atom 117) (.atom 115)) (.atom 111), reportedDerived := false, endToEnd := false },
-  { id := 1926, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.and (.and (.and (.atom 31) (.atom 89)) (.atom 141)) (.atom 117)) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 1927, formalized := false, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1929, formalized := false, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1930, formalized := true, sourceIds := [78], sourceFacts := [40, 75, 89, 112, 117, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1935, formalized := true, sourceIds := [78], sourceFacts := [40, 75, 89, 112, 117, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1939, formalized := true, sourceIds := [5, 66, 78], sourceFacts := [13, 25, 37, 40, 42, 43, 49, 74, 75, 89, 112, 116, 117, 126, 134, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1943, formalized := true, sourceIds := [5, 66, 78], sourceFacts := [13, 25, 37, 40, 42, 43, 49, 74, 75, 89, 112, 116, 117, 126, 134, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1945, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 43, 49, 65, 74, 75, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1947, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 1959, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 43, 49, 65, 74, 75, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1964, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .neg (.and (.and (.and (.and (.atom 117) (.atom 55)) (.atom 11)) (.atom 85)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 1965, formalized := true, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 43, 49, 65, 74, 75, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .atom 11, reportedDerived := false, endToEnd := false },
-  { id := 1980, formalized := true, sourceIds := [49], sourceFacts := [3, 5, 13, 31, 40, 42, 50, 58, 61, 117, 128], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 1985, formalized := true, sourceIds := [2, 43, 74], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 139, 140], guideFormula := .and (.atom 115) (.atom 11), reportedDerived := false, endToEnd := false },
-  { id := 1989, formalized := false, sourceIds := [49], sourceFacts := [3, 5, 13, 31, 40, 42, 50, 58, 61, 117, 128], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 1992, formalized := true, sourceIds := [50, 47], sourceFacts := [4, 5, 31, 34, 40, 42, 50, 51, 58, 61, 64, 114, 117], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 1993, formalized := true, sourceIds := [50], sourceFacts := [4, 5, 31, 34, 40, 42, 50, 51, 61, 117], guideFormula := .imp (.and (.atom 42) (.atom 40)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 1999, formalized := true, sourceIds := [5, 47, 49, 50], sourceFacts := [3, 4, 5, 13, 31, 34, 37, 40, 42, 43, 49, 50, 51, 58, 61, 64, 74, 75, 114, 117, 126, 128, 134], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 2003, formalized := true, sourceIds := [44, 45, 62, 66, 69], sourceFacts := [13, 25, 31, 40, 42, 52, 54, 55, 66, 70, 71, 73, 74, 75, 86, 95, 116, 117, 126, 132, 134], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 2041, formalized := true, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [13, 24, 31, 37, 38, 40, 42, 43, 49, 65, 74, 75, 91, 115, 116, 117, 125, 126, 134, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 2082, formalized := true, sourceIds := [49], sourceFacts := [3, 5, 13, 31, 40, 42, 50, 58, 61, 117, 128], guideFormula := .neg (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 2083, formalized := true, sourceIds := [49], sourceFacts := [3, 5, 13, 31, 40, 42, 50, 58, 61, 117, 128], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 2086, formalized := true, sourceIds := [49, 79], sourceFacts := [3, 5, 13, 31, 40, 42, 50, 58, 61, 117, 128, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 2088, formalized := true, sourceIds := [79], sourceFacts := [50, 117, 140], guideFormula := .atom 73, reportedDerived := false, endToEnd := false },
-  { id := 2099, formalized := true, sourceIds := [39], sourceFacts := [40, 42, 45, 55, 59, 109, 117, 122, 131], guideFormula := .and (.and (.atom 55) (.atom 45)) (.atom 122), reportedDerived := true, endToEnd := false },
-  { id := 2127, formalized := false, sourceIds := [14], sourceFacts := [30, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 2136, formalized := true, sourceIds := [80], sourceFacts := [30, 42, 55, 117], guideFormula := .and (.atom 30) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2143, formalized := true, sourceIds := [81], sourceFacts := [9, 30], guideFormula := .and (.atom 30) (.atom 9), reportedDerived := true, endToEnd := false },
-  { id := 2144, formalized := true, sourceIds := [5, 7, 14, 35, 37], sourceFacts := [13, 18, 30, 33, 37, 40, 42, 43, 49, 55, 59, 62, 74, 75, 79, 117, 126, 134, 140], guideFormula := .neg (.atom 24), reportedDerived := false, endToEnd := false },
-  { id := 2153, formalized := true, sourceIds := [80, 83], sourceFacts := [13, 30, 36, 40, 42, 55, 116, 117], guideFormula := .and (.atom 117) (.atom 131), reportedDerived := false, endToEnd := false },
-  { id := 2162, formalized := true, sourceIds := [82], sourceFacts := [36, 96, 116], guideFormula := .atom 36, reportedDerived := true, endToEnd := false },
-  { id := 2163, formalized := true, sourceIds := [82], sourceFacts := [36, 96, 116], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 2169, formalized := true, sourceIds := [83], sourceFacts := [13, 36, 40, 42, 55, 116, 117], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2170, formalized := true, sourceIds := [83], sourceFacts := [13, 36, 40, 42, 55, 116, 117], guideFormula := .and (.atom 55) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2178, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.atom 95) (.atom 18), reportedDerived := false, endToEnd := false },
-  { id := 2188, formalized := true, sourceIds := [84], sourceFacts := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 2189, formalized := true, sourceIds := [84], sourceFacts := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117], guideFormula := .and (.atom 116) (.atom 113), reportedDerived := true, endToEnd := false },
-  { id := 2190, formalized := true, sourceIds := [5, 64], sourceFacts := [16, 37, 40, 43, 49, 68, 74, 75, 112, 117, 126, 134], guideFormula := .neg (.and (.atom 31) (.atom 117)), reportedDerived := false, endToEnd := false },
-  { id := 2195, formalized := true, sourceIds := [84], sourceFacts := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117], guideFormula := .and (.atom 116) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 2196, formalized := true, sourceIds := [84], sourceFacts := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117], guideFormula := .and (.atom 116) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2201, formalized := true, sourceIds := [38, 39, 92, 93], sourceFacts := [13, 22, 23, 25, 40, 42, 45, 55, 59, 71, 79, 107, 108, 109, 117, 122, 131], guideFormula := .and (.atom 131) (.atom 71), reportedDerived := true, endToEnd := false },
-  { id := 2204, formalized := true, sourceIds := [84], sourceFacts := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117], guideFormula := .neg (.and (.atom 116) (.atom 43)), reportedDerived := false, endToEnd := false },
-  { id := 2205, formalized := true, sourceIds := [84], sourceFacts := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117], guideFormula := .and (.atom 116) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 2206, formalized := true, sourceIds := [86, 88], sourceFacts := [13, 40, 42, 55, 63, 77, 78, 96, 99, 113, 116, 117, 140], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 2209, formalized := true, sourceIds := [85, 88], sourceFacts := [13, 38, 40, 42, 55, 63, 77, 78, 113, 116, 117, 140], guideFormula := .atom 77, reportedDerived := true, endToEnd := false },
-  { id := 2212, formalized := true, sourceIds := [85, 88], sourceFacts := [13, 38, 40, 42, 55, 63, 77, 78, 113, 116, 117, 140], guideFormula := .atom 77, reportedDerived := true, endToEnd := false },
-  { id := 2213, formalized := true, sourceIds := [85, 88], sourceFacts := [13, 38, 40, 42, 55, 63, 77, 78, 113, 116, 117, 140], guideFormula := .and (.and (.and (.and (.atom 116) (.atom 77)) (.atom 63)) (.atom 55)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2215, formalized := false, sourceIds := [86], sourceFacts := [40, 55, 96, 99, 113, 116, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 2217, formalized := true, sourceIds := [87], sourceFacts := [40, 55, 96, 110, 113, 117], guideFormula := .atom 110, reportedDerived := true, endToEnd := false },
-  { id := 2224, formalized := true, sourceIds := [96], sourceFacts := [55, 102, 117, 122], guideFormula := .atom 102, reportedDerived := true, endToEnd := false },
-  { id := 2228, formalized := true, sourceIds := [85, 88], sourceFacts := [13, 38, 40, 42, 55, 63, 77, 78, 113, 116, 117, 140], guideFormula := .atom 77, reportedDerived := true, endToEnd := false },
-  { id := 2230, formalized := true, sourceIds := [88, 85], sourceFacts := [13, 38, 40, 42, 55, 63, 77, 78, 113, 116, 117, 140], guideFormula := .and (.and (.and (.and (.atom 116) (.atom 77)) (.atom 117)) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2231, formalized := true, sourceIds := [5], sourceFacts := [37, 43, 49, 74, 75, 117, 126, 134], guideFormula := .and (.atom 116) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 2232, formalized := true, sourceIds := [84], sourceFacts := [13, 15, 36, 40, 42, 55, 96, 113, 116, 117], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 2236, formalized := true, sourceIds := [84, 85, 86, 88, 87], sourceFacts := [13, 15, 36, 38, 40, 42, 55, 63, 77, 78, 96, 99, 110, 113, 116, 117, 140], guideFormula := .and (.and (.atom 116) (.atom 117)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2237, formalized := true, sourceIds := [84, 85, 86, 88, 5], sourceFacts := [13, 15, 36, 37, 38, 40, 42, 43, 49, 55, 63, 74, 75, 77, 78, 96, 99, 113, 116, 117, 126, 134, 140], guideFormula := .and (.atom 116) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 2242, formalized := true, sourceIds := [84, 85, 86, 88], sourceFacts := [13, 15, 36, 38, 40, 42, 55, 63, 77, 78, 96, 99, 113, 116, 117, 140], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 2255, formalized := false, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 2257, formalized := true, sourceIds := [85, 88], sourceFacts := [13, 38, 40, 42, 55, 63, 77, 78, 113, 116, 117, 140], guideFormula := .atom 77, reportedDerived := true, endToEnd := false },
-  { id := 2259, formalized := true, sourceIds := [84, 85, 86, 88], sourceFacts := [13, 15, 36, 38, 40, 42, 55, 63, 77, 78, 96, 99, 113, 116, 117, 140], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 2271, formalized := true, sourceIds := [89], sourceFacts := [22, 23, 25, 40, 42, 55, 91, 104, 109, 117], guideFormula := .neg (.and (.atom 22) (.atom 117)), reportedDerived := false, endToEnd := false },
-  { id := 2281, formalized := true, sourceIds := [91, 92, 93, 90], sourceFacts := [13, 22, 23, 25, 40, 42, 55, 59, 71, 79, 103, 107, 108, 109, 117], guideFormula := .or (.atom 22) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 2286, formalized := true, sourceIds := [90], sourceFacts := [13, 40, 42, 55, 59, 109, 117], guideFormula := .neg (.and (.and (.atom 117) (.atom 55)) (.atom 43)), reportedDerived := false, endToEnd := false },
-  { id := 2288, formalized := true, sourceIds := [91], sourceFacts := [22, 25, 40, 55, 103, 117], guideFormula := .and (.atom 22) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 2296, formalized := true, sourceIds := [92], sourceFacts := [13, 22, 25, 42, 55, 71, 79, 107, 117], guideFormula := .and (.atom 22) (.atom 107), reportedDerived := true, endToEnd := false },
-  { id := 2300, formalized := true, sourceIds := [91, 93, 90, 92], sourceFacts := [13, 22, 23, 25, 40, 42, 55, 59, 71, 79, 103, 107, 108, 109, 117], guideFormula := .and (.atom 22) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2302, formalized := true, sourceIds := [93], sourceFacts := [22, 23, 25, 40, 55, 71, 79, 108, 117], guideFormula := .atom 23, reportedDerived := true, endToEnd := false },
-  { id := 2303, formalized := true, sourceIds := [93], sourceFacts := [22, 23, 25, 40, 55, 71, 79, 108, 117], guideFormula := .neg (.and (.and (.atom 55) (.atom 42)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 2313, formalized := true, sourceIds := [89, 91, 92, 93], sourceFacts := [13, 22, 23, 25, 40, 42, 55, 71, 79, 91, 103, 104, 107, 108, 109, 117], guideFormula := .atom 22, reportedDerived := true, endToEnd := false },
-  { id := 2329, formalized := true, sourceIds := [37, 7], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117, 140], guideFormula := .and (.atom 18) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 2334, formalized := true, sourceIds := [94], sourceFacts := [25, 40, 42, 46, 55, 62, 109, 117], guideFormula := .and (.atom 43) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 2351, formalized := true, sourceIds := [7], sourceFacts := [13, 43, 55, 140], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
-  { id := 2356, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.atom 18) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 2392, formalized := true, sourceIds := [35], sourceFacts := [42, 55, 79, 117], guideFormula := .and (.and (.atom 79) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 2396, formalized := true, sourceIds := [35], sourceFacts := [42, 55, 79, 117], guideFormula := .neg (.and (.and (.atom 79) (.atom 42)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 2397, formalized := true, sourceIds := [95], sourceFacts := [40, 55, 79, 109, 117], guideFormula := .atom 42, reportedDerived := false, endToEnd := false },
-  { id := 2398, formalized := true, sourceIds := [95], sourceFacts := [40, 55, 79, 109, 117], guideFormula := .neg (.and (.and (.and (.atom 84) (.atom 42)) (.atom 25)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 2411, formalized := true, sourceIds := [96], sourceFacts := [55, 102, 117, 122], guideFormula := .and (.atom 102) (.atom 119), reportedDerived := false, endToEnd := false },
-  { id := 2413, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .atom 18, reportedDerived := true, endToEnd := false },
-  { id := 2438, formalized := true, sourceIds := [7], sourceFacts := [13, 43, 55, 140], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
-  { id := 2447, formalized := true, sourceIds := [38], sourceFacts := [13, 40, 42, 55, 117, 131], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 2469, formalized := true, sourceIds := [90], sourceFacts := [13, 40, 42, 55, 59, 109, 117], guideFormula := .neg (.and (.and (.atom 117) (.atom 55)) (.atom 43)), reportedDerived := false, endToEnd := false },
-  { id := 2483, formalized := true, sourceIds := [97], sourceFacts := [40, 55, 59, 97, 109, 117, 122], guideFormula := .and (.and (.and (.atom 117) (.atom 26)) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 2494, formalized := true, sourceIds := [98], sourceFacts := [13, 40, 42, 55, 59, 117], guideFormula := .and (.and (.and (.and (.atom 55) (.atom 59)) (.atom 43)) (.atom 42)) (.atom 13), reportedDerived := false, endToEnd := false },
-  { id := 2532, formalized := true, sourceIds := [99], sourceFacts := [40, 42, 45, 55, 69, 88, 91, 97, 109, 117], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 2538, formalized := true, sourceIds := [96], sourceFacts := [55, 102, 117, 122], guideFormula := .and (.atom 122) (.atom 102), reportedDerived := true, endToEnd := false },
-  { id := 2544, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.atom 18) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 2558, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.atom 18) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2588, formalized := true, sourceIds := [37, 100, 7, 13, 36], sourceFacts := [13, 18, 33, 40, 42, 43, 45, 46, 55, 59, 62, 69, 91, 117, 131, 140], guideFormula := .and (.and (.atom 55) (.atom 18)) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 2589, formalized := true, sourceIds := [7, 37, 100, 13, 36], sourceFacts := [13, 18, 33, 40, 42, 43, 45, 46, 55, 59, 62, 69, 91, 117, 131, 140], guideFormula := .neg (.and (.and (.atom 18) (.atom 140)) (.atom 43)), reportedDerived := false, endToEnd := false },
-  { id := 2616, formalized := true, sourceIds := [100], sourceFacts := [18, 40, 42, 43, 46, 55, 59, 62, 117], guideFormula := .neg (.and (.and (.and (.and (.atom 55) (.atom 18)) (.atom 140)) (.atom 43)) (.atom 42)), reportedDerived := false, endToEnd := false },
-  { id := 2617, formalized := true, sourceIds := [101], sourceFacts := [8, 55, 117, 138], guideFormula := .neg (.and (.and (.atom 55) (.atom 138)) (.atom 42)), reportedDerived := false, endToEnd := false },
-  { id := 2643, formalized := true, sourceIds := [37, 102], sourceFacts := [10, 13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.atom 55) (.atom 18), reportedDerived := true, endToEnd := false },
-  { id := 2645, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .atom 18, reportedDerived := true, endToEnd := false },
-  { id := 2658, formalized := true, sourceIds := [102], sourceFacts := [10, 40, 42, 55, 62, 117], guideFormula := .and (.atom 55) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2670, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.atom 18) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2694, formalized := true, sourceIds := [7, 36], sourceFacts := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117, 140], guideFormula := .and (.atom 43) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2703, formalized := true, sourceIds := [13], sourceFacts := [13, 40, 42, 43, 46, 55, 59, 62, 117, 131], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2709, formalized := true, sourceIds := [13], sourceFacts := [13, 40, 42, 43, 46, 55, 59, 62, 117, 131], guideFormula := .or (.atom 55) (.and (.atom 18) (.atom 43)), reportedDerived := true, endToEnd := false },
-  { id := 2717, formalized := true, sourceIds := [94], sourceFacts := [25, 40, 42, 46, 55, 62, 109, 117], guideFormula := .and (.atom 43) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 2747, formalized := true, sourceIds := [103], sourceFacts := [40, 55, 59, 117, 140], guideFormula := .and (.atom 55) (.atom 140), reportedDerived := true, endToEnd := false },
-  { id := 2761, formalized := true, sourceIds := [104], sourceFacts := [10, 40, 43, 55, 117], guideFormula := .and (.atom 55) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 2805, formalized := true, sourceIds := [163, 116], sourceFacts := [12, 13, 40, 42, 45, 55, 59, 117, 135, 140], guideFormula := .and (.and (.atom 73) (.atom 55)) (.atom 135), reportedDerived := false, endToEnd := false },
-  { id := 2824, formalized := true, sourceIds := [36], sourceFacts := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117], guideFormula := .and (.and (.and (.atom 117) (.atom 55)) (.atom 43)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2830, formalized := true, sourceIds := [36], sourceFacts := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 2836, formalized := true, sourceIds := [36], sourceFacts := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117], guideFormula := .and (.and (.atom 55) (.atom 69)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2846, formalized := true, sourceIds := [89], sourceFacts := [22, 23, 25, 40, 42, 55, 91, 104, 109, 117], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 2852, formalized := true, sourceIds := [43, 89], sourceFacts := [13, 22, 23, 25, 31, 37, 38, 40, 42, 55, 74, 75, 91, 104, 109, 115, 117, 125, 134], guideFormula := .and (.and (.atom 117) (.atom 43)) (.atom 115), reportedDerived := false, endToEnd := false },
-  { id := 2858, formalized := true, sourceIds := [43], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134], guideFormula := .and (.atom 43) (.atom 115), reportedDerived := false, endToEnd := false },
-  { id := 2860, formalized := true, sourceIds := [36, 37], sourceFacts := [13, 18, 33, 40, 42, 43, 45, 46, 55, 59, 62, 69, 91, 117], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
-  { id := 2862, formalized := true, sourceIds := [43], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134], guideFormula := .atom 115, reportedDerived := true, endToEnd := false },
-  { id := 2863, formalized := true, sourceIds := [43, 2], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 2871, formalized := true, sourceIds := [89], sourceFacts := [22, 23, 25, 40, 42, 55, 91, 104, 109, 117], guideFormula := .and (.and (.atom 22) (.atom 117)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2884, formalized := true, sourceIds := [37, 94], sourceFacts := [13, 18, 25, 33, 40, 42, 43, 46, 55, 59, 62, 109, 117], guideFormula := .and (.and (.and (.and (.atom 55) (.atom 18)) (.atom 43)) (.atom 42)) (.atom 115), reportedDerived := false, endToEnd := false },
-  { id := 2896, formalized := true, sourceIds := [105], sourceFacts := [13, 42, 55, 109, 117], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 2902, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .neg (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 2904, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 2914, formalized := true, sourceIds := [106], sourceFacts := [33, 42, 55, 69, 109, 117], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 2921, formalized := false, sourceIds := [2, 5, 10, 13, 22], sourceFacts := [13, 18, 25, 28, 31, 37, 38, 40, 42, 43, 46, 48, 49, 55, 59, 62, 71, 74, 75, 91, 115, 117, 121, 125, 126, 131, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 2934, formalized := true, sourceIds := [107], sourceFacts := [40, 42, 45, 55, 84, 109, 116, 117, 121], guideFormula := .and (.atom 42) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2939, formalized := true, sourceIds := [107], sourceFacts := [40, 42, 45, 55, 84, 109, 116, 117, 121], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 2940, formalized := true, sourceIds := [107], sourceFacts := [40, 42, 45, 55, 84, 109, 116, 117, 121], guideFormula := .and (.and (.and (.and (.atom 116) (.atom 17)) (.atom 117)) (.atom 98)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 2943, formalized := true, sourceIds := [107], sourceFacts := [40, 42, 45, 55, 84, 109, 116, 117, 121], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 2951, formalized := true, sourceIds := [107], sourceFacts := [40, 42, 45, 55, 84, 109, 116, 117, 121], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 2954, formalized := true, sourceIds := [36, 106, 109], sourceFacts := [13, 33, 40, 42, 43, 45, 46, 55, 59, 69, 91, 109, 117], guideFormula := .and (.atom 42) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 2966, formalized := true, sourceIds := [36], sourceFacts := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 2985, formalized := true, sourceIds := [109], sourceFacts := [13, 42, 55, 59, 109, 117], guideFormula := .and (.and (.atom 46) (.atom 42)) (.atom 13), reportedDerived := false, endToEnd := false },
-  { id := 2997, formalized := true, sourceIds := [106], sourceFacts := [33, 42, 55, 69, 109, 117], guideFormula := .and (.atom 55) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3000, formalized := true, sourceIds := [36], sourceFacts := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3026, formalized := true, sourceIds := [22], sourceFacts := [18, 25, 48, 55, 71, 121], guideFormula := .atom 48, reportedDerived := true, endToEnd := false },
-  { id := 3032, formalized := true, sourceIds := [25, 26], sourceFacts := [13, 40, 42, 43, 72, 117, 123], guideFormula := .atom 72, reportedDerived := true, endToEnd := false },
-  { id := 3033, formalized := true, sourceIds := [25, 26], sourceFacts := [13, 40, 42, 43, 72, 117, 123], guideFormula := .and (.atom 28) (.atom 72), reportedDerived := false, endToEnd := false },
-  { id := 3042, formalized := true, sourceIds := [31], sourceFacts := [17, 31, 40, 55, 109, 117], guideFormula := .and (.and (.atom 31) (.atom 117)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3048, formalized := true, sourceIds := [10], sourceFacts := [28, 117], guideFormula := .atom 28, reportedDerived := true, endToEnd := false },
-  { id := 3051, formalized := true, sourceIds := [26, 25, 31, 44, 47], sourceFacts := [5, 13, 17, 31, 40, 42, 43, 55, 58, 61, 64, 72, 109, 114, 116, 117, 123], guideFormula := .and (.atom 43) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3060, formalized := true, sourceIds := [44], sourceFacts := [13, 40, 42, 116, 117], guideFormula := .neg (.and (.atom 112) (.atom 39)), reportedDerived := false, endToEnd := false },
-  { id := 3063, formalized := true, sourceIds := [37, 106, 112], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 69, 109, 117], guideFormula := .atom 33, reportedDerived := true, endToEnd := false },
-  { id := 3066, formalized := true, sourceIds := [2, 65, 114, 116], sourceFacts := [12, 13, 31, 37, 38, 40, 42, 45, 52, 55, 59, 60, 74, 75, 78, 91, 115, 117, 121, 125, 134, 135, 140], guideFormula := .atom 140, reportedDerived := true, endToEnd := false },
-  { id := 3068, formalized := false, sourceIds := [2, 5, 10, 13, 22], sourceFacts := [13, 18, 25, 28, 31, 37, 38, 40, 42, 43, 46, 48, 49, 55, 59, 62, 71, 74, 75, 91, 115, 117, 121, 125, 126, 131, 134, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 3070, formalized := true, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .and (.atom 115) (.atom 71), reportedDerived := false, endToEnd := false },
-  { id := 3073, formalized := true, sourceIds := [110], sourceFacts := [42, 45, 55, 83, 109, 117], guideFormula := .neg (.and (.and (.atom 55) (.atom 43)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 3077, formalized := true, sourceIds := [110], sourceFacts := [42, 45, 55, 83, 109, 117], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 3092, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .and (.atom 117) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3098, formalized := true, sourceIds := [111], sourceFacts := [42, 111], guideFormula := .atom 111, reportedDerived := true, endToEnd := false },
-  { id := 3103, formalized := true, sourceIds := [43, 2], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 115, 117, 125, 134, 140], guideFormula := .and (.atom 117) (.atom 115), reportedDerived := true, endToEnd := false },
-  { id := 3108, formalized := true, sourceIds := [111], sourceFacts := [42, 111], guideFormula := .atom 111, reportedDerived := true, endToEnd := false },
-  { id := 3109, formalized := true, sourceIds := [111], sourceFacts := [42, 111], guideFormula := .atom 111, reportedDerived := true, endToEnd := false },
-  { id := 3119, formalized := true, sourceIds := [111], sourceFacts := [42, 111], guideFormula := .atom 111, reportedDerived := true, endToEnd := false },
-  { id := 3121, formalized := true, sourceIds := [111], sourceFacts := [42, 111], guideFormula := .atom 111, reportedDerived := true, endToEnd := false },
-  { id := 3123, formalized := true, sourceIds := [43, 111], sourceFacts := [13, 31, 37, 38, 40, 42, 74, 75, 91, 111, 115, 117, 125, 134], guideFormula := .and (.and (.and (.and (.atom 55) (.atom 138)) (.atom 43)) (.atom 111)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 3124, formalized := true, sourceIds := [5, 64], sourceFacts := [16, 37, 40, 43, 49, 68, 74, 75, 112, 117, 126, 134], guideFormula := .and (.atom 112) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 3127, formalized := true, sourceIds := [43, 66, 68], sourceFacts := [5, 13, 25, 31, 37, 38, 40, 42, 66, 73, 74, 75, 91, 115, 116, 117, 125, 126, 134], guideFormula := .and (.and (.and (.atom 117) (.atom 42)) (.atom 115)) (.atom 111), reportedDerived := false, endToEnd := false },
-  { id := 3129, formalized := true, sourceIds := [66, 5], sourceFacts := [13, 25, 37, 40, 42, 43, 49, 74, 75, 116, 117, 126, 134], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 3130, formalized := true, sourceIds := [66], sourceFacts := [13, 25, 40, 42, 74, 75, 116, 117, 134], guideFormula := .and (.and (.atom 42) (.atom 13)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3134, formalized := true, sourceIds := [68, 43, 2], sourceFacts := [5, 13, 31, 37, 38, 40, 42, 66, 73, 74, 75, 91, 115, 117, 125, 126, 134, 140], guideFormula := .atom 126, reportedDerived := true, endToEnd := false },
-  { id := 3135, formalized := true, sourceIds := [5, 68], sourceFacts := [5, 37, 40, 43, 49, 66, 73, 74, 75, 117, 126, 134], guideFormula := .and (.and (.atom 126) (.atom 117)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3137, formalized := false, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 3141, formalized := true, sourceIds := [65], sourceFacts := [31, 40, 52, 55, 60, 117, 140], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 3142, formalized := true, sourceIds := [65], sourceFacts := [31, 40, 52, 55, 60, 117, 140], guideFormula := .neg (.and (.and (.and (.atom 31) (.atom 117)) (.atom 55)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 3176, formalized := true, sourceIds := [110], sourceFacts := [42, 45, 55, 83, 109, 117], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 3182, formalized := true, sourceIds := [86], sourceFacts := [40, 55, 96, 99, 113, 116, 117], guideFormula := .and (.and (.atom 131) (.atom 71)) (.atom 25), reportedDerived := false, endToEnd := false },
-  { id := 3192, formalized := true, sourceIds := [86], sourceFacts := [40, 55, 96, 99, 113, 116, 117], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3203, formalized := true, sourceIds := [89, 91], sourceFacts := [22, 23, 25, 40, 42, 55, 91, 103, 104, 109, 117], guideFormula := .neg (.atom 22), reportedDerived := false, endToEnd := false },
-  { id := 3204, formalized := true, sourceIds := [89, 91], sourceFacts := [22, 23, 25, 40, 42, 55, 91, 103, 104, 109, 117], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 3211, formalized := false, sourceIds := [35], sourceFacts := [42, 55, 79, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 3217, formalized := true, sourceIds := [36, 94], sourceFacts := [13, 25, 40, 42, 43, 45, 46, 55, 62, 69, 91, 109, 117], guideFormula := .and (.and (.atom 55) (.atom 43)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3224, formalized := true, sourceIds := [13], sourceFacts := [13, 40, 42, 43, 46, 55, 59, 62, 117, 131], guideFormula := .and (.and (.atom 117) (.atom 131)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3245, formalized := true, sourceIds := [13, 36, 86, 89, 91], sourceFacts := [13, 22, 23, 25, 40, 42, 43, 45, 46, 55, 59, 62, 69, 91, 96, 99, 103, 104, 109, 113, 116, 117, 131], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3261, formalized := true, sourceIds := [94], sourceFacts := [25, 40, 42, 46, 55, 62, 109, 117], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 3266, formalized := true, sourceIds := [98], sourceFacts := [13, 40, 42, 55, 59, 117], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 3272, formalized := true, sourceIds := [112, 90], sourceFacts := [13, 33, 40, 42, 55, 59, 109, 117], guideFormula := .and (.and (.and (.atom 117) (.atom 55)) (.atom 43)) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 3278, formalized := true, sourceIds := [110], sourceFacts := [42, 45, 55, 83, 109, 117], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 3286, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.and (.atom 18) (.atom 10)) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 3288, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.atom 18) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3293, formalized := true, sourceIds := [37], sourceFacts := [13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.and (.atom 55) (.atom 18)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3305, formalized := true, sourceIds := [38], sourceFacts := [13, 40, 42, 55, 117, 131], guideFormula := .and (.atom 131) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3310, formalized := true, sourceIds := [101], sourceFacts := [8, 55, 117, 138], guideFormula := .neg (.and (.atom 55) (.atom 42)), reportedDerived := false, endToEnd := false },
-  { id := 3317, formalized := true, sourceIds := [109], sourceFacts := [13, 42, 55, 59, 109, 117], guideFormula := .neg (.and (.and (.and (.atom 46) (.atom 43)) (.atom 42)) (.atom 13)), reportedDerived := false, endToEnd := false },
-  { id := 3331, formalized := true, sourceIds := [114], sourceFacts := [13, 42, 55, 78, 117, 121, 140], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 3341, formalized := true, sourceIds := [39, 113, 116], sourceFacts := [12, 13, 36, 40, 42, 45, 55, 59, 62, 78, 109, 117, 122, 131, 135, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3357, formalized := true, sourceIds := [106], sourceFacts := [33, 42, 55, 69, 109, 117], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 3359, formalized := true, sourceIds := [39, 113, 116], sourceFacts := [12, 13, 36, 40, 42, 45, 55, 59, 62, 78, 109, 117, 122, 131, 135, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3362, formalized := true, sourceIds := [113, 115, 114], sourceFacts := [10, 13, 18, 36, 40, 42, 55, 62, 78, 117, 121, 140], guideFormula := .and (.and (.and (.atom 117) (.atom 18)) (.atom 43)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 3366, formalized := true, sourceIds := [115], sourceFacts := [10, 13, 18, 42, 55, 62, 117], guideFormula := .and (.atom 55) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3369, formalized := true, sourceIds := [114], sourceFacts := [13, 42, 55, 78, 117, 121, 140], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 3379, formalized := true, sourceIds := [115], sourceFacts := [10, 13, 18, 42, 55, 62, 117], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 3391, formalized := true, sourceIds := [113], sourceFacts := [36, 40, 42, 55, 62, 78, 117], guideFormula := .and (.atom 55) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3392, formalized := true, sourceIds := [113], sourceFacts := [36, 40, 42, 55, 62, 78, 117], guideFormula := .and (.and (.and (.atom 55) (.atom 42)) (.atom 78)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3399, formalized := true, sourceIds := [39, 96], sourceFacts := [40, 42, 45, 55, 59, 102, 109, 117, 122, 131], guideFormula := .atom 102, reportedDerived := true, endToEnd := false },
-  { id := 3412, formalized := true, sourceIds := [39, 113, 116], sourceFacts := [12, 13, 36, 40, 42, 45, 55, 59, 62, 78, 109, 117, 122, 131, 135, 140], guideFormula := .or (.atom 25) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3416, formalized := true, sourceIds := [116], sourceFacts := [12, 13, 40, 42, 45, 55, 59, 117, 135, 140], guideFormula := .atom 135, reportedDerived := true, endToEnd := false },
-  { id := 3424, formalized := true, sourceIds := [39, 113, 116], sourceFacts := [12, 13, 36, 40, 42, 45, 55, 59, 62, 78, 109, 117, 122, 131, 135, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3429, formalized := true, sourceIds := [117], sourceFacts := [1, 40], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3444, formalized := true, sourceIds := [117], sourceFacts := [1, 40], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3445, formalized := true, sourceIds := [117], sourceFacts := [1, 40], guideFormula := .and (.atom 1) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3457, formalized := true, sourceIds := [117], sourceFacts := [1, 40], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3461, formalized := true, sourceIds := [110], sourceFacts := [42, 45, 55, 83, 109, 117], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3464, formalized := true, sourceIds := [2, 13, 25, 26, 31], sourceFacts := [13, 17, 31, 37, 38, 40, 42, 43, 46, 55, 59, 62, 72, 74, 75, 91, 109, 115, 117, 123, 125, 131, 134, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3467, formalized := true, sourceIds := [110], sourceFacts := [42, 45, 55, 83, 109, 117], guideFormula := .and (.and (.atom 117) (.atom 43)) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 3478, formalized := true, sourceIds := [2, 13, 25, 26, 31], sourceFacts := [13, 17, 31, 37, 38, 40, 42, 43, 46, 55, 59, 62, 72, 74, 75, 91, 109, 115, 117, 123, 125, 131, 134, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3485, formalized := true, sourceIds := [2, 13, 25, 26, 31], sourceFacts := [13, 17, 31, 37, 38, 40, 42, 43, 46, 55, 59, 62, 72, 74, 75, 91, 109, 115, 117, 123, 125, 131, 134, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3486, formalized := true, sourceIds := [2, 13, 25, 36, 37], sourceFacts := [13, 18, 31, 33, 37, 38, 40, 42, 43, 45, 46, 55, 59, 62, 69, 72, 74, 75, 91, 115, 117, 125, 131, 134, 140], guideFormula := .and (.atom 42) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3490, formalized := true, sourceIds := [13, 26, 36, 37, 2], sourceFacts := [13, 18, 31, 33, 37, 38, 40, 42, 43, 45, 46, 55, 59, 62, 69, 72, 74, 75, 91, 115, 117, 123, 125, 131, 134, 140], guideFormula := .and (.and (.atom 117) (.atom 43)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3496, formalized := true, sourceIds := [10, 11, 13, 20, 21], sourceFacts := [2, 10, 13, 25, 27, 28, 40, 42, 43, 46, 55, 59, 62, 117, 131, 140], guideFormula := .atom 135, reportedDerived := false, endToEnd := false },
-  { id := 3501, formalized := true, sourceIds := [118], sourceFacts := [11, 122], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 3507, formalized := true, sourceIds := [96], sourceFacts := [55, 102, 117, 122], guideFormula := .atom 102, reportedDerived := true, endToEnd := false },
-  { id := 3513, formalized := true, sourceIds := [41], sourceFacts := [11, 42, 117], guideFormula := .atom 11, reportedDerived := true, endToEnd := false },
-  { id := 3519, formalized := true, sourceIds := [49, 119], sourceFacts := [3, 5, 13, 31, 40, 42, 50, 58, 61, 81, 85, 117, 128], guideFormula := .and (.atom 117) (.atom 85), reportedDerived := true, endToEnd := false },
-  { id := 3522, formalized := true, sourceIds := [49, 119], sourceFacts := [3, 5, 13, 31, 40, 42, 50, 58, 61, 81, 85, 117, 128], guideFormula := .and (.atom 85) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3530, formalized := true, sourceIds := [121], sourceFacts := [12, 40, 45, 55, 109, 117, 122], guideFormula := .and (.atom 109) (.atom 122), reportedDerived := true, endToEnd := false },
-  { id := 3547, formalized := true, sourceIds := [122], sourceFacts := [40, 55, 59, 80, 101, 109, 117, 122], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
-  { id := 3552, formalized := true, sourceIds := [22, 37], sourceFacts := [13, 18, 25, 33, 40, 42, 43, 48, 55, 59, 62, 71, 117, 121], guideFormula := .atom 18, reportedDerived := true, endToEnd := false },
-  { id := 3556, formalized := true, sourceIds := [10], sourceFacts := [28, 117], guideFormula := .atom 28, reportedDerived := true, endToEnd := false },
-  { id := 3562, formalized := true, sourceIds := [121, 122], sourceFacts := [12, 40, 45, 55, 59, 80, 101, 109, 117, 122], guideFormula := .and (.atom 109) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 3563, formalized := true, sourceIds := [121, 122, 10], sourceFacts := [12, 28, 40, 45, 55, 59, 80, 101, 109, 117, 122], guideFormula := .and (.and (.atom 117) (.atom 136)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 3564, formalized := true, sourceIds := [121, 122], sourceFacts := [12, 40, 45, 55, 59, 80, 101, 109, 117, 122], guideFormula := .neg (.and (.atom 136) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 3570, formalized := true, sourceIds := [124], sourceFacts := [32, 40, 42, 55, 80, 101, 117, 122], guideFormula := .and (.and (.atom 55) (.atom 42)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3578, formalized := true, sourceIds := [124], sourceFacts := [32, 40, 42, 55, 80, 101, 117, 122], guideFormula := .and (.atom 55) (.atom 101), reportedDerived := true, endToEnd := false },
-  { id := 3601, formalized := true, sourceIds := [124, 122, 10, 121], sourceFacts := [12, 28, 32, 40, 42, 45, 55, 59, 80, 101, 109, 117, 122], guideFormula := .neg (.and (.and (.atom 117) (.atom 101)) (.atom 32)), reportedDerived := false, endToEnd := false },
-  { id := 3610, formalized := true, sourceIds := [127, 128, 129, 39], sourceFacts := [13, 40, 42, 45, 55, 59, 61, 102, 109, 117, 122, 131], guideFormula := .and (.atom 122) (.atom 102), reportedDerived := true, endToEnd := false },
-  { id := 3611, formalized := true, sourceIds := [127, 128, 39, 129], sourceFacts := [13, 40, 42, 45, 55, 59, 61, 102, 109, 117, 122, 131], guideFormula := .and (.and (.and (.and (.atom 117) (.atom 122)) (.atom 102)) (.atom 135)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 3616, formalized := true, sourceIds := [127, 128, 39, 129], sourceFacts := [13, 40, 42, 45, 55, 59, 61, 102, 109, 117, 122, 131], guideFormula := .and (.atom 102) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3627, formalized := true, sourceIds := [39], sourceFacts := [40, 42, 45, 55, 59, 109, 117, 122, 131], guideFormula := .and (.atom 55) (.atom 122), reportedDerived := true, endToEnd := false },
-  { id := 3633, formalized := true, sourceIds := [127], sourceFacts := [40, 55, 102, 117, 122], guideFormula := .atom 122, reportedDerived := true, endToEnd := false },
-  { id := 3634, formalized := true, sourceIds := [128], sourceFacts := [13, 40, 42, 55, 102, 117, 122], guideFormula := .and (.atom 42) (.atom 122), reportedDerived := true, endToEnd := false },
-  { id := 3644, formalized := true, sourceIds := [129], sourceFacts := [55, 61, 102, 117, 122], guideFormula := .atom 11, reportedDerived := false, endToEnd := false },
-  { id := 3651, formalized := true, sourceIds := [129], sourceFacts := [55, 61, 102, 117, 122], guideFormula := .atom 102, reportedDerived := true, endToEnd := false },
-  { id := 3669, formalized := true, sourceIds := [37, 102], sourceFacts := [10, 13, 18, 33, 40, 42, 43, 55, 59, 62, 117], guideFormula := .and (.atom 55) (.atom 10), reportedDerived := true, endToEnd := false },
-  { id := 3675, formalized := true, sourceIds := [110], sourceFacts := [42, 45, 55, 83, 109, 117], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3685, formalized := true, sourceIds := [36], sourceFacts := [13, 40, 42, 43, 45, 46, 55, 69, 91, 117], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3691, formalized := true, sourceIds := [104], sourceFacts := [10, 40, 43, 55, 117], guideFormula := .and (.atom 55) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 3698, formalized := true, sourceIds := [130], sourceFacts := [13, 42, 82, 117], guideFormula := .atom 82, reportedDerived := true, endToEnd := false },
-  { id := 3725, formalized := true, sourceIds := [131], sourceFacts := [40, 48, 71, 117], guideFormula := .and (.atom 71) (.atom 121), reportedDerived := false, endToEnd := false },
-  { id := 3735, formalized := true, sourceIds := [47, 91, 132], sourceFacts := [5, 22, 25, 40, 42, 55, 58, 61, 64, 71, 103, 114, 117], guideFormula := .and (.atom 117) (.atom 33), reportedDerived := false, endToEnd := false },
-  { id := 3738, formalized := true, sourceIds := [47], sourceFacts := [5, 40, 42, 58, 61, 64, 114, 117], guideFormula := .neg (.and (.and (.and (.atom 114) (.atom 117)) (.atom 115)) (.atom 71)), reportedDerived := false, endToEnd := false },
-  { id := 3743, formalized := true, sourceIds := [91, 132], sourceFacts := [22, 25, 40, 42, 55, 71, 103, 117], guideFormula := .and (.atom 22) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 3748, formalized := true, sourceIds := [119], sourceFacts := [42, 81, 85, 117], guideFormula := .atom 85, reportedDerived := true, endToEnd := false },
-  { id := 3778, formalized := true, sourceIds := [133], sourceFacts := [25, 40, 55, 117], guideFormula := .atom 25, reportedDerived := true, endToEnd := false },
-  { id := 3789, formalized := true, sourceIds := [46], sourceFacts := [25, 33, 40, 73, 117], guideFormula := .atom 33, reportedDerived := true, endToEnd := false },
-  { id := 3793, formalized := true, sourceIds := [89, 58, 91], sourceFacts := [4, 12, 22, 23, 25, 40, 42, 45, 55, 84, 91, 97, 103, 104, 109, 117], guideFormula := .and (.and (.and (.and (.atom 116) (.atom 117)) (.atom 45)) (.atom 42)) (.atom 25), reportedDerived := false, endToEnd := false },
-  { id := 3795, formalized := true, sourceIds := [58], sourceFacts := [4, 12, 45, 55, 84, 91, 97, 109, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 3801, formalized := true, sourceIds := [89, 91], sourceFacts := [22, 23, 25, 40, 42, 55, 91, 103, 104, 109, 117], guideFormula := .and (.atom 22) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 3806, formalized := true, sourceIds := [134], sourceFacts := [13, 25, 42, 55, 117], guideFormula := .atom 25, reportedDerived := true, endToEnd := false },
-  { id := 3830, formalized := true, sourceIds := [23], sourceFacts := [119, 130], guideFormula := .atom 130, reportedDerived := true, endToEnd := false },
-  { id := 3836, formalized := true, sourceIds := [21], sourceFacts := [2, 10, 25, 117], guideFormula := .atom 2, reportedDerived := true, endToEnd := false },
-  { id := 3842, formalized := true, sourceIds := [20, 22], sourceFacts := [18, 25, 27, 48, 55, 71, 121], guideFormula := .atom 27, reportedDerived := true, endToEnd := false },
-  { id := 3855, formalized := true, sourceIds := [38, 13], sourceFacts := [13, 40, 42, 43, 46, 55, 59, 62, 117, 131], guideFormula := .atom 131, reportedDerived := true, endToEnd := false },
-  { id := 3861, formalized := true, sourceIds := [54, 55, 53], sourceFacts := [5, 25, 29, 33, 34, 40, 58, 64, 71, 115, 117, 121, 131], guideFormula := .and (.and (.atom 117) (.atom 140)) (.atom 11), reportedDerived := false, endToEnd := false },
-  { id := 3866, formalized := true, sourceIds := [135], sourceFacts := [29, 33, 117], guideFormula := .atom 29, reportedDerived := true, endToEnd := false },
-  { id := 3882, formalized := true, sourceIds := [10], sourceFacts := [28, 117], guideFormula := .and (.and (.atom 109) (.atom 117)) (.atom 119), reportedDerived := false, endToEnd := false },
-  { id := 3886, formalized := true, sourceIds := [13, 36, 37, 38, 39], sourceFacts := [13, 18, 33, 40, 42, 43, 45, 46, 55, 59, 62, 69, 91, 109, 117, 122, 131], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3892, formalized := true, sourceIds := [10, 11], sourceFacts := [28, 117, 140], guideFormula := .atom 28, reportedDerived := true, endToEnd := false },
-  { id := 3917, formalized := true, sourceIds := [13, 36, 37, 38, 39], sourceFacts := [13, 18, 33, 40, 42, 43, 45, 46, 55, 59, 62, 69, 91, 109, 117, 122, 131], guideFormula := .and (.atom 55) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 3939, formalized := false, sourceIds := [139], sourceFacts := [13, 40, 42, 55, 59, 69, 83, 109, 117, 131], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 3946, formalized := true, sourceIds := [110], sourceFacts := [42, 45, 55, 83, 109, 117], guideFormula := .and (.and (.and (.atom 117) (.atom 43)) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 3951, formalized := true, sourceIds := [109], sourceFacts := [13, 42, 55, 59, 109, 117], guideFormula := .and (.atom 55) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 3970, formalized := true, sourceIds := [97], sourceFacts := [40, 55, 59, 97, 109, 117, 122], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 3974, formalized := true, sourceIds := [58], sourceFacts := [4, 12, 45, 55, 84, 91, 97, 109, 117], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 3976, formalized := true, sourceIds := [58], sourceFacts := [4, 12, 45, 55, 84, 91, 97, 109, 117], guideFormula := .atom 42, reportedDerived := false, endToEnd := false },
-  { id := 3980, formalized := true, sourceIds := [97, 139], sourceFacts := [13, 40, 42, 55, 59, 69, 83, 97, 109, 117, 122, 131], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3987, formalized := true, sourceIds := [140], sourceFacts := [55, 69, 83, 109, 117], guideFormula := .neg (.and (.atom 42) (.atom 83)), reportedDerived := false, endToEnd := false },
-  { id := 3990, formalized := true, sourceIds := [97, 139], sourceFacts := [13, 40, 42, 55, 59, 69, 83, 97, 109, 117, 122, 131], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 3998, formalized := true, sourceIds := [141], sourceFacts := [13, 40, 42, 43, 45, 55, 91, 117], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := true, endToEnd := false },
-  { id := 3999, formalized := true, sourceIds := [142, 143], sourceFacts := [13, 40, 42, 55, 69, 83, 91, 109, 117, 121], guideFormula := .and (.atom 117) (.atom 121), reportedDerived := true, endToEnd := false },
-  { id := 4006, formalized := true, sourceIds := [141, 142, 143], sourceFacts := [13, 40, 42, 43, 45, 55, 69, 83, 91, 109, 117, 121], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4008, formalized := true, sourceIds := [141, 142, 143], sourceFacts := [13, 40, 42, 43, 45, 55, 69, 83, 91, 109, 117, 121], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4013, formalized := true, sourceIds := [141, 142, 143], sourceFacts := [13, 40, 42, 43, 45, 55, 69, 83, 91, 109, 117, 121], guideFormula := .and (.and (.atom 117) (.atom 55)) (.atom 43), reportedDerived := true, endToEnd := false },
-  { id := 4069, formalized := false, sourceIds := [15, 24, 29, 31, 33], sourceFacts := [1, 13, 17, 31, 40, 42, 45, 53, 55, 61, 83, 84, 87, 105, 109, 117, 123, 129], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 4073, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.atom 109) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 4078, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.and (.and (.atom 87) (.atom 109)) (.atom 98)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 4090, formalized := true, sourceIds := [147, 59, 92, 146, 160], sourceFacts := [13, 22, 25, 31, 40, 42, 55, 57, 59, 71, 73, 79, 106, 107, 109, 115, 117, 124, 125, 128, 140], guideFormula := .or (.and (.atom 115) (.atom 25)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 4098, formalized := true, sourceIds := [146, 147], sourceFacts := [13, 25, 31, 40, 42, 55, 59, 73, 106, 109, 115, 117, 125, 140], guideFormula := .atom 115, reportedDerived := true, endToEnd := false },
-  { id := 4105, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .neg (.and (.and (.and (.atom 43) (.atom 115)) (.atom 71)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 4111, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 4118, formalized := false, sourceIds := [144], sourceFacts := [13, 40, 42, 91, 106, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 4130, formalized := true, sourceIds := [145], sourceFacts := [40, 106, 117], guideFormula := .and (.atom 117) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 4134, formalized := true, sourceIds := [146], sourceFacts := [31, 40, 73, 106, 115, 117, 125], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 4135, formalized := true, sourceIds := [146], sourceFacts := [31, 40, 73, 106, 115, 117, 125], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 4154, formalized := true, sourceIds := [144, 145, 146], sourceFacts := [13, 31, 40, 42, 73, 91, 106, 115, 117, 125], guideFormula := .and (.atom 117) (.atom 55), reportedDerived := false, endToEnd := false },
-  { id := 4162, formalized := true, sourceIds := [147, 148, 149], sourceFacts := [4, 13, 25, 31, 33, 40, 42, 55, 59, 69, 74, 75, 83, 109, 115, 117, 134, 140], guideFormula := .and (.and (.atom 109) (.atom 117)) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 4168, formalized := true, sourceIds := [140], sourceFacts := [55, 69, 83, 109, 117], guideFormula := .and (.atom 117) (.atom 83), reportedDerived := true, endToEnd := false },
-  { id := 4192, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .atom 112, reportedDerived := true, endToEnd := false },
-  { id := 4193, formalized := true, sourceIds := [64], sourceFacts := [16, 40, 68, 112], guideFormula := .and (.atom 112) (.atom 117), reportedDerived := false, endToEnd := false },
-  { id := 4222, formalized := true, sourceIds := [15], sourceFacts := [45, 55, 83, 117], guideFormula := .and (.atom 117) (.atom 83), reportedDerived := true, endToEnd := false },
-  { id := 4233, formalized := true, sourceIds := [150], sourceFacts := [133], guideFormula := .and (.atom 55) (.atom 133), reportedDerived := false, endToEnd := false },
-  { id := 4239, formalized := false, sourceIds := [151], sourceFacts := [13, 40, 42, 55, 117, 133], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 4254, formalized := true, sourceIds := [29], sourceFacts := [13, 40, 42, 117, 123, 129], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 4275, formalized := true, sourceIds := [35], sourceFacts := [42, 55, 79, 117], guideFormula := .and (.atom 55) (.atom 79), reportedDerived := true, endToEnd := false },
-  { id := 4282, formalized := false, sourceIds := [59], sourceFacts := [13, 25, 40, 42, 55, 79, 109, 117, 124], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 4285, formalized := true, sourceIds := [31, 107], sourceFacts := [17, 31, 40, 42, 45, 55, 84, 109, 116, 117, 121], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4287, formalized := true, sourceIds := [31], sourceFacts := [17, 31, 40, 55, 109, 117], guideFormula := .and (.atom 31) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 4294, formalized := true, sourceIds := [107], sourceFacts := [40, 42, 45, 55, 84, 109, 116, 117, 121], guideFormula := .imp (.and (.atom 117) (.atom 42)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 4298, formalized := true, sourceIds := [92], sourceFacts := [13, 22, 25, 42, 55, 71, 79, 107, 117], guideFormula := .and (.atom 22) (.atom 107), reportedDerived := true, endToEnd := false },
-  { id := 4304, formalized := true, sourceIds := [35], sourceFacts := [42, 55, 79, 117], guideFormula := .and (.atom 79) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 4305, formalized := true, sourceIds := [152], sourceFacts := [13, 40, 42, 55, 79, 84, 117], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 4306, formalized := true, sourceIds := [153], sourceFacts := [13, 40, 42, 55, 79, 117, 140], guideFormula := .and (.atom 42) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 4307, formalized := true, sourceIds := [35, 152, 153], sourceFacts := [13, 40, 42, 55, 79, 84, 117, 140], guideFormula := .neg (.and (.and (.atom 131) (.atom 42)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 4328, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .and (.atom 61) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 4329, formalized := true, sourceIds := [155, 156], sourceFacts := [17, 19, 40, 55, 57, 61, 109, 117, 137, 140], guideFormula := .and (.and (.and (.and (.and (.atom 58) (.atom 61)) (.atom 137)) (.atom 19)) (.atom 57)) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 4330, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .neg (.and (.atom 42) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 4342, formalized := false, sourceIds := [154, 33], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 4345, formalized := true, sourceIds := [33, 154, 78, 155], sourceFacts := [1, 13, 17, 40, 42, 53, 55, 61, 75, 84, 89, 105, 109, 112, 117, 137, 140, 141], guideFormula := .and (.atom 1) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 4347, formalized := false, sourceIds := [78], sourceFacts := [40, 75, 89, 112, 117, 141], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 4356, formalized := true, sourceIds := [141], sourceFacts := [13, 40, 42, 43, 45, 55, 91, 117], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
-  { id := 4357, formalized := true, sourceIds := [33, 78, 154, 155, 156], sourceFacts := [1, 13, 17, 19, 40, 42, 53, 55, 57, 61, 75, 84, 89, 105, 109, 112, 117, 137, 140, 141], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4365, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .neg (.and (.and (.and (.atom 53) (.atom 55)) (.atom 42)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 4366, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .and (.and (.atom 55) (.atom 1)) (.atom 40), reportedDerived := true, endToEnd := false },
-  { id := 4378, formalized := true, sourceIds := [141], sourceFacts := [13, 40, 42, 43, 45, 55, 91, 117], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
-  { id := 4388, formalized := false, sourceIds := [157], sourceFacts := [36, 40, 45, 55, 57, 109, 117], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 4389, formalized := true, sourceIds := [158, 159, 160], sourceFacts := [13, 25, 40, 42, 55, 57, 59, 84, 109, 117, 128, 140], guideFormula := .and (.atom 117) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 4392, formalized := true, sourceIds := [157, 158, 159, 160], sourceFacts := [13, 25, 36, 40, 42, 45, 55, 57, 59, 84, 109, 117, 128, 140], guideFormula := .neg (.atom 140), reportedDerived := false, endToEnd := false },
-  { id := 4397, formalized := true, sourceIds := [157, 158, 160], sourceFacts := [13, 25, 36, 40, 42, 45, 55, 57, 59, 109, 117, 128, 140], guideFormula := .and (.atom 117) (.atom 18), reportedDerived := false, endToEnd := false },
-  { id := 4417, formalized := true, sourceIds := [157, 158, 160], sourceFacts := [13, 25, 36, 40, 42, 45, 55, 57, 59, 109, 117, 128, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4427, formalized := true, sourceIds := [157, 158, 160], sourceFacts := [13, 25, 36, 40, 42, 45, 55, 57, 59, 109, 117, 128, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4448, formalized := true, sourceIds := [161], sourceFacts := [13, 17, 31, 39, 40, 42, 55, 70, 72, 86, 87, 90, 109, 117], guideFormula := .neg (.and (.atom 117) (.atom 42)), reportedDerived := false, endToEnd := false },
-  { id := 4454, formalized := true, sourceIds := [24, 29], sourceFacts := [13, 40, 42, 87, 117, 123, 129], guideFormula := .atom 72, reportedDerived := false, endToEnd := false },
-  { id := 4455, formalized := true, sourceIds := [24, 29], sourceFacts := [13, 40, 42, 87, 117, 123, 129], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 4465, formalized := true, sourceIds := [29, 161], sourceFacts := [13, 17, 31, 39, 40, 42, 55, 70, 72, 86, 87, 90, 109, 117, 123, 129], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4472, formalized := true, sourceIds := [107], sourceFacts := [40, 42, 45, 55, 84, 109, 116, 117, 121], guideFormula := .atom 116, reportedDerived := true, endToEnd := false },
-  { id := 4474, formalized := true, sourceIds := [161, 29], sourceFacts := [13, 17, 31, 39, 40, 42, 55, 70, 72, 86, 87, 90, 109, 117, 123, 129], guideFormula := .and (.atom 86) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 4482, formalized := true, sourceIds := [161, 29], sourceFacts := [13, 17, 31, 39, 40, 42, 55, 70, 72, 86, 87, 90, 109, 117, 123, 129], guideFormula := .neg (.and (.atom 117) (.atom 55)), reportedDerived := false, endToEnd := false },
-  { id := 4502, formalized := true, sourceIds := [29, 161], sourceFacts := [13, 17, 31, 39, 40, 42, 55, 70, 72, 86, 87, 90, 109, 117, 123, 129], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 4509, formalized := true, sourceIds := [116], sourceFacts := [12, 13, 40, 42, 45, 55, 59, 117, 135, 140], guideFormula := .atom 135, reportedDerived := true, endToEnd := false },
-  { id := 4521, formalized := true, sourceIds := [162, 97], sourceFacts := [40, 55, 59, 97, 109, 117, 122, 124], guideFormula := .and (.and (.and (.and (.atom 117) (.atom 55)) (.atom 42)) (.atom 124)) (.atom 40), reportedDerived := false, endToEnd := false },
-  { id := 4522, formalized := true, sourceIds := [162, 97], sourceFacts := [40, 55, 59, 97, 109, 117, 122, 124], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 4530, formalized := true, sourceIds := [60], sourceFacts := [14, 40, 44, 45, 55, 59, 67, 69, 84, 117, 131], guideFormula := .and (.and (.atom 67) (.atom 84)) (.atom 117), reportedDerived := true, endToEnd := false },
-  { id := 4534, formalized := true, sourceIds := [163], sourceFacts := [40, 55, 117, 135], guideFormula := .neg (.and (.and (.and (.and (.atom 73) (.atom 42)) (.atom 11)) (.atom 135)) (.atom 40)), reportedDerived := false, endToEnd := false },
-  { id := 4540, formalized := true, sourceIds := [116, 163], sourceFacts := [12, 13, 40, 42, 45, 55, 59, 117, 135, 140], guideFormula := .atom 135, reportedDerived := true, endToEnd := false },
-  { id := 4555, formalized := true, sourceIds := [96], sourceFacts := [55, 102, 117, 122], guideFormula := .and (.atom 102) (.atom 135), reportedDerived := false, endToEnd := false },
-  { id := 4572, formalized := true, sourceIds := [60, 96, 97, 116, 162], sourceFacts := [12, 13, 14, 40, 42, 44, 45, 55, 59, 67, 69, 84, 97, 102, 109, 117, 122, 124, 131, 135, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4582, formalized := false, sourceIds := [15, 24, 29, 31, 33], sourceFacts := [1, 13, 17, 31, 40, 42, 45, 53, 55, 61, 83, 84, 87, 105, 109, 117, 123, 129], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
-  { id := 4584, formalized := true, sourceIds := [141], sourceFacts := [13, 40, 42, 43, 45, 55, 91, 117], guideFormula := .neg (.atom 43), reportedDerived := false, endToEnd := false },
-  { id := 4587, formalized := true, sourceIds := [164, 165], sourceFacts := [40, 55, 106, 117, 140], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
-  { id := 4589, formalized := true, sourceIds := [168, 169], sourceFacts := [13, 40, 75, 133, 140], guideFormula := .and (.and (.and (.atom 55) (.atom 140)) (.atom 42)) (.atom 133), reportedDerived := false, endToEnd := false },
-  { id := 4590, formalized := true, sourceIds := [171], sourceFacts := [42, 55, 79, 117, 140], guideFormula := .and (.and (.and (.atom 117) (.atom 43)) (.atom 79)) (.atom 42), reportedDerived := false, endToEnd := false },
-  { id := 4591, formalized := true, sourceIds := [154, 172, 33], sourceFacts := [1, 13, 40, 42, 45, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .and (.and (.atom 117) (.atom 42)) (.atom 25), reportedDerived := false, endToEnd := false },
-  { id := 4592, formalized := true, sourceIds := [158, 159, 160], sourceFacts := [13, 25, 40, 42, 55, 57, 59, 84, 109, 117, 128, 140], guideFormula := .and (.atom 117) (.atom 42), reportedDerived := true, endToEnd := false },
-  { id := 4593, formalized := true, sourceIds := [158, 159, 160], sourceFacts := [13, 25, 40, 42, 55, 57, 59, 84, 109, 117, 128, 140], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 4594, formalized := true, sourceIds := [161, 173], sourceFacts := [13, 17, 31, 39, 40, 42, 55, 70, 72, 86, 87, 90, 109, 117], guideFormula := .and (.and (.and (.and (.atom 87) (.atom 117)) (.atom 72)) (.atom 42)) (.atom 115), reportedDerived := false, endToEnd := false },
-  { id := 4595, formalized := true, sourceIds := [175, 60], sourceFacts := [14, 40, 44, 45, 55, 59, 67, 69, 84, 117, 131, 140], guideFormula := .and (.atom 117) (.atom 43), reportedDerived := false, endToEnd := false },
-  { id := 4596, formalized := true, sourceIds := [176, 177], sourceFacts := [13, 40, 42, 55, 83, 91, 109, 117, 121], guideFormula := .and (.atom 117) (.atom 25), reportedDerived := false, endToEnd := false },
-  { id := 4681, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .atom 42, reportedDerived := true, endToEnd := false },
-  { id := 4690, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 4692, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
-  { id := 4714, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 13, 40, 42, 53, 55, 61, 84, 105, 109, 117, 140], guideFormula := .atom 109, reportedDerived := true, endToEnd := false }
+  { id := 2, formalized := true, sourceIds := [1], sourceFacts := [41, 43, 46, 56, 71, 90, 93, 99, 111, 119, 142], guideFormula := .and (.and (.and (.atom 119) (.atom 56)) (.atom 99)) (.atom 90), reportedDerived := true, endToEnd := false },
+  { id := 22, formalized := true, sourceIds := [2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 23, formalized := true, sourceIds := [2], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 37, formalized := true, sourceIds := [3], sourceFacts := [19, 56, 119], guideFormula := .and (.atom 19) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 41, formalized := true, sourceIds := [4], sourceFacts := [8, 56, 140, 142], guideFormula := .and (.and (.atom 56) (.atom 140)) (.atom 8), reportedDerived := true, endToEnd := false },
+  { id := 51, formalized := true, sourceIds := [3, 1, 2, 5, 6], sourceFacts := [14, 19, 32, 38, 39, 41, 43, 44, 46, 50, 56, 71, 76, 77, 90, 93, 99, 111, 117, 119, 127, 128, 136, 142], guideFormula := .and (.atom 119) (.atom 19), reportedDerived := true, endToEnd := false },
+  { id := 75, formalized := true, sourceIds := [1, 3, 2, 5, 6], sourceFacts := [14, 19, 32, 38, 39, 41, 43, 44, 46, 50, 56, 71, 76, 77, 90, 93, 99, 111, 117, 119, 127, 128, 136, 142], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 76, formalized := true, sourceIds := [1, 2, 6], sourceFacts := [14, 32, 38, 39, 41, 43, 46, 56, 71, 76, 77, 90, 93, 99, 111, 117, 119, 127, 136, 142], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 77, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 78, formalized := true, sourceIds := [2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 79, formalized := true, sourceIds := [1], sourceFacts := [41, 43, 46, 56, 71, 90, 93, 99, 111, 119, 142], guideFormula := .and (.atom 111) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 80, formalized := true, sourceIds := [6], sourceFacts := [14, 43, 119], guideFormula := .and (.atom 119) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 84, formalized := true, sourceIds := [1, 2, 3, 5, 6], sourceFacts := [14, 19, 32, 38, 39, 41, 43, 44, 46, 50, 56, 71, 76, 77, 90, 93, 99, 111, 117, 119, 127, 128, 136, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 87, formalized := true, sourceIds := [1, 2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 46, 56, 71, 76, 77, 90, 93, 99, 111, 117, 119, 127, 136, 142], guideFormula := .or (.atom 19) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 106, formalized := true, sourceIds := [1, 2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 46, 56, 71, 76, 77, 90, 93, 99, 111, 117, 119, 127, 136, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 111, formalized := true, sourceIds := [197, 196, 198, 179, 178], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 60, 83, 89, 94, 111, 118, 119, 120, 122, 142], guideFormula := .or (.and (.and (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 46)) (.atom 13)) (.atom 122)) (.atom 40)) (.atom 100)) (.and (.and (.atom 119) (.atom 12)) (.atom 94)), reportedDerived := true, endToEnd := false },
+  { id := 112, formalized := true, sourceIds := [197, 179, 5, 178, 196], sourceFacts := [11, 12, 13, 19, 32, 34, 38, 40, 44, 46, 50, 56, 76, 77, 83, 89, 94, 111, 118, 119, 120, 122, 128, 136], guideFormula := .and (.and (.and (.and (.and (.and (.and (.atom 128) (.atom 32)) (.atom 119)) (.atom 19)) (.atom 43)) (.atom 122)) (.atom 94)) (.atom 100), reportedDerived := false, endToEnd := false },
+  { id := 114, formalized := true, sourceIds := [178, 198, 196, 5, 179], sourceFacts := [12, 13, 19, 32, 38, 44, 46, 50, 56, 60, 76, 77, 83, 89, 111, 118, 119, 120, 122, 128, 136, 142], guideFormula := .or (.and (.and (.and (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 19)) (.atom 44)) (.atom 43)) (.atom 13)) (.atom 120)) (.atom 60)) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 119, formalized := true, sourceIds := [197], sourceFacts := [11, 13, 32, 34, 40, 46, 83, 94, 119, 122], guideFormula := .and (.atom 40) (.atom 34), reportedDerived := true, endToEnd := false },
+  { id := 127, formalized := true, sourceIds := [196, 197, 184], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 74, 83, 89, 92, 94, 100, 111, 118, 119, 122], guideFormula := .and (.and (.and (.atom 119) (.atom 46)) (.atom 12)) (.atom 13), reportedDerived := true, endToEnd := false },
+  { id := 131, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.atom 77) (.atom 122)) (.atom 83), reportedDerived := false, endToEnd := false },
+  { id := 132, formalized := true, sourceIds := [197, 184], sourceFacts := [11, 13, 32, 34, 40, 46, 74, 83, 92, 94, 100, 119, 122], guideFormula := .and (.and (.and (.atom 128) (.atom 32)) (.atom 94)) (.atom 100), reportedDerived := false, endToEnd := false },
+  { id := 134, formalized := true, sourceIds := [196, 197], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 83, 89, 94, 111, 118, 119, 122], guideFormula := .and (.and (.and (.and (.and (.atom 118) (.atom 119)) (.atom 56)) (.atom 19)) (.atom 44)) (.atom 120), reportedDerived := false, endToEnd := false },
+  { id := 135, formalized := true, sourceIds := [196, 197, 184], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 74, 83, 89, 92, 94, 100, 111, 118, 119, 122], guideFormula := .and (.and (.and (.and (.and (.and (.atom 118) (.atom 119)) (.atom 56)) (.atom 46)) (.atom 44)) (.atom 43)) (.atom 13), reportedDerived := false, endToEnd := false },
+  { id := 136, formalized := true, sourceIds := [196, 197, 184], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 74, 83, 89, 92, 94, 100, 111, 118, 119, 122], guideFormula := .neg (.and (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 46)) (.atom 73)) (.atom 26)) (.atom 13)), reportedDerived := false, endToEnd := false },
+  { id := 137, formalized := true, sourceIds := [196, 184, 197], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 74, 83, 89, 92, 94, 100, 111, 118, 119, 122], guideFormula := .and (.and (.and (.atom 46) (.atom 133)) (.atom 13)) (.atom 100), reportedDerived := false, endToEnd := false },
+  { id := 138, formalized := true, sourceIds := [179, 196, 197, 198, 178], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 60, 83, 89, 94, 111, 118, 119, 120, 122, 142], guideFormula := .imp (.and (.atom 46) (.atom 13)) (.atom 133), reportedDerived := false, endToEnd := false },
+  { id := 140, formalized := true, sourceIds := [178, 179, 196, 197, 198], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 60, 83, 89, 94, 111, 118, 119, 120, 122, 142], guideFormula := .and (.and (.and (.atom 31) (.atom 19)) (.atom 133)) (.atom 83), reportedDerived := false, endToEnd := false },
+  { id := 141, formalized := true, sourceIds := [5, 178, 179, 196, 197], sourceFacts := [11, 12, 13, 19, 32, 34, 38, 40, 44, 46, 50, 56, 76, 77, 83, 89, 94, 111, 118, 119, 120, 122, 128, 136], guideFormula := .and (.atom 119) (.atom 49), reportedDerived := false, endToEnd := false },
+  { id := 143, formalized := true, sourceIds := [179, 184, 196, 197, 198], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 60, 74, 83, 89, 92, 94, 100, 111, 118, 119, 122, 142], guideFormula := .and (.and (.and (.atom 46) (.atom 43)) (.atom 13)) (.atom 100), reportedDerived := false, endToEnd := false },
+  { id := 146, formalized := true, sourceIds := [178, 198], sourceFacts := [12, 13, 19, 46, 56, 60, 118, 119, 120, 142], guideFormula := .or (.and (.and (.atom 119) (.atom 46)) (.atom 13)) (.and (.and (.atom 119) (.atom 56)) (.atom 120)), reportedDerived := true, endToEnd := false },
+  { id := 149, formalized := true, sourceIds := [178, 198], sourceFacts := [12, 13, 19, 46, 56, 60, 118, 119, 120, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 153, formalized := true, sourceIds := [178, 198], sourceFacts := [12, 13, 19, 46, 56, 60, 118, 119, 120, 142], guideFormula := .or (.and (.and (.atom 119) (.atom 56)) (.atom 120)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 155, formalized := true, sourceIds := [178], sourceFacts := [13, 19, 56, 119, 120], guideFormula := .or (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 46)) (.atom 13)) (.atom 120)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 156, formalized := true, sourceIds := [178], sourceFacts := [13, 19, 56, 119, 120], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 120), reportedDerived := true, endToEnd := false },
+  { id := 157, formalized := true, sourceIds := [198], sourceFacts := [12, 13, 19, 46, 56, 60, 118, 119, 142], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 44), reportedDerived := false, endToEnd := false },
+  { id := 158, formalized := true, sourceIds := [198], sourceFacts := [12, 13, 19, 46, 56, 60, 118, 119, 142], guideFormula := .and (.and (.and (.atom 119) (.atom 56)) (.atom 19)) (.atom 44), reportedDerived := false, endToEnd := false },
+  { id := 159, formalized := true, sourceIds := [178, 198], sourceFacts := [12, 13, 19, 46, 56, 60, 118, 119, 120, 142], guideFormula := .and (.and (.and (.atom 119) (.atom 56)) (.atom 19)) (.atom 120), reportedDerived := true, endToEnd := false },
+  { id := 163, formalized := true, sourceIds := [179], sourceFacts := [13, 32, 46, 83, 119, 122], guideFormula := .and (.atom 122) (.atom 83), reportedDerived := true, endToEnd := false },
+  { id := 174, formalized := true, sourceIds := [179], sourceFacts := [13, 32, 46, 83, 119, 122], guideFormula := .and (.and (.atom 46) (.atom 13)) (.atom 122), reportedDerived := true, endToEnd := false },
+  { id := 175, formalized := true, sourceIds := [5, 64], sourceFacts := [17, 38, 41, 44, 50, 70, 76, 77, 114, 119, 128, 136], guideFormula := .neg (.and (.and (.and (.and (.and (.and (.and (.and (.atom 77) (.atom 118)) (.atom 119)) (.atom 46)) (.atom 44)) (.atom 13)) (.atom 122)) (.atom 94)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 176, formalized := true, sourceIds := [179], sourceFacts := [13, 32, 46, 83, 119, 122], guideFormula := .neg (.and (.and (.atom 46) (.atom 13)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 179, formalized := true, sourceIds := [197, 179, 196, 198, 178], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 60, 83, 89, 94, 111, 118, 119, 120, 122, 142], guideFormula := .or (.and (.and (.atom 46) (.atom 13)) (.atom 122)) (.and (.atom 119) (.atom 94)), reportedDerived := true, endToEnd := false },
+  { id := 180, formalized := true, sourceIds := [179, 196, 197, 198, 178], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 60, 83, 89, 94, 111, 118, 119, 120, 122, 142], guideFormula := .or (.and (.atom 46) (.atom 13)) (.and (.and (.atom 119) (.atom 46)) (.atom 13)), reportedDerived := true, endToEnd := false },
+  { id := 182, formalized := true, sourceIds := [179, 197], sourceFacts := [11, 13, 32, 34, 40, 46, 83, 94, 119, 122], guideFormula := .atom 122, reportedDerived := true, endToEnd := false },
+  { id := 186, formalized := true, sourceIds := [179, 197, 196, 198, 178], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 60, 83, 89, 94, 111, 118, 119, 120, 122, 142], guideFormula := .and (.and (.and (.and (.and (.atom 119) (.atom 46)) (.atom 117)) (.atom 13)) (.atom 122)) (.atom 83), reportedDerived := false, endToEnd := false },
+  { id := 187, formalized := true, sourceIds := [197, 179, 196, 198, 5], sourceFacts := [11, 12, 13, 19, 32, 34, 38, 40, 44, 46, 50, 56, 60, 76, 77, 83, 89, 94, 111, 118, 119, 122, 128, 136, 142], guideFormula := .and (.and (.and (.and (.and (.atom 77) (.atom 119)) (.atom 46)) (.atom 13)) (.atom 94)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 188, formalized := true, sourceIds := [196, 198, 178, 5, 179], sourceFacts := [12, 13, 19, 32, 38, 44, 46, 50, 56, 60, 76, 77, 83, 89, 111, 118, 119, 120, 122, 128, 136, 142], guideFormula := .and (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 19)) (.atom 44)) (.atom 73)) (.atom 12), reportedDerived := false, endToEnd := false },
+  { id := 189, formalized := true, sourceIds := [179, 196, 197, 198, 178], sourceFacts := [11, 12, 13, 19, 32, 34, 40, 46, 56, 60, 83, 89, 94, 111, 118, 119, 120, 122, 142], guideFormula := .and (.and (.and (.and (.atom 119) (.atom 46)) (.atom 73)) (.atom 26)) (.atom 13), reportedDerived := false, endToEnd := false },
+  { id := 200, formalized := true, sourceIds := [181, 182], sourceFacts := [13, 32, 34, 40], guideFormula := .and (.atom 40) (.atom 34), reportedDerived := true, endToEnd := false },
+  { id := 204, formalized := true, sourceIds := [181], sourceFacts := [13, 32, 34, 40], guideFormula := .and (.atom 40) (.atom 34), reportedDerived := true, endToEnd := false },
+  { id := 205, formalized := true, sourceIds := [182], sourceFacts := [13, 32, 34, 40], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
+  { id := 210, formalized := false, sourceIds := [183], sourceFacts := [32, 34, 83, 122], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 225, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.atom 1) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 246, formalized := true, sourceIds := [187], sourceFacts := [13, 51, 118, 119], guideFormula := .and (.atom 94) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 257, formalized := true, sourceIds := [187, 190], sourceFacts := [13, 51, 118, 119], guideFormula := .neg (.and (.and (.and (.atom 46) (.atom 13)) (.atom 122)) (.atom 83)), reportedDerived := false, endToEnd := false },
+  { id := 281, formalized := true, sourceIds := [190], sourceFacts := [13, 118], guideFormula := .and (.atom 118) (.atom 13), reportedDerived := true, endToEnd := false },
+  { id := 290, formalized := true, sourceIds := [178, 193, 196, 198, 199], sourceFacts := [12, 13, 19, 46, 56, 60, 89, 111, 118, 119, 120, 142], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 120), reportedDerived := true, endToEnd := false },
+  { id := 291, formalized := true, sourceIds := [191], sourceFacts := [13, 129], guideFormula := .or (.or (.and (.and (.and (.atom 119) (.atom 56)) (.atom 46)) (.atom 13)) (.atom 119)) (.and (.atom 119) (.atom 56)), reportedDerived := false, endToEnd := false },
+  { id := 292, formalized := true, sourceIds := [178, 196, 198, 5, 179], sourceFacts := [12, 13, 19, 32, 38, 44, 46, 50, 56, 60, 76, 77, 83, 89, 111, 118, 119, 120, 122, 128, 136, 142], guideFormula := .and (.atom 119) (.atom 19), reportedDerived := true, endToEnd := false },
+  { id := 299, formalized := true, sourceIds := [191], sourceFacts := [13, 129], guideFormula := .or (.atom 129) (.and (.atom 19) (.atom 8)), reportedDerived := true, endToEnd := false },
+  { id := 302, formalized := true, sourceIds := [198, 178, 196, 5, 193], sourceFacts := [12, 13, 19, 38, 44, 46, 50, 56, 60, 76, 77, 89, 111, 118, 119, 120, 128, 136, 142], guideFormula := .neg (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 19)) (.atom 142)) (.atom 44)), reportedDerived := false, endToEnd := false },
+  { id := 316, formalized := true, sourceIds := [178, 196, 198], sourceFacts := [12, 13, 19, 46, 56, 60, 89, 111, 118, 119, 120, 142], guideFormula := .atom 19, reportedDerived := true, endToEnd := false },
+  { id := 327, formalized := true, sourceIds := [179, 183, 197, 181, 182], sourceFacts := [11, 13, 32, 34, 40, 46, 83, 94, 119, 122], guideFormula := .and (.atom 32) (.atom 122), reportedDerived := true, endToEnd := false },
+  { id := 337, formalized := true, sourceIds := [5, 179, 196, 197, 198], sourceFacts := [11, 12, 13, 19, 32, 34, 38, 40, 44, 46, 50, 56, 60, 76, 77, 83, 89, 94, 111, 118, 119, 122, 128, 136, 142], guideFormula := .and (.and (.and (.and (.atom 128) (.atom 32)) (.atom 66)) (.atom 119)) (.atom 12), reportedDerived := false, endToEnd := false },
+  { id := 347, formalized := true, sourceIds := [193], sourceFacts := [13, 56, 89, 119], guideFormula := .or (.atom 13) (.and (.and (.and (.atom 89) (.atom 119)) (.atom 46)) (.atom 13)), reportedDerived := true, endToEnd := false },
+  { id := 352, formalized := true, sourceIds := [178, 193, 196, 198, 199], sourceFacts := [12, 13, 19, 46, 56, 60, 89, 111, 118, 119, 120, 142], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 363, formalized := true, sourceIds := [199], sourceFacts := [13, 46, 56, 119], guideFormula := .and (.and (.and (.atom 119) (.atom 46)) (.atom 13)) (.atom 40), reportedDerived := false, endToEnd := false },
+  { id := 364, formalized := true, sourceIds := [199], sourceFacts := [13, 46, 56, 119], guideFormula := .and (.and (.atom 119) (.atom 46)) (.atom 13), reportedDerived := true, endToEnd := false },
+  { id := 381, formalized := true, sourceIds := [5, 100, 141, 1, 2], sourceFacts := [14, 19, 32, 38, 39, 41, 43, 44, 46, 47, 50, 56, 61, 64, 71, 76, 77, 90, 93, 99, 111, 117, 119, 127, 128, 136, 142], guideFormula := .and (.and (.and (.atom 128) (.atom 119)) (.atom 44)) (.atom 100), reportedDerived := false, endToEnd := false },
+  { id := 382, formalized := true, sourceIds := [2, 5, 42, 43, 45], sourceFacts := [14, 25, 26, 32, 38, 39, 41, 43, 44, 50, 56, 67, 72, 76, 77, 88, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .and (.and (.atom 32) (.atom 119)) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 383, formalized := true, sourceIds := [5, 2, 42, 43, 45], sourceFacts := [14, 25, 26, 32, 38, 39, 41, 43, 44, 50, 56, 67, 72, 76, 77, 88, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .and (.and (.and (.atom 128) (.atom 32)) (.atom 119)) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 385, formalized := true, sourceIds := [5, 7, 44, 45, 66], sourceFacts := [14, 26, 32, 38, 41, 43, 44, 50, 56, 72, 76, 77, 88, 118, 119, 128, 136, 142], guideFormula := .and (.atom 118) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 386, formalized := true, sourceIds := [3, 100, 1, 33, 45], sourceFacts := [1, 14, 19, 26, 32, 41, 43, 44, 46, 47, 54, 56, 61, 63, 64, 71, 72, 86, 88, 90, 93, 99, 107, 111, 118, 119, 142], guideFormula := .and (.and (.and (.atom 18) (.atom 119)) (.atom 56)) (.atom 19), reportedDerived := false, endToEnd := false },
+  { id := 387, formalized := true, sourceIds := [1, 3, 4, 7, 33], sourceFacts := [1, 8, 14, 19, 41, 43, 44, 46, 54, 56, 63, 71, 86, 90, 93, 99, 107, 111, 119, 140, 142], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 392, formalized := true, sourceIds := [100, 3, 7, 141, 1], sourceFacts := [14, 19, 41, 43, 44, 46, 47, 56, 61, 64, 71, 90, 93, 99, 111, 119, 142], guideFormula := .and (.and (.atom 56) (.atom 19)) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 397, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.atom 119) (.atom 44), reportedDerived := false, endToEnd := false },
+  { id := 398, formalized := true, sourceIds := [1, 3, 33, 45, 47], sourceFacts := [1, 5, 14, 19, 26, 32, 41, 43, 46, 54, 56, 59, 63, 66, 71, 72, 86, 88, 90, 93, 99, 107, 111, 116, 118, 119, 142], guideFormula := .and (.and (.atom 5) (.atom 119)) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 401, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.atom 43) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 402, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.and (.atom 43) (.atom 121)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 403, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.and (.atom 43) (.atom 26)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 408, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 14, 25, 32, 38, 39, 41, 43, 46, 54, 56, 63, 67, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 409, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 14, 25, 32, 38, 39, 41, 43, 46, 54, 56, 63, 67, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 410, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 14, 25, 32, 38, 39, 41, 43, 46, 54, 56, 63, 67, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.and (.atom 119) (.atom 133)) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 411, formalized := true, sourceIds := [2, 43, 100, 141, 1], sourceFacts := [14, 19, 32, 38, 39, 41, 43, 44, 46, 47, 56, 61, 64, 71, 76, 77, 90, 93, 99, 111, 117, 119, 127, 136, 142], guideFormula := .or (.and (.and (.atom 119) (.atom 44)) (.atom 117)) (.and (.atom 43) (.atom 41)), reportedDerived := true, endToEnd := false },
+  { id := 412, formalized := true, sourceIds := [100, 141, 1, 2, 33], sourceFacts := [1, 14, 19, 32, 38, 39, 41, 43, 44, 46, 47, 54, 56, 61, 63, 64, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .or (.and (.atom 119) (.atom 44)) (.and (.and (.atom 119) (.atom 43)) (.atom 41)), reportedDerived := true, endToEnd := false },
+  { id := 413, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 14, 25, 32, 38, 39, 41, 43, 46, 54, 56, 63, 67, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 414, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 14, 25, 32, 38, 39, 41, 43, 46, 54, 56, 63, 67, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 415, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 14, 25, 32, 38, 39, 41, 43, 46, 54, 56, 63, 67, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.and (.atom 119) (.atom 43)) (.atom 113)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 416, formalized := true, sourceIds := [44, 45, 66, 84, 89], sourceFacts := [14, 16, 23, 24, 26, 32, 37, 41, 43, 56, 72, 76, 77, 88, 93, 98, 106, 111, 115, 118, 119, 136], guideFormula := .and (.and (.and (.and (.and (.atom 118) (.atom 23)) (.atom 119)) (.atom 44)) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 417, formalized := true, sourceIds := [100, 141, 1, 2, 33], sourceFacts := [1, 14, 19, 32, 38, 39, 41, 43, 44, 46, 47, 54, 56, 61, 63, 64, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .or (.atom 119) (.and (.and (.and (.and (.atom 31) (.atom 119)) (.atom 44)) (.atom 43)) (.atom 41)), reportedDerived := true, endToEnd := false },
+  { id := 418, formalized := true, sourceIds := [89, 100, 141, 1, 2], sourceFacts := [14, 19, 23, 24, 26, 32, 38, 39, 41, 43, 44, 46, 47, 56, 61, 64, 71, 76, 77, 90, 93, 99, 106, 111, 117, 119, 127, 136, 142], guideFormula := .or (.and (.atom 23) (.atom 119)) (.and (.and (.and (.atom 119) (.atom 44)) (.atom 43)) (.atom 41)), reportedDerived := true, endToEnd := false },
+  { id := 419, formalized := true, sourceIds := [1, 100, 141, 154, 2], sourceFacts := [1, 14, 19, 32, 38, 39, 41, 43, 44, 46, 47, 54, 56, 61, 63, 64, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.and (.and (.atom 56) (.atom 142)) (.atom 44)) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 420, formalized := true, sourceIds := [100, 3, 7, 141, 1], sourceFacts := [14, 19, 41, 43, 44, 46, 47, 56, 61, 64, 71, 90, 93, 99, 111, 119, 142], guideFormula := .and (.and (.atom 56) (.atom 19)) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 421, formalized := true, sourceIds := [100, 3, 7, 141, 1], sourceFacts := [14, 19, 41, 43, 44, 46, 47, 56, 61, 64, 71, 90, 93, 99, 111, 119, 142], guideFormula := .and (.and (.atom 56) (.atom 19)) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 422, formalized := true, sourceIds := [1, 100, 141, 154, 2], sourceFacts := [1, 14, 19, 32, 38, 39, 41, 43, 44, 46, 47, 54, 56, 61, 63, 64, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.and (.and (.atom 56) (.atom 142)) (.atom 44)) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 423, formalized := true, sourceIds := [1, 33, 45, 84, 89], sourceFacts := [1, 14, 16, 23, 24, 26, 32, 37, 41, 43, 46, 54, 56, 63, 71, 72, 86, 88, 90, 93, 98, 99, 106, 107, 111, 115, 118, 119, 142], guideFormula := .and (.and (.and (.and (.atom 75) (.atom 56)) (.atom 140)) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 424, formalized := true, sourceIds := [1, 33, 45, 84, 89], sourceFacts := [1, 14, 16, 23, 24, 26, 32, 37, 41, 43, 46, 54, 56, 63, 71, 72, 86, 88, 90, 93, 98, 99, 106, 107, 111, 115, 118, 119, 142], guideFormula := .and (.and (.and (.and (.atom 75) (.atom 56)) (.atom 8)) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 425, formalized := true, sourceIds := [1, 154, 2, 33, 45], sourceFacts := [1, 14, 26, 32, 38, 39, 41, 43, 46, 54, 56, 63, 71, 72, 76, 77, 86, 88, 90, 93, 99, 107, 111, 117, 118, 119, 127, 136, 142], guideFormula := .and (.and (.and (.atom 56) (.atom 142)) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 426, formalized := true, sourceIds := [1, 2, 33, 42, 43], sourceFacts := [1, 14, 25, 32, 38, 39, 41, 43, 46, 54, 56, 63, 67, 71, 76, 77, 86, 90, 93, 99, 107, 111, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 75) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 435, formalized := true, sourceIds := [5, 47, 66], sourceFacts := [5, 14, 26, 38, 41, 43, 44, 50, 59, 63, 66, 76, 77, 116, 118, 119, 128, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 436, formalized := false, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 437, formalized := true, sourceIds := [82], sourceFacts := [37, 98, 118], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 438, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 439, formalized := false, sourceIds := [111], sourceFacts := [43, 113], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 440, formalized := false, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 441, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 14), reportedDerived := true, endToEnd := false },
+  { id := 442, formalized := false, sourceIds := [42], sourceFacts := [25, 32, 41, 43, 67, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 443, formalized := true, sourceIds := [2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 32) (.atom 119)) (.atom 93), reportedDerived := true, endToEnd := false },
+  { id := 444, formalized := false, sourceIds := [45], sourceFacts := [26, 32, 41, 43, 56, 72, 88, 118, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 445, formalized := false, sourceIds := [84], sourceFacts := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 446, formalized := false, sourceIds := [86], sourceFacts := [41, 56, 98, 101, 115, 118, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 447, formalized := false, sourceIds := [73], sourceFacts := [14, 32, 40, 41, 43, 76, 102, 119, 136], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 448, formalized := true, sourceIds := [44], sourceFacts := [14, 41, 43, 118, 119], guideFormula := .and (.atom 43) (.atom 14), reportedDerived := true, endToEnd := false },
+  { id := 449, formalized := true, sourceIds := [65], sourceFacts := [32, 41, 53, 56, 62, 119, 142], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 452, formalized := true, sourceIds := [176], sourceFacts := [14, 41, 43, 56, 85, 93, 111, 119], guideFormula := .and (.atom 111) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 453, formalized := true, sourceIds := [1], sourceFacts := [41, 43, 46, 56, 71, 90, 93, 99, 111, 119, 142], guideFormula := .and (.and (.atom 111) (.atom 119)) (.atom 71), reportedDerived := true, endToEnd := false },
+  { id := 454, formalized := true, sourceIds := [141], sourceFacts := [14, 41, 43, 44, 46, 56, 93, 119], guideFormula := .and (.atom 119) (.atom 93), reportedDerived := true, endToEnd := false },
+  { id := 455, formalized := false, sourceIds := [100], sourceFacts := [19, 41, 43, 44, 47, 56, 61, 64, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 456, formalized := true, sourceIds := [177], sourceFacts := [56, 119, 123], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 457, formalized := true, sourceIds := [3], sourceFacts := [19, 56, 119], guideFormula := .and (.atom 56) (.atom 19), reportedDerived := true, endToEnd := false },
+  { id := 458, formalized := true, sourceIds := [94], sourceFacts := [26, 41, 43, 47, 56, 64, 111, 119], guideFormula := .atom 47, reportedDerived := true, endToEnd := false },
+  { id := 459, formalized := true, sourceIds := [171], sourceFacts := [43, 56, 81, 119, 142], guideFormula := .atom 81, reportedDerived := true, endToEnd := false },
+  { id := 460, formalized := true, sourceIds := [89], sourceFacts := [23, 24, 26, 41, 43, 56, 93, 106, 111, 119], guideFormula := .and (.atom 111) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 461, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 462, formalized := true, sourceIds := [157], sourceFacts := [37, 41, 46, 56, 58, 111, 119], guideFormula := .atom 111, reportedDerived := true, endToEnd := false },
+  { id := 463, formalized := true, sourceIds := [162], sourceFacts := [56, 111, 119, 126], guideFormula := .and (.and (.and (.atom 111) (.atom 119)) (.atom 56)) (.atom 126), reportedDerived := true, endToEnd := false },
+  { id := 464, formalized := true, sourceIds := [97], sourceFacts := [41, 56, 61, 99, 111, 119, 124], guideFormula := .and (.atom 111) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 465, formalized := true, sourceIds := [174], sourceFacts := [56, 137, 142], guideFormula := .atom 137, reportedDerived := true, endToEnd := false },
+  { id := 466, formalized := true, sourceIds := [175], sourceFacts := [41, 46, 56, 61, 69, 71, 86, 119, 133, 142], guideFormula := .and (.atom 119) (.atom 71), reportedDerived := true, endToEnd := false },
+  { id := 467, formalized := true, sourceIds := [4], sourceFacts := [8, 56, 140, 142], guideFormula := .and (.atom 140) (.atom 8), reportedDerived := true, endToEnd := false },
+  { id := 468, formalized := true, sourceIds := [7], sourceFacts := [14, 44, 56, 142], guideFormula := .and (.atom 142) (.atom 123), reportedDerived := false, endToEnd := false },
+  { id := 469, formalized := false, sourceIds := [108], sourceFacts := [43, 56, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 470, formalized := false, sourceIds := [118], sourceFacts := [12, 124], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 471, formalized := false, sourceIds := [40], sourceFacts := [12], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 472, formalized := true, sourceIds := [23], sourceFacts := [121, 132], guideFormula := .atom 132, reportedDerived := true, endToEnd := false },
+  { id := 473, formalized := true, sourceIds := [10], sourceFacts := [29, 119], guideFormula := .atom 29, reportedDerived := true, endToEnd := false },
+  { id := 474, formalized := true, sourceIds := [130], sourceFacts := [14, 43, 84, 119], guideFormula := .atom 84, reportedDerived := true, endToEnd := false },
+  { id := 475, formalized := true, sourceIds := [96], sourceFacts := [56, 104, 119, 124], guideFormula := .atom 104, reportedDerived := true, endToEnd := false },
+  { id := 483, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .and (.and (.atom 86) (.atom 119)) (.atom 56), reportedDerived := false, endToEnd := false },
+  { id := 551, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .and (.and (.atom 77) (.atom 32)) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 552, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 559, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 561, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 570, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 601, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .and (.and (.and (.and (.atom 133) (.atom 43)) (.atom 73)) (.atom 26)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 607, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .and (.and (.atom 119) (.atom 124)) (.atom 104), reportedDerived := false, endToEnd := false },
+  { id := 623, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .imp (.atom 118) (.and (.and (.and (.and (.atom 19) (.atom 44)) (.atom 43)) (.atom 117)) (.atom 26)), reportedDerived := false, endToEnd := false },
+  { id := 646, formalized := true, sourceIds := [8], sourceFacts := [56, 111, 119], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 658, formalized := true, sourceIds := [9], sourceFacts := [27], guideFormula := .atom 121, reportedDerived := false, endToEnd := false },
+  { id := 675, formalized := true, sourceIds := [10], sourceFacts := [29, 119], guideFormula := .atom 29, reportedDerived := true, endToEnd := false },
+  { id := 693, formalized := true, sourceIds := [11], sourceFacts := [29, 142], guideFormula := .atom 29, reportedDerived := true, endToEnd := false },
+  { id := 703, formalized := true, sourceIds := [12], sourceFacts := [56, 111, 119, 133], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 133), reportedDerived := true, endToEnd := false },
+  { id := 704, formalized := true, sourceIds := [13], sourceFacts := [14, 41, 43, 44, 47, 56, 61, 64, 119, 133], guideFormula := .and (.atom 119) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 714, formalized := true, sourceIds := [14], sourceFacts := [31, 142], guideFormula := .atom 142, reportedDerived := true, endToEnd := false },
+  { id := 720, formalized := true, sourceIds := [15], sourceFacts := [46, 56, 85, 119], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 85), reportedDerived := true, endToEnd := false },
+  { id := 730, formalized := false, sourceIds := [16], sourceFacts := [119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 744, formalized := true, sourceIds := [17], sourceFacts := [41, 43, 119], guideFormula := .and (.atom 43) (.atom 28), reportedDerived := false, endToEnd := false },
+  { id := 753, formalized := true, sourceIds := [18], sourceFacts := [28, 43, 119], guideFormula := .atom 28, reportedDerived := true, endToEnd := false },
+  { id := 778, formalized := true, sourceIds := [20], sourceFacts := [28], guideFormula := .and (.and (.and (.atom 133) (.atom 26)) (.atom 28)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 785, formalized := true, sourceIds := [21], sourceFacts := [2, 10, 26, 119], guideFormula := .atom 2, reportedDerived := true, endToEnd := false },
+  { id := 793, formalized := true, sourceIds := [22], sourceFacts := [19, 26, 49, 56, 73, 123], guideFormula := .atom 49, reportedDerived := true, endToEnd := false },
+  { id := 796, formalized := true, sourceIds := [40, 41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 821, formalized := true, sourceIds := [28, 30], sourceFacts := [26, 41, 92, 119], guideFormula := .atom 92, reportedDerived := true, endToEnd := false },
+  { id := 855, formalized := true, sourceIds := [18, 21], sourceFacts := [2, 10, 26, 28, 43, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 856, formalized := true, sourceIds := [23], sourceFacts := [121, 132], guideFormula := .neg (.atom 132), reportedDerived := false, endToEnd := false },
+  { id := 864, formalized := true, sourceIds := [24], sourceFacts := [89], guideFormula := .atom 43, reportedDerived := false, endToEnd := false },
+  { id := 865, formalized := true, sourceIds := [25], sourceFacts := [14, 41, 43, 74, 119], guideFormula := .atom 74, reportedDerived := true, endToEnd := false },
+  { id := 866, formalized := true, sourceIds := [24, 25], sourceFacts := [14, 41, 43, 74, 89, 119], guideFormula := .atom 74, reportedDerived := true, endToEnd := false },
+  { id := 875, formalized := true, sourceIds := [26], sourceFacts := [14, 41, 44, 74, 119, 125], guideFormula := .atom 74, reportedDerived := true, endToEnd := false },
+  { id := 883, formalized := true, sourceIds := [27], sourceFacts := [41, 74, 119], guideFormula := .and (.atom 43) (.atom 34), reportedDerived := false, endToEnd := false },
+  { id := 884, formalized := true, sourceIds := [27], sourceFacts := [41, 74, 119], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 895, formalized := true, sourceIds := [25, 26], sourceFacts := [14, 41, 43, 44, 74, 119, 125], guideFormula := .and (.atom 74) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 904, formalized := true, sourceIds := [28], sourceFacts := [26, 41, 92, 119], guideFormula := .neg (.atom 56), reportedDerived := false, endToEnd := false },
+  { id := 911, formalized := true, sourceIds := [29], sourceFacts := [14, 41, 43, 119, 125, 131], guideFormula := .atom 131, reportedDerived := true, endToEnd := false },
+  { id := 917, formalized := true, sourceIds := [30], sourceFacts := [92, 119], guideFormula := .atom 100, reportedDerived := false, endToEnd := false },
+  { id := 940, formalized := true, sourceIds := [28, 25, 26, 27, 29], sourceFacts := [14, 26, 41, 43, 44, 74, 92, 119, 125, 131], guideFormula := .and (.atom 26) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 962, formalized := true, sourceIds := [31], sourceFacts := [18, 32, 41, 56, 111, 119], guideFormula := .and (.and (.atom 32) (.atom 119)) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 968, formalized := true, sourceIds := [31], sourceFacts := [18, 32, 41, 56, 111, 119], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 969, formalized := true, sourceIds := [2, 43, 53, 54], sourceFacts := [5, 14, 26, 32, 35, 38, 39, 41, 43, 59, 66, 73, 76, 77, 93, 117, 119, 127, 133, 136, 142], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
+  { id := 986, formalized := true, sourceIds := [32], sourceFacts := [78, 125, 142], guideFormula := .and (.atom 125) (.atom 78), reportedDerived := true, endToEnd := false },
+  { id := 1007, formalized := true, sourceIds := [31], sourceFacts := [18, 32, 41, 56, 111, 119], guideFormula := .and (.and (.and (.atom 32) (.atom 119)) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 1013, formalized := true, sourceIds := [33, 34], sourceFacts := [1, 14, 18, 23, 40, 41, 42, 43, 54, 56, 63, 81, 86, 107, 111, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1017, formalized := true, sourceIds := [5, 13, 26, 36, 37], sourceFacts := [14, 19, 34, 38, 41, 43, 44, 46, 47, 50, 56, 61, 64, 71, 74, 76, 77, 93, 119, 125, 128, 133, 136], guideFormula := .atom 44, reportedDerived := true, endToEnd := false },
+  { id := 1020, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .and (.and (.atom 63) (.atom 54)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1025, formalized := false, sourceIds := [2, 5, 9, 10, 11], sourceFacts := [14, 27, 29, 32, 38, 39, 41, 43, 44, 50, 76, 77, 93, 117, 119, 127, 128, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1026, formalized := true, sourceIds := [33], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 1030, formalized := true, sourceIds := [42], sourceFacts := [25, 32, 41, 43, 67, 119], guideFormula := .atom 67, reportedDerived := true, endToEnd := false },
+  { id := 1032, formalized := true, sourceIds := [34], sourceFacts := [18, 23, 40, 42, 81, 119], guideFormula := .and (.atom 18) (.atom 42), reportedDerived := true, endToEnd := false },
+  { id := 1040, formalized := true, sourceIds := [40, 41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 1044, formalized := true, sourceIds := [31, 33, 35, 154], sourceFacts := [1, 14, 18, 32, 41, 43, 54, 56, 63, 81, 86, 107, 111, 119, 142], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 1052, formalized := true, sourceIds := [31], sourceFacts := [18, 32, 41, 56, 111, 119], guideFormula := .and (.and (.atom 32) (.atom 119)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1053, formalized := true, sourceIds := [35], sourceFacts := [43, 56, 81, 119], guideFormula := .atom 81, reportedDerived := true, endToEnd := false },
+  { id := 1064, formalized := true, sourceIds := [5, 13, 26, 36, 37], sourceFacts := [14, 19, 34, 38, 41, 43, 44, 46, 47, 50, 56, 61, 64, 71, 74, 76, 77, 93, 119, 125, 128, 133, 136], guideFormula := .atom 44, reportedDerived := true, endToEnd := false },
+  { id := 1083, formalized := true, sourceIds := [36], sourceFacts := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119], guideFormula := .and (.and (.atom 56) (.atom 44)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 1104, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 19), reportedDerived := true, endToEnd := false },
+  { id := 1106, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.and (.and (.atom 56) (.atom 19)) (.atom 44)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 1116, formalized := true, sourceIds := [38, 13], sourceFacts := [14, 41, 43, 44, 47, 56, 61, 64, 119, 133], guideFormula := .and (.atom 133) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 1132, formalized := true, sourceIds := [39], sourceFacts := [41, 43, 46, 56, 61, 111, 119, 124, 133], guideFormula := .and (.atom 56) (.atom 124), reportedDerived := true, endToEnd := false },
+  { id := 1140, formalized := true, sourceIds := [40], sourceFacts := [12], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 1141, formalized := true, sourceIds := [41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 1145, formalized := true, sourceIds := [40, 41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 1151, formalized := true, sourceIds := [40, 41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 1155, formalized := true, sourceIds := [41], sourceFacts := [12, 43, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1158, formalized := true, sourceIds := [41, 40], sourceFacts := [12, 43, 119], guideFormula := .and (.atom 119) (.atom 12), reportedDerived := true, endToEnd := false },
+  { id := 1199, formalized := true, sourceIds := [2, 5, 34, 42, 43], sourceFacts := [14, 18, 23, 25, 32, 38, 39, 40, 41, 42, 43, 44, 50, 67, 76, 77, 81, 93, 117, 119, 127, 128, 136, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1203, formalized := true, sourceIds := [42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1204, formalized := true, sourceIds := [42], sourceFacts := [25, 32, 41, 43, 67, 119], guideFormula := .atom 67, reportedDerived := true, endToEnd := false },
+  { id := 1205, formalized := true, sourceIds := [43, 2], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 32) (.atom 39)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1214, formalized := true, sourceIds := [42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136], guideFormula := .and (.atom 39) (.atom 67), reportedDerived := true, endToEnd := false },
+  { id := 1215, formalized := true, sourceIds := [42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1217, formalized := false, sourceIds := [5, 2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 44, 50, 76, 77, 93, 117, 119, 127, 128, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1222, formalized := true, sourceIds := [2, 42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.atom 127) (.atom 25), reportedDerived := true, endToEnd := false },
+  { id := 1224, formalized := true, sourceIds := [34], sourceFacts := [18, 23, 40, 42, 81, 119], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
+  { id := 1238, formalized := true, sourceIds := [44], sourceFacts := [14, 41, 43, 118, 119], guideFormula := .neg (.and (.and (.and (.atom 43) (.atom 14)) (.atom 40)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 1244, formalized := true, sourceIds := [44], sourceFacts := [14, 41, 43, 118, 119], guideFormula := .and (.and (.and (.atom 119) (.atom 43)) (.atom 14)) (.atom 40), reportedDerived := false, endToEnd := false },
+  { id := 1254, formalized := true, sourceIds := [45, 34], sourceFacts := [18, 23, 26, 32, 40, 41, 42, 43, 56, 72, 81, 88, 118, 119], guideFormula := .neg (.and (.and (.atom 32) (.atom 119)) (.atom 43)), reportedDerived := false, endToEnd := false },
+  { id := 1255, formalized := true, sourceIds := [5, 2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 44, 50, 76, 77, 93, 117, 119, 127, 128, 136, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1257, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.atom 50) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1259, formalized := true, sourceIds := [45], sourceFacts := [26, 32, 41, 43, 56, 72, 88, 118, 119], guideFormula := .atom 72, reportedDerived := true, endToEnd := false },
+  { id := 1264, formalized := true, sourceIds := [34], sourceFacts := [18, 23, 40, 42, 81, 119], guideFormula := .atom 40, reportedDerived := true, endToEnd := false },
+  { id := 1266, formalized := true, sourceIds := [34, 45], sourceFacts := [18, 23, 26, 32, 40, 41, 42, 43, 56, 72, 81, 88, 118, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1267, formalized := true, sourceIds := [34], sourceFacts := [18, 23, 40, 42, 81, 119], guideFormula := .and (.atom 18) (.atom 42), reportedDerived := true, endToEnd := false },
+  { id := 1271, formalized := true, sourceIds := [46], sourceFacts := [26, 34, 41, 75, 119], guideFormula := .and (.and (.and (.and (.and (.atom 5) (.atom 116)) (.atom 117)) (.atom 73)) (.atom 34)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 1274, formalized := true, sourceIds := [46], sourceFacts := [26, 34, 41, 75, 119], guideFormula := .and (.atom 75) (.atom 34), reportedDerived := true, endToEnd := false },
+  { id := 1284, formalized := true, sourceIds := [40, 41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 1285, formalized := true, sourceIds := [2], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .atom 142, reportedDerived := true, endToEnd := false },
+  { id := 1291, formalized := true, sourceIds := [45], sourceFacts := [26, 32, 41, 43, 56, 72, 88, 118, 119], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 1293, formalized := true, sourceIds := [2, 43, 44, 42, 45], sourceFacts := [14, 25, 26, 32, 38, 39, 41, 43, 56, 67, 72, 76, 77, 88, 93, 117, 118, 119, 127, 136, 142], guideFormula := .and (.atom 43) (.atom 14), reportedDerived := true, endToEnd := false },
+  { id := 1298, formalized := true, sourceIds := [2, 42, 43, 44, 45], sourceFacts := [14, 25, 26, 32, 38, 39, 41, 43, 56, 67, 72, 76, 77, 88, 93, 117, 118, 119, 127, 136, 142], guideFormula := .and (.atom 119) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1301, formalized := true, sourceIds := [47, 49, 50, 51, 52], sourceFacts := [3, 4, 5, 7, 14, 22, 23, 32, 34, 35, 41, 43, 51, 52, 57, 59, 63, 66, 116, 119, 123, 130], guideFormula := .and (.and (.atom 128) (.atom 68)) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 1302, formalized := true, sourceIds := [47, 49, 50, 52, 53], sourceFacts := [3, 4, 5, 14, 23, 26, 32, 34, 35, 41, 43, 51, 52, 57, 59, 63, 66, 73, 116, 117, 119, 123, 130, 133], guideFormula := .or (.atom 119) (.atom 5), reportedDerived := true, endToEnd := false },
+  { id := 1303, formalized := true, sourceIds := [47, 49, 50, 51, 52], sourceFacts := [3, 4, 5, 7, 14, 22, 23, 32, 34, 35, 41, 43, 51, 52, 57, 59, 63, 66, 116, 119, 123, 130], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1311, formalized := true, sourceIds := [53, 54, 55], sourceFacts := [5, 26, 30, 34, 35, 41, 59, 66, 73, 117, 119, 123, 133], guideFormula := .and (.atom 133) (.atom 73), reportedDerived := true, endToEnd := false },
+  { id := 1312, formalized := true, sourceIds := [47, 49, 50, 51, 52], sourceFacts := [3, 4, 5, 7, 14, 22, 23, 32, 34, 35, 41, 43, 51, 52, 57, 59, 63, 66, 116, 119, 123, 130], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1317, formalized := true, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .and (.atom 59) (.atom 63), reportedDerived := true, endToEnd := false },
+  { id := 1318, formalized := true, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .and (.atom 59) (.atom 63), reportedDerived := true, endToEnd := false },
+  { id := 1322, formalized := true, sourceIds := [47, 52], sourceFacts := [5, 23, 34, 41, 43, 57, 59, 63, 66, 116, 119, 123], guideFormula := .and (.atom 119) (.atom 133), reportedDerived := false, endToEnd := false },
+  { id := 1325, formalized := true, sourceIds := [49], sourceFacts := [3, 5, 14, 32, 41, 43, 51, 59, 63, 119, 130], guideFormula := .atom 51, reportedDerived := true, endToEnd := false },
+  { id := 1326, formalized := true, sourceIds := [50], sourceFacts := [4, 5, 32, 35, 41, 43, 51, 52, 63, 119], guideFormula := .atom 4, reportedDerived := true, endToEnd := false },
+  { id := 1331, formalized := true, sourceIds := [51], sourceFacts := [7, 22, 23, 119], guideFormula := .atom 22, reportedDerived := true, endToEnd := false },
+  { id := 1332, formalized := true, sourceIds := [51], sourceFacts := [7, 22, 23, 119], guideFormula := .and (.atom 23) (.atom 123), reportedDerived := false, endToEnd := false },
+  { id := 1333, formalized := true, sourceIds := [51], sourceFacts := [7, 22, 23, 119], guideFormula := .atom 23, reportedDerived := true, endToEnd := false },
+  { id := 1338, formalized := false, sourceIds := [52], sourceFacts := [5, 23, 34, 41, 57, 63, 119, 123], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1339, formalized := true, sourceIds := [52], sourceFacts := [5, 23, 34, 41, 57, 63, 119, 123], guideFormula := .and (.atom 57) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1343, formalized := true, sourceIds := [53], sourceFacts := [5, 26, 35, 41, 59, 66, 73, 117, 119, 133], guideFormula := .and (.atom 35) (.atom 123), reportedDerived := false, endToEnd := false },
+  { id := 1361, formalized := true, sourceIds := [52, 55], sourceFacts := [5, 23, 26, 30, 34, 41, 57, 63, 66, 73, 119, 123, 133], guideFormula := .atom 34, reportedDerived := true, endToEnd := false },
+  { id := 1367, formalized := true, sourceIds := [23], sourceFacts := [121, 132], guideFormula := .atom 132, reportedDerived := true, endToEnd := false },
+  { id := 1372, formalized := true, sourceIds := [40, 41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 1377, formalized := true, sourceIds := [56], sourceFacts := [40, 56, 119, 123], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 1378, formalized := false, sourceIds := [54, 55], sourceFacts := [5, 26, 30, 34, 35, 41, 59, 66, 73, 117, 119, 123, 133], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1380, formalized := true, sourceIds := [54, 55, 53], sourceFacts := [5, 26, 30, 34, 35, 41, 59, 66, 73, 117, 119, 123, 133], guideFormula := .and (.and (.atom 66) (.atom 119)) (.atom 123), reportedDerived := true, endToEnd := false },
+  { id := 1381, formalized := true, sourceIds := [54, 55], sourceFacts := [5, 26, 30, 34, 35, 41, 59, 66, 73, 117, 119, 123, 133], guideFormula := .and (.and (.and (.atom 119) (.atom 133)) (.atom 117)) (.atom 73), reportedDerived := true, endToEnd := false },
+  { id := 1396, formalized := false, sourceIds := [56], sourceFacts := [40, 56, 119, 123], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1397, formalized := true, sourceIds := [56], sourceFacts := [40, 56, 119, 123], guideFormula := .and (.atom 66) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 1405, formalized := true, sourceIds := [52], sourceFacts := [5, 23, 34, 41, 57, 63, 119, 123], guideFormula := .atom 34, reportedDerived := true, endToEnd := false },
+  { id := 1408, formalized := true, sourceIds := [40, 41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 1412, formalized := true, sourceIds := [52, 53], sourceFacts := [5, 23, 26, 34, 35, 41, 57, 59, 63, 66, 73, 117, 119, 123, 133], guideFormula := .atom 123, reportedDerived := true, endToEnd := false },
+  { id := 1417, formalized := true, sourceIds := [53], sourceFacts := [5, 26, 35, 41, 59, 66, 73, 117, 119, 133], guideFormula := .atom 133, reportedDerived := true, endToEnd := false },
+  { id := 1423, formalized := true, sourceIds := [52, 53], sourceFacts := [5, 23, 26, 34, 35, 41, 57, 59, 63, 66, 73, 117, 119, 123, 133], guideFormula := .and (.atom 5) (.atom 100), reportedDerived := false, endToEnd := false },
+  { id := 1444, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.and (.and (.atom 77) (.atom 119)) (.atom 56)) (.atom 44)) (.atom 12), reportedDerived := false, endToEnd := false },
+  { id := 1447, formalized := false, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1459, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.atom 32) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 1461, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.and (.atom 119) (.atom 56)) (.atom 19)) (.atom 12), reportedDerived := false, endToEnd := false },
+  { id := 1473, formalized := true, sourceIds := [13, 38, 39, 53, 54], sourceFacts := [5, 14, 26, 35, 41, 43, 44, 46, 47, 56, 59, 61, 64, 66, 73, 111, 117, 119, 124, 133], guideFormula := .and (.atom 133) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1475, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.atom 32) (.atom 118), reportedDerived := false, endToEnd := false },
+  { id := 1476, formalized := true, sourceIds := [31, 13, 33, 36, 37], sourceFacts := [1, 14, 18, 19, 32, 34, 41, 43, 44, 46, 47, 54, 56, 61, 63, 64, 71, 86, 93, 107, 111, 119, 133], guideFormula := .neg (.and (.and (.atom 18) (.atom 56)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 1482, formalized := true, sourceIds := [2, 43, 53, 54], sourceFacts := [5, 14, 26, 32, 35, 38, 39, 41, 43, 59, 66, 73, 76, 77, 93, 117, 119, 127, 133, 136, 142], guideFormula := .and (.atom 117) (.atom 113), reportedDerived := false, endToEnd := false },
+  { id := 1495, formalized := true, sourceIds := [2, 5, 9, 10, 11], sourceFacts := [14, 27, 29, 32, 38, 39, 41, 43, 44, 50, 76, 77, 93, 117, 119, 127, 128, 136, 142], guideFormula := .atom 100, reportedDerived := false, endToEnd := false },
+  { id := 1498, formalized := true, sourceIds := [12, 13, 38, 39, 41], sourceFacts := [12, 14, 41, 43, 44, 46, 47, 56, 61, 64, 111, 119, 124, 133], guideFormula := .and (.and (.atom 119) (.atom 133)) (.atom 12), reportedDerived := true, endToEnd := false },
+  { id := 1507, formalized := false, sourceIds := [57], sourceFacts := [41, 56, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1508, formalized := true, sourceIds := [58], sourceFacts := [4, 13, 46, 56, 86, 93, 99, 111, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1520, formalized := true, sourceIds := [58, 57], sourceFacts := [4, 13, 41, 46, 56, 86, 93, 99, 111, 119], guideFormula := .and (.atom 119) (.atom 46), reportedDerived := true, endToEnd := false },
+  { id := 1576, formalized := true, sourceIds := [59], sourceFacts := [14, 26, 41, 43, 56, 81, 111, 119, 126], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 1578, formalized := true, sourceIds := [59], sourceFacts := [14, 26, 41, 43, 56, 81, 111, 119, 126], guideFormula := .and (.atom 43) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1588, formalized := true, sourceIds := [59], sourceFacts := [14, 26, 41, 43, 56, 81, 111, 119, 126], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1589, formalized := true, sourceIds := [44, 45, 62, 66, 69], sourceFacts := [14, 26, 32, 41, 43, 53, 55, 56, 68, 72, 73, 75, 76, 77, 88, 97, 118, 119, 128, 134, 136], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 1598, formalized := true, sourceIds := [58, 60], sourceFacts := [4, 13, 15, 41, 45, 46, 56, 61, 69, 71, 86, 93, 99, 111, 119, 133], guideFormula := .and (.atom 69) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1611, formalized := true, sourceIds := [61], sourceFacts := [41, 43, 56, 71, 93, 96, 108, 111, 119, 123], guideFormula := .and (.atom 108) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1616, formalized := true, sourceIds := [61], sourceFacts := [41, 43, 56, 71, 93, 96, 108, 111, 119, 123], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1617, formalized := true, sourceIds := [61], sourceFacts := [41, 43, 56, 71, 93, 96, 108, 111, 119, 123], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1629, formalized := true, sourceIds := [62], sourceFacts := [41, 53, 55, 73, 97, 118, 119], guideFormula := .atom 55, reportedDerived := true, endToEnd := false },
+  { id := 1635, formalized := true, sourceIds := [63, 61], sourceFacts := [32, 41, 43, 53, 56, 71, 76, 93, 95, 96, 108, 111, 119, 123, 136], guideFormula := .and (.and (.atom 53) (.atom 119)) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 1645, formalized := true, sourceIds := [62, 63], sourceFacts := [32, 41, 53, 55, 56, 73, 76, 95, 97, 118, 119, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1646, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .neg (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 1650, formalized := true, sourceIds := [63], sourceFacts := [32, 41, 53, 56, 76, 95, 119, 136], guideFormula := .or (.and (.and (.atom 53) (.atom 119)) (.atom 56)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1652, formalized := true, sourceIds := [63], sourceFacts := [32, 41, 53, 56, 76, 95, 119, 136], guideFormula := .and (.and (.and (.and (.and (.atom 128) (.atom 32)) (.atom 53)) (.atom 119)) (.atom 56)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 1653, formalized := true, sourceIds := [63], sourceFacts := [32, 41, 53, 56, 76, 95, 119, 136], guideFormula := .and (.and (.and (.atom 119) (.atom 56)) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 1659, formalized := true, sourceIds := [65], sourceFacts := [32, 41, 53, 56, 62, 119, 142], guideFormula := .and (.and (.atom 53) (.atom 119)) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 1661, formalized := true, sourceIds := [65], sourceFacts := [32, 41, 53, 56, 62, 119, 142], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1663, formalized := true, sourceIds := [65], sourceFacts := [32, 41, 53, 56, 62, 119, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1671, formalized := true, sourceIds := [60], sourceFacts := [15, 41, 45, 46, 56, 61, 69, 71, 86, 119, 133], guideFormula := .and (.and (.atom 86) (.atom 119)) (.atom 44), reportedDerived := false, endToEnd := false },
+  { id := 1675, formalized := true, sourceIds := [60], sourceFacts := [15, 41, 45, 46, 56, 61, 69, 71, 86, 119, 133], guideFormula := .and (.atom 69) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1684, formalized := true, sourceIds := [65], sourceFacts := [32, 41, 53, 56, 62, 119, 142], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 1685, formalized := true, sourceIds := [65], sourceFacts := [32, 41, 53, 56, 62, 119, 142], guideFormula := .neg (.atom 56), reportedDerived := false, endToEnd := false },
+  { id := 1703, formalized := true, sourceIds := [5, 67, 68, 69, 70], sourceFacts := [5, 14, 36, 38, 41, 43, 44, 50, 53, 56, 68, 75, 76, 77, 113, 118, 119, 128, 134, 136], guideFormula := .and (.atom 128) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1705, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .and (.and (.and (.and (.atom 128) (.atom 32)) (.atom 119)) (.atom 117)) (.atom 26), reportedDerived := false, endToEnd := false },
+  { id := 1708, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .neg (.and (.and (.and (.atom 128) (.atom 32)) (.atom 119)) (.atom 100)), reportedDerived := false, endToEnd := false },
+  { id := 1710, formalized := true, sourceIds := [68, 69, 70, 5, 67], sourceFacts := [5, 14, 36, 38, 41, 43, 44, 50, 53, 56, 68, 75, 76, 77, 113, 118, 119, 128, 134, 136], guideFormula := .and (.atom 128) (.atom 68), reportedDerived := true, endToEnd := false },
+  { id := 1715, formalized := false, sourceIds := [67, 5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1716, formalized := true, sourceIds := [68, 69, 70, 5, 67], sourceFacts := [5, 14, 36, 38, 41, 43, 44, 50, 53, 56, 68, 75, 76, 77, 113, 118, 119, 128, 134, 136], guideFormula := .and (.atom 128) (.atom 68), reportedDerived := true, endToEnd := false },
+  { id := 1732, formalized := true, sourceIds := [67], sourceFacts := [38, 77, 119, 128], guideFormula := .and (.atom 77) (.atom 38), reportedDerived := true, endToEnd := false },
+  { id := 1734, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.atom 77) (.atom 76)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1740, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.atom 136) (.atom 76), reportedDerived := true, endToEnd := false },
+  { id := 1741, formalized := true, sourceIds := [67], sourceFacts := [38, 77, 119, 128], guideFormula := .neg (.atom 38), reportedDerived := false, endToEnd := false },
+  { id := 1742, formalized := true, sourceIds := [62], sourceFacts := [41, 53, 55, 73, 97, 118, 119], guideFormula := .and (.and (.and (.and (.atom 128) (.atom 55)) (.atom 75)) (.atom 32)) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 1743, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.and (.atom 77) (.atom 38)) (.atom 76)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1745, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1747, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1749, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 133, reportedDerived := false, endToEnd := false },
+  { id := 1750, formalized := true, sourceIds := [66, 70], sourceFacts := [5, 14, 26, 36, 41, 43, 53, 68, 75, 76, 77, 113, 118, 119, 128, 136], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 1764, formalized := true, sourceIds := [67, 5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.atom 77) (.atom 136)) (.atom 76), reportedDerived := true, endToEnd := false },
+  { id := 1766, formalized := false, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1767, formalized := false, sourceIds := [67, 5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1770, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.atom 76) (.atom 50)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1785, formalized := true, sourceIds := [62], sourceFacts := [41, 53, 55, 73, 97, 118, 119], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := false, endToEnd := false },
+  { id := 1790, formalized := true, sourceIds := [68, 69, 70, 62], sourceFacts := [5, 14, 36, 41, 43, 53, 55, 56, 68, 73, 75, 77, 97, 113, 118, 119, 128, 134, 136], guideFormula := .and (.and (.atom 128) (.atom 75)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1792, formalized := true, sourceIds := [68], sourceFacts := [5, 41, 68, 75, 77, 119, 128, 136], guideFormula := .and (.and (.and (.atom 128) (.atom 56)) (.atom 34)) (.atom 100), reportedDerived := false, endToEnd := false },
+  { id := 1793, formalized := true, sourceIds := [69], sourceFacts := [41, 56, 68, 75, 77, 118, 119, 128, 134], guideFormula := .and (.atom 134) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1794, formalized := true, sourceIds := [70], sourceFacts := [5, 14, 36, 41, 43, 53, 68, 75, 77, 113, 119, 128], guideFormula := .and (.atom 36) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1795, formalized := true, sourceIds := [68], sourceFacts := [5, 41, 68, 75, 77, 119, 128, 136], guideFormula := .and (.and (.atom 75) (.atom 119)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1797, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .imp (.atom 119) (.and (.and (.and (.and (.atom 128) (.atom 75)) (.atom 119)) (.atom 117)) (.atom 26)), reportedDerived := false, endToEnd := false },
+  { id := 1798, formalized := true, sourceIds := [68, 69, 70, 62], sourceFacts := [5, 14, 36, 41, 43, 53, 55, 56, 68, 73, 75, 77, 97, 113, 118, 119, 128, 134, 136], guideFormula := .and (.and (.atom 128) (.atom 68)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1801, formalized := true, sourceIds := [2, 42, 43, 45, 48], sourceFacts := [5, 14, 25, 26, 32, 38, 39, 41, 43, 56, 67, 68, 72, 76, 77, 88, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1806, formalized := true, sourceIds := [52], sourceFacts := [5, 23, 34, 41, 57, 63, 119, 123], guideFormula := .atom 34, reportedDerived := true, endToEnd := false },
+  { id := 1807, formalized := true, sourceIds := [42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136], guideFormula := .and (.and (.atom 39) (.atom 67)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1808, formalized := true, sourceIds := [43, 5, 2], sourceFacts := [14, 32, 38, 39, 41, 43, 44, 50, 76, 77, 93, 117, 119, 127, 128, 136, 142], guideFormula := .and (.and (.and (.atom 32) (.atom 39)) (.atom 119)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1812, formalized := true, sourceIds := [43], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136], guideFormula := .atom 39, reportedDerived := true, endToEnd := false },
+  { id := 1813, formalized := true, sourceIds := [42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1815, formalized := true, sourceIds := [2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.atom 127) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1816, formalized := false, sourceIds := [42], sourceFacts := [25, 32, 41, 43, 67, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1822, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.atom 32) (.atom 119)) (.atom 117), reportedDerived := false, endToEnd := false },
+  { id := 1824, formalized := false, sourceIds := [5, 2, 43], sourceFacts := [14, 32, 38, 39, 41, 43, 44, 50, 76, 77, 93, 117, 119, 127, 128, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1825, formalized := true, sourceIds := [72], sourceFacts := [5, 6, 32, 119], guideFormula := .and (.and (.atom 6) (.atom 5)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1826, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .atom 44, reportedDerived := true, endToEnd := false },
+  { id := 1830, formalized := true, sourceIds := [44], sourceFacts := [14, 41, 43, 118, 119], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 40), reportedDerived := false, endToEnd := false },
+  { id := 1834, formalized := true, sourceIds := [73], sourceFacts := [14, 32, 40, 41, 43, 76, 102, 119, 136], guideFormula := .atom 102, reportedDerived := true, endToEnd := false },
+  { id := 1837, formalized := false, sourceIds := [74], sourceFacts := [14, 32, 41, 43, 76, 117, 119, 136, 141], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1838, formalized := true, sourceIds := [5, 74], sourceFacts := [14, 32, 38, 41, 43, 44, 50, 76, 77, 117, 119, 128, 136, 141], guideFormula := .and (.atom 117) (.atom 113), reportedDerived := false, endToEnd := false },
+  { id := 1841, formalized := true, sourceIds := [73], sourceFacts := [14, 32, 40, 41, 43, 76, 102, 119, 136], guideFormula := .atom 102, reportedDerived := true, endToEnd := false },
+  { id := 1842, formalized := true, sourceIds := [73], sourceFacts := [14, 32, 40, 41, 43, 76, 102, 119, 136], guideFormula := .atom 102, reportedDerived := true, endToEnd := false },
+  { id := 1847, formalized := true, sourceIds := [2, 42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.atom 127) (.atom 25), reportedDerived := true, endToEnd := false },
+  { id := 1848, formalized := true, sourceIds := [2, 42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.atom 127) (.atom 25), reportedDerived := true, endToEnd := false },
+  { id := 1850, formalized := true, sourceIds := [2, 43, 42], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.and (.atom 127) (.atom 25)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1855, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 44, 50, 67, 76, 77, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1857, formalized := true, sourceIds := [2, 42, 43], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 67, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.atom 127) (.atom 25), reportedDerived := true, endToEnd := false },
+  { id := 1859, formalized := true, sourceIds := [47, 48], sourceFacts := [5, 32, 41, 43, 59, 63, 66, 68, 76, 77, 116, 119, 128, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1860, formalized := true, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 44, 50, 67, 76, 77, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .atom 98, reportedDerived := false, endToEnd := false },
+  { id := 1862, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 44, 50, 67, 76, 77, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1863, formalized := true, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .and (.atom 59) (.atom 63), reportedDerived := true, endToEnd := false },
+  { id := 1866, formalized := true, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .and (.atom 22) (.atom 23), reportedDerived := false, endToEnd := false },
+  { id := 1867, formalized := false, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1868, formalized := false, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1869, formalized := true, sourceIds := [48, 47], sourceFacts := [5, 32, 41, 43, 59, 63, 66, 68, 76, 77, 116, 119, 128, 136], guideFormula := .and (.atom 119) (.atom 133), reportedDerived := false, endToEnd := false },
+  { id := 1870, formalized := true, sourceIds := [52], sourceFacts := [5, 23, 34, 41, 57, 63, 119, 123], guideFormula := .and (.and (.atom 116) (.atom 117)) (.atom 73), reportedDerived := false, endToEnd := false },
+  { id := 1872, formalized := true, sourceIds := [47, 48], sourceFacts := [5, 32, 41, 43, 59, 63, 66, 68, 76, 77, 116, 119, 128, 136], guideFormula := .and (.atom 119) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1885, formalized := true, sourceIds := [45], sourceFacts := [26, 32, 41, 43, 56, 72, 88, 118, 119], guideFormula := .and (.atom 88) (.atom 72), reportedDerived := true, endToEnd := false },
+  { id := 1888, formalized := true, sourceIds := [75], sourceFacts := [14, 21, 23, 32, 41, 43, 71, 72, 88, 119, 123], guideFormula := .and (.atom 21) (.atom 23), reportedDerived := true, endToEnd := false },
+  { id := 1889, formalized := true, sourceIds := [45, 75, 76], sourceFacts := [14, 21, 23, 26, 32, 40, 41, 43, 56, 71, 72, 88, 118, 119, 123, 128], guideFormula := .atom 32, reportedDerived := true, endToEnd := false },
+  { id := 1893, formalized := true, sourceIds := [45], sourceFacts := [26, 32, 41, 43, 56, 72, 88, 118, 119], guideFormula := .and (.atom 88) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1894, formalized := true, sourceIds := [76], sourceFacts := [14, 32, 40, 41, 43, 88, 119, 128], guideFormula := .and (.and (.and (.atom 128) (.atom 32)) (.atom 88)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1895, formalized := true, sourceIds := [45, 75, 76], sourceFacts := [14, 21, 23, 26, 32, 40, 41, 43, 56, 71, 72, 88, 118, 119, 123, 128], guideFormula := .and (.atom 88) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1905, formalized := true, sourceIds := [5, 66, 78], sourceFacts := [14, 26, 38, 41, 43, 44, 50, 76, 77, 91, 114, 118, 119, 128, 136, 143], guideFormula := .and (.and (.atom 128) (.atom 32)) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 1909, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .and (.atom 119) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 1911, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.atom 119) (.atom 117)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 1912, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .and (.atom 43) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 1917, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .neg (.and (.atom 118) (.atom 119)), reportedDerived := false, endToEnd := false },
+  { id := 1920, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1924, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 1927, formalized := true, sourceIds := [60], sourceFacts := [15, 41, 45, 46, 56, 61, 69, 71, 86, 119, 133], guideFormula := .atom 133, reportedDerived := true, endToEnd := false },
+  { id := 1936, formalized := true, sourceIds := [5, 66, 78], sourceFacts := [14, 26, 38, 41, 43, 44, 50, 76, 77, 91, 114, 118, 119, 128, 136, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1942, formalized := false, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1944, formalized := true, sourceIds := [5, 64], sourceFacts := [17, 38, 41, 44, 50, 70, 76, 77, 114, 119, 128, 136], guideFormula := .neg (.atom 25), reportedDerived := false, endToEnd := false },
+  { id := 1945, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.atom 43) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 1946, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.atom 119) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 1947, formalized := true, sourceIds := [78], sourceFacts := [41, 77, 91, 114, 119, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1950, formalized := true, sourceIds := [78], sourceFacts := [41, 77, 91, 114, 119, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1951, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .neg (.and (.and (.atom 119) (.atom 56)) (.atom 8)), reportedDerived := false, endToEnd := false },
+  { id := 1953, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 44, 50, 67, 76, 77, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1954, formalized := false, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1963, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 114, reportedDerived := true, endToEnd := false },
+  { id := 1965, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 1967, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .neg (.atom 25), reportedDerived := false, endToEnd := false },
+  { id := 1968, formalized := true, sourceIds := [78], sourceFacts := [41, 77, 91, 114, 119, 143], guideFormula := .and (.atom 91) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 1970, formalized := true, sourceIds := [78], sourceFacts := [41, 77, 91, 114, 119, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1972, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.and (.atom 119) (.atom 117)) (.atom 113), reportedDerived := false, endToEnd := false },
+  { id := 1974, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.and (.and (.and (.atom 32) (.atom 91)) (.atom 143)) (.atom 119)) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 1975, formalized := false, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1977, formalized := false, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1978, formalized := true, sourceIds := [78], sourceFacts := [41, 77, 91, 114, 119, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1983, formalized := true, sourceIds := [78], sourceFacts := [41, 77, 91, 114, 119, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1987, formalized := true, sourceIds := [5, 66, 78], sourceFacts := [14, 26, 38, 41, 43, 44, 50, 76, 77, 91, 114, 118, 119, 128, 136, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1991, formalized := true, sourceIds := [5, 66, 78], sourceFacts := [14, 26, 38, 41, 43, 44, 50, 76, 77, 91, 114, 118, 119, 128, 136, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 1993, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 44, 50, 67, 76, 77, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 1995, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 2007, formalized := false, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 44, 50, 67, 76, 77, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 2012, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .neg (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 12)) (.atom 87)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 2013, formalized := true, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 44, 50, 67, 76, 77, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .atom 12, reportedDerived := false, endToEnd := false },
+  { id := 2028, formalized := true, sourceIds := [49], sourceFacts := [3, 5, 14, 32, 41, 43, 51, 59, 63, 119, 130], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 2033, formalized := true, sourceIds := [2, 43, 74], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 141, 142], guideFormula := .and (.atom 117) (.atom 12), reportedDerived := false, endToEnd := false },
+  { id := 2037, formalized := false, sourceIds := [49], sourceFacts := [3, 5, 14, 32, 41, 43, 51, 59, 63, 119, 130], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 2040, formalized := true, sourceIds := [50, 47], sourceFacts := [4, 5, 32, 35, 41, 43, 51, 52, 59, 63, 66, 116, 119], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2041, formalized := true, sourceIds := [50], sourceFacts := [4, 5, 32, 35, 41, 43, 51, 52, 63, 119], guideFormula := .imp (.and (.atom 43) (.atom 41)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 2047, formalized := true, sourceIds := [5, 47, 49, 50], sourceFacts := [3, 4, 5, 14, 32, 35, 38, 41, 43, 44, 50, 51, 52, 59, 63, 66, 76, 77, 116, 119, 128, 130, 136], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 2051, formalized := true, sourceIds := [44, 45, 62, 66, 69], sourceFacts := [14, 26, 32, 41, 43, 53, 55, 56, 68, 72, 73, 75, 76, 77, 88, 97, 118, 119, 128, 134, 136], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 2089, formalized := true, sourceIds := [2, 5, 42, 43, 44], sourceFacts := [14, 25, 32, 38, 39, 41, 43, 44, 50, 67, 76, 77, 93, 117, 118, 119, 127, 128, 136, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 2130, formalized := true, sourceIds := [49], sourceFacts := [3, 5, 14, 32, 41, 43, 51, 59, 63, 119, 130], guideFormula := .neg (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 2131, formalized := true, sourceIds := [49], sourceFacts := [3, 5, 14, 32, 41, 43, 51, 59, 63, 119, 130], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 2134, formalized := true, sourceIds := [49, 79], sourceFacts := [3, 5, 14, 32, 41, 43, 51, 59, 63, 119, 130, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 2136, formalized := true, sourceIds := [79], sourceFacts := [51, 119, 142], guideFormula := .atom 75, reportedDerived := false, endToEnd := false },
+  { id := 2147, formalized := true, sourceIds := [39], sourceFacts := [41, 43, 46, 56, 61, 111, 119, 124, 133], guideFormula := .and (.and (.atom 56) (.atom 46)) (.atom 124), reportedDerived := true, endToEnd := false },
+  { id := 2175, formalized := false, sourceIds := [14], sourceFacts := [31, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 2184, formalized := true, sourceIds := [80], sourceFacts := [31, 43, 56, 119], guideFormula := .and (.atom 31) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2191, formalized := true, sourceIds := [81], sourceFacts := [9, 31], guideFormula := .and (.atom 31) (.atom 9), reportedDerived := true, endToEnd := false },
+  { id := 2192, formalized := true, sourceIds := [5, 7, 14, 35, 37], sourceFacts := [14, 19, 31, 34, 38, 41, 43, 44, 50, 56, 61, 64, 76, 77, 81, 119, 128, 136, 142], guideFormula := .neg (.atom 25), reportedDerived := false, endToEnd := false },
+  { id := 2201, formalized := true, sourceIds := [80, 83], sourceFacts := [14, 31, 37, 41, 43, 56, 118, 119], guideFormula := .and (.atom 119) (.atom 133), reportedDerived := false, endToEnd := false },
+  { id := 2210, formalized := true, sourceIds := [82], sourceFacts := [37, 98, 118], guideFormula := .atom 37, reportedDerived := true, endToEnd := false },
+  { id := 2211, formalized := true, sourceIds := [82], sourceFacts := [37, 98, 118], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 2217, formalized := true, sourceIds := [83], sourceFacts := [14, 37, 41, 43, 56, 118, 119], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2218, formalized := true, sourceIds := [83], sourceFacts := [14, 37, 41, 43, 56, 118, 119], guideFormula := .and (.atom 56) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2226, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.atom 97) (.atom 19), reportedDerived := false, endToEnd := false },
+  { id := 2236, formalized := true, sourceIds := [84], sourceFacts := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 2237, formalized := true, sourceIds := [84], sourceFacts := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119], guideFormula := .and (.atom 118) (.atom 115), reportedDerived := true, endToEnd := false },
+  { id := 2238, formalized := true, sourceIds := [5, 64], sourceFacts := [17, 38, 41, 44, 50, 70, 76, 77, 114, 119, 128, 136], guideFormula := .neg (.and (.atom 32) (.atom 119)), reportedDerived := false, endToEnd := false },
+  { id := 2243, formalized := true, sourceIds := [84], sourceFacts := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119], guideFormula := .and (.atom 118) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 2244, formalized := true, sourceIds := [84], sourceFacts := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119], guideFormula := .and (.atom 118) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2249, formalized := true, sourceIds := [38, 39, 92, 93], sourceFacts := [14, 23, 24, 26, 41, 43, 46, 56, 61, 73, 81, 109, 110, 111, 119, 124, 133], guideFormula := .and (.atom 133) (.atom 73), reportedDerived := true, endToEnd := false },
+  { id := 2252, formalized := true, sourceIds := [84], sourceFacts := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119], guideFormula := .neg (.and (.atom 118) (.atom 44)), reportedDerived := false, endToEnd := false },
+  { id := 2253, formalized := true, sourceIds := [84], sourceFacts := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119], guideFormula := .and (.atom 118) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 2254, formalized := true, sourceIds := [86, 88], sourceFacts := [14, 41, 43, 56, 65, 79, 80, 98, 101, 115, 118, 119, 142], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 2257, formalized := true, sourceIds := [85, 88], sourceFacts := [14, 39, 41, 43, 56, 65, 79, 80, 115, 118, 119, 142], guideFormula := .atom 79, reportedDerived := true, endToEnd := false },
+  { id := 2260, formalized := true, sourceIds := [85, 88], sourceFacts := [14, 39, 41, 43, 56, 65, 79, 80, 115, 118, 119, 142], guideFormula := .atom 79, reportedDerived := true, endToEnd := false },
+  { id := 2261, formalized := true, sourceIds := [85, 88], sourceFacts := [14, 39, 41, 43, 56, 65, 79, 80, 115, 118, 119, 142], guideFormula := .and (.and (.and (.and (.atom 118) (.atom 79)) (.atom 65)) (.atom 56)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2263, formalized := false, sourceIds := [86], sourceFacts := [41, 56, 98, 101, 115, 118, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 2265, formalized := true, sourceIds := [87], sourceFacts := [41, 56, 98, 112, 115, 119], guideFormula := .atom 112, reportedDerived := true, endToEnd := false },
+  { id := 2272, formalized := true, sourceIds := [96], sourceFacts := [56, 104, 119, 124], guideFormula := .atom 104, reportedDerived := true, endToEnd := false },
+  { id := 2276, formalized := true, sourceIds := [85, 88], sourceFacts := [14, 39, 41, 43, 56, 65, 79, 80, 115, 118, 119, 142], guideFormula := .atom 79, reportedDerived := true, endToEnd := false },
+  { id := 2278, formalized := true, sourceIds := [88, 85], sourceFacts := [14, 39, 41, 43, 56, 65, 79, 80, 115, 118, 119, 142], guideFormula := .and (.and (.and (.and (.atom 118) (.atom 79)) (.atom 119)) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2279, formalized := true, sourceIds := [5], sourceFacts := [38, 44, 50, 76, 77, 119, 128, 136], guideFormula := .and (.atom 118) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 2280, formalized := true, sourceIds := [84], sourceFacts := [14, 16, 37, 41, 43, 56, 98, 115, 118, 119], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 2284, formalized := true, sourceIds := [84, 85, 86, 88, 87], sourceFacts := [14, 16, 37, 39, 41, 43, 56, 65, 79, 80, 98, 101, 112, 115, 118, 119, 142], guideFormula := .and (.and (.atom 118) (.atom 119)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2285, formalized := true, sourceIds := [84, 85, 86, 88, 5], sourceFacts := [14, 16, 37, 38, 39, 41, 43, 44, 50, 56, 65, 76, 77, 79, 80, 98, 101, 115, 118, 119, 128, 136, 142], guideFormula := .and (.atom 118) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 2290, formalized := true, sourceIds := [84, 85, 86, 88], sourceFacts := [14, 16, 37, 39, 41, 43, 56, 65, 79, 80, 98, 101, 115, 118, 119, 142], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 2303, formalized := false, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 2305, formalized := true, sourceIds := [85, 88], sourceFacts := [14, 39, 41, 43, 56, 65, 79, 80, 115, 118, 119, 142], guideFormula := .atom 79, reportedDerived := true, endToEnd := false },
+  { id := 2307, formalized := true, sourceIds := [84, 85, 86, 88], sourceFacts := [14, 16, 37, 39, 41, 43, 56, 65, 79, 80, 98, 101, 115, 118, 119, 142], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 2319, formalized := true, sourceIds := [89], sourceFacts := [23, 24, 26, 41, 43, 56, 93, 106, 111, 119], guideFormula := .neg (.and (.atom 23) (.atom 119)), reportedDerived := false, endToEnd := false },
+  { id := 2329, formalized := true, sourceIds := [91, 92, 93, 90], sourceFacts := [14, 23, 24, 26, 41, 43, 56, 61, 73, 81, 105, 109, 110, 111, 119], guideFormula := .or (.atom 23) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 2334, formalized := true, sourceIds := [90], sourceFacts := [14, 41, 43, 56, 61, 111, 119], guideFormula := .neg (.and (.and (.atom 119) (.atom 56)) (.atom 44)), reportedDerived := false, endToEnd := false },
+  { id := 2336, formalized := true, sourceIds := [91], sourceFacts := [23, 26, 41, 56, 105, 119], guideFormula := .and (.atom 23) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 2344, formalized := true, sourceIds := [92], sourceFacts := [14, 23, 26, 43, 56, 73, 81, 109, 119], guideFormula := .and (.atom 23) (.atom 109), reportedDerived := true, endToEnd := false },
+  { id := 2348, formalized := true, sourceIds := [91, 93, 90, 92], sourceFacts := [14, 23, 24, 26, 41, 43, 56, 61, 73, 81, 105, 109, 110, 111, 119], guideFormula := .and (.atom 23) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2350, formalized := true, sourceIds := [93], sourceFacts := [23, 24, 26, 41, 56, 73, 81, 110, 119], guideFormula := .atom 24, reportedDerived := true, endToEnd := false },
+  { id := 2351, formalized := true, sourceIds := [93], sourceFacts := [23, 24, 26, 41, 56, 73, 81, 110, 119], guideFormula := .neg (.and (.and (.atom 56) (.atom 43)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 2361, formalized := true, sourceIds := [89, 91, 92, 93], sourceFacts := [14, 23, 24, 26, 41, 43, 56, 73, 81, 93, 105, 106, 109, 110, 111, 119], guideFormula := .atom 23, reportedDerived := true, endToEnd := false },
+  { id := 2377, formalized := true, sourceIds := [37, 7], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119, 142], guideFormula := .and (.atom 19) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 2382, formalized := true, sourceIds := [94], sourceFacts := [26, 41, 43, 47, 56, 64, 111, 119], guideFormula := .and (.atom 44) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 2399, formalized := true, sourceIds := [7], sourceFacts := [14, 44, 56, 142], guideFormula := .atom 44, reportedDerived := true, endToEnd := false },
+  { id := 2404, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.atom 19) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 2440, formalized := true, sourceIds := [35], sourceFacts := [43, 56, 81, 119], guideFormula := .and (.and (.atom 81) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 2444, formalized := true, sourceIds := [35], sourceFacts := [43, 56, 81, 119], guideFormula := .neg (.and (.and (.atom 81) (.atom 43)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 2445, formalized := true, sourceIds := [95], sourceFacts := [41, 56, 81, 111, 119], guideFormula := .atom 43, reportedDerived := false, endToEnd := false },
+  { id := 2446, formalized := true, sourceIds := [95], sourceFacts := [41, 56, 81, 111, 119], guideFormula := .neg (.and (.and (.and (.atom 86) (.atom 43)) (.atom 26)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 2459, formalized := true, sourceIds := [96], sourceFacts := [56, 104, 119, 124], guideFormula := .and (.atom 104) (.atom 121), reportedDerived := false, endToEnd := false },
+  { id := 2461, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .atom 19, reportedDerived := true, endToEnd := false },
+  { id := 2486, formalized := true, sourceIds := [7], sourceFacts := [14, 44, 56, 142], guideFormula := .atom 44, reportedDerived := true, endToEnd := false },
+  { id := 2495, formalized := true, sourceIds := [38], sourceFacts := [14, 41, 43, 56, 119, 133], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 2517, formalized := true, sourceIds := [90], sourceFacts := [14, 41, 43, 56, 61, 111, 119], guideFormula := .neg (.and (.and (.atom 119) (.atom 56)) (.atom 44)), reportedDerived := false, endToEnd := false },
+  { id := 2531, formalized := true, sourceIds := [97], sourceFacts := [41, 56, 61, 99, 111, 119, 124], guideFormula := .and (.and (.and (.atom 119) (.atom 27)) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 2542, formalized := true, sourceIds := [98], sourceFacts := [14, 41, 43, 56, 61, 119], guideFormula := .and (.and (.and (.and (.atom 56) (.atom 61)) (.atom 44)) (.atom 43)) (.atom 14), reportedDerived := false, endToEnd := false },
+  { id := 2580, formalized := true, sourceIds := [99], sourceFacts := [41, 43, 46, 56, 71, 90, 93, 99, 111, 119], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 2586, formalized := true, sourceIds := [96], sourceFacts := [56, 104, 119, 124], guideFormula := .and (.atom 124) (.atom 104), reportedDerived := true, endToEnd := false },
+  { id := 2592, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.atom 19) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 2606, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.atom 19) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2636, formalized := true, sourceIds := [37, 100, 7, 13, 36], sourceFacts := [14, 19, 34, 41, 43, 44, 46, 47, 56, 61, 64, 71, 93, 119, 133, 142], guideFormula := .and (.and (.atom 56) (.atom 19)) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 2637, formalized := true, sourceIds := [7, 37, 100, 13, 36], sourceFacts := [14, 19, 34, 41, 43, 44, 46, 47, 56, 61, 64, 71, 93, 119, 133, 142], guideFormula := .neg (.and (.and (.atom 19) (.atom 142)) (.atom 44)), reportedDerived := false, endToEnd := false },
+  { id := 2664, formalized := true, sourceIds := [100], sourceFacts := [19, 41, 43, 44, 47, 56, 61, 64, 119], guideFormula := .neg (.and (.and (.and (.and (.atom 56) (.atom 19)) (.atom 142)) (.atom 44)) (.atom 43)), reportedDerived := false, endToEnd := false },
+  { id := 2665, formalized := true, sourceIds := [101], sourceFacts := [8, 56, 119, 140], guideFormula := .neg (.and (.and (.atom 56) (.atom 140)) (.atom 43)), reportedDerived := false, endToEnd := false },
+  { id := 2691, formalized := true, sourceIds := [37, 102], sourceFacts := [10, 14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.atom 56) (.atom 19), reportedDerived := true, endToEnd := false },
+  { id := 2693, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .atom 19, reportedDerived := true, endToEnd := false },
+  { id := 2706, formalized := true, sourceIds := [102], sourceFacts := [10, 41, 43, 56, 64, 119], guideFormula := .and (.atom 56) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2718, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.atom 19) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2742, formalized := true, sourceIds := [7, 36], sourceFacts := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119, 142], guideFormula := .and (.atom 44) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2751, formalized := true, sourceIds := [13], sourceFacts := [14, 41, 43, 44, 47, 56, 61, 64, 119, 133], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2757, formalized := true, sourceIds := [13], sourceFacts := [14, 41, 43, 44, 47, 56, 61, 64, 119, 133], guideFormula := .or (.atom 56) (.and (.atom 19) (.atom 44)), reportedDerived := true, endToEnd := false },
+  { id := 2765, formalized := true, sourceIds := [94], sourceFacts := [26, 41, 43, 47, 56, 64, 111, 119], guideFormula := .and (.atom 44) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 2795, formalized := true, sourceIds := [103], sourceFacts := [41, 56, 61, 119, 142], guideFormula := .and (.atom 56) (.atom 142), reportedDerived := true, endToEnd := false },
+  { id := 2809, formalized := true, sourceIds := [104], sourceFacts := [10, 41, 44, 56, 119], guideFormula := .and (.atom 56) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 2853, formalized := true, sourceIds := [163, 116], sourceFacts := [13, 14, 41, 43, 46, 56, 61, 119, 137, 142], guideFormula := .and (.and (.atom 75) (.atom 56)) (.atom 137), reportedDerived := false, endToEnd := false },
+  { id := 2872, formalized := true, sourceIds := [36], sourceFacts := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119], guideFormula := .and (.and (.and (.atom 119) (.atom 56)) (.atom 44)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2878, formalized := true, sourceIds := [36], sourceFacts := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 2884, formalized := true, sourceIds := [36], sourceFacts := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119], guideFormula := .and (.and (.atom 56) (.atom 71)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2894, formalized := true, sourceIds := [89], sourceFacts := [23, 24, 26, 41, 43, 56, 93, 106, 111, 119], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 2900, formalized := true, sourceIds := [43, 89], sourceFacts := [14, 23, 24, 26, 32, 38, 39, 41, 43, 56, 76, 77, 93, 106, 111, 117, 119, 127, 136], guideFormula := .and (.and (.atom 119) (.atom 44)) (.atom 117), reportedDerived := false, endToEnd := false },
+  { id := 2906, formalized := true, sourceIds := [43], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136], guideFormula := .and (.atom 44) (.atom 117), reportedDerived := false, endToEnd := false },
+  { id := 2908, formalized := true, sourceIds := [36, 37], sourceFacts := [14, 19, 34, 41, 43, 44, 46, 47, 56, 61, 64, 71, 93, 119], guideFormula := .atom 44, reportedDerived := true, endToEnd := false },
+  { id := 2910, formalized := true, sourceIds := [43], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
+  { id := 2911, formalized := true, sourceIds := [43, 2], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 2919, formalized := true, sourceIds := [89], sourceFacts := [23, 24, 26, 41, 43, 56, 93, 106, 111, 119], guideFormula := .and (.and (.atom 23) (.atom 119)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2932, formalized := true, sourceIds := [37, 94], sourceFacts := [14, 19, 26, 34, 41, 43, 44, 47, 56, 61, 64, 111, 119], guideFormula := .and (.and (.and (.and (.atom 56) (.atom 19)) (.atom 44)) (.atom 43)) (.atom 117), reportedDerived := false, endToEnd := false },
+  { id := 2944, formalized := true, sourceIds := [105], sourceFacts := [14, 43, 56, 111, 119], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 2950, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .neg (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 2952, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 2962, formalized := true, sourceIds := [106], sourceFacts := [34, 43, 56, 71, 111, 119], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 2969, formalized := false, sourceIds := [2, 5, 10, 13, 22], sourceFacts := [14, 19, 26, 29, 32, 38, 39, 41, 43, 44, 47, 49, 50, 56, 61, 64, 73, 76, 77, 93, 117, 119, 123, 127, 128, 133, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 2982, formalized := true, sourceIds := [107], sourceFacts := [41, 43, 46, 56, 86, 111, 118, 119, 123], guideFormula := .and (.atom 43) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 2987, formalized := true, sourceIds := [107], sourceFacts := [41, 43, 46, 56, 86, 111, 118, 119, 123], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 2988, formalized := true, sourceIds := [107], sourceFacts := [41, 43, 46, 56, 86, 111, 118, 119, 123], guideFormula := .and (.and (.and (.and (.atom 118) (.atom 18)) (.atom 119)) (.atom 100)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 2991, formalized := true, sourceIds := [107], sourceFacts := [41, 43, 46, 56, 86, 111, 118, 119, 123], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 2999, formalized := true, sourceIds := [107], sourceFacts := [41, 43, 46, 56, 86, 111, 118, 119, 123], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3002, formalized := true, sourceIds := [36, 106, 109], sourceFacts := [14, 34, 41, 43, 44, 46, 47, 56, 61, 71, 93, 111, 119], guideFormula := .and (.atom 43) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3014, formalized := true, sourceIds := [36], sourceFacts := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 3033, formalized := true, sourceIds := [109], sourceFacts := [14, 43, 56, 61, 111, 119], guideFormula := .and (.and (.atom 47) (.atom 43)) (.atom 14), reportedDerived := false, endToEnd := false },
+  { id := 3045, formalized := true, sourceIds := [106], sourceFacts := [34, 43, 56, 71, 111, 119], guideFormula := .and (.atom 56) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3048, formalized := true, sourceIds := [36], sourceFacts := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3074, formalized := true, sourceIds := [22], sourceFacts := [19, 26, 49, 56, 73, 123], guideFormula := .atom 49, reportedDerived := true, endToEnd := false },
+  { id := 3080, formalized := true, sourceIds := [25, 26], sourceFacts := [14, 41, 43, 44, 74, 119, 125], guideFormula := .atom 74, reportedDerived := true, endToEnd := false },
+  { id := 3081, formalized := true, sourceIds := [25, 26], sourceFacts := [14, 41, 43, 44, 74, 119, 125], guideFormula := .and (.atom 29) (.atom 74), reportedDerived := false, endToEnd := false },
+  { id := 3090, formalized := true, sourceIds := [31], sourceFacts := [18, 32, 41, 56, 111, 119], guideFormula := .and (.and (.atom 32) (.atom 119)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3096, formalized := true, sourceIds := [10], sourceFacts := [29, 119], guideFormula := .atom 29, reportedDerived := true, endToEnd := false },
+  { id := 3099, formalized := true, sourceIds := [26, 25, 31, 44, 47], sourceFacts := [5, 14, 18, 32, 41, 43, 44, 56, 59, 63, 66, 74, 111, 116, 118, 119, 125], guideFormula := .and (.atom 44) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3108, formalized := true, sourceIds := [44], sourceFacts := [14, 41, 43, 118, 119], guideFormula := .neg (.and (.atom 114) (.atom 40)), reportedDerived := false, endToEnd := false },
+  { id := 3111, formalized := true, sourceIds := [37, 106, 112], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 71, 111, 119], guideFormula := .atom 34, reportedDerived := true, endToEnd := false },
+  { id := 3114, formalized := true, sourceIds := [2, 65, 114, 116], sourceFacts := [13, 14, 32, 38, 39, 41, 43, 46, 53, 56, 61, 62, 76, 77, 80, 93, 117, 119, 123, 127, 136, 137, 142], guideFormula := .atom 142, reportedDerived := true, endToEnd := false },
+  { id := 3116, formalized := false, sourceIds := [2, 5, 10, 13, 22], sourceFacts := [14, 19, 26, 29, 32, 38, 39, 41, 43, 44, 47, 49, 50, 56, 61, 64, 73, 76, 77, 93, 117, 119, 123, 127, 128, 133, 136, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 3118, formalized := true, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .and (.atom 117) (.atom 73), reportedDerived := false, endToEnd := false },
+  { id := 3121, formalized := true, sourceIds := [110], sourceFacts := [43, 46, 56, 85, 111, 119], guideFormula := .neg (.and (.and (.atom 56) (.atom 44)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 3125, formalized := true, sourceIds := [110], sourceFacts := [43, 46, 56, 85, 111, 119], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 3140, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .and (.atom 119) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3146, formalized := true, sourceIds := [111], sourceFacts := [43, 113], guideFormula := .atom 113, reportedDerived := true, endToEnd := false },
+  { id := 3151, formalized := true, sourceIds := [43, 2], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 117, 119, 127, 136, 142], guideFormula := .and (.atom 119) (.atom 117), reportedDerived := true, endToEnd := false },
+  { id := 3156, formalized := true, sourceIds := [111], sourceFacts := [43, 113], guideFormula := .atom 113, reportedDerived := true, endToEnd := false },
+  { id := 3157, formalized := true, sourceIds := [111], sourceFacts := [43, 113], guideFormula := .atom 113, reportedDerived := true, endToEnd := false },
+  { id := 3167, formalized := true, sourceIds := [111], sourceFacts := [43, 113], guideFormula := .atom 113, reportedDerived := true, endToEnd := false },
+  { id := 3169, formalized := true, sourceIds := [111], sourceFacts := [43, 113], guideFormula := .atom 113, reportedDerived := true, endToEnd := false },
+  { id := 3171, formalized := true, sourceIds := [43, 111], sourceFacts := [14, 32, 38, 39, 41, 43, 76, 77, 93, 113, 117, 119, 127, 136], guideFormula := .and (.and (.and (.and (.atom 56) (.atom 140)) (.atom 44)) (.atom 113)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 3172, formalized := true, sourceIds := [5, 64], sourceFacts := [17, 38, 41, 44, 50, 70, 76, 77, 114, 119, 128, 136], guideFormula := .and (.atom 114) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 3175, formalized := true, sourceIds := [43, 66, 68], sourceFacts := [5, 14, 26, 32, 38, 39, 41, 43, 68, 75, 76, 77, 93, 117, 118, 119, 127, 128, 136], guideFormula := .and (.and (.and (.atom 119) (.atom 43)) (.atom 117)) (.atom 113), reportedDerived := false, endToEnd := false },
+  { id := 3177, formalized := true, sourceIds := [66, 5], sourceFacts := [14, 26, 38, 41, 43, 44, 50, 76, 77, 118, 119, 128, 136], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 3178, formalized := true, sourceIds := [66], sourceFacts := [14, 26, 41, 43, 76, 77, 118, 119, 136], guideFormula := .and (.and (.atom 43) (.atom 14)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3182, formalized := true, sourceIds := [68, 43, 2], sourceFacts := [5, 14, 32, 38, 39, 41, 43, 68, 75, 76, 77, 93, 117, 119, 127, 128, 136, 142], guideFormula := .atom 128, reportedDerived := true, endToEnd := false },
+  { id := 3183, formalized := true, sourceIds := [5, 68], sourceFacts := [5, 38, 41, 44, 50, 68, 75, 76, 77, 119, 128, 136], guideFormula := .and (.and (.atom 128) (.atom 119)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3185, formalized := false, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 3189, formalized := true, sourceIds := [65], sourceFacts := [32, 41, 53, 56, 62, 119, 142], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 3190, formalized := true, sourceIds := [65], sourceFacts := [32, 41, 53, 56, 62, 119, 142], guideFormula := .neg (.and (.and (.and (.atom 32) (.atom 119)) (.atom 56)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 3224, formalized := true, sourceIds := [110], sourceFacts := [43, 46, 56, 85, 111, 119], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 3230, formalized := true, sourceIds := [86], sourceFacts := [41, 56, 98, 101, 115, 118, 119], guideFormula := .and (.and (.atom 133) (.atom 73)) (.atom 26), reportedDerived := false, endToEnd := false },
+  { id := 3240, formalized := true, sourceIds := [86], sourceFacts := [41, 56, 98, 101, 115, 118, 119], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3251, formalized := true, sourceIds := [89, 91], sourceFacts := [23, 24, 26, 41, 43, 56, 93, 105, 106, 111, 119], guideFormula := .neg (.atom 23), reportedDerived := false, endToEnd := false },
+  { id := 3252, formalized := true, sourceIds := [89, 91], sourceFacts := [23, 24, 26, 41, 43, 56, 93, 105, 106, 111, 119], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 3259, formalized := false, sourceIds := [35], sourceFacts := [43, 56, 81, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 3265, formalized := true, sourceIds := [36, 94], sourceFacts := [14, 26, 41, 43, 44, 46, 47, 56, 64, 71, 93, 111, 119], guideFormula := .and (.and (.atom 56) (.atom 44)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3272, formalized := true, sourceIds := [13], sourceFacts := [14, 41, 43, 44, 47, 56, 61, 64, 119, 133], guideFormula := .and (.and (.atom 119) (.atom 133)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3293, formalized := true, sourceIds := [13, 36, 86, 89, 91], sourceFacts := [14, 23, 24, 26, 41, 43, 44, 46, 47, 56, 61, 64, 71, 93, 98, 101, 105, 106, 111, 115, 118, 119, 133], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3309, formalized := true, sourceIds := [94], sourceFacts := [26, 41, 43, 47, 56, 64, 111, 119], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 3314, formalized := true, sourceIds := [98], sourceFacts := [14, 41, 43, 56, 61, 119], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 3320, formalized := true, sourceIds := [112, 90], sourceFacts := [14, 34, 41, 43, 56, 61, 111, 119], guideFormula := .and (.and (.and (.atom 119) (.atom 56)) (.atom 44)) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 3326, formalized := true, sourceIds := [110], sourceFacts := [43, 46, 56, 85, 111, 119], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 3334, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.and (.atom 19) (.atom 10)) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 3336, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.atom 19) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3341, formalized := true, sourceIds := [37], sourceFacts := [14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.and (.atom 56) (.atom 19)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3353, formalized := true, sourceIds := [38], sourceFacts := [14, 41, 43, 56, 119, 133], guideFormula := .and (.atom 133) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3358, formalized := true, sourceIds := [101], sourceFacts := [8, 56, 119, 140], guideFormula := .neg (.and (.atom 56) (.atom 43)), reportedDerived := false, endToEnd := false },
+  { id := 3365, formalized := true, sourceIds := [109], sourceFacts := [14, 43, 56, 61, 111, 119], guideFormula := .neg (.and (.and (.and (.atom 47) (.atom 44)) (.atom 43)) (.atom 14)), reportedDerived := false, endToEnd := false },
+  { id := 3379, formalized := true, sourceIds := [114], sourceFacts := [14, 43, 56, 80, 119, 123, 142], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 3389, formalized := true, sourceIds := [39, 113, 116], sourceFacts := [13, 14, 37, 41, 43, 46, 56, 61, 64, 80, 111, 119, 124, 133, 137, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3405, formalized := true, sourceIds := [106], sourceFacts := [34, 43, 56, 71, 111, 119], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 3407, formalized := true, sourceIds := [39, 113, 116], sourceFacts := [13, 14, 37, 41, 43, 46, 56, 61, 64, 80, 111, 119, 124, 133, 137, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3410, formalized := true, sourceIds := [113, 115, 114], sourceFacts := [10, 14, 19, 37, 41, 43, 56, 64, 80, 119, 123, 142], guideFormula := .and (.and (.and (.atom 119) (.atom 19)) (.atom 44)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 3414, formalized := true, sourceIds := [115], sourceFacts := [10, 14, 19, 43, 56, 64, 119], guideFormula := .and (.atom 56) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3417, formalized := true, sourceIds := [114], sourceFacts := [14, 43, 56, 80, 119, 123, 142], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 3427, formalized := true, sourceIds := [115], sourceFacts := [10, 14, 19, 43, 56, 64, 119], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 3439, formalized := true, sourceIds := [113], sourceFacts := [37, 41, 43, 56, 64, 80, 119], guideFormula := .and (.atom 56) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3440, formalized := true, sourceIds := [113], sourceFacts := [37, 41, 43, 56, 64, 80, 119], guideFormula := .and (.and (.and (.atom 56) (.atom 43)) (.atom 80)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3447, formalized := true, sourceIds := [39, 96], sourceFacts := [41, 43, 46, 56, 61, 104, 111, 119, 124, 133], guideFormula := .atom 104, reportedDerived := true, endToEnd := false },
+  { id := 3460, formalized := true, sourceIds := [39, 113, 116], sourceFacts := [13, 14, 37, 41, 43, 46, 56, 61, 64, 80, 111, 119, 124, 133, 137, 142], guideFormula := .or (.atom 26) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3464, formalized := true, sourceIds := [116], sourceFacts := [13, 14, 41, 43, 46, 56, 61, 119, 137, 142], guideFormula := .atom 137, reportedDerived := true, endToEnd := false },
+  { id := 3472, formalized := true, sourceIds := [39, 113, 116], sourceFacts := [13, 14, 37, 41, 43, 46, 56, 61, 64, 80, 111, 119, 124, 133, 137, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3477, formalized := true, sourceIds := [117], sourceFacts := [1, 41], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3492, formalized := true, sourceIds := [117], sourceFacts := [1, 41], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3493, formalized := true, sourceIds := [117], sourceFacts := [1, 41], guideFormula := .and (.atom 1) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3505, formalized := true, sourceIds := [117], sourceFacts := [1, 41], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3509, formalized := true, sourceIds := [110], sourceFacts := [43, 46, 56, 85, 111, 119], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3512, formalized := true, sourceIds := [2, 13, 25, 26, 31], sourceFacts := [14, 18, 32, 38, 39, 41, 43, 44, 47, 56, 61, 64, 74, 76, 77, 93, 111, 117, 119, 125, 127, 133, 136, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3515, formalized := true, sourceIds := [110], sourceFacts := [43, 46, 56, 85, 111, 119], guideFormula := .and (.and (.atom 119) (.atom 44)) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 3526, formalized := true, sourceIds := [2, 13, 25, 26, 31], sourceFacts := [14, 18, 32, 38, 39, 41, 43, 44, 47, 56, 61, 64, 74, 76, 77, 93, 111, 117, 119, 125, 127, 133, 136, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3533, formalized := true, sourceIds := [2, 13, 25, 26, 31], sourceFacts := [14, 18, 32, 38, 39, 41, 43, 44, 47, 56, 61, 64, 74, 76, 77, 93, 111, 117, 119, 125, 127, 133, 136, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3534, formalized := true, sourceIds := [2, 13, 25, 36, 37], sourceFacts := [14, 19, 32, 34, 38, 39, 41, 43, 44, 46, 47, 56, 61, 64, 71, 74, 76, 77, 93, 117, 119, 127, 133, 136, 142], guideFormula := .and (.atom 43) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3538, formalized := true, sourceIds := [13, 26, 36, 37, 2], sourceFacts := [14, 19, 32, 34, 38, 39, 41, 43, 44, 46, 47, 56, 61, 64, 71, 74, 76, 77, 93, 117, 119, 125, 127, 133, 136, 142], guideFormula := .and (.and (.atom 119) (.atom 44)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3544, formalized := true, sourceIds := [10, 11, 13, 20, 21], sourceFacts := [2, 10, 14, 26, 28, 29, 41, 43, 44, 47, 56, 61, 64, 119, 133, 142], guideFormula := .atom 137, reportedDerived := false, endToEnd := false },
+  { id := 3549, formalized := true, sourceIds := [118], sourceFacts := [12, 124], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 3555, formalized := true, sourceIds := [96], sourceFacts := [56, 104, 119, 124], guideFormula := .atom 104, reportedDerived := true, endToEnd := false },
+  { id := 3561, formalized := true, sourceIds := [41], sourceFacts := [12, 43, 119], guideFormula := .atom 12, reportedDerived := true, endToEnd := false },
+  { id := 3567, formalized := true, sourceIds := [49, 119], sourceFacts := [3, 5, 14, 32, 41, 43, 51, 59, 63, 83, 87, 119, 130], guideFormula := .and (.atom 119) (.atom 87), reportedDerived := true, endToEnd := false },
+  { id := 3570, formalized := true, sourceIds := [49, 119], sourceFacts := [3, 5, 14, 32, 41, 43, 51, 59, 63, 83, 87, 119, 130], guideFormula := .and (.atom 87) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3578, formalized := true, sourceIds := [121], sourceFacts := [13, 41, 46, 56, 111, 119, 124], guideFormula := .and (.atom 111) (.atom 124), reportedDerived := true, endToEnd := false },
+  { id := 3595, formalized := true, sourceIds := [122], sourceFacts := [41, 56, 61, 82, 103, 111, 119, 124], guideFormula := .atom 56, reportedDerived := true, endToEnd := false },
+  { id := 3600, formalized := true, sourceIds := [22, 37], sourceFacts := [14, 19, 26, 34, 41, 43, 44, 49, 56, 61, 64, 73, 119, 123], guideFormula := .atom 19, reportedDerived := true, endToEnd := false },
+  { id := 3604, formalized := true, sourceIds := [10], sourceFacts := [29, 119], guideFormula := .atom 29, reportedDerived := true, endToEnd := false },
+  { id := 3610, formalized := true, sourceIds := [121, 122], sourceFacts := [13, 41, 46, 56, 61, 82, 103, 111, 119, 124], guideFormula := .and (.atom 111) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 3611, formalized := true, sourceIds := [121, 122, 10], sourceFacts := [13, 29, 41, 46, 56, 61, 82, 103, 111, 119, 124], guideFormula := .and (.and (.atom 119) (.atom 138)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 3612, formalized := true, sourceIds := [121, 122], sourceFacts := [13, 41, 46, 56, 61, 82, 103, 111, 119, 124], guideFormula := .neg (.and (.atom 138) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 3618, formalized := true, sourceIds := [124], sourceFacts := [33, 41, 43, 56, 82, 103, 119, 124], guideFormula := .and (.and (.atom 56) (.atom 43)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3626, formalized := true, sourceIds := [124], sourceFacts := [33, 41, 43, 56, 82, 103, 119, 124], guideFormula := .and (.atom 56) (.atom 103), reportedDerived := true, endToEnd := false },
+  { id := 3649, formalized := true, sourceIds := [124, 122, 10, 121], sourceFacts := [13, 29, 33, 41, 43, 46, 56, 61, 82, 103, 111, 119, 124], guideFormula := .neg (.and (.and (.atom 119) (.atom 103)) (.atom 33)), reportedDerived := false, endToEnd := false },
+  { id := 3658, formalized := true, sourceIds := [127, 128, 129, 39], sourceFacts := [14, 41, 43, 46, 56, 61, 63, 104, 111, 119, 124, 133], guideFormula := .and (.atom 124) (.atom 104), reportedDerived := true, endToEnd := false },
+  { id := 3659, formalized := true, sourceIds := [127, 128, 39, 129], sourceFacts := [14, 41, 43, 46, 56, 61, 63, 104, 111, 119, 124, 133], guideFormula := .and (.and (.and (.and (.atom 119) (.atom 124)) (.atom 104)) (.atom 137)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 3664, formalized := true, sourceIds := [127, 128, 39, 129], sourceFacts := [14, 41, 43, 46, 56, 61, 63, 104, 111, 119, 124, 133], guideFormula := .and (.atom 104) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3675, formalized := true, sourceIds := [39], sourceFacts := [41, 43, 46, 56, 61, 111, 119, 124, 133], guideFormula := .and (.atom 56) (.atom 124), reportedDerived := true, endToEnd := false },
+  { id := 3681, formalized := true, sourceIds := [127], sourceFacts := [41, 56, 104, 119, 124], guideFormula := .atom 124, reportedDerived := true, endToEnd := false },
+  { id := 3682, formalized := true, sourceIds := [128], sourceFacts := [14, 41, 43, 56, 104, 119, 124], guideFormula := .and (.atom 43) (.atom 124), reportedDerived := true, endToEnd := false },
+  { id := 3692, formalized := true, sourceIds := [129], sourceFacts := [56, 63, 104, 119, 124], guideFormula := .atom 12, reportedDerived := false, endToEnd := false },
+  { id := 3699, formalized := true, sourceIds := [129], sourceFacts := [56, 63, 104, 119, 124], guideFormula := .atom 104, reportedDerived := true, endToEnd := false },
+  { id := 3717, formalized := true, sourceIds := [37, 102], sourceFacts := [10, 14, 19, 34, 41, 43, 44, 56, 61, 64, 119], guideFormula := .and (.atom 56) (.atom 10), reportedDerived := true, endToEnd := false },
+  { id := 3723, formalized := true, sourceIds := [110], sourceFacts := [43, 46, 56, 85, 111, 119], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3733, formalized := true, sourceIds := [36], sourceFacts := [14, 41, 43, 44, 46, 47, 56, 71, 93, 119], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 3739, formalized := true, sourceIds := [104], sourceFacts := [10, 41, 44, 56, 119], guideFormula := .and (.atom 56) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 3746, formalized := true, sourceIds := [130], sourceFacts := [14, 43, 84, 119], guideFormula := .atom 84, reportedDerived := true, endToEnd := false },
+  { id := 3773, formalized := true, sourceIds := [131], sourceFacts := [41, 49, 73, 119], guideFormula := .and (.atom 73) (.atom 123), reportedDerived := false, endToEnd := false },
+  { id := 3783, formalized := true, sourceIds := [47, 91, 132], sourceFacts := [5, 23, 26, 41, 43, 56, 59, 63, 66, 73, 105, 116, 119], guideFormula := .and (.atom 119) (.atom 34), reportedDerived := false, endToEnd := false },
+  { id := 3786, formalized := true, sourceIds := [47], sourceFacts := [5, 41, 43, 59, 63, 66, 116, 119], guideFormula := .neg (.and (.and (.and (.atom 116) (.atom 119)) (.atom 117)) (.atom 73)), reportedDerived := false, endToEnd := false },
+  { id := 3791, formalized := true, sourceIds := [91, 132], sourceFacts := [23, 26, 41, 43, 56, 73, 105, 119], guideFormula := .and (.atom 23) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 3796, formalized := true, sourceIds := [119], sourceFacts := [43, 83, 87, 119], guideFormula := .atom 87, reportedDerived := true, endToEnd := false },
+  { id := 3826, formalized := true, sourceIds := [133], sourceFacts := [26, 41, 56, 119], guideFormula := .atom 26, reportedDerived := true, endToEnd := false },
+  { id := 3837, formalized := true, sourceIds := [46], sourceFacts := [26, 34, 41, 75, 119], guideFormula := .atom 34, reportedDerived := true, endToEnd := false },
+  { id := 3841, formalized := true, sourceIds := [89, 58, 91], sourceFacts := [4, 13, 23, 24, 26, 41, 43, 46, 56, 86, 93, 99, 105, 106, 111, 119], guideFormula := .and (.and (.and (.and (.atom 118) (.atom 119)) (.atom 46)) (.atom 43)) (.atom 26), reportedDerived := false, endToEnd := false },
+  { id := 3843, formalized := true, sourceIds := [58], sourceFacts := [4, 13, 46, 56, 86, 93, 99, 111, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 3849, formalized := true, sourceIds := [89, 91], sourceFacts := [23, 24, 26, 41, 43, 56, 93, 105, 106, 111, 119], guideFormula := .and (.atom 23) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 3854, formalized := true, sourceIds := [134], sourceFacts := [14, 26, 43, 56, 119], guideFormula := .atom 26, reportedDerived := true, endToEnd := false },
+  { id := 3878, formalized := true, sourceIds := [23], sourceFacts := [121, 132], guideFormula := .atom 132, reportedDerived := true, endToEnd := false },
+  { id := 3884, formalized := true, sourceIds := [21], sourceFacts := [2, 10, 26, 119], guideFormula := .atom 2, reportedDerived := true, endToEnd := false },
+  { id := 3890, formalized := true, sourceIds := [20, 22], sourceFacts := [19, 26, 28, 49, 56, 73, 123], guideFormula := .atom 28, reportedDerived := true, endToEnd := false },
+  { id := 3903, formalized := true, sourceIds := [38, 13], sourceFacts := [14, 41, 43, 44, 47, 56, 61, 64, 119, 133], guideFormula := .atom 133, reportedDerived := true, endToEnd := false },
+  { id := 3909, formalized := true, sourceIds := [54, 55, 53], sourceFacts := [5, 26, 30, 34, 35, 41, 59, 66, 73, 117, 119, 123, 133], guideFormula := .and (.and (.atom 119) (.atom 142)) (.atom 12), reportedDerived := false, endToEnd := false },
+  { id := 3914, formalized := true, sourceIds := [135], sourceFacts := [30, 34, 119], guideFormula := .atom 30, reportedDerived := true, endToEnd := false },
+  { id := 3930, formalized := true, sourceIds := [10], sourceFacts := [29, 119], guideFormula := .and (.and (.atom 111) (.atom 119)) (.atom 121), reportedDerived := false, endToEnd := false },
+  { id := 3934, formalized := true, sourceIds := [13, 36, 37, 38, 39], sourceFacts := [14, 19, 34, 41, 43, 44, 46, 47, 56, 61, 64, 71, 93, 111, 119, 124, 133], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 3940, formalized := true, sourceIds := [10, 11], sourceFacts := [29, 119, 142], guideFormula := .atom 29, reportedDerived := true, endToEnd := false },
+  { id := 3965, formalized := true, sourceIds := [13, 36, 37, 38, 39], sourceFacts := [14, 19, 34, 41, 43, 44, 46, 47, 56, 61, 64, 71, 93, 111, 119, 124, 133], guideFormula := .and (.atom 56) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 3987, formalized := false, sourceIds := [139], sourceFacts := [14, 41, 43, 56, 61, 71, 85, 111, 119, 133], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 3994, formalized := true, sourceIds := [110], sourceFacts := [43, 46, 56, 85, 111, 119], guideFormula := .and (.and (.and (.atom 119) (.atom 44)) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 3999, formalized := true, sourceIds := [109], sourceFacts := [14, 43, 56, 61, 111, 119], guideFormula := .and (.atom 56) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 4018, formalized := true, sourceIds := [97], sourceFacts := [41, 56, 61, 99, 111, 119, 124], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4022, formalized := true, sourceIds := [58], sourceFacts := [4, 13, 46, 56, 86, 93, 99, 111, 119], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4024, formalized := true, sourceIds := [58], sourceFacts := [4, 13, 46, 56, 86, 93, 99, 111, 119], guideFormula := .atom 43, reportedDerived := false, endToEnd := false },
+  { id := 4028, formalized := true, sourceIds := [97, 139], sourceFacts := [14, 41, 43, 56, 61, 71, 85, 99, 111, 119, 124, 133], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 4035, formalized := true, sourceIds := [140], sourceFacts := [56, 71, 85, 111, 119], guideFormula := .neg (.and (.atom 43) (.atom 85)), reportedDerived := false, endToEnd := false },
+  { id := 4038, formalized := true, sourceIds := [97, 139], sourceFacts := [14, 41, 43, 56, 61, 71, 85, 99, 111, 119, 124, 133], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 4046, formalized := true, sourceIds := [141], sourceFacts := [14, 41, 43, 44, 46, 56, 93, 119], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := true, endToEnd := false },
+  { id := 4047, formalized := true, sourceIds := [142, 143], sourceFacts := [14, 41, 43, 56, 71, 85, 93, 111, 119, 123], guideFormula := .and (.atom 119) (.atom 123), reportedDerived := true, endToEnd := false },
+  { id := 4054, formalized := true, sourceIds := [141, 142, 143], sourceFacts := [14, 41, 43, 44, 46, 56, 71, 85, 93, 111, 119, 123], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4056, formalized := true, sourceIds := [141, 142, 143], sourceFacts := [14, 41, 43, 44, 46, 56, 71, 85, 93, 111, 119, 123], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4061, formalized := true, sourceIds := [141, 142, 143], sourceFacts := [14, 41, 43, 44, 46, 56, 71, 85, 93, 111, 119, 123], guideFormula := .and (.and (.atom 119) (.atom 56)) (.atom 44), reportedDerived := true, endToEnd := false },
+  { id := 4117, formalized := false, sourceIds := [15, 24, 29, 31, 33], sourceFacts := [1, 14, 18, 32, 41, 43, 46, 54, 56, 63, 85, 86, 89, 107, 111, 119, 125, 131], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 4121, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.atom 111) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 4126, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.and (.and (.atom 89) (.atom 111)) (.atom 100)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 4138, formalized := true, sourceIds := [147, 59, 92, 146, 160], sourceFacts := [14, 23, 26, 32, 41, 43, 56, 58, 61, 73, 75, 81, 108, 109, 111, 117, 119, 126, 127, 130, 142], guideFormula := .or (.and (.atom 117) (.atom 26)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 4146, formalized := true, sourceIds := [146, 147], sourceFacts := [14, 26, 32, 41, 43, 56, 61, 75, 108, 111, 117, 119, 127, 142], guideFormula := .atom 117, reportedDerived := true, endToEnd := false },
+  { id := 4153, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .neg (.and (.and (.and (.atom 44) (.atom 117)) (.atom 73)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 4159, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 4166, formalized := false, sourceIds := [144], sourceFacts := [14, 41, 43, 93, 108, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 4178, formalized := true, sourceIds := [145], sourceFacts := [41, 108, 119], guideFormula := .and (.atom 119) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 4182, formalized := true, sourceIds := [146], sourceFacts := [32, 41, 75, 108, 117, 119, 127], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 4183, formalized := true, sourceIds := [146], sourceFacts := [32, 41, 75, 108, 117, 119, 127], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 4202, formalized := true, sourceIds := [144, 145, 146], sourceFacts := [14, 32, 41, 43, 75, 93, 108, 117, 119, 127], guideFormula := .and (.atom 119) (.atom 56), reportedDerived := false, endToEnd := false },
+  { id := 4210, formalized := true, sourceIds := [147, 148, 149], sourceFacts := [4, 14, 26, 32, 34, 41, 43, 56, 61, 71, 76, 77, 85, 111, 117, 119, 136, 142], guideFormula := .and (.and (.atom 111) (.atom 119)) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 4216, formalized := true, sourceIds := [140], sourceFacts := [56, 71, 85, 111, 119], guideFormula := .and (.atom 119) (.atom 85), reportedDerived := true, endToEnd := false },
+  { id := 4240, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .atom 114, reportedDerived := true, endToEnd := false },
+  { id := 4241, formalized := true, sourceIds := [64], sourceFacts := [17, 41, 70, 114], guideFormula := .and (.atom 114) (.atom 119), reportedDerived := false, endToEnd := false },
+  { id := 4270, formalized := true, sourceIds := [15], sourceFacts := [46, 56, 85, 119], guideFormula := .and (.atom 119) (.atom 85), reportedDerived := true, endToEnd := false },
+  { id := 4281, formalized := true, sourceIds := [150], sourceFacts := [135], guideFormula := .and (.atom 56) (.atom 135), reportedDerived := false, endToEnd := false },
+  { id := 4287, formalized := false, sourceIds := [151], sourceFacts := [14, 41, 43, 56, 119, 135], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 4302, formalized := true, sourceIds := [29], sourceFacts := [14, 41, 43, 119, 125, 131], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 4323, formalized := true, sourceIds := [35], sourceFacts := [43, 56, 81, 119], guideFormula := .and (.atom 56) (.atom 81), reportedDerived := true, endToEnd := false },
+  { id := 4330, formalized := false, sourceIds := [59], sourceFacts := [14, 26, 41, 43, 56, 81, 111, 119, 126], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 4333, formalized := true, sourceIds := [31, 107], sourceFacts := [18, 32, 41, 43, 46, 56, 86, 111, 118, 119, 123], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4335, formalized := true, sourceIds := [31], sourceFacts := [18, 32, 41, 56, 111, 119], guideFormula := .and (.atom 32) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 4342, formalized := true, sourceIds := [107], sourceFacts := [41, 43, 46, 56, 86, 111, 118, 119, 123], guideFormula := .imp (.and (.atom 119) (.atom 43)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 4346, formalized := true, sourceIds := [92], sourceFacts := [14, 23, 26, 43, 56, 73, 81, 109, 119], guideFormula := .and (.atom 23) (.atom 109), reportedDerived := true, endToEnd := false },
+  { id := 4352, formalized := true, sourceIds := [35], sourceFacts := [43, 56, 81, 119], guideFormula := .and (.atom 81) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 4353, formalized := true, sourceIds := [152], sourceFacts := [14, 41, 43, 56, 81, 86, 119], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 4354, formalized := true, sourceIds := [153], sourceFacts := [14, 41, 43, 56, 81, 119, 142], guideFormula := .and (.atom 43) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 4355, formalized := true, sourceIds := [35, 152, 153], sourceFacts := [14, 41, 43, 56, 81, 86, 119, 142], guideFormula := .neg (.and (.and (.atom 133) (.atom 43)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 4376, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .and (.atom 63) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 4377, formalized := true, sourceIds := [155, 156], sourceFacts := [18, 20, 41, 56, 58, 63, 111, 119, 139, 142], guideFormula := .and (.and (.and (.and (.and (.atom 59) (.atom 63)) (.atom 139)) (.atom 20)) (.atom 58)) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 4378, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .neg (.and (.atom 43) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 4390, formalized := false, sourceIds := [154, 33], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 4393, formalized := true, sourceIds := [33, 154, 78, 155], sourceFacts := [1, 14, 18, 41, 43, 54, 56, 63, 77, 86, 91, 107, 111, 114, 119, 139, 142, 143], guideFormula := .and (.atom 1) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 4395, formalized := false, sourceIds := [78], sourceFacts := [41, 77, 91, 114, 119, 143], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 4404, formalized := true, sourceIds := [141], sourceFacts := [14, 41, 43, 44, 46, 56, 93, 119], guideFormula := .atom 44, reportedDerived := true, endToEnd := false },
+  { id := 4405, formalized := true, sourceIds := [33, 78, 154, 155, 156], sourceFacts := [1, 14, 18, 20, 41, 43, 54, 56, 58, 63, 77, 86, 91, 107, 111, 114, 119, 139, 142, 143], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4413, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .neg (.and (.and (.and (.atom 54) (.atom 56)) (.atom 43)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 4414, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .and (.and (.atom 56) (.atom 1)) (.atom 41), reportedDerived := true, endToEnd := false },
+  { id := 4426, formalized := true, sourceIds := [141], sourceFacts := [14, 41, 43, 44, 46, 56, 93, 119], guideFormula := .atom 44, reportedDerived := true, endToEnd := false },
+  { id := 4436, formalized := false, sourceIds := [157], sourceFacts := [37, 41, 46, 56, 58, 111, 119], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 4437, formalized := true, sourceIds := [158, 159, 160], sourceFacts := [14, 26, 41, 43, 56, 58, 61, 86, 111, 119, 130, 142], guideFormula := .and (.atom 119) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 4440, formalized := true, sourceIds := [157, 158, 159, 160], sourceFacts := [14, 26, 37, 41, 43, 46, 56, 58, 61, 86, 111, 119, 130, 142], guideFormula := .neg (.atom 142), reportedDerived := false, endToEnd := false },
+  { id := 4445, formalized := true, sourceIds := [157, 158, 160], sourceFacts := [14, 26, 37, 41, 43, 46, 56, 58, 61, 111, 119, 130, 142], guideFormula := .and (.atom 119) (.atom 19), reportedDerived := false, endToEnd := false },
+  { id := 4465, formalized := true, sourceIds := [157, 158, 160], sourceFacts := [14, 26, 37, 41, 43, 46, 56, 58, 61, 111, 119, 130, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4475, formalized := true, sourceIds := [157, 158, 160], sourceFacts := [14, 26, 37, 41, 43, 46, 56, 58, 61, 111, 119, 130, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4496, formalized := true, sourceIds := [161], sourceFacts := [14, 18, 32, 40, 41, 43, 56, 72, 74, 88, 89, 92, 111, 119], guideFormula := .neg (.and (.atom 119) (.atom 43)), reportedDerived := false, endToEnd := false },
+  { id := 4502, formalized := true, sourceIds := [24, 29], sourceFacts := [14, 41, 43, 89, 119, 125, 131], guideFormula := .atom 74, reportedDerived := false, endToEnd := false },
+  { id := 4503, formalized := true, sourceIds := [24, 29], sourceFacts := [14, 41, 43, 89, 119, 125, 131], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 4513, formalized := true, sourceIds := [29, 161], sourceFacts := [14, 18, 32, 40, 41, 43, 56, 72, 74, 88, 89, 92, 111, 119, 125, 131], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4520, formalized := true, sourceIds := [107], sourceFacts := [41, 43, 46, 56, 86, 111, 118, 119, 123], guideFormula := .atom 118, reportedDerived := true, endToEnd := false },
+  { id := 4522, formalized := true, sourceIds := [161, 29], sourceFacts := [14, 18, 32, 40, 41, 43, 56, 72, 74, 88, 89, 92, 111, 119, 125, 131], guideFormula := .and (.atom 88) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 4530, formalized := true, sourceIds := [161, 29], sourceFacts := [14, 18, 32, 40, 41, 43, 56, 72, 74, 88, 89, 92, 111, 119, 125, 131], guideFormula := .neg (.and (.atom 119) (.atom 56)), reportedDerived := false, endToEnd := false },
+  { id := 4550, formalized := true, sourceIds := [29, 161], sourceFacts := [14, 18, 32, 40, 41, 43, 56, 72, 74, 88, 89, 92, 111, 119, 125, 131], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 4557, formalized := true, sourceIds := [116], sourceFacts := [13, 14, 41, 43, 46, 56, 61, 119, 137, 142], guideFormula := .atom 137, reportedDerived := true, endToEnd := false },
+  { id := 4569, formalized := true, sourceIds := [162, 97], sourceFacts := [41, 56, 61, 99, 111, 119, 124, 126], guideFormula := .and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 43)) (.atom 126)) (.atom 41), reportedDerived := false, endToEnd := false },
+  { id := 4570, formalized := true, sourceIds := [162, 97], sourceFacts := [41, 56, 61, 99, 111, 119, 124, 126], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 4578, formalized := true, sourceIds := [60], sourceFacts := [15, 41, 45, 46, 56, 61, 69, 71, 86, 119, 133], guideFormula := .and (.and (.atom 69) (.atom 86)) (.atom 119), reportedDerived := true, endToEnd := false },
+  { id := 4582, formalized := true, sourceIds := [163], sourceFacts := [41, 56, 119, 137], guideFormula := .neg (.and (.and (.and (.and (.atom 75) (.atom 43)) (.atom 12)) (.atom 137)) (.atom 41)), reportedDerived := false, endToEnd := false },
+  { id := 4588, formalized := true, sourceIds := [116, 163], sourceFacts := [13, 14, 41, 43, 46, 56, 61, 119, 137, 142], guideFormula := .atom 137, reportedDerived := true, endToEnd := false },
+  { id := 4603, formalized := true, sourceIds := [96], sourceFacts := [56, 104, 119, 124], guideFormula := .and (.atom 104) (.atom 137), reportedDerived := false, endToEnd := false },
+  { id := 4620, formalized := true, sourceIds := [60, 96, 97, 116, 162], sourceFacts := [13, 14, 15, 41, 43, 45, 46, 56, 61, 69, 71, 86, 99, 104, 111, 119, 124, 126, 133, 137, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4630, formalized := false, sourceIds := [15, 24, 29, 31, 33], sourceFacts := [1, 14, 18, 32, 41, 43, 46, 54, 56, 63, 85, 86, 89, 107, 111, 119, 125, 131], guideFormula := .atom 0, reportedDerived := false, endToEnd := false },
+  { id := 4632, formalized := true, sourceIds := [141], sourceFacts := [14, 41, 43, 44, 46, 56, 93, 119], guideFormula := .neg (.atom 44), reportedDerived := false, endToEnd := false },
+  { id := 4635, formalized := true, sourceIds := [164, 165], sourceFacts := [41, 56, 108, 119, 142], guideFormula := .atom 119, reportedDerived := true, endToEnd := false },
+  { id := 4637, formalized := true, sourceIds := [168, 169], sourceFacts := [14, 41, 77, 135, 142], guideFormula := .and (.and (.and (.atom 56) (.atom 142)) (.atom 43)) (.atom 135), reportedDerived := false, endToEnd := false },
+  { id := 4638, formalized := true, sourceIds := [171], sourceFacts := [43, 56, 81, 119, 142], guideFormula := .and (.and (.and (.atom 119) (.atom 44)) (.atom 81)) (.atom 43), reportedDerived := false, endToEnd := false },
+  { id := 4639, formalized := true, sourceIds := [154, 172, 33], sourceFacts := [1, 14, 41, 43, 46, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .and (.and (.atom 119) (.atom 43)) (.atom 26), reportedDerived := false, endToEnd := false },
+  { id := 4640, formalized := true, sourceIds := [158, 159, 160], sourceFacts := [14, 26, 41, 43, 56, 58, 61, 86, 111, 119, 130, 142], guideFormula := .and (.atom 119) (.atom 43), reportedDerived := true, endToEnd := false },
+  { id := 4641, formalized := true, sourceIds := [158, 159, 160], sourceFacts := [14, 26, 41, 43, 56, 58, 61, 86, 111, 119, 130, 142], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 4642, formalized := true, sourceIds := [161, 173], sourceFacts := [14, 18, 32, 40, 41, 43, 56, 72, 74, 88, 89, 92, 111, 119], guideFormula := .and (.and (.and (.and (.atom 89) (.atom 119)) (.atom 74)) (.atom 43)) (.atom 117), reportedDerived := false, endToEnd := false },
+  { id := 4643, formalized := true, sourceIds := [175, 60], sourceFacts := [15, 41, 45, 46, 56, 61, 69, 71, 86, 119, 133, 142], guideFormula := .and (.atom 119) (.atom 44), reportedDerived := false, endToEnd := false },
+  { id := 4644, formalized := true, sourceIds := [176, 177], sourceFacts := [14, 41, 43, 56, 85, 93, 111, 119, 123], guideFormula := .and (.atom 119) (.atom 26), reportedDerived := false, endToEnd := false },
+  { id := 4729, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .atom 43, reportedDerived := true, endToEnd := false },
+  { id := 4738, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 4740, formalized := true, sourceIds := [33, 154], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .atom 41, reportedDerived := true, endToEnd := false },
+  { id := 4762, formalized := true, sourceIds := [154, 33], sourceFacts := [1, 14, 41, 43, 54, 56, 63, 86, 107, 111, 119, 142], guideFormula := .atom 111, reportedDerived := true, endToEnd := false }
 ]
 
-def reportedDerivedIds : List Nat := [2, 22, 41, 51, 75, 76, 77, 78, 79, 80, 84, 87, 106, 107, 110, 114, 116, 117, 118, 122, 133, 138, 139, 141, 154, 158, 159, 235, 244, 246, 253, 270, 281, 301, 306, 315, 334, 335, 337, 339, 344, 350, 360, 361, 363, 364, 365, 366, 369, 370, 371, 372, 373, 374, 377, 387, 389, 390, 393, 395, 400, 401, 404, 405, 406, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 424, 425, 426, 427, 511, 513, 522, 598, 627, 645, 655, 656, 666, 672, 705, 737, 745, 748, 773, 807, 817, 818, 827, 836, 847, 863, 892, 920, 921, 938, 965, 969, 972, 978, 982, 984, 992, 996, 1004, 1005, 1016, 1035, 1056, 1058, 1068, 1084, 1092, 1093, 1097, 1103, 1107, 1110, 1151, 1155, 1156, 1157, 1166, 1167, 1174, 1176, 1207, 1209, 1211, 1216, 1218, 1219, 1226, 1236, 1237, 1243, 1245, 1250, 1254, 1255, 1263, 1264, 1269, 1270, 1277, 1278, 1283, 1285, 1291, 1313, 1319, 1324, 1329, 1332, 1333, 1357, 1360, 1364, 1369, 1425, 1450, 1460, 1472, 1528, 1530, 1540, 1541, 1550, 1563, 1568, 1569, 1581, 1587, 1597, 1602, 1611, 1613, 1615, 1627, 1636, 1655, 1662, 1668, 1684, 1686, 1692, 1695, 1697, 1699, 1702, 1716, 1722, 1742, 1745, 1746, 1747, 1750, 1753, 1758, 1759, 1760, 1764, 1765, 1767, 1777, 1778, 1786, 1793, 1794, 1799, 1800, 1802, 1809, 1811, 1815, 1824, 1837, 1840, 1841, 1845, 1846, 1847, 1861, 1864, 1872, 1876, 1879, 1888, 1899, 1902, 1915, 1917, 1920, 1922, 1930, 1935, 1939, 1943, 1947, 1980, 1992, 1999, 2003, 2041, 2083, 2086, 2099, 2136, 2143, 2162, 2163, 2169, 2170, 2188, 2189, 2195, 2196, 2201, 2205, 2206, 2209, 2212, 2213, 2217, 2224, 2228, 2230, 2232, 2236, 2237, 2242, 2257, 2259, 2281, 2288, 2296, 2300, 2302, 2313, 2329, 2351, 2356, 2413, 2438, 2447, 2532, 2538, 2544, 2558, 2588, 2643, 2645, 2658, 2670, 2694, 2703, 2709, 2747, 2761, 2824, 2830, 2836, 2846, 2860, 2862, 2863, 2871, 2896, 2904, 2914, 2934, 2939, 2943, 2951, 2954, 2966, 2997, 3000, 3026, 3032, 3042, 3048, 3051, 3063, 3066, 3092, 3098, 3103, 3108, 3109, 3119, 3121, 3124, 3130, 3134, 3135, 3141, 3176, 3192, 3204, 3217, 3224, 3245, 3261, 3266, 3278, 3288, 3293, 3305, 3331, 3341, 3357, 3359, 3366, 3369, 3379, 3391, 3392, 3399, 3412, 3416, 3424, 3429, 3444, 3445, 3457, 3461, 3464, 3478, 3485, 3486, 3490, 3501, 3507, 3513, 3519, 3522, 3530, 3547, 3552, 3556, 3562, 3570, 3578, 3610, 3616, 3627, 3633, 3634, 3651, 3669, 3675, 3685, 3691, 3698, 3743, 3748, 3778, 3789, 3795, 3801, 3806, 3830, 3836, 3842, 3855, 3866, 3886, 3892, 3917, 3951, 3970, 3974, 3980, 3990, 3998, 3999, 4006, 4008, 4013, 4090, 4098, 4111, 4130, 4134, 4135, 4162, 4168, 4192, 4222, 4254, 4275, 4285, 4287, 4298, 4305, 4306, 4328, 4345, 4356, 4357, 4366, 4378, 4389, 4417, 4427, 4455, 4465, 4472, 4474, 4502, 4509, 4522, 4530, 4540, 4572, 4587, 4592, 4593, 4681, 4690, 4692, 4714]
-def reportedRequiredCount : Nat := 709
-def reportedSourceCount : Nat := 194
-def reportedAtomCount : Nat := 141
+def reportedDerivedIds : List Nat := [2, 22, 41, 51, 75, 76, 77, 78, 79, 80, 84, 87, 106, 111, 114, 119, 127, 146, 149, 153, 155, 156, 159, 163, 174, 179, 180, 182, 200, 204, 205, 281, 290, 292, 299, 316, 327, 347, 352, 364, 382, 383, 385, 387, 392, 398, 408, 409, 411, 412, 413, 414, 417, 418, 419, 420, 421, 422, 425, 435, 437, 438, 441, 443, 448, 449, 452, 453, 454, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 472, 473, 474, 475, 559, 561, 570, 646, 675, 693, 703, 704, 714, 720, 753, 785, 793, 796, 821, 855, 865, 866, 875, 884, 895, 911, 940, 968, 969, 986, 1013, 1017, 1020, 1026, 1030, 1032, 1040, 1044, 1052, 1053, 1064, 1083, 1104, 1106, 1116, 1132, 1140, 1141, 1145, 1151, 1155, 1158, 1199, 1203, 1204, 1205, 1214, 1215, 1222, 1224, 1255, 1257, 1259, 1264, 1266, 1267, 1274, 1284, 1285, 1291, 1293, 1298, 1302, 1303, 1311, 1312, 1317, 1318, 1325, 1326, 1331, 1333, 1339, 1361, 1367, 1372, 1377, 1380, 1381, 1405, 1408, 1412, 1417, 1473, 1498, 1508, 1520, 1576, 1578, 1588, 1589, 1598, 1611, 1616, 1617, 1629, 1635, 1645, 1650, 1659, 1661, 1663, 1675, 1684, 1703, 1710, 1716, 1732, 1734, 1740, 1743, 1745, 1747, 1750, 1764, 1770, 1790, 1793, 1794, 1795, 1798, 1801, 1806, 1807, 1808, 1812, 1813, 1815, 1825, 1826, 1834, 1841, 1842, 1847, 1848, 1850, 1857, 1859, 1863, 1872, 1885, 1888, 1889, 1893, 1894, 1895, 1909, 1912, 1920, 1924, 1927, 1936, 1947, 1950, 1963, 1965, 1968, 1970, 1978, 1983, 1987, 1991, 1995, 2028, 2040, 2047, 2051, 2089, 2131, 2134, 2147, 2184, 2191, 2210, 2211, 2217, 2218, 2236, 2237, 2243, 2244, 2249, 2253, 2254, 2257, 2260, 2261, 2265, 2272, 2276, 2278, 2280, 2284, 2285, 2290, 2305, 2307, 2329, 2336, 2344, 2348, 2350, 2361, 2377, 2399, 2404, 2461, 2486, 2495, 2580, 2586, 2592, 2606, 2636, 2691, 2693, 2706, 2718, 2742, 2751, 2757, 2795, 2809, 2872, 2878, 2884, 2894, 2908, 2910, 2911, 2919, 2944, 2952, 2962, 2982, 2987, 2991, 2999, 3002, 3014, 3045, 3048, 3074, 3080, 3090, 3096, 3099, 3111, 3114, 3140, 3146, 3151, 3156, 3157, 3167, 3169, 3172, 3178, 3182, 3183, 3189, 3224, 3240, 3252, 3265, 3272, 3293, 3309, 3314, 3326, 3336, 3341, 3353, 3379, 3389, 3405, 3407, 3414, 3417, 3427, 3439, 3440, 3447, 3460, 3464, 3472, 3477, 3492, 3493, 3505, 3509, 3512, 3526, 3533, 3534, 3538, 3549, 3555, 3561, 3567, 3570, 3578, 3595, 3600, 3604, 3610, 3618, 3626, 3658, 3664, 3675, 3681, 3682, 3699, 3717, 3723, 3733, 3739, 3746, 3791, 3796, 3826, 3837, 3843, 3849, 3854, 3878, 3884, 3890, 3903, 3914, 3934, 3940, 3965, 3999, 4018, 4022, 4028, 4038, 4046, 4047, 4054, 4056, 4061, 4138, 4146, 4159, 4178, 4182, 4183, 4210, 4216, 4240, 4270, 4302, 4323, 4333, 4335, 4346, 4353, 4354, 4376, 4393, 4404, 4405, 4414, 4426, 4437, 4465, 4475, 4503, 4513, 4520, 4522, 4550, 4557, 4570, 4578, 4588, 4620, 4635, 4640, 4641, 4729, 4738, 4740, 4762]
+def reportedRequiredCount : Nat := 731
+def reportedSourceCount : Nat := 198
+def reportedAtomCount : Nat := 143
 
 end RagEvidence.LiteratureGenerated
