@@ -33,7 +33,7 @@ aws sts get-caller-identity --output table
 
 <CloudShellStep number="1.2" title="共通変数を設定する">
 
-以降は同じCloudShell tabで作業します。複数人が同じAWSアカウントで同時に実習しても名前が衝突しにくいよう、UTC時刻に6桁のランダムなhexサフィックスを付けてrun IDを作ります。
+以降は同じCloudShell tabで作業します。複数人が同じAWS account・Regionで同時に実施しても名前が衝突しにくいよう、UTC時刻に4桁の乱数を加えたrun IDを使います。また、CloudShellのshell sessionが途中で再作成されても復旧できるよう、環境変数を`$HOME`配下へ保存します。
 
 <Command>
 
@@ -42,8 +42,9 @@ export AWS_REGION="ap-northeast-1"
 export AWS_DEFAULT_REGION="$AWS_REGION"
 
 export RAG_ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
-export RAG_RUN_ID="$(date -u +%m%d%H%M%S)-$(openssl rand -hex 3)"
-export RAG_WORK_DIR="$PWD/rag-handson-$RAG_RUN_ID"
+export RAG_RUN_ID="$(date -u +%m%d%H%M%S)-$(printf '%04x' $((RANDOM % 65536)))"
+export RAG_WORK_DIR="$HOME/rag-handson-$RAG_RUN_ID"
+export RAG_STATE_FILE="$RAG_WORK_DIR/state.env"
 
 export RAG_SOURCE_BUCKET="rag-handson-${RAG_ACCOUNT_ID}-${RAG_RUN_ID}"
 export RAG_VECTOR_BUCKET="rag-handson-vectors-${RAG_ACCOUNT_ID}-${RAG_RUN_ID}"
@@ -58,23 +59,18 @@ export RAG_DOCUMENT_URL="https://docs.aws.amazon.com/ja_jp/wellarchitected/lates
 export RAG_DOCUMENT_PATH="$RAG_WORK_DIR/documents/aws-well-architected-framework.pdf"
 
 mkdir -p "$RAG_WORK_DIR/documents"
-printf '%s\n' \
-  "AWS_REGION=$AWS_REGION" \
-  "RAG_ACCOUNT_ID=$RAG_ACCOUNT_ID" \
-  "RAG_RUN_ID=$RAG_RUN_ID" \
-  "RAG_WORK_DIR=$RAG_WORK_DIR" \
-  "RAG_SOURCE_BUCKET=$RAG_SOURCE_BUCKET" \
-  "RAG_VECTOR_BUCKET=$RAG_VECTOR_BUCKET" \
-  "RAG_INDEX_NAME=$RAG_INDEX_NAME" \
-  "RAG_ROLE_NAME=$RAG_ROLE_NAME" \
-  "RAG_POLICY_NAME=$RAG_POLICY_NAME" \
-  "RAG_KB_NAME=$RAG_KB_NAME" \
-  "RAG_DS_NAME=$RAG_DS_NAME" \
-  "RAG_EMBED_MODEL_ID=$RAG_EMBED_MODEL_ID" \
-  "RAG_GENERATION_MODEL_ID=$RAG_GENERATION_MODEL_ID" \
-  "RAG_DOCUMENT_URL=$RAG_DOCUMENT_URL" \
-  "RAG_DOCUMENT_PATH=$RAG_DOCUMENT_PATH" \
-  | tee "$RAG_WORK_DIR/manifest.env"
+
+declare -p \
+  AWS_REGION AWS_DEFAULT_REGION \
+  RAG_ACCOUNT_ID RAG_RUN_ID RAG_WORK_DIR RAG_STATE_FILE \
+  RAG_SOURCE_BUCKET RAG_VECTOR_BUCKET RAG_INDEX_NAME \
+  RAG_ROLE_NAME RAG_POLICY_NAME RAG_KB_NAME RAG_DS_NAME \
+  RAG_EMBED_MODEL_ID RAG_GENERATION_MODEL_ID \
+  RAG_DOCUMENT_URL RAG_DOCUMENT_PATH \
+  > "$RAG_STATE_FILE"
+
+printf 'source %q\n' "$RAG_STATE_FILE" > "$HOME/.rag-handson-current"
+cat "$RAG_STATE_FILE"
 ```
 
 </Command>
@@ -84,8 +80,9 @@ printf '%s\n' \
 ```bash
 test "$AWS_REGION" = "ap-northeast-1"
 test "${#RAG_ACCOUNT_ID}" -eq 12
-[[ "$RAG_RUN_ID" =~ ^[0-9]{10}-[0-9a-f]{6}$ ]]
 test -d "$RAG_WORK_DIR/documents"
+test -s "$RAG_STATE_FILE"
+test -s "$HOME/.rag-handson-current"
 [[ "$RAG_DOCUMENT_URL" == https://docs.aws.amazon.com/* ]]
 printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR"
 ```
@@ -94,9 +91,13 @@ printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR
 
 <ExpectedResult>
 
-3行の値が表示され、エラーが出ません。`region=ap-northeast-1`で、`run`が`0816071530-a41f92`のような「UTC時刻-6桁hex」形式になっていることを確認します。
+3行の値が表示され、エラーが出ません。`region=ap-northeast-1`になっていることを確認します。`run`には時刻と4桁の16進数が入り、受講者ごとに異なる値になります。
 
 </ExpectedResult>
+
+<Aside type="note" title="CloudShellを開き直した場合">
+  shell sessionが切り替わると、`export`した環境変数は消えます。ハンズオンの作業ファイルと状態ファイルは`$HOME`配下へ保存しているため、`source "$HOME/.rag-handson-current"`を実行すれば、現在のrunの環境変数を復元できます。AWSリソースを`list`して先頭のIDを使う方法は、複数人で同時実施すると他の受講者のリソースを選ぶ可能性があるため、通常の復旧方法にはしません。
+</Aside>
 
 </CloudShellStep>
 
@@ -172,10 +173,10 @@ embedding modelとgeneration modelの表が表示され、最後のコマンド�
 
 - caller identityが想定した実習用principalである
 - `AWS_REGION`は`ap-northeast-1`である
-- `RAG_RUN_ID`はUTC時刻と6桁hexのランダムサフィックスを含む
+- run IDが受講者ごとに一意になっている
+- `$HOME/.rag-handson-current`から現在のrunを復元できる
 - `aws s3vectors`を実行できる
 - Titan Text Embeddings V2とNova Liteを東京リージョンで利用できる
-- 同じCloudShell tabをこのまま使う
 
 </Checkpoint>
 
