@@ -25,6 +25,10 @@ import ResourceTable from '../../components/ResourceTable.astro';
   <figcaption>図はImageGen 2.0で作成した全体構成図です。Offline / Indexing、Online / Retrieval、Generationの境界を示しています。</figcaption>
 </figure>
 
+<Aside type="note" title="採用PDFのRAG 4ステップとの対応">
+  採用したAWS PDFは、RAGを「1. 文書を埋め込みとして取り込む」「2. 人が自然言語でクエリする」「3. リトリーバーが類似度検索で関連データを取得する」「4. クエリとコンテキストをLLMへ渡して回答を生成する」の4ステップで説明しています。このハンズオンでは、1をKnowledge Basesの同期、3を`Retrieve`、4を`Converse`として観察します。`RetrieveAndGenerate`は、3と4を一つのAPIで実行する場合の比較対象です。
+</Aside>
+
 <ResourceTable
   title="このハンズオンで固定する基準値"
   rows={[

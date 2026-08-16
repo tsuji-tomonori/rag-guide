@@ -43,23 +43,23 @@ import ResourceTable from '../../components/ResourceTable.astro';
   {
     "resource": "比較結果",
     "setting": "成果物",
-    "value": "k-comparison.tsv / retrieve-filtered-output.json",
-    "note": "検索失敗と生成失敗を分けて評価します。"
+    "value": "k-comparison.tsv / retrieve-coverage.json / retrieve-filtered-output.json",
+    "note": "PDFの取り込み・リトリーバー・メタデータフィルターを分けて評価します。"
   }
 ]}
 />
 
 
-RAGの改善はmodel変更から始めず、検索条件を一つずつ変更して結果を比較します。このページではcandidate数とmetadata filterを扱います。
+RAGの改善はmodel変更から始めず、PDFが示すコンポーネント境界に沿って、データ処理・埋め込み・リトリーバー・メタデータフィルターを一つずつ変更して結果を比較します。このページではcandidate数とS3データソースのmetadata filterを扱います。
 
 <CloudShellStep number="9.1" title="候補数を比較する">
 
-同じ質問で`numberOfResults`だけを変え、返却件数、上位score、正解根拠の有無を記録します。
+7章と同じ質問で`numberOfResults`だけを変え、返却件数、上位score、PDFの根拠coverage、source traceabilityを記録します。`score`が高いことだけでは合格にせず、必要な根拠が上位候補に含まれるか、無関係なchunkが増えていないかを見ます。
 
 <Command>
 
 ```bash
-printf 'k\treturned\ttop_score\thas_gold\n' | tee "$RAG_WORK_DIR/k-comparison.tsv"
+printf 'k\treturned\ttop_score\tingestion\tretrieval\tapi\tsource_traceable\n' | tee "$RAG_WORK_DIR/k-comparison.tsv"
 
 for k in 1 3 5; do
   jq -n \
@@ -82,11 +82,19 @@ for k in 1 3 5; do
     > "$RAG_WORK_DIR/retrieve-k-$k-output.json"
 
   jq -r --arg k "$k" '
+    (.retrievalResults // []) as $results |
+    ($results | map(.content.text // "") | join("\n")) as $text |
     [
       $k,
-      (.retrievalResults | length),
-      (.retrievalResults[0].score // "-"),
-      ([.retrievalResults[].content.text] | join("\n") | contains("データソース"))
+      ($results | length),
+      ($results[0].score // "-"),
+      ($text | (test("チャンク|チャンキング") and contains("埋め込み") and contains("ベクトルデータベース"))),
+      ($text | (test("類似度検索|類似性検索|関連データ"))),
+      ($text | (test("取得|Retrieve") and contains("RetrieveAndGenerate"))),
+      (all($results[];
+        ((.location.s3Location.uri // "") | contains("aws-rag-options-and-architectures.pdf"))
+        and (.metadata.category // "") == "rag-guidance"
+      ))
     ] | @tsv
   ' "$RAG_WORK_DIR/retrieve-k-$k-output.json" \
     | tee -a "$RAG_WORK_DIR/k-comparison.tsv"
@@ -99,7 +107,7 @@ column -t -s $'\t' "$RAG_WORK_DIR/k-comparison.tsv"
 
 <ExpectedResult>
 
-`k=1 / 3 / 5`の比較表が表示されます。この小さなdatasetでは正解根拠が上位に入りやすいですが、本番ではgold query全体のRecall@k、latency、費用を比較します。
+`k=1 / 3 / 5`の比較表が表示されます。`ingestion`、`retrieval`、`api`は、PDFのRAG 4ステップとKnowledge Bases API境界に対応する根拠coverageです。最小の`k`で必要なcoverageとsource traceabilityを満たし、無関係なchunkを増やさない設定を候補にします。score単独で合否を決めず、複数の質問でcoverage、誤検索、latency、費用を比較します。
 
 </ExpectedResult>
 
@@ -107,12 +115,12 @@ column -t -s $'\t' "$RAG_WORK_DIR/k-comparison.tsv"
 
 <CloudShellStep number="9.2" title="メタデータフィルターを必須条件として適用する">
 
-質問を広くしても、`category=rag-guidance`かつ`status=published`だけを検索対象にします。
+PDFは、S3データソースのドキュメントメタデータを使って関連性をフィルタリング・改善でき、包含／除外フィルターや増分同期も扱えると説明しています。ここでは質問をその内容に合わせ、`category=rag-guidance`かつ`status=published`だけを検索対象にします。
 
 <Command>
 
 ```bash
-export RAG_FILTER_QUESTION="Amazon Bedrock Knowledge BasesでRAGワークフローを構築する際のデータソースとベクトルデータベースの役割を教えてください。"
+export RAG_FILTER_QUESTION="Amazon BedrockナレッジベースのS3データソースでは、ドキュメントメタデータを使って検索結果の関連性をフィルタリングし改善する方法と、包含・除外フィルター、増分同期の役割を説明してください。"
 
 jq -n \
   --arg kbId "$RAG_KB_ID" \
@@ -154,34 +162,53 @@ jq -e '
   (.retrievalResults | length) > 0 and
   all(.retrievalResults[]; .metadata.category == "rag-guidance" and .metadata.status == "published")
 ' "$RAG_WORK_DIR/retrieve-filtered-output.json" >/dev/null
+
+jq -e '
+  ([.retrievalResults[].content.text] | join("\n")
+    | test("メタデータ")
+    and test("フィルタ")
+    and test("増分同期"))
+' "$RAG_WORK_DIR/retrieve-filtered-output.json" >/dev/null
+
+jq '.retrievalConfiguration.vectorSearchConfiguration.filter.andAll[0].equals.value = "not-rag-guidance"' \
+  "$RAG_WORK_DIR/retrieve-filtered-input.json" \
+  | tee "$RAG_WORK_DIR/retrieve-negative-filter-input.json" >/dev/null
+
+aws bedrock-agent-runtime retrieve \
+  --cli-input-json "file://$RAG_WORK_DIR/retrieve-negative-filter-input.json" \
+  | tee "$RAG_WORK_DIR/retrieve-negative-filter-output.json" >/dev/null
+
+jq -e '(.retrievalResults | length) == 0' \
+  "$RAG_WORK_DIR/retrieve-negative-filter-output.json" >/dev/null
 ```
 
 </Command>
 
 <ExpectedResult>
 
-1件以上が返り、すべてのcandidateが`category=rag-guidance / status=published`です。source URIは`aws-rag-options-and-architectures.pdf`を指します。このcorpusは1文書なので、ここではfilterによる除外比較ではなく、sidecar metadataが全chunkへ伝播し、検索前条件として評価されることを確認します。
+正のフィルターでは1件以上が返り、すべてのcandidateが`category=rag-guidance / status=published`です。取得本文には、PDFのデータソース章に対応するメタデータ、フィルター、増分同期の説明が含まれます。source URIは`aws-rag-options-and-architectures.pdf`を指します。存在しないcategoryを指定した負のフィルターでは0件になり、sidecar metadataが検索前条件として機能していることを確認します。
 
 </ExpectedResult>
 
 <Aside type="note" title="フィルターはプロンプトの指示より前に適用します">
-  公開状態、tenant、ACL、版などの必須条件を「回答に使わないでください」というpromptだけで制御しません。検索前のfilterとnegative testで、条件外の文書がcandidateやcitationへ混入しないことを確認します。
+  公開状態、tenant、ACL、版などの必須条件を「回答に使わないでください」というpromptだけで制御しません。PDFが説明するドキュメントメタデータのフィルタリングと同じく、検索前のpositive／negative testで、条件外の文書がcandidateやcitationへ混入しないことを確認します。
 </Aside>
 
 </CloudShellStep>
 
 <CloudShellStep number="9.3" title="改善の次の一手を判断する">
 
-| 観測した失敗 | 最初に試す変更 |
-|---|---|
-| 正解根拠が候補にない | chunking、embedding、query変換、candidate数を比較 |
-| 固有名詞・型番を落とす | OpenSearch Serverless等のHYBRID、または別BM25 retrieverを比較 |
-| 正解はあるが順位が低い | candidateを増やし、rerankerを比較 |
-| 古い版・対象外tenantが混ざる | metadata設計とfilterを修正 |
-| 根拠は正しいが回答が不正確 | Evidence Set、prompt、citation・claim検査を修正 |
+| 観測した失敗 | PDF上の境界 | 最初に試す変更 |
+|---|---|---|
+| 正解根拠が候補にない | データ処理・埋め込み・リトリーバー | chunking、embedding、質問、candidate数を比較 |
+| 固有名詞・型番を落とす | リトリーバー | OpenSearch Serverless等のHYBRID、または別BM25 retrieverを比較 |
+| 正解はあるが順位が低い | リトリーバーのランキング | candidateを増やし、rerankerやcustom retrieverを比較 |
+| 古い版・対象外tenantが混ざる | データソースのmetadata／filter | metadata設計、包含・除外フィルター、増分同期を確認 |
+| 根拠は正しいが回答が不正確 | ジェネレーター／ガードレール | Evidence Set、prompt、citation・claim検査、生成モデルを修正 |
+| KBでは要件を満たせない | RAGオプションの選択 | 未対応vector DBや特別なworkflow要件がある場合だけcustom RAGを検討 |
 
 <Aside type="caution" title="S3 VectorsへHYBRIDを指定しないでください">
-  S3 Vectorsはsemantic search用の基準構成です。HYBRIDを評価する場合は対応vector storeへ切り替え、同じ質問・gold evidence・権限条件で比較します。
+  S3 Vectorsはこのハンズオンのsemantic search用の基準構成です。HYBRIDやcustom retrieverを評価する場合は対応vector storeへ切り替え、同じ質問・PDFのcoverage基準・権限条件で比較します。PDFの選択基準に沿い、Knowledge Basesを外すのは、未対応vector DBやRAG workflowをカスタマイズする明確な理由がある場合に限ります。
 </Aside>
 
 </CloudShellStep>
@@ -189,7 +216,9 @@ jq -e '
 <Checkpoint>
 
 - candidate数だけを変えた比較結果を保存した
+- PDFのRAG 4ステップに対応するcoverageを比較した
 - filter後のcandidateはすべて必須条件を満たす
+- negative filterで条件外のcandidateが0件になった
 - 検索失敗と生成失敗を分けて判断できる
 - Cleanupへ進む前に必要な出力を確認した
 

@@ -155,7 +155,7 @@ declare -p RAG_INDEX_ARN >> "$RAG_STATE_FILE"
 </ExpectedResult>
 
 <Aside type="caution" title="S3 VectorsはHYBRID検索ではありません">
-  このハンズオンのstoreはdense vectorによるSEMANTIC検索です。BM25などの語彙一致が必要な場合は、OpenSearch Serverless等の対応storeへ変更するか、別retrieverの結果をRRFやrerankerで統合します。
+  このハンズオンのstoreはdense vectorによるSEMANTIC検索です。AWS PDFでいうリトリーバーの候補取得を意味検索で観察する構成であり、score自体を回答の正しさとは判定しません。BM25などの語彙一致が必要な場合は、OpenSearch Serverless等の対応storeへ変更するか、別retrieverの結果をRRFやrerankerで統合します。
 </Aside>
 
 </CloudShellStep>
