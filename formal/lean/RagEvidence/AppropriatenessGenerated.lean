@@ -707,7 +707,7 @@ def polarityComplete : Bool := reviewRows.all (fun row => !row.polarityRequired 
 def applicationComplete : Bool := reviewRows.all (fun row => !row.actionRequired || row.actionApplied)
 def relationComplete : Bool := reviewRows.all (fun row => !row.relationRequired || row.relationReviewed)
 def goldCalibrationComplete : Bool := true
-def sheetReadbackVerified : Bool := true
+def sheetReadbackVerified : Bool := false
 def postReviewRecalculationVerified : Bool := true
 def completionGate : Bool :=
   blockedCount == 0 && independentlyReviewedCount == reviewRows.length &&

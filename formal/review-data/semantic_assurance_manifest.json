@@ -1,10 +1,10 @@
 {
   "method_version": 2,
-  "authoritative_commit": "5324ee5f0aa630fc5d933470d9be63351fa703cf",
-  "required_sentences": 689,
-  "controlled_formalizations": 41,
+  "authoritative_commit": "cfc2572291a2676933b08b7466d1ea1e7e76bebb",
+  "required_sentences": 709,
+  "controlled_formalizations": 42,
   "relative_entailments_proved": 40,
-  "contract_rejections": 1,
+  "contract_rejections": 2,
   "automatic_full_sentence_entailments": 0,
   "independently_verified_source_truths": 0,
   "atom_count": 77,
@@ -14,12 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "b418564eca59f66f7a4e23fb9644a40f0f78a6c9325f1a423049cfd5a6390a01",
-    "formal/review-data/sentence_evidence.csv": "411d3922d7983fbd21fc50f4ccab75aa58f3443d161e5c68cc756af23fb081f2",
-    "formal/review-data/concrete_technologies.csv": "98a82d603badaa502145c7fc30b9fe27fc9d6294ecd2fd68e9224ca6b83cad71",
-    "formal/review-data/semantic_assurance.csv": "dec00d2713470606544a08f0b46c1830165f389b89a4e33156064db2fe2dbfcf",
+    "formal/review-data/coverage_manifest.json": "08a287f329487fa7340c1f1b8b31f02881b2acb3530686e76c752b3bdb1df875",
+    "formal/review-data/sentence_evidence.csv": "3278c810999718fead6b09b832277a549b75b53adc852800db41036196a3837b",
+    "formal/review-data/concrete_technologies.csv": "ae26a7b68adb43e9b2699383b0258e66e0820c8ef965e0edc226d8ad88cef28e",
+    "formal/review-data/semantic_assurance.csv": "5492065b0f636c2bd82f6d7a82cfcaeac072f1fb9ae6c0417a21a95fd24fafd5",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "4cf1bf2e1ec1a263b2212f59496a043cdfbf6b92aedc5cdb77b53020ebb2fef4",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "81cf0921aec2e27e51ed16ab3a5f8f59932cdf48ddef0b4670aef27c51ea6941"
+    "formal/review-data/semantic_assurance_summary.csv": "9477ecadd4674ca000765fbd4ee5c1adf06c3c57a7b9810dfe7d15f99cba8fa4",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "9be47dcdef79020c46a736b691a5f75326d0729df61af489f1f6753cdac3a771"
   }
 }

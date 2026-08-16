@@ -1,7 +1,7 @@
 {
   "method_version": 2,
-  "canonical_commit": "5324ee5f0aa630fc5d933470d9be63351fa703cf",
-  "generated_from_commit": "5324ee5f0aa630fc5d933470d9be63351fa703cf",
+  "canonical_commit": "cfc2572291a2676933b08b7466d1ea1e7e76bebb",
+  "generated_from_commit": "cfc2572291a2676933b08b7466d1ea1e7e76bebb",
   "markdown_files": 99,
   "explanation_states": 353,
   "chapter_introductions": 11,
@@ -22,8 +22,8 @@
     "Minor": 1
   },
   "sha256": {
-    "explanation_states.csv": "68b61fcf1421045dd238b6accb669db7307b00132b68fc2922bc9bb63a3486a8",
-    "technical_elements.csv": "62816eef480623994b530ea4ad4d583a50980ec11ea1e4cd3fcbf0d03136b56a",
+    "explanation_states.csv": "3fd535842672068deeb6ee03b87521e31609f767b629baf7953a2cc449298fa2",
+    "technical_elements.csv": "d82b107e623d53836db993dbc57529a1439ed5c4454e37c666cfa3cfc011a380",
     "primary_sources.csv": "5778b1843233a982b49881fd659cc980d78472ab1052d8080af5355c65929529",
     "findings.csv": "5bece628ad0bd4ff3a0250b50ce9bc16f25c2b1d9353efb7af341003f3090f80"
   }
