@@ -32,7 +32,7 @@ printf 'work=%s\nkb=%s\nds=%s\n' "$RAG_WORK_DIR" "$RAG_KB_ID" "$RAG_DS_ID"
 
 値が`None`の場合は、そのresourceをまだ作成していないか、別リージョンを参照しています。
 
-## `aws s3vectors`がInvalid choiceになる
+## `aws s3vectors`が利用できないコマンドとして扱われる
 
 AWS CLIがS3 Vectorsへ未対応です。
 
@@ -74,7 +74,7 @@ printf 'region=%s\n' "$AWS_REGION"
 - Knowledge Base service role不足：inline policyとvector bucket policyをread-backします。
 - SCPやpermissions boundary：identity policyを追加しても解消しません。組織管理者へ確認します。
 
-## modelが見つからない・invokeできない
+## モデルが見つからない・呼び出せない
 
 modelの存在と実際のinvokeは別々に検証します。
 
@@ -106,7 +106,7 @@ aws s3vectors get-index --index-arn "$RAG_INDEX_ARN"
 - vector bucket policyのprincipalがKnowledge Base service role
 - IAM作成直後なら30〜60秒待って1回再試行
 
-## ingestion jobがFAILEDになる
+## 取り込みジョブがFAILEDになる
 
 失敗理由と統計を省略せず取得します。
 
@@ -129,11 +129,11 @@ aws bedrock-agent get-ingestion-job \
 4. `numberOfResults`を1、3、5で比較します。
 5. 固有名詞や型番が問題ならHYBRID対応storeまたは別BM25 retrieverを検討します。
 
-<Aside type="caution" title="生成modelの変更を最初にしない">
+<Aside type="caution" title="生成モデルの変更を最初にしない">
   正解根拠がRetrieve候補にない場合、generation modelの性能を上げても取得できなかった根拠は復元できません。
 </Aside>
 
-## Cleanupでvector indexを削除できない
+## 後片付けでベクトルインデックスを削除できない
 
 data source削除とKnowledge Base削除が終端状態になるまで待ちます。`dataDeletionPolicy=DELETE`によるvector削除中は、service roleを先に消さないでください。
 

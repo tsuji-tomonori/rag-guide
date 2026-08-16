@@ -1,6 +1,6 @@
 ---
 title: 3. S3 Vectorsを作成する
-description: Titan Text Embeddings V2と互換な1024次元のS3 Vector indexを作成し、設定値を検証します。
+description: Titan Text Embeddings V2と互換な1024次元のS3ベクトルインデックスを作成し、設定値を検証します。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -17,44 +17,44 @@ import ResourceTable from '../../components/ResourceTable.astro';
   title="作成するS3 Vectorsの設定値"
   rows={[
   {
-    "resource": "Vector bucket",
-    "setting": "Name",
+    "resource": "ベクトルバケット",
+    "setting": "名前",
     "value": "rag-handson-vectors-${RAG_ACCOUNT_ID}-${RAG_RUN_ID}",
     "note": "run単位で分離し、Cleanup対象を特定します。"
   },
   {
-    "resource": "Vector bucket",
-    "setting": "Encryption",
+    "resource": "ベクトルバケット",
+    "setting": "暗号化",
     "value": "SSE-S3（既定）",
     "note": "明示指定しない場合もS3管理キーによる暗号化が適用されます。"
   },
   {
-    "resource": "Vector index",
-    "setting": "Name",
+    "resource": "ベクトルインデックス",
+    "setting": "名前",
     "value": "rag-titan-v2-1024",
     "note": "state fileへARNを保存します。"
   },
   {
-    "resource": "Vector index",
-    "setting": "Data type",
+    "resource": "ベクトルインデックス",
+    "setting": "データ型",
     "value": "float32",
     "note": "Knowledge BaseのembeddingDataTypeと一致させます。"
   },
   {
-    "resource": "Vector index",
-    "setting": "Dimension",
+    "resource": "ベクトルインデックス",
+    "setting": "次元数",
     "value": "1024",
     "note": "Titan Text Embeddings V2の設定と一致させます。"
   },
   {
-    "resource": "Vector index",
-    "setting": "Distance metric",
+    "resource": "ベクトルインデックス",
+    "setting": "距離指標",
     "value": "cosine",
     "note": "意味比較のbaselineとして使用します。"
   },
   {
-    "resource": "Metadata",
-    "setting": "Non-filterable keys",
+    "resource": "メタデータ",
+    "setting": "フィルター対象外キー",
     "value": "AMAZON_BEDROCK_TEXT / AMAZON_BEDROCK_METADATA",
     "note": "Knowledge Basesが保存する本文・内部metadata用です。"
   }
@@ -64,7 +64,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 S3 Vectorsにvector bucketとindexを作成します。indexの`dimension`、`distanceMetric`、non-filterable metadata keyは後から変更できないため、Knowledge Baseと接続する前にread-backします。
 
-<CloudShellStep number="3.1" title="vector bucketを作成する">
+<CloudShellStep number="3.1" title="ベクトルバケットを作成する">
 
 <Command>
 
@@ -76,7 +76,7 @@ aws s3vectors create-vector-bucket \
 
 </Command>
 
-<Command title="vector bucketを検証">
+<Command title="ベクトルバケットを検証する">
 
 ```bash
 aws s3vectors get-vector-bucket \
@@ -104,7 +104,7 @@ vector bucket名とARNが表示されます。暗号化を明示しない場合�
 
 </CloudShellStep>
 
-<CloudShellStep number="3.2" title="1024次元のvector indexを作成する">
+<CloudShellStep number="3.2" title="1024次元のベクトルインデックスを作成する">
 
 Titan Text Embeddings V2の1024次元float vectorへ合わせます。Knowledge Basesがchunk本文と内部metadataを保存できるよう、AWS公式手順で指定される2つのkeyをnon-filterableにします。
 
@@ -124,7 +124,7 @@ aws s3vectors create-index \
 
 </Command>
 
-<Command title="index設定をread-backして検証">
+<Command title="インデックス設定を読み戻して検証する">
 
 ```bash
 aws s3vectors get-index \

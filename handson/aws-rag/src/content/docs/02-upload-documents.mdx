@@ -17,38 +17,38 @@ import ResourceTable from '../../components/ResourceTable.astro';
   title="作成・配置するリソースの設定値"
   rows={[
   {
-    "resource": "Source S3 bucket",
-    "setting": "Name",
+    "resource": "原文書用S3バケット",
+    "setting": "名前",
     "value": "rag-handson-${RAG_ACCOUNT_ID}-${RAG_RUN_ID}",
     "note": "account IDとrun IDを含め、受講者間の名前衝突を避けます。"
   },
   {
-    "resource": "Source S3 bucket",
-    "setting": "Region",
+    "resource": "原文書用S3バケット",
+    "setting": "リージョン",
     "value": "ap-northeast-1",
     "note": "CloudShell、Bedrock、S3 Vectorsと同じリージョンです。"
   },
   {
-    "resource": "Public access",
-    "setting": "BlockPublicAccess",
+    "resource": "パブリックアクセス",
+    "setting": "パブリックアクセスブロック",
     "value": "true / true / true / true",
     "note": "公開ACL・公開policyを4項目すべてblockします。"
   },
   {
-    "resource": "PDF object",
-    "setting": "Key",
+    "resource": "PDFオブジェクト",
+    "setting": "キー",
     "value": "documents/aws-well-architected-framework.pdf",
     "note": "AWS公式日本語PDFを配置します。"
   },
   {
-    "resource": "Metadata object",
-    "setting": "Key",
+    "resource": "メタデータオブジェクト",
+    "setting": "キー",
     "value": "documents/aws-well-architected-framework.pdf.metadata.json",
     "note": "category、status、language、source URLをchunkへ引き継ぎます。"
   },
   {
-    "resource": "Corpus limit",
-    "setting": "Size",
+    "resource": "コーパス上限",
+    "setting": "サイズ",
     "value": "1 MiB < PDF < 50 MB",
     "note": "Knowledge Basesの1 file上限を検証します。"
   }
@@ -101,13 +101,13 @@ sha256sum "$RAG_DOCUMENT_PATH" \
 
 </ExpectedResult>
 
-<Aside type="note" title="latest版は将来更新されます">
+<Aside type="note" title="最新版は将来更新されます">
   このハンズオンでは、AWSの現行文書を試すため`latest`を使います。そのため取得時期によってfile size、hash、ページ内容が変わる場合があります。本番評価で同じcorpusを再現する場合は、取得日、hash、S3 Version IDを固定してください。
 </Aside>
 
 </CloudShellStep>
 
-<CloudShellStep number="2.2" title="出典metadataを作成する">
+<CloudShellStep number="2.2" title="出典メタデータを作成する">
 
 Amazon Bedrock Knowledge Basesは、`元ファイル名.metadata.json`というsidecar fileからmetadata属性を取り込みます。出典URL、取得日、文書種別を検索結果へ引き継ぎます。
 
@@ -133,7 +133,7 @@ jq -n \
 
 </Command>
 
-<Command title="metadata JSONを検証">
+<Command title="メタデータJSONを検証">
 
 ```bash
 jq -e '
@@ -156,7 +156,7 @@ test "$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")" -lt 10240
 
 </CloudShellStep>
 
-<CloudShellStep number="2.3" title="S3 bucketを作成してアップロードする">
+<CloudShellStep number="2.3" title="S3バケットを作成してアップロードする">
 
 <Command>
 
@@ -176,7 +176,7 @@ aws s3 cp "$RAG_WORK_DIR/documents" "s3://$RAG_SOURCE_BUCKET/documents/" --recur
 
 </Command>
 
-<Command title="bucketとobjectを検証">
+<Command title="バケットとオブジェクトを検証">
 
 ```bash
 aws s3api get-bucket-location \

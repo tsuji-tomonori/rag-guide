@@ -1,6 +1,6 @@
 ---
 title: 1. CloudShellを準備する
-description: AWS認証、東京リージョン、CLI機能、embedding・生成モデルを事前検証します。
+description: AWS認証、東京リージョン、CLI機能、埋め込み・生成モデルを事前検証します。
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
@@ -17,25 +17,25 @@ import ResourceTable from '../../components/ResourceTable.astro';
   title="このページで固定する基準値"
   rows={[
   {
-    "resource": "AWS Region",
+    "resource": "AWSリージョン",
     "setting": "AWS_REGION",
     "value": "ap-northeast-1",
     "note": "後続のAPI呼び出しで明示する東京リージョンです。"
   },
   {
-    "resource": "Run",
+    "resource": "実行識別子",
     "setting": "RAG_RUN_ID",
     "value": "UTC時刻-6桁hex",
     "note": "同じaccount・Regionで複数人が実施しても名前が衝突しにくくなります。"
   },
   {
-    "resource": "Embedding",
+    "resource": "埋め込みモデル",
     "setting": "RAG_EMBED_MODEL_ID",
     "value": "amazon.titan-embed-text-v2:0",
     "note": "S3 Vectors indexの1024次元float32と対応します。"
   },
   {
-    "resource": "Generation",
+    "resource": "生成モデル",
     "setting": "RAG_GENERATION_MODEL_ID",
     "value": "amazon.nova-lite-v1:0",
     "note": "後のConverseで使うモデルです。"

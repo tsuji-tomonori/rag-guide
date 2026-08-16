@@ -29,26 +29,26 @@ import ResourceTable from '../../components/ResourceTable.astro';
   title="このハンズオンで固定する基準値"
   rows={[
   {
-    "resource": "AWS Region",
+    "resource": "AWSリージョン",
     "setting": "配置リージョン",
     "value": "ap-northeast-1",
     "note": "CloudShell、S3、S3 Vectors、Bedrockを同一リージョンにそろえます。"
   },
   {
-    "resource": "Source",
+    "resource": "原文書",
     "setting": "検索対象",
     "value": "AWS Well-Architected Framework（日本語PDF）",
     "note": "CloudShellからcurlで取得し、取得日時とSHA-256を保存します。"
   },
   {
-    "resource": "Vector store",
-    "setting": "baseline",
+    "resource": "ベクトルストア",
+    "setting": "基準構成",
     "value": "S3 Vectors / float32 / 1024 / cosine",
     "note": "Titan Text Embeddings V2のembedding設定と一致させます。"
   },
   {
-    "resource": "Generation",
-    "setting": "model",
+    "resource": "生成モデル",
+    "setting": "モデル",
     "value": "amazon.nova-lite-v1:0",
     "note": "Retrieveで確認したEvidence SetだけをConverseへ渡します。"
   }

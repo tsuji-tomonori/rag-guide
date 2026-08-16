@@ -1,6 +1,6 @@
 ---
-title: 4. Knowledge Base用IAM roleを作成する
-description: Bedrockがembedding model、S3文書、S3 Vector indexへだけアクセスできるservice roleを作ります。
+title: 4. ナレッジベース用IAMロールを作成する
+description: Bedrockが埋め込みモデル、S3文書、S3ベクトルインデックスだけへアクセスできるサービスロールを作ります。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -14,47 +14,47 @@ import ResourceTable from '../../components/ResourceTable.astro';
 <BuildProgress current={4} />
 
 <ResourceTable
-  title="作成するIAMとresource policyの設定値"
+  title="作成するIAMとリソースポリシーの設定値"
   rows={[
   {
-    "resource": "IAM role",
-    "setting": "Name",
+    "resource": "IAMロール",
+    "setting": "名前",
     "value": "BedrockKnowledgeBaseRole-${RAG_RUN_ID}",
     "note": "run単位で作成し、Cleanupで対象を固定します。"
   },
   {
-    "resource": "Trust policy",
-    "setting": "Principal / Action",
+    "resource": "信頼ポリシー",
+    "setting": "プリンシパル／アクション",
     "value": "bedrock.amazonaws.com / sts:AssumeRole",
     "note": "Bedrock Knowledge Basesだけが引き受けます。"
   },
   {
-    "resource": "Trust policy",
-    "setting": "Conditions",
+    "resource": "信頼ポリシー",
+    "setting": "条件",
     "value": "aws:SourceAccount + Knowledge Base ARN",
     "note": "confused deputy対策としてaccountとRegionを限定します。"
   },
   {
-    "resource": "Inline policy",
-    "setting": "Name",
+    "resource": "インラインポリシー",
+    "setting": "名前",
     "value": "BedrockKnowledgeBasePolicy-${RAG_RUN_ID}",
     "note": "embedding、S3 source、S3 Vector indexだけを許可します。"
   },
   {
-    "resource": "Embedding",
-    "setting": "Action / Resource",
+    "resource": "埋め込みモデル",
+    "setting": "アクション／リソース",
     "value": "bedrock:InvokeModel / Titan V2 ARN",
     "note": "指定したembedding model以外は対象にしません。"
   },
   {
-    "resource": "Source S3",
-    "setting": "Actions / Resource",
+    "resource": "原文書用S3",
+    "setting": "アクション／リソース",
     "value": "s3:ListBucket + s3:GetObject / this runのbucket",
     "note": "objectsはdocuments/*へ限定します。"
   },
   {
-    "resource": "Vector bucket policy",
-    "setting": "Principal",
+    "resource": "ベクトルバケットポリシー",
+    "setting": "プリンシパル",
     "value": "RAG_ROLE_ARN",
     "note": "このrunで作成したKnowledge Base roleだけを許可します。"
   }
@@ -64,7 +64,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 Knowledge Basesはservice roleを引き受け、S3文書の読み取り、embedding modelの呼び出し、vectorの登録・検索を行います。対象resourceをこのrunで作成したものへ限定します。
 
-<CloudShellStep number="4.1" title="trust policyを作成する">
+<CloudShellStep number="4.1" title="信頼ポリシーを作成する">
 
 <Command>
 
@@ -99,7 +99,7 @@ trust policyが表示され、`SourceAccount`と東京リージョンのKnowledg
 
 </CloudShellStep>
 
-<CloudShellStep number="4.2" title="service roleと最小権限policyを作成する">
+<CloudShellStep number="4.2" title="サービスロールと最小権限ポリシーを作成する">
 
 <Command>
 
@@ -119,7 +119,7 @@ export RAG_ROLE_ARN="$(aws iam get-role \
 
 </Command>
 
-<Command title="permissions policyを生成して適用">
+<Command title="権限ポリシーを生成して適用する">
 
 ```bash
 jq -n \
@@ -174,7 +174,7 @@ aws iam put-role-policy \
 
 </Command>
 
-<Command title="必要権限をread-backして強制検証">
+<Command title="必要権限を読み戻して強制検証する">
 
 ```bash
 export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
@@ -218,7 +218,7 @@ jq -e \
 
 </CloudShellStep>
 
-<CloudShellStep number="4.3" title="vector bucket policyを設定する">
+<CloudShellStep number="4.3" title="ベクトルバケットポリシーを設定する">
 
 custom roleだけに、このindexへの必要操作を許可するresource-based policyを追加します。
 
@@ -252,7 +252,7 @@ aws s3vectors put-vector-bucket-policy \
 
 </Command>
 
-<Command title="roleとpolicyをread-backして検証">
+<Command title="ロールとポリシーを読み戻して検証する">
 
 ```bash
 aws iam get-role \
@@ -300,4 +300,4 @@ aws s3vectors get-vector-bucket-policy \
 
 </Checkpoint>
 
-[Knowledge Baseを作成する →](/rag-guide/05-create-knowledge-base/)
+[ナレッジベースを作成する →](/rag-guide/05-create-knowledge-base/)

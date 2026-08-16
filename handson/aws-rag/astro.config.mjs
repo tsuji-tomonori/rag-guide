@@ -39,7 +39,7 @@ export default defineConfig({
             { label: '1. CloudShellを準備', link: '/01-prepare-cloudshell/' },
             { label: '2. AWS公式PDFをS3へ配置', link: '/02-upload-documents/' },
             { label: '3. S3 Vectorsを作成', link: '/03-create-vector-store/' },
-            { label: '4. Knowledge Base用IAM role', link: '/04-create-iam-role/' },
+            { label: '4. ナレッジベース用IAMロール', link: '/04-create-iam-role/' },
             { label: '5. Knowledge Baseを作成', link: '/05-create-knowledge-base/' },
             { label: '6. 文書を同期', link: '/06-sync-documents/' },
             { label: '7. Retrieveで検索', link: '/07-retrieve/' },

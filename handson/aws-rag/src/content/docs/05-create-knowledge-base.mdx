@@ -1,6 +1,6 @@
 ---
-title: 5. Knowledge Baseを作成する
-description: Titan Text Embeddings V2とS3 Vector indexを接続し、S3 data sourceを作成します。
+title: 5. ナレッジベースを作成する
+description: Titan Text Embeddings V2とS3ベクトルインデックスを接続し、S3データソースを作成します。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -14,47 +14,47 @@ import ResourceTable from '../../components/ResourceTable.astro';
 <BuildProgress current={5} />
 
 <ResourceTable
-  title="作成するKnowledge Baseとdata sourceの設定値"
+  title="作成するナレッジベースとデータソースの設定値"
   rows={[
   {
-    "resource": "Knowledge Base",
-    "setting": "Name",
+    "resource": "ナレッジベース",
+    "setting": "名前",
     "value": "rag-handson-kb-${RAG_RUN_ID}",
     "note": "作成後にRAG_KB_IDをstate fileへ保存します。"
   },
   {
-    "resource": "Knowledge Base",
-    "setting": "Type",
+    "resource": "ナレッジベース",
+    "setting": "種別",
     "value": "VECTOR",
     "note": "dense embeddingを使うKnowledge Baseです。"
   },
   {
-    "resource": "Embedding",
-    "setting": "Model / dimensions / type",
+    "resource": "埋め込みモデル",
+    "setting": "モデル／次元数／型",
     "value": "amazon.titan-embed-text-v2:0 / 1024 / FLOAT32",
     "note": "S3 Vector indexのfloat32 / 1024と一致させます。"
   },
   {
-    "resource": "Storage",
-    "setting": "Type",
+    "resource": "ストレージ",
+    "setting": "種別",
     "value": "S3_VECTORS",
     "note": "既に作成したvector bucketとindexへ接続します。"
   },
   {
-    "resource": "Data source",
-    "setting": "Bucket / prefix",
+    "resource": "データソース",
+    "setting": "バケット／プレフィックス",
     "value": "RAG_SOURCE_BUCKET / documents/",
     "note": "AWS公式PDFとmetadata sidecarだけを取り込みます。"
   },
   {
-    "resource": "Data source",
-    "setting": "Deletion policy",
+    "resource": "データソース",
+    "setting": "削除ポリシー",
     "value": "DELETE",
     "note": "Cleanup時に取り込みvectorの削除も要求します。"
   },
   {
-    "resource": "Chunking",
-    "setting": "Strategy / maxTokens / overlap",
+    "resource": "チャンク分割",
+    "setting": "戦略／maxTokens／overlap",
     "value": "FIXED_SIZE / 300 / 10%",
     "note": "比較を始めるbaselineであり、評価後に見直します。"
   }
@@ -64,7 +64,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 Knowledge Baseのembedding設定とindex設定を接続します。両方を`1024 / FLOAT32`へ固定し、作成後にAPIからread-backします。作成されたIDはstate fileへ保存し、CloudShell sessionが切り替わっても同じrunを継続できるようにします。
 
-<CloudShellStep number="5.1" title="Knowledge Baseを作成する">
+<CloudShellStep number="5.1" title="ナレッジベースを作成する">
 
 <Command>
 
@@ -106,7 +106,7 @@ declare -p RAG_KB_ID >> "$RAG_STATE_FILE"
   `Invalid service role`などが返った場合は60秒以内を目安に待ち、roleとpolicyのread-backに成功することを確認してから、この作成コマンドを1回再実行します。異なるroleを作り直す必要はありません。
 </Aside>
 
-<Command title="Knowledge Baseを検証">
+<Command title="ナレッジベースを検証">
 
 ```bash
 for attempt in {1..20}; do
@@ -142,7 +142,7 @@ statusは`ACTIVE`、store typeは`S3_VECTORS`、dimensionは`1024`です。role 
 
 </CloudShellStep>
 
-<CloudShellStep number="5.2" title="S3 data sourceを作成する">
+<CloudShellStep number="5.2" title="S3データソースを作成する">
 
 300 token、10% overlapの固定長chunkingを開始値にします。これは万能な推奨値ではなく、後から評価データで比較するbaselineです。chunking設定はdata source作成後に変更できません。
 
@@ -174,7 +174,7 @@ declare -p RAG_DS_ID >> "$RAG_STATE_FILE"
 
 </Command>
 
-<Command title="data sourceを検証">
+<Command title="データソースを検証">
 
 ```bash
 aws bedrock-agent get-data-source \

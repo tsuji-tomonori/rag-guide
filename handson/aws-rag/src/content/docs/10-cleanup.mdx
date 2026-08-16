@@ -1,6 +1,6 @@
 ---
 title: 10. リソースを削除する
-description: Knowledge Base、data source、S3 Vectors、S3、IAM roleを依存順に削除し、残存を確認します。
+description: ナレッジベース、データソース、S3 Vectors、S3、IAMロールを依存順に削除し、残存を確認します。
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -41,8 +41,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
     "note": "実在するpolicyを列挙してからroleを削除します。"
   },
   {
-    "resource": "Final check",
-    "setting": "Required output",
+    "resource": "最終確認",
+    "setting": "必須出力",
     "value": "cleanup verification: PASS",
     "note": "S3 bucket、vector bucket、IAM roleの残存を独立確認します。"
   }
@@ -86,7 +86,7 @@ test "${#RAG_DS_ID}" -eq 10
 
 </CloudShellStep>
 
-<CloudShellStep number="10.2" title="data sourceとKnowledge Baseを削除する">
+<CloudShellStep number="10.2" title="データソースとナレッジベースを削除する">
 
 data deletion policyを`DELETE`にしているため、data source削除時に取り込んだvectorの削除も要求されます。service roleはこの処理が終わるまで残します。
 
@@ -128,7 +128,7 @@ done
 
 </Command>
 
-<Aside type="note" title="delete後のgetは待機確認だけに使います">
+<Aside type="note" title="削除後のgetは待機確認だけに使います">
   delete API自体が成功したことを主な判定とし、続くget APIは削除完了待ちの補助に使います。caller側のread権限や一時的なAPI errorまで「削除済み」と誤認しないよう、最後は10.4の独立した残存確認も実施します。
 </Aside>
 
@@ -179,9 +179,9 @@ vector indexが削除された後、vector bucketの削除APIもエラーなく�
 
 </CloudShellStep>
 
-<CloudShellStep number="10.4" title="S3とIAM roleを削除する">
+<CloudShellStep number="10.4" title="S3とIAMロールを削除する">
 
-<Command title="source bucketを削除">
+<Command title="原文書用バケットを削除">
 
 ```bash
 aws s3 rm "s3://$RAG_SOURCE_BUCKET" --recursive --region "$AWS_REGION"
@@ -192,7 +192,7 @@ aws s3api delete-bucket \
 
 </Command>
 
-<Command title="IAM roleに実在するpolicyを削除してからroleを削除">
+<Command title="IAMロールに実在するポリシーを削除してからロールを削除">
 
 ```bash
 for policy_name in $(aws iam list-role-policies \
@@ -230,7 +230,7 @@ aws iam delete-role --role-name "$RAG_ROLE_NAME"
 
 </Command>
 
-<Aside type="note" title="policy名を固定して削除しない理由">
+<Aside type="note" title="ポリシー名を固定して削除しない理由">
   トラブルシューティング中に`AllowTitanEmbeddingInvoke`のような追加inline policyを付けることがあります。`RAG_POLICY_NAME`だけを削除すると追加policyが残り、`DeleteConflict: must delete policies first`でrole削除に失敗します。このハンズオン専用roleでは、削除時に実在するinline policyを列挙して全削除し、attached managed policyがあればdetachしてからroleを削除します。
 </Aside>
 
