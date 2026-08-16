@@ -1,0 +1,10 @@
+# AWS構成図
+
+`*.drawio` は diagrams.net / Draw.io で編集する正本です。公開ページでは、同じ構成をSVGへ書き出したファイルを `public/images/` から読み込みます。
+
+| 図 | Draw.io編集元 | 公開用SVG |
+|---|---|---|
+| 物理構成 | `aws-rag-physical-architecture.drawio` | `../public/images/aws-rag-physical-architecture.svg` |
+| 論理構成 | `aws-rag-logical-architecture.drawio` | `../public/images/aws-rag-logical-architecture.svg` |
+
+図を変更した場合は、Draw.ioでSVGを書き出し、公開用SVGを更新してください。SVGは外部アイコンや外部フォントへ依存しないため、GitHub Pagesのサブパスでも表示できます。

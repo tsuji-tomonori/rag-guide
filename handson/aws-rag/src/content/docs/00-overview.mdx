@@ -25,6 +25,26 @@ import ResourceTable from '../../components/ResourceTable.astro';
   <figcaption>図はImageGen 2.0で作成した全体構成図です。Offline / Indexing、Online / Retrieval、Generationの境界を示しています。</figcaption>
 </figure>
 
+## AWS構成図
+
+このハンズオンで実際に作成するAWSリソースを、AWSの物理構成とRAGの論理構成に分けて示します。物理構成はDraw.ioの編集元をリポジトリに残し、公開ページではSVGとして読み込みます。
+
+<figure class="architecture-figure diagram-figure">
+  <img
+    src="/rag-guide/images/aws-rag-physical-architecture.svg"
+    alt="CloudShellからS3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、Converseへ接続するAWS RAGの物理構成図"
+  />
+  <figcaption>物理構成：CloudShellから文書を取り込み、S3 Vectorsを検索し、Amazon Bedrock Converseで回答を生成します。</figcaption>
+</figure>
+
+<figure class="architecture-figure diagram-figure">
+  <img
+    src="/rag-guide/images/aws-rag-logical-architecture.svg"
+    alt="Batch Layer、Real-time Layer、Control PlaneとAWSリソースの対応を示すAWS RAGの論理構成図"
+  />
+  <figcaption>論理構成：Batch Layer、Real-time Layer、Control Planeの各責務と、対応するAWSリソースを結び付けています。</figcaption>
+</figure>
+
 <ResourceTable
   title="このハンズオンで固定する基準値"
   rows={[

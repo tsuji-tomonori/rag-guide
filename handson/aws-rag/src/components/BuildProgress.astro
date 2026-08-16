@@ -21,7 +21,10 @@ const { current } = Astro.props;
 const currentIndex = Math.min(Math.max(current, 0), stages.length - 1);
 const currentStage = stages[currentIndex];
 const nextStage = stages[currentIndex + 1];
-const roadmapSrc = `${import.meta.env.BASE_URL}images/aws-rag-construction-roadmap.png`;
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const roadmapSrc = `${baseUrl}images/aws-rag-construction-roadmap.png`;
 ---
 
 <section class="build-progress" aria-label="ハンズオンの構築状況">

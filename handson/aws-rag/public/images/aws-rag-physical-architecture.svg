@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">AWS RAGハンズオンの物理構成</title>
+  <desc id="desc">CloudShellからS3、Amazon Bedrock Knowledge Bases、S3 Vectors、Retrieve、Converseへ接続する構成図</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#315b7d"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#17324d" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      text { font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif; fill: #17324d; }
+      .title { font-size: 30px; font-weight: 800; }
+      .subtitle { font-size: 16px; fill: #5c7384; }
+      .boundary { fill: #fbfcfb; stroke: #9eb2bf; stroke-width: 2; stroke-dasharray: 10 8; }
+      .lane { fill: #f2f6f7; stroke: #c2d0d8; stroke-width: 1.5; }
+      .lane-title { font-size: 18px; font-weight: 800; fill: #315b7d; }
+      .lane-note { font-size: 13px; fill: #6d8290; }
+      .card { fill: #ffffff; stroke: #c5d4dc; stroke-width: 2; }
+      .card-title { font-size: 17px; font-weight: 800; }
+      .card-subtitle { font-size: 13px; fill: #617786; }
+      .mini { font-size: 12px; fill: #5f7380; }
+      .icon-label { font-size: 20px; font-weight: 900; fill: #ffffff; text-anchor: middle; }
+      .section-label { font-size: 13px; font-weight: 800; letter-spacing: 0.08em; fill: #ffffff; }
+      .edge { fill: none; stroke: #315b7d; stroke-width: 3; marker-end: url(#arrow); }
+      .edge-dashed { fill: none; stroke: #779a8d; stroke-width: 2.5; stroke-dasharray: 8 7; marker-end: url(#arrow); }
+      .edge-label { font-size: 13px; fill: #315b7d; font-weight: 700; paint-order: stroke; stroke: #f7f6f1; stroke-width: 5px; stroke-linejoin: round; }
+      .legend { font-size: 13px; fill: #587080; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="#f7f6f1"/>
+  <text x="42" y="52" class="title">物理構成｜AWS RAG ハンズオン</text>
+  <text x="42" y="80" class="subtitle">実際に作成するリソースと、文書取り込み・質問回答のデータフロー</text>
+
+  <rect x="42" y="112" width="24" height="14" rx="3" fill="#2fa9a1"/>
+  <text x="76" y="124" class="legend">AWSマネージドサービス</text>
+  <rect x="286" y="112" width="24" height="14" rx="3" fill="#e36b28"/>
+  <text x="320" y="124" class="legend">操作・実行環境</text>
+  <line x1="505" y1="119" x2="535" y2="119" class="edge-dashed"/>
+  <text x="548" y="124" class="legend">権限・参照関係</text>
+
+  <g filter="url(#shadow)">
+    <rect x="30" y="362" width="205" height="138" rx="16" class="card"/>
+    <circle cx="78" cy="411" r="22" fill="#5e7e96"/>
+    <circle cx="78" cy="400" r="8" fill="#ffffff"/>
+    <path d="M58 437 Q78 414 98 437" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    <text x="114" y="408" class="card-title">受講者</text>
+    <text x="114" y="435" class="card-subtitle">ブラウザーから</text>
+    <text x="114" y="455" class="card-subtitle">CloudShellを操作</text>
+  </g>
+  <path d="M235 431 H292" class="edge"/>
+  <text x="250" y="414" class="edge-label">操作</text>
+
+  <rect x="292" y="150" width="1268" height="786" rx="24" class="boundary"/>
+  <rect x="318" y="132" width="250" height="38" rx="19" fill="#315b7d"/>
+  <text x="443" y="157" class="section-label" text-anchor="middle">AWS Cloud｜ap-northeast-1</text>
+
+  <g filter="url(#shadow)">
+    <rect x="325" y="220" width="210" height="132" rx="14" class="card"/>
+    <rect x="345" y="244" width="54" height="54" rx="12" fill="#e36b28"/>
+    <text x="372" y="280" class="icon-label">&gt;_</text>
+    <text x="414" y="258" class="card-title">AWS CloudShell</text>
+    <text x="414" y="282" class="card-subtitle">AWS CLIを実行</text>
+    <text x="345" y="327" class="mini">文書配置・検索・削除</text>
+  </g>
+
+  <rect x="570" y="188" width="955" height="252" rx="18" class="lane"/>
+  <text x="596" y="220" class="lane-title">Batch Layer｜文書取り込み</text>
+  <text x="596" y="242" class="lane-note">curlで取得したPDFを取り込み、検索用のベクトルindexを作成</text>
+
+  <g filter="url(#shadow)">
+    <rect x="590" y="280" width="194" height="122" rx="13" class="card"/>
+    <rect x="612" y="303" width="52" height="52" rx="11" fill="#7aa116"/>
+    <path d="M625 318 h26 l7 8 v25 h-33 z M625 318 v-7 h18 l8 7" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/>
+    <text x="678" y="321" class="card-title">Amazon S3</text>
+    <text x="678" y="345" class="card-subtitle">source bucket</text>
+    <text x="612" y="380" class="mini">日本語PDF・metadata</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="850" y="253" width="298" height="176" rx="13" class="card"/>
+    <rect x="873" y="278" width="58" height="58" rx="12" fill="#2fa9a1"/>
+    <path d="M887 302 q15-22 30 0 v17 q-15 22-30 0 z M893 294 h18 M893 324 h18" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <text x="947" y="297" class="card-title">Amazon Bedrock</text>
+    <text x="947" y="321" class="card-subtitle">Knowledge Bases</text>
+    <rect x="873" y="351" width="108" height="28" rx="8" fill="#eaf5f3"/>
+    <text x="927" y="370" class="mini" text-anchor="middle">Data source</text>
+    <rect x="990" y="351" width="105" height="28" rx="8" fill="#eaf5f3"/>
+    <text x="1042" y="370" class="mini" text-anchor="middle">Ingestion job</text>
+    <text x="873" y="405" class="mini">parser・chunking・embedding</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1240" y="280" width="238" height="122" rx="13" class="card"/>
+    <rect x="1262" y="303" width="52" height="52" rx="11" fill="#6c47f5"/>
+    <ellipse cx="1288" cy="317" rx="15" ry="6" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <path d="M1273 317 v23 c0 4 30 4 30 0 v-23 M1273 329 c0 4 30 4 30 0" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <text x="1328" y="321" class="card-title">S3 Vectors</text>
+    <text x="1328" y="345" class="card-subtitle">vector bucket</text>
+    <text x="1262" y="380" class="mini">index：1024 / cosine</text>
+  </g>
+
+  <path d="M535 286 H590" class="edge"/>
+  <text x="542" y="269" class="edge-label">aws s3 cp</text>
+  <path d="M784 341 H850" class="edge"/>
+  <text x="794" y="324" class="edge-label">data source</text>
+  <path d="M1148 341 H1240" class="edge"/>
+  <text x="1160" y="324" class="edge-label">embedding・保存</text>
+
+  <rect x="570" y="486" width="955" height="293" rx="18" class="lane"/>
+  <text x="596" y="518" class="lane-title">Real-time Layer｜質問・回答</text>
+  <text x="596" y="540" class="lane-note">Retrieveで根拠を確認した後、Evidence SetだけをConverseへ渡す</text>
+
+  <g filter="url(#shadow)">
+    <rect x="590" y="584" width="205" height="132" rx="13" class="card"/>
+    <rect x="612" y="608" width="52" height="52" rx="11" fill="#2fa9a1"/>
+    <path d="M623 627 h30 M623 637 h20 M623 647 h26" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <text x="678" y="625" class="card-title">Knowledge Bases</text>
+    <text x="678" y="649" class="card-subtitle">Retrieve API</text>
+    <text x="612" y="692" class="mini">検索条件・numberOfResults</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="835" y="584" width="205" height="132" rx="13" class="card"/>
+    <rect x="857" y="608" width="52" height="52" rx="11" fill="#6c47f5"/>
+    <circle cx="873" cy="624" r="5" fill="#ffffff"/><circle cx="893" cy="624" r="5" fill="#ffffff"/>
+    <circle cx="873" cy="644" r="5" fill="#ffffff"/><circle cx="893" cy="644" r="5" fill="#ffffff"/>
+    <path d="M878 624 L888 624 M878 644 L888 644 M873 629 L873 639 M893 629 L893 639" stroke="#ffffff" stroke-width="2"/>
+    <text x="923" y="625" class="card-title">S3 Vectors</text>
+    <text x="923" y="649" class="card-subtitle">semantic search</text>
+    <text x="857" y="692" class="mini">ベクトルindexを参照</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1080" y="584" width="180" height="132" rx="13" class="card"/>
+    <rect x="1102" y="608" width="52" height="52" rx="11" fill="#5e7e96"/>
+    <path d="M1115 625 h26 v22 h-26 z M1121 620 h14 M1121 631 h14 M1121 639 h9" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <text x="1168" y="625" class="card-title">Evidence Set</text>
+    <text x="1168" y="649" class="card-subtitle">根拠チャンク</text>
+    <text x="1102" y="692" class="mini">text・score・source URI</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1300" y="560" width="205" height="180" rx="13" class="card"/>
+    <rect x="1322" y="584" width="52" height="52" rx="11" fill="#2fa9a1"/>
+    <path d="M1333 613 q15-22 30 0 v17 q-15 22-30 0 z M1339 605 h18 M1339 635 h18" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <text x="1388" y="601" class="card-title">Bedrock Converse</text>
+    <text x="1388" y="625" class="card-subtitle">Amazon Nova Lite</text>
+    <rect x="1322" y="658" width="160" height="32" rx="8" fill="#eaf5f3"/>
+    <text x="1402" y="679" class="mini" text-anchor="middle">根拠付きの回答</text>
+    <text x="1322" y="718" class="mini">モデルアクセスを事前確認</text>
+  </g>
+
+  <path d="M430 352 V650 H590" class="edge"/>
+  <text x="448" y="628" class="edge-label">質問</text>
+  <path d="M795 650 H835" class="edge"/>
+  <text x="798" y="632" class="edge-label">検索</text>
+  <path d="M1040 650 H1080" class="edge"/>
+  <text x="1043" y="632" class="edge-label">候補</text>
+  <path d="M1260 650 H1300" class="edge"/>
+  <text x="1260" y="632" class="edge-label">context</text>
+  <path d="M1370 402 V525" class="edge-dashed"/>
+  <text x="1382" y="480" class="edge-label">index参照</text>
+  <path d="M1300 713 C1160 840 680 840 430 352" class="edge"/>
+  <text x="910" y="835" class="edge-label">回答 JSON</text>
+
+  <rect x="570" y="812" width="955" height="86" rx="16" fill="#edf3f5" stroke="#c2d0d8"/>
+  <text x="596" y="842" class="lane-title">Control Plane｜権限・前提</text>
+  <g>
+    <rect x="842" y="824" width="190" height="48" rx="10" fill="#ffffff" stroke="#d64545" stroke-width="2"/>
+    <rect x="856" y="836" width="25" height="25" rx="6" fill="#d64545"/>
+    <text x="868" y="854" class="icon-label" font-size="13">IAM</text>
+    <text x="894" y="854" class="mini">Knowledge Base role</text>
+    <path d="M942 824 V429" class="edge-dashed"/>
+  </g>
+  <g>
+    <rect x="1060" y="824" width="190" height="48" rx="10" fill="#ffffff" stroke="#315b7d" stroke-width="2"/>
+    <text x="1080" y="854" class="mini" font-weight="800">Region・model access</text>
+    <path d="M1155 824 V740" class="edge-dashed"/>
+  </g>
+  <g>
+    <rect x="1278" y="824" width="220" height="48" rx="10" fill="#ffffff" stroke="#e36b28" stroke-width="2"/>
+    <text x="1296" y="854" class="mini" font-weight="800">CloudShell環境変数・CLI</text>
+    <path d="M1388 824 V740" class="edge-dashed"/>
+  </g>
+
+  <text x="42" y="948" class="subtitle">実習で作成する主なリソース：S3 source bucket、S3 Vectors bucket / index、Knowledge Base、data source、IAM role</text>
+</svg>

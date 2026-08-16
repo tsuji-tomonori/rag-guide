@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050" role="img" aria-labelledby="title desc">
+  <title id="title">AWS RAGハンズオンの論理構成とAWSリソースの対応</title>
+  <desc id="desc">Batch Layer、Real-time Layer、Control Planeの論理構成と対応するAWSリソースを示す図</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#315b7d"/>
+    </marker>
+    <marker id="map-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#779a8d"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#17324d" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      text { font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif; fill: #17324d; }
+      .title { font-size: 30px; font-weight: 800; }
+      .subtitle { font-size: 16px; fill: #5c7384; }
+      .panel { fill: #fbfcfb; stroke: #9eb2bf; stroke-width: 2; stroke-dasharray: 10 8; }
+      .lane { stroke-width: 2; }
+      .batch { fill: #eef5f2; stroke: #9db9ae; }
+      .online { fill: #eef3f8; stroke: #a7bfd1; }
+      .control { fill: #f4f1f8; stroke: #c2b4d8; }
+      .lane-title { font-size: 20px; font-weight: 800; }
+      .lane-note { font-size: 13px; fill: #617786; }
+      .logical-card { fill: #ffffff; stroke: #c5d4dc; stroke-width: 2; }
+      .logical-title { font-size: 16px; font-weight: 800; }
+      .logical-note { font-size: 12px; fill: #667c88; }
+      .resource-card { fill: #ffffff; stroke: #c5d4dc; stroke-width: 2; }
+      .resource-title { font-size: 14px; font-weight: 800; }
+      .resource-note { font-size: 12px; fill: #667c88; }
+      .resource-tag { font-size: 11px; font-weight: 800; fill: #ffffff; text-anchor: middle; }
+      .icon-label { font-size: 18px; font-weight: 900; fill: #ffffff; text-anchor: middle; }
+      .process-edge { fill: none; stroke: #315b7d; stroke-width: 3; marker-end: url(#arrow); }
+      .map-edge { fill: none; stroke: #779a8d; stroke-width: 2.2; stroke-dasharray: 7 6; marker-end: url(#map-arrow); }
+      .legend { font-size: 13px; fill: #587080; }
+      .map-label { font-size: 12px; fill: #648274; font-weight: 700; paint-order: stroke; stroke: #f7f6f1; stroke-width: 5px; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1050" fill="#f7f6f1"/>
+  <text x="42" y="52" class="title">論理構成｜RAGの責務とAWSリソースの対応</text>
+  <text x="42" y="80" class="subtitle">「どの処理を行うか」と「どのAWSリソースで実現するか」を同じ図で確認します</text>
+
+  <line x1="42" y1="112" x2="72" y2="112" class="process-edge"/>
+  <text x="84" y="117" class="legend">論理処理の順序</text>
+  <line x1="230" y1="112" x2="260" y2="112" class="map-edge"/>
+  <text x="274" y="117" class="legend">AWSリソースとの対応</text>
+
+  <rect x="32" y="142" width="1000" height="850" rx="22" class="panel"/>
+  <rect x="1058" y="142" width="510" height="850" rx="22" class="panel"/>
+  <rect x="58" y="123" width="190" height="38" rx="19" fill="#315b7d"/>
+  <text x="153" y="148" class="resource-tag" font-size="13">論理構成</text>
+  <rect x="1085" y="123" width="236" height="38" rx="19" fill="#315b7d"/>
+  <text x="1203" y="148" class="resource-tag" font-size="13">対応するAWSリソース</text>
+
+  <!-- Batch Layer -->
+  <rect x="58" y="180" width="948" height="250" rx="18" class="lane batch"/>
+  <text x="82" y="214" class="lane-title" fill="#356f5b">Batch Layer｜知識を検索可能にする</text>
+  <text x="82" y="236" class="lane-note">取り込み時に一度実行し、検索品質の土台を作る</text>
+
+  <g filter="url(#shadow)">
+    <rect x="82" y="278" width="170" height="108" rx="12" class="logical-card"/>
+    <circle cx="111" cy="310" r="18" fill="#7aa116"/>
+    <path d="M102 306 h18 l5 6 v15 h-23 z M102 306 v-5 h13 l5 5" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <text x="142" y="314" class="logical-title">正本文書</text>
+    <text x="102" y="348" class="logical-note">検索対象を保存</text>
+    <text x="102" y="367" class="logical-note">版・出典を管理</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="282" y="278" width="190" height="108" rx="12" class="logical-card"/>
+    <circle cx="311" cy="310" r="18" fill="#2fa9a1"/>
+    <path d="M301 302 h20 M301 310 h20 M301 318 h14" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="342" y="314" class="logical-title">取り込み・分割</text>
+    <text x="302" y="348" class="logical-note">parse・chunking</text>
+    <text x="302" y="367" class="logical-note">metadataを付与</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="502" y="278" width="180" height="108" rx="12" class="logical-card"/>
+    <circle cx="531" cy="310" r="18" fill="#2fa9a1"/>
+    <circle cx="526" cy="305" r="4" fill="#ffffff"/><circle cx="537" cy="305" r="4" fill="#ffffff"/><circle cx="531" cy="317" r="4" fill="#ffffff"/>
+    <path d="M529 308 L534 308 M528 308 L530 314" stroke="#ffffff" stroke-width="2"/>
+    <text x="562" y="314" class="logical-title">埋め込み</text>
+    <text x="522" y="348" class="logical-note">意味表現を生成</text>
+    <text x="522" y="367" class="logical-note">次元数を固定</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="712" y="278" width="250" height="108" rx="12" class="logical-card"/>
+    <circle cx="741" cy="310" r="18" fill="#6c47f5"/>
+    <ellipse cx="741" cy="305" rx="10" ry="4" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <path d="M731 305 v12 c0 3 20 3 20 0 v-12 M731 311 c0 3 20 3 20 0" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <text x="772" y="314" class="logical-title">検索index</text>
+    <text x="732" y="348" class="logical-note">類似度検索用の保存先</text>
+    <text x="732" y="367" class="logical-note">filter・distance metric</text>
+  </g>
+
+  <path d="M252 332 H282" class="process-edge"/>
+  <path d="M472 332 H502" class="process-edge"/>
+  <path d="M682 332 H712" class="process-edge"/>
+
+  <g>
+    <rect x="1082" y="206" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1100" y="224" width="36" height="36" rx="8" fill="#7aa116"/>
+    <text x="1118" y="248" class="icon-label">S3</text>
+    <text x="1150" y="233" class="resource-title">source bucket</text>
+    <text x="1150" y="255" class="resource-note">PDF・metadata</text>
+    <rect x="1082" y="268" width="78" height="14" rx="7" fill="#356f5b"/><text x="1121" y="279" class="resource-tag">Batch</text>
+  </g>
+  <g>
+    <rect x="1320" y="198" width="220" height="94" rx="12" class="resource-card"/>
+    <rect x="1338" y="219" width="36" height="36" rx="8" fill="#2fa9a1"/>
+    <text x="1356" y="243" class="icon-label">KB</text>
+    <text x="1388" y="228" class="resource-title">Knowledge Bases</text>
+    <text x="1388" y="250" class="resource-note">data source・ingestion</text>
+    <rect x="1320" y="270" width="78" height="14" rx="7" fill="#356f5b"/><text x="1359" y="281" class="resource-tag">Batch</text>
+  </g>
+  <g>
+    <rect x="1082" y="318" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1100" y="336" width="36" height="36" rx="8" fill="#2fa9a1"/>
+    <text x="1118" y="360" class="icon-label">AI</text>
+    <text x="1150" y="345" class="resource-title">Titan Embeddings</text>
+    <text x="1150" y="367" class="resource-note">V2・1024次元・cosine</text>
+    <rect x="1082" y="380" width="78" height="14" rx="7" fill="#356f5b"/><text x="1121" y="391" class="resource-tag">Batch</text>
+  </g>
+  <g>
+    <rect x="1320" y="318" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1338" y="336" width="36" height="36" rx="8" fill="#6c47f5"/>
+    <text x="1356" y="360" class="icon-label">V</text>
+    <text x="1388" y="345" class="resource-title">S3 Vectors</text>
+    <text x="1388" y="367" class="resource-note">vector bucket・index</text>
+    <rect x="1320" y="380" width="78" height="14" rx="7" fill="#356f5b"/><text x="1359" y="391" class="resource-tag">Batch</text>
+  </g>
+
+  <path d="M252 302 C470 230 820 220 1082 245" class="map-edge"/>
+  <text x="720" y="223" class="map-label">保存</text>
+  <path d="M472 350 C760 395 1050 285 1320 245" class="map-edge"/>
+  <text x="900" y="360" class="map-label">取り込み</text>
+  <path d="M682 350 C840 395 950 360 1082 356" class="map-edge"/>
+  <text x="842" y="393" class="map-label">embedding</text>
+  <path d="M962 350 C1120 420 1230 420 1320 356" class="map-edge"/>
+  <text x="1154" y="432" class="map-label">index化</text>
+
+  <!-- Real-time Layer -->
+  <rect x="58" y="452" width="948" height="250" rx="18" class="lane online"/>
+  <text x="82" y="486" class="lane-title" fill="#315b7d">Real-time Layer｜質問に答える</text>
+  <text x="82" y="508" class="lane-note">質問ごとに検索し、根拠を組み立てて回答を生成する</text>
+
+  <g filter="url(#shadow)">
+    <rect x="82" y="550" width="170" height="108" rx="12" class="logical-card"/>
+    <circle cx="111" cy="582" r="18" fill="#5e7e96"/>
+    <circle cx="111" cy="575" r="5" fill="#ffffff"/><path d="M101 594 Q111 583 121 594" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <text x="142" y="586" class="logical-title">質問入力</text>
+    <text x="102" y="620" class="logical-note">queryを受け取る</text>
+    <text x="102" y="639" class="logical-note">会話文脈を整理</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="282" y="550" width="190" height="108" rx="12" class="logical-card"/>
+    <circle cx="311" cy="582" r="18" fill="#2fa9a1"/>
+    <circle cx="307" cy="578" r="8" fill="none" stroke="#ffffff" stroke-width="2.5"/><path d="M313 584 l8 8" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <text x="342" y="586" class="logical-title">検索</text>
+    <text x="302" y="620" class="logical-note">Retrieveを実行</text>
+    <text x="302" y="639" class="logical-note">filter・top-k</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="502" y="550" width="180" height="108" rx="12" class="logical-card"/>
+    <circle cx="531" cy="582" r="18" fill="#5e7e96"/>
+    <path d="M522 570 h18 v22 h-18 z M526 566 h10 M526 577 h10 M526 585 h7" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <text x="562" y="586" class="logical-title">Evidence Set</text>
+    <text x="522" y="620" class="logical-note">根拠を選別・整形</text>
+    <text x="522" y="639" class="logical-note">source URIを保持</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="712" y="550" width="250" height="108" rx="12" class="logical-card"/>
+    <circle cx="741" cy="582" r="18" fill="#2fa9a1"/>
+    <path d="M731 578 q10-16 20 0 v12 q-10 16-20 0 z M735 573 h12 M735 595 h12" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <text x="772" y="586" class="logical-title">回答生成</text>
+    <text x="732" y="620" class="logical-note">根拠付きで生成</text>
+    <text x="732" y="639" class="logical-note">citationを返す</text>
+  </g>
+  <path d="M252 604 H282" class="process-edge"/>
+  <path d="M472 604 H502" class="process-edge"/>
+  <path d="M682 604 H712" class="process-edge"/>
+
+  <g>
+    <rect x="1082" y="492" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1100" y="510" width="36" height="36" rx="8" fill="#e36b28"/>
+    <text x="1118" y="534" class="icon-label">&gt;_</text>
+    <text x="1150" y="519" class="resource-title">CloudShell / CLI</text>
+    <text x="1150" y="541" class="resource-note">質問を送信</text>
+    <rect x="1082" y="554" width="94" height="14" rx="7" fill="#315b7d"/><text x="1129" y="565" class="resource-tag">Real-time</text>
+  </g>
+  <g>
+    <rect x="1320" y="492" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1338" y="510" width="36" height="36" rx="8" fill="#2fa9a1"/>
+    <text x="1356" y="534" class="icon-label">KB</text>
+    <text x="1388" y="519" class="resource-title">Knowledge Bases</text>
+    <text x="1388" y="541" class="resource-note">Retrieve API・top-k</text>
+    <rect x="1320" y="554" width="94" height="14" rx="7" fill="#315b7d"/><text x="1367" y="565" class="resource-tag">Real-time</text>
+  </g>
+  <g>
+    <rect x="1082" y="604" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1100" y="622" width="36" height="36" rx="8" fill="#5e7e96"/>
+    <text x="1118" y="646" class="icon-label">E</text>
+    <text x="1150" y="631" class="resource-title">Retrieve response</text>
+    <text x="1150" y="653" class="resource-note">text・score・URI</text>
+    <rect x="1082" y="666" width="94" height="14" rx="7" fill="#315b7d"/><text x="1129" y="677" class="resource-tag">Real-time</text>
+  </g>
+  <g>
+    <rect x="1320" y="604" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1338" y="622" width="36" height="36" rx="8" fill="#2fa9a1"/>
+    <text x="1356" y="646" class="icon-label">AI</text>
+    <text x="1388" y="631" class="resource-title">Bedrock Converse</text>
+    <text x="1388" y="653" class="resource-note">Amazon Nova Lite</text>
+    <rect x="1320" y="666" width="94" height="14" rx="7" fill="#315b7d"/><text x="1367" y="677" class="resource-tag">Real-time</text>
+  </g>
+
+  <path d="M252 570 C520 510 840 500 1082 528" class="map-edge"/>
+  <text x="720" y="498" class="map-label">送信</text>
+  <path d="M472 620 C780 680 1080 550 1320 528" class="map-edge"/>
+  <text x="920" y="652" class="map-label">Retrieve</text>
+  <path d="M682 620 C840 700 970 640 1082 640" class="map-edge"/>
+  <text x="850" y="710" class="map-label">根拠</text>
+  <path d="M962 620 C1130 700 1230 660 1320 640" class="map-edge"/>
+  <text x="1144" y="716" class="map-label">Converse</text>
+
+  <!-- Control Plane -->
+  <rect x="58" y="724" width="948" height="240" rx="18" class="lane control"/>
+  <text x="82" y="758" class="lane-title" fill="#664d85">Control Plane｜安全・再現性・検証</text>
+  <text x="82" y="780" class="lane-note">各処理を誰が、どの設定で、どの状態として実行したかを管理</text>
+
+  <g filter="url(#shadow)">
+    <rect x="82" y="822" width="250" height="104" rx="12" class="logical-card"/>
+    <circle cx="111" cy="854" r="18" fill="#d64545"/>
+    <path d="M103 849 h16 v12 h-16 z M106 846 h10" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <text x="142" y="858" class="logical-title">認証・権限</text>
+    <text x="102" y="892" class="logical-note">KBがS3・vectorへ</text>
+    <text x="102" y="911" class="logical-note">アクセスできる範囲</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="370" y="822" width="250" height="104" rx="12" class="logical-card"/>
+    <circle cx="399" cy="854" r="18" fill="#6c47f5"/>
+    <path d="M390 846 h18 v17 h-18 z M394 851 h10 M394 857 h7" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <text x="430" y="858" class="logical-title">設定・評価</text>
+    <text x="390" y="892" class="logical-note">region・model・index</text>
+    <text x="390" y="911" class="logical-note">結果と費用を確認</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="658" y="822" width="304" height="104" rx="12" class="logical-card"/>
+    <circle cx="687" cy="854" r="18" fill="#e36b28"/>
+    <text x="687" y="861" class="icon-label">&gt;_</text>
+    <text x="718" y="858" class="logical-title">実行・検証・後片付け</text>
+    <text x="678" y="892" class="logical-note">read-only確認とCleanup</text>
+    <text x="678" y="911" class="logical-note">残存リソースを確認</text>
+  </g>
+
+  <g>
+    <rect x="1082" y="770" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1100" y="788" width="36" height="36" rx="8" fill="#d64545"/>
+    <text x="1118" y="812" class="icon-label">IAM</text>
+    <text x="1150" y="797" class="resource-title">Knowledge Base role</text>
+    <text x="1150" y="819" class="resource-note">S3・embedding・vector</text>
+    <rect x="1082" y="832" width="78" height="14" rx="7" fill="#664d85"/><text x="1121" y="843" class="resource-tag">Control</text>
+  </g>
+  <g>
+    <rect x="1320" y="770" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1338" y="788" width="36" height="36" rx="8" fill="#315b7d"/>
+    <text x="1356" y="812" class="icon-label">AWS</text>
+    <text x="1388" y="797" class="resource-title">Region・model access</text>
+    <text x="1388" y="819" class="resource-note">ap-northeast-1・Nova</text>
+    <rect x="1320" y="832" width="78" height="14" rx="7" fill="#664d85"/><text x="1359" y="843" class="resource-tag">Control</text>
+  </g>
+  <g>
+    <rect x="1082" y="882" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1100" y="900" width="36" height="36" rx="8" fill="#e36b28"/>
+    <text x="1118" y="924" class="icon-label">&gt;_</text>
+    <text x="1150" y="909" class="resource-title">CloudShell / CLI</text>
+    <text x="1150" y="931" class="resource-note">確認・Cleanupを実行</text>
+    <rect x="1082" y="944" width="78" height="14" rx="7" fill="#664d85"/><text x="1121" y="955" class="resource-tag">Control</text>
+  </g>
+  <g>
+    <rect x="1320" y="882" width="220" height="78" rx="12" class="resource-card"/>
+    <rect x="1338" y="900" width="36" height="36" rx="8" fill="#6c47f5"/>
+    <text x="1356" y="924" class="icon-label">QA</text>
+    <text x="1388" y="909" class="resource-title">CloudShellの検証</text>
+    <text x="1388" y="931" class="resource-note">状態・費用・残存確認</text>
+    <rect x="1320" y="944" width="78" height="14" rx="7" fill="#664d85"/><text x="1359" y="955" class="resource-tag">Control</text>
+  </g>
+
+  <path d="M332 852 C600 790 850 780 1082 808" class="map-edge"/>
+  <text x="748" y="790" class="map-label">認可</text>
+  <path d="M620 880 C820 900 1080 825 1320 808" class="map-edge"/>
+  <text x="940" y="906" class="map-label">設定</text>
+  <path d="M962 852 C1040 865 1060 920 1082 920" class="map-edge"/>
+  <text x="1000" y="878" class="map-label">CLI</text>
+  <path d="M962 900 C1130 990 1240 960 1320 920" class="map-edge"/>
+  <text x="1165" y="986" class="map-label">検証</text>
+
+  <text x="42" y="1024" class="subtitle">同じAWSリソースが複数の論理責務に関わる場合は、図中で同じ名称を再掲しています（例：Knowledge Bases、S3 Vectors、CloudShell）。</text>
+</svg>
