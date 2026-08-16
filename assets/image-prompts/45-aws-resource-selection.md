@@ -7,12 +7,14 @@
 
 ## 生成プロンプト
 
-日本語の技術書に掲載する、RAG要件からAWSリソースを選択する横長の判断フロー図。16:9、白背景、濃紺・青緑・AWSオレンジを使ったフラットで整理されたデザイン。左端の「要件」から右へ、次の五段階を太い矢印で接続する。
+日本語の技術書に掲載する、RAG要件からAWSリソースを選択する横長の判断フロー図。16:9、白背景、濃紺と青灰色を使ったフラットで整理されたデザイン。左から右へ、次の四段階を太い矢印で接続する。
 
-1. 「運用責任」: Managed Knowledge Base / カスタマーマネージド型
-2. 「文書特性」: default parser / Bedrock Data Automation・foundation model parser
-3. 「検索要件」: S3 Vectors（semantic）/ OpenSearch Serverless（hybrid）/ Aurora PostgreSQL（vector + relational）
-4. 「制御粒度」: RetrieveAndGenerate / Retrieve → rerank → Converse / AgenticRetrieveStream
-5. 「独自処理の実行」: Lambda / Step Functions / ECS on Fargate
+1. 「どこまで運用を委ねるか」: 「運用を委任 / Managed Knowledge Base」、「構成を制御 / Customer-managed Knowledge Base」
+2. 「文書は何を含むか」: 「テキスト中心 / Default parser」、「図表・画像 / BDA / FM parser」
+3. 「何を検索したいか」: 「意味・低頻度 / S3 Vectors」、「語彙・Hybrid / OpenSearch Serverless」、「関係データ / Aurora PostgreSQL」
+4. 「生成・根拠制御をどうするか」: 次の選択理由とサービス名を三つのカードへ表示する。
+   - 「標準引用で要件を満たす / RetrieveAndGenerate / 最短構成・独自整形なし」
+   - 「版・ACL・矛盾を独自検査 / Retrieve → Rerank → Converse / Evidence Set・citationを制御」
+   - 「質問分解・反復探索を委任 / AgenticRetrieveStream / 探索step・fallbackを確認」
 
-各段階の下に、判断軸を短く表示する。「運用委任か直接制御か」「text中心かlayout・multimodalか」「semanticだけか語彙一致も必要か」「標準引用かEvidence Setか」「短時間かworkflowか長時間containerか」。最終到達点は「構成候補を固定し、同じ評価データで比較」。AWS公式アイコンの模倣ではなく、読みやすいカード、分岐線、抽象アイコンを使う。サービス一覧の羅列ではなく選択順序が一目で分かること。日本語ラベルを正確に表示し、写真、人物、装飾的な背景、細かすぎる注釈は使わない。
+④はサービス名の列挙ではなく、「標準機能で要件を満たせるか」「なぜ独自Evidence Setが必要か」「探索をサービスへ委ねるか」という選択理由を主見出しにする。とくに独自処理は、版、ACL、矛盾、citationをアプリケーション側で検査・制御する必要がある場合に選ぶことを明示する。最終到達点は「最小構成を固定評価データで比較し、要件を満たした構成だけを採用」。AWS公式アイコンの模倣ではなく、読みやすいカードと分岐線を使う。サービス一覧の羅列ではなく選択順序が一目で分かること。日本語ラベルを正確に表示し、写真、人物、装飾的な背景、細かすぎる注釈は使わない。
