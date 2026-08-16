@@ -132,7 +132,7 @@ printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR
 </ExpectedResult>
 
 <Aside type="note" title="CloudShellを開き直した場合">
-  shell sessionが切り替わると、`export`した環境変数は消えます。ハンズオンの作業ファイルと状態ファイルは`$HOME`配下へ保存しているため、`source "$HOME/.rag-handson-current"`を実行すれば、現在のrunの環境変数を復元できます。AWSリソースを`list`して先頭のIDを使う方法は、複数人で同時実施すると他の受講者のリソースを選ぶ可能性があるため、通常の復旧方法にはしません。
+  shell sessionが切り替わると、`export`した環境変数は消えます。ハンズオンの作業ファイルと状態ファイルは`$HOME`配下へ保存しているため、`source "$HOME/.rag-handson-current"`を実行すれば、現在のrunの環境変数を復元できます。
 </Aside>
 
 </CloudShellStep>
