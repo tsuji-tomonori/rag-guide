@@ -20,7 +20,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
     "resource": "取り込みジョブ",
     "setting": "ナレッジベース／データソース",
     "value": "RAG_KB_ID / RAG_DS_ID",
-    "note": "listの先頭を使わず、state fileの同一runを参照します。"
+    "note": "state fileに保存した同一runのIDを参照します。"
   },
   {
     "resource": "取り込みジョブ",
@@ -50,11 +50,11 @@ import ResourceTable from '../../components/ResourceTable.astro';
 />
 
 
-同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。CloudShell sessionが途中で切り替わっても別の受講者のresourceを誤って使わないよう、このrunで保存したIDとARNを復元してから進めます。
+同期の成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。CloudShell sessionが途中で切り替わっても、このrunで保存したIDとARNを復元してから進めます。
 
 <CloudShellStep number="6.1" title="状態と取り込み前提を検証してジョブを開始する">
 
-CloudShellを開き直した場合は、最初にこのrunのstate fileを読み戻します。`list-*`の先頭要素からIDを推測しません。同じAWS account・Regionで複数人が同時に実施すると、別の受講者のKnowledge Baseを選ぶ可能性があるためです。
+CloudShellを開き直した場合は、最初にこのrunのstate fileを読み戻します。
 
 <Command title="現在のrunを復元して必須変数を検証">
 
