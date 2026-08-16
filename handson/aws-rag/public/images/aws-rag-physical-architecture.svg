@@ -40,6 +40,10 @@
   <line x1="505" y1="119" x2="535" y2="119" class="edge-dashed"/>
   <text x="548" y="124" class="legend">権限・参照関係</text>
 
+  <rect x="292" y="150" width="1268" height="786" rx="24" class="boundary"/>
+  <rect x="318" y="132" width="250" height="38" rx="19" fill="#315b7d"/>
+  <text x="443" y="157" class="section-label" text-anchor="middle">AWS Cloud｜ap-northeast-1</text>
+
   <g filter="url(#shadow)">
     <rect x="30" y="362" width="205" height="138" rx="16" class="card"/>
     <circle cx="78" cy="411" r="22" fill="#5e7e96"/>
@@ -49,19 +53,16 @@
     <text x="114" y="435" class="card-subtitle">ブラウザーから</text>
     <text x="114" y="455" class="card-subtitle">CloudShellを操作</text>
   </g>
-  <path d="M235 431 H292" class="edge"/>
+  <path d="M235 431 H325" class="edge"/>
   <text x="250" y="414" class="edge-label">操作</text>
-
-  <rect x="292" y="150" width="1268" height="786" rx="24" class="boundary"/>
-  <rect x="318" y="132" width="250" height="38" rx="19" fill="#315b7d"/>
-  <text x="443" y="157" class="section-label" text-anchor="middle">AWS Cloud｜ap-northeast-1</text>
 
   <g filter="url(#shadow)">
     <rect x="325" y="220" width="210" height="132" rx="14" class="card"/>
     <rect x="345" y="244" width="54" height="54" rx="12" fill="#e36b28"/>
     <text x="372" y="280" class="icon-label">&gt;_</text>
-    <text x="414" y="258" class="card-title">AWS CloudShell</text>
-    <text x="414" y="282" class="card-subtitle">AWS CLIを実行</text>
+    <text x="414" y="258" class="card-title">AWS</text>
+    <text x="414" y="280" class="card-title">CloudShell</text>
+    <text x="414" y="302" class="card-subtitle">AWS CLIを実行</text>
     <text x="345" y="327" class="mini">文書配置・検索・削除</text>
   </g>
 
@@ -116,8 +117,9 @@
     <rect x="590" y="584" width="205" height="132" rx="13" class="card"/>
     <rect x="612" y="608" width="52" height="52" rx="11" fill="#2fa9a1"/>
     <path d="M623 627 h30 M623 637 h20 M623 647 h26" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
-    <text x="678" y="625" class="card-title">Knowledge Bases</text>
-    <text x="678" y="649" class="card-subtitle">Retrieve API</text>
+    <text x="678" y="620" class="card-title">Knowledge</text>
+    <text x="678" y="642" class="card-title">Bases</text>
+    <text x="678" y="663" class="card-subtitle">Retrieve API</text>
     <text x="612" y="692" class="mini">検索条件・numberOfResults</text>
   </g>
 
@@ -136,8 +138,9 @@
     <rect x="1080" y="584" width="180" height="132" rx="13" class="card"/>
     <rect x="1102" y="608" width="52" height="52" rx="11" fill="#5e7e96"/>
     <path d="M1115 625 h26 v22 h-26 z M1121 620 h14 M1121 631 h14 M1121 639 h9" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
-    <text x="1168" y="625" class="card-title">Evidence Set</text>
-    <text x="1168" y="649" class="card-subtitle">根拠チャンク</text>
+    <text x="1168" y="620" class="card-title">Evidence</text>
+    <text x="1168" y="642" class="card-title">Set</text>
+    <text x="1168" y="663" class="card-subtitle">根拠チャンク</text>
     <text x="1102" y="692" class="mini">text・score・source URI</text>
   </g>
 
@@ -145,11 +148,12 @@
     <rect x="1300" y="560" width="205" height="180" rx="13" class="card"/>
     <rect x="1322" y="584" width="52" height="52" rx="11" fill="#2fa9a1"/>
     <path d="M1333 613 q15-22 30 0 v17 q-15 22-30 0 z M1339 605 h18 M1339 635 h18" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
-    <text x="1388" y="601" class="card-title">Bedrock Converse</text>
-    <text x="1388" y="625" class="card-subtitle">Amazon Nova Lite</text>
-    <rect x="1322" y="658" width="160" height="32" rx="8" fill="#eaf5f3"/>
-    <text x="1402" y="679" class="mini" text-anchor="middle">根拠付きの回答</text>
-    <text x="1322" y="718" class="mini">モデルアクセスを事前確認</text>
+    <text x="1388" y="600" class="card-title">Bedrock</text>
+    <text x="1388" y="622" class="card-title">Converse</text>
+    <text x="1388" y="644" class="card-subtitle">Amazon Nova Lite</text>
+    <rect x="1322" y="662" width="160" height="32" rx="8" fill="#eaf5f3"/>
+    <text x="1402" y="683" class="mini" text-anchor="middle">根拠付きの回答</text>
+    <text x="1322" y="722" class="mini">モデルアクセスを事前確認</text>
   </g>
 
   <path d="M430 352 V650 H590" class="edge"/>
@@ -161,9 +165,9 @@
   <path d="M1260 650 H1300" class="edge"/>
   <text x="1260" y="632" class="edge-label">context</text>
   <path d="M1370 402 V525" class="edge-dashed"/>
-  <text x="1382" y="480" class="edge-label">index参照</text>
-  <path d="M1300 713 C1160 840 680 840 430 352" class="edge"/>
-  <text x="910" y="835" class="edge-label">回答 JSON</text>
+  <text x="1382" y="480" class="edge-label">同じindex</text>
+  <path d="M1505 650 H1545 V918 H270 V460 H235" class="edge"/>
+  <text x="1510" y="637" class="edge-label">回答</text>
 
   <rect x="570" y="812" width="955" height="86" rx="16" fill="#edf3f5" stroke="#c2d0d8"/>
   <text x="596" y="842" class="lane-title">Control Plane｜権限・前提</text>
@@ -171,17 +175,17 @@
     <rect x="842" y="824" width="190" height="48" rx="10" fill="#ffffff" stroke="#d64545" stroke-width="2"/>
     <rect x="856" y="836" width="25" height="25" rx="6" fill="#d64545"/>
     <text x="868" y="854" class="icon-label" font-size="13">IAM</text>
-    <text x="894" y="854" class="mini">Knowledge Base role</text>
-    <path d="M942 824 V429" class="edge-dashed"/>
+    <text x="894" y="854" class="mini">KB role</text>
+    <path d="M942 824 V455 H1180 V341 H1148" class="edge-dashed"/>
   </g>
   <g>
     <rect x="1060" y="824" width="190" height="48" rx="10" fill="#ffffff" stroke="#315b7d" stroke-width="2"/>
     <text x="1080" y="854" class="mini" font-weight="800">Region・model access</text>
-    <path d="M1155 824 V740" class="edge-dashed"/>
+    <path d="M1155 824 V792 H1290 V560 H1300" class="edge-dashed"/>
   </g>
   <g>
     <rect x="1278" y="824" width="220" height="48" rx="10" fill="#ffffff" stroke="#e36b28" stroke-width="2"/>
-    <text x="1296" y="854" class="mini" font-weight="800">CloudShell環境変数・CLI</text>
+    <text x="1296" y="854" class="mini" font-weight="800">CloudShell・CLI設定</text>
     <path d="M1388 824 V740" class="edge-dashed"/>
   </g>
 
