@@ -121,10 +121,12 @@ aws iam put-role-policy \
 
 </Command>
 
-<Command title="embedding model権限をread-backして強制検証">
+<Command title="必要権限をread-backして強制検証">
 
 ```bash
 export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
+export RAG_EXPECTED_SOURCE_BUCKET_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}"
+export RAG_EXPECTED_SOURCE_OBJECT_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}/documents/*"
 
 aws iam get-role-policy \
   --role-name "$RAG_ROLE_NAME" \
@@ -133,12 +135,23 @@ aws iam get-role-policy \
   --output json \
   | tee "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
 
-jq -e --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" '
-  any(.Statement[];
+jq -e \
+  --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" \
+  --arg bucketArn "$RAG_EXPECTED_SOURCE_BUCKET_ARN" \
+  --arg objectArn "$RAG_EXPECTED_SOURCE_OBJECT_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" '
+  def actions: (.Action | if type == "array" then . else [.] end);
+  any(.Statement[]; .Effect == "Allow" and (actions | index("bedrock:InvokeModel")) and .Resource == $modelArn)
+  and any(.Statement[]; .Effect == "Allow" and (actions | index("s3:ListBucket")) and .Resource == $bucketArn)
+  and any(.Statement[]; .Effect == "Allow" and (actions | index("s3:GetObject")) and .Resource == $objectArn)
+  and any(.Statement[];
     .Effect == "Allow"
-    and ((.Action | if type == "array" then . else [.] end) | index("bedrock:InvokeModel") != null)
-    and (.Resource == $modelArn)
-  )
+    and .Resource == $indexArn
+    and (actions | index("s3vectors:PutVectors"))
+    and (actions | index("s3vectors:GetVectors"))
+    and (actions | index("s3vectors:DeleteVectors"))
+    and (actions | index("s3vectors:QueryVectors"))
+    and (actions | index("s3vectors:GetIndex")))
 ' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
 ```
 
@@ -146,7 +159,7 @@ jq -e --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" '
 
 <ExpectedResult>
 
-最後の`jq -e`が終了コード`0`で完了します。これにより、後続のingestionで利用するTitan Text Embeddings V2への`bedrock:InvokeModel`がidentity-based policyとして実際にroleへ付与されたことを確認できます。
+最後の`jq -e`が終了コード`0`で完了します。これにより、ingestionに必要なembedding model呼び出し、S3 bucket一覧、S3文書読み取り、S3 Vector indexの読み書き権限が、実際にservice roleへ付与されたことを確認できます。
 
 </ExpectedResult>
 
@@ -212,7 +225,7 @@ aws s3vectors get-vector-bucket-policy \
 
 - role ARNが`RAG_ROLE_ARN`と一致します。
 - 4つのstatementが、embedding model、source bucket、`documents/*`、このrunのindexだけを参照します。
-- `InvokeEmbeddingModel` statementには`bedrock:InvokeModel`とTitan Text Embeddings V2のARNが表示されます。
+- source bucketには`s3:ListBucket`、`documents/*`には`s3:GetObject`があります。
 - vector bucket policyのprincipalは作成したroleです。
 
 </ExpectedResult>
@@ -227,8 +240,9 @@ aws s3vectors get-vector-bucket-policy \
 
 - service roleのtrust先は`bedrock.amazonaws.com`である
 - `SourceAccount`と`SourceArn`でconfused deputy対策を入れた
-- source S3、embedding model、vector indexへresourceを限定した
-- Titan Text Embeddings V2への`bedrock:InvokeModel`をread-backして検証した
+- `s3:ListBucket`と`s3:GetObject`を含むsource S3権限を検証した
+- Titan Text Embeddings V2への`bedrock:InvokeModel`を検証した
+- S3 Vector indexの必要操作を検証した
 - vector bucket policyのprincipalは作成したservice roleである
 
 </Checkpoint>
