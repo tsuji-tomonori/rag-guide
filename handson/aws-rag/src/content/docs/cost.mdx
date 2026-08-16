@@ -15,7 +15,7 @@ import { Aside } from '@astrojs/starlight/components';
 - リージョン：アジアパシフィック（東京）`ap-northeast-1`
 - 通貨：USD。日本円への換算、税、組織契約割引は含めません。
 - 1回の範囲：PDFを1回取り込み、検索を5回、生成を2回実行し、同日中にCleanupを完了するケース
-- 文書：AWS公式 Well-Architected Framework 日本語PDF。取得時のサイズは約10.5 MBですが、`latest`のため将来変わる可能性があります。
+- 文書：AWS公式のRAGガイダンス日本語PDF（39ページ）。`latest`のためサイズと抽出token数は取得時に変わる可能性があります。計算表は安全側にPDF 10 MB・embedding入力100,000 tokenを仮定します。
 - 埋め込み入力：取り込み時100,000 token、検索クエリ20 token × 5回を仮定します。実際の請求は実際に処理したtoken数で変わります。
 - ベクトル：300 token、overlap 10%から約370 chunkとなるため、計算上は400 vectorへ丸めます。
 - S3 Vectorsの1 vectorあたり論理サイズ：AWSの料金例に合わせて6.17 KB（1024次元のvector data、metadata、key）を仮定します。
@@ -33,7 +33,7 @@ import { Aside } from '@astrojs/starlight/components';
 | PDF取り込み | 1回 | embedding input 100,000 token |
 | Retrieve | 1回（7章）+ 4回（9章） | 5 query × 20 token |
 | Converse | 1回（1.4章の疎通確認）+ 1回（8.2章の回答） | input 2,020 token、output 最大408 token |
-| S3オブジェクト | PDF + sidecar metadata | 約10.5 MB、2 object |
+| S3オブジェクト | PDF + sidecar metadata | 実測サイズ + sidecar metadata、2 object |
 | S3 Vectors | Knowledge BaseがchunkをPutVectors | 約400 vector、約2.468 MB |
 
 ## 内訳
@@ -70,7 +70,7 @@ S3 VectorsのPUT料金は論理データ量で、1回のPUTごとに128 KBの最
 
 | 項目 | 計算 | 金額 |
 |---|---|---:|
-| Standard storage | 約0.0098 GB × $0.025 / GB-month × 1/30 | 約$0.000008 |
+| Standard storage | 10 MB上限仮定（約0.0098 GB） × $0.025 / GB-month × 1/30 | 約$0.000008 |
 | request | PUT/LIST 10回 × $0.0047 / 1,000 + GET/HEAD 40回 × $0.00037 / 1,000 | 約$0.000062 |
 | **S3小計** |  | **約$0.00008** |
 
@@ -103,7 +103,7 @@ S3から同一リージョンのAWSサービスへ転送するデータ転送量
 
 | 残るデータ | 計算 | 月額の目安 |
 |---|---|---:|
-| S3 source bucket | 0.0098 GB × $0.025 / GB-month | 約$0.00025 |
+| S3 source bucket | 10 MB上限仮定（約0.0098 GB） × $0.025 / GB-month | 約$0.00025 |
 | S3 Vectors | 0.002468 GB × $0.066 / GB-month | 約$0.00016 |
 | **合計** | request・追加検索を除く | **約$0.00042 / month** |
 
