@@ -56,7 +56,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 <CloudShellStep number="10.1" title="削除対象を固定する">
 
-<Command>
+<Command phase="prepare" title="削除対象を固定して確認">
 
 ```bash
 printf '%-22s %s\n' \
@@ -78,9 +78,23 @@ test "${#RAG_DS_ID}" -eq 10
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s10-1-targets" verification="削除対象を固定して確認">
 
 すべての名前がこのrun IDを含み、検証コマンドがエラーなく終了します。一つでも失敗した場合は削除を止め、[変数の復元](/rag-guide/troubleshooting/#cloudshellを再起動して変数が消えた)を行います。
+
+```text
+run ID                  0816071530-a41f92
+knowledge base          RQVIZHNFAN
+data source             H63CPNRSM9
+source bucket           rag-handson-123456789012-0816071530-a41f92
+vector bucket           rag-handson-vectors-123456789012-0816071530-a41f92
+vector index            rag-titan-v2-1024
+IAM role                BedrockKnowledgeBaseRole-0816071530-a41f92
+```
+
+- 7つの削除対象が表示される
+- bucket、role名が現在の`RAG_RUN_ID`を含む
+- Knowledge Baseとdata source IDが10文字である
 
 </ExpectedResult>
 
@@ -90,7 +104,7 @@ test "${#RAG_DS_ID}" -eq 10
 
 data deletion policyを`DELETE`にしているため、data source削除時に取り込んだvectorの削除も要求されます。service roleはこの処理が終わるまで残します。
 
-<Command>
+<Command phase="execute" title="データソースとKnowledge Baseを削除">
 
 ```bash
 aws bedrock-agent delete-data-source \
@@ -110,6 +124,14 @@ for attempt in {1..30}; do
   sleep 10
 done
 
+if aws bedrock-agent get-data-source \
+  --region "$AWS_REGION" \
+  --knowledge-base-id "$RAG_KB_ID" \
+  --data-source-id "$RAG_DS_ID" >/dev/null 2>&1; then
+  printf 'ERROR: data source still exists\n' >&2
+  exit 1
+fi
+
 aws bedrock-agent delete-knowledge-base \
   --region "$AWS_REGION" \
   --knowledge-base-id "$RAG_KB_ID"
@@ -124,6 +146,17 @@ for attempt in {1..30}; do
   printf '[%02d/30] waiting for knowledge base deletion\n' "$attempt"
   sleep 10
 done
+
+if aws bedrock-agent get-knowledge-base \
+  --region "$AWS_REGION" \
+  --knowledge-base-id "$RAG_KB_ID" >/dev/null 2>&1; then
+  printf 'ERROR: knowledge base still exists\n' >&2
+  exit 1
+fi
+
+printf '[CHECK] data source deletion: COMPLETE (absent)\n'
+printf '[CHECK] knowledge base deletion: COMPLETE (absent)\n'
+printf 'Bedrock deletion: PASS\n'
 ```
 
 </Command>
@@ -132,9 +165,21 @@ done
   delete API自体が成功したことを主な判定とし、続くget APIは削除完了待ちの補助に使います。caller側のread権限や一時的なAPI errorまで「削除済み」と誤認しないよう、最後は10.4の独立した残存確認も実施します。
 </Aside>
 
-<ExpectedResult>
+<ExpectedResult id="s10-2-bedrock" verification="データソースとKnowledge Baseを削除">
 
 `data source deleted`と`knowledge base deleted`が表示されます。削除API自体がエラーなく完了していることも確認してください。
+
+```text
+data source deleted
+knowledge base deleted
+[CHECK] data source deletion: COMPLETE (absent)
+[CHECK] knowledge base deletion: COMPLETE (absent)
+Bedrock deletion: PASS
+```
+
+- data sourceの削除完了が表示される
+- Knowledge Baseの削除完了が表示される
+- `Bedrock deletion: PASS`が表示される
 
 </ExpectedResult>
 
@@ -142,7 +187,7 @@ done
 
 <CloudShellStep number="10.3" title="S3 Vectorsを削除する">
 
-<Command>
+<Command phase="execute" title="S3 Vectorsを削除">
 
 ```bash
 aws s3vectors delete-vector-bucket-policy \
@@ -167,13 +212,47 @@ done
 aws s3vectors delete-vector-bucket \
   --region "$AWS_REGION" \
   --vector-bucket-name "$RAG_VECTOR_BUCKET"
+
+for attempt in {1..20}; do
+  if ! aws s3vectors get-vector-bucket \
+    --region "$AWS_REGION" \
+    --vector-bucket-name "$RAG_VECTOR_BUCKET" >/dev/null 2>&1; then
+    printf 'vector bucket deleted\n'
+    break
+  fi
+  printf '[%02d/20] waiting for vector bucket deletion\n' "$attempt"
+  sleep 5
+done
+
+if aws s3vectors get-vector-bucket \
+  --region "$AWS_REGION" \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" >/dev/null 2>&1; then
+  printf 'ERROR: vector bucket still exists\n' >&2
+  exit 1
+fi
+
+printf '[CHECK] vector index deletion: COMPLETE (absent)\n'
+printf '[CHECK] vector bucket deletion: COMPLETE (absent)\n'
+printf 'S3 Vectors deletion: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s10-3-vectors" verification="S3 Vectorsを削除">
 
 vector indexが削除された後、vector bucketの削除APIもエラーなく完了します。
+
+```text
+vector index deleted
+vector bucket deleted
+[CHECK] vector index deletion: COMPLETE (absent)
+[CHECK] vector bucket deletion: COMPLETE (absent)
+S3 Vectors deletion: PASS
+```
+
+- vector indexの削除完了を確認する
+- vector bucketが存在しないことを確認する
+- `S3 Vectors deletion: PASS`が表示される
 
 </ExpectedResult>
 
@@ -181,7 +260,7 @@ vector indexが削除された後、vector bucketの削除APIもエラーなく�
 
 <CloudShellStep number="10.4" title="S3とIAMロールを削除する">
 
-<Command title="原文書用バケットを削除">
+<Command phase="execute" title="原文書用バケットを削除">
 
 ```bash
 aws s3 rm "s3://$RAG_SOURCE_BUCKET" --recursive --region "$AWS_REGION"
@@ -192,28 +271,34 @@ aws s3api delete-bucket \
 
 </Command>
 
-<Command title="IAMロールに実在するポリシーを削除してからロールを削除">
+<Command phase="execute" title="IAMロールに実在するポリシーを削除してからロールを削除">
 
 ```bash
-for policy_name in $(aws iam list-role-policies \
+policy_names="$(aws iam list-role-policies \
   --role-name "$RAG_ROLE_NAME" \
   --query 'PolicyNames[]' \
-  --output text); do
-  printf 'Deleting inline policy: %s\n' "$policy_name"
-  aws iam delete-role-policy \
-    --role-name "$RAG_ROLE_NAME" \
-    --policy-name "$policy_name"
-done
+  --output text)"
+if [ "$policy_names" != "None" ]; then
+  for policy_name in $policy_names; do
+    printf 'Deleting inline policy: %s\n' "$policy_name"
+    aws iam delete-role-policy \
+      --role-name "$RAG_ROLE_NAME" \
+      --policy-name "$policy_name"
+  done
+fi
 
-for policy_arn in $(aws iam list-attached-role-policies \
+attached_policy_arns="$(aws iam list-attached-role-policies \
   --role-name "$RAG_ROLE_NAME" \
   --query 'AttachedPolicies[].PolicyArn' \
-  --output text); do
-  printf 'Detaching managed policy: %s\n' "$policy_arn"
-  aws iam detach-role-policy \
-    --role-name "$RAG_ROLE_NAME" \
-    --policy-arn "$policy_arn"
-done
+  --output text)"
+if [ "$attached_policy_arns" != "None" ]; then
+  for policy_arn in $attached_policy_arns; do
+    printf 'Detaching managed policy: %s\n' "$policy_arn"
+    aws iam detach-role-policy \
+      --role-name "$RAG_ROLE_NAME" \
+      --policy-arn "$policy_arn"
+  done
+fi
 
 test "$(aws iam list-role-policies \
   --role-name "$RAG_ROLE_NAME" \
@@ -234,7 +319,7 @@ aws iam delete-role --role-name "$RAG_ROLE_NAME"
   トラブルシューティング中に`AllowTitanEmbeddingInvoke`のような追加inline policyを付けることがあります。`RAG_POLICY_NAME`だけを削除すると追加policyが残り、`DeleteConflict: must delete policies first`でrole削除に失敗します。このハンズオン専用roleでは、削除時に実在するinline policyを列挙して全削除し、attached managed policyがあればdetachしてからroleを削除します。
 </Aside>
 
-<Command title="最終確認">
+<Command phase="verify" title="全リソースの削除結果を最終確認" final>
 
 ```bash
 RAG_CLEANUP_FAILURES=0
@@ -258,15 +343,51 @@ aws iam get-role --role-name "$RAG_ROLE_NAME" >/dev/null 2>&1 && {
   RAG_CLEANUP_FAILURES=$((RAG_CLEANUP_FAILURES + 1))
 }
 
+aws bedrock-agent get-data-source \
+  --region "$AWS_REGION" \
+  --knowledge-base-id "$RAG_KB_ID" \
+  --data-source-id "$RAG_DS_ID" >/dev/null 2>&1 && {
+  printf 'ERROR: data source remains\n' >&2
+  RAG_CLEANUP_FAILURES=$((RAG_CLEANUP_FAILURES + 1))
+}
+
+aws bedrock-agent get-knowledge-base \
+  --region "$AWS_REGION" \
+  --knowledge-base-id "$RAG_KB_ID" >/dev/null 2>&1 && {
+  printf 'ERROR: knowledge base remains\n' >&2
+  RAG_CLEANUP_FAILURES=$((RAG_CLEANUP_FAILURES + 1))
+}
+
 test "$RAG_CLEANUP_FAILURES" -eq 0
+printf '[CHECK] source bucket deletion: COMPLETE (absent)\n'
+printf '[CHECK] vector bucket deletion: COMPLETE (absent)\n'
+printf '[CHECK] IAM role deletion: COMPLETE (absent)\n'
+printf '[CHECK] data source deletion: COMPLETE (absent)\n'
+printf '[CHECK] knowledge base deletion: COMPLETE (absent)\n'
 printf 'cleanup verification: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s10-4-cleanup" verification="全リソースの削除結果を最終確認">
 
 `cleanup verification: PASS`と表示されます。Knowledge Base / data sourceはdelete APIの成功、vector bucket / source bucket / IAM roleは残存確認を組み合わせて検証します。トラブルシューティング中に追加したinline policyがあっても、role削除前に自動で列挙・削除されます。
+
+```text
+[CHECK] source bucket deletion: COMPLETE (absent)
+[CHECK] vector bucket deletion: COMPLETE (absent)
+[CHECK] IAM role deletion: COMPLETE (absent)
+[CHECK] data source deletion: COMPLETE (absent)
+[CHECK] knowledge base deletion: COMPLETE (absent)
+cleanup verification: PASS
+```
+
+- `[CHECK] source bucket deletion: COMPLETE (absent)`が表示される
+- `[CHECK] vector bucket deletion: COMPLETE (absent)`が表示される
+- `[CHECK] IAM role deletion: COMPLETE (absent)`が表示される
+- `[CHECK] data source deletion: COMPLETE (absent)`が表示される
+- `[CHECK] knowledge base deletion: COMPLETE (absent)`が表示される
+- `cleanup verification: PASS`が表示される
 
 </ExpectedResult>
 

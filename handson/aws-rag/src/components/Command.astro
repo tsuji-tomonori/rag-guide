@@ -1,15 +1,29 @@
 ---
 interface Props {
   title?: string;
+  phase?: 'prepare' | 'execute' | 'verify';
+  final?: boolean;
 }
 
-const { title = 'CloudShellで実行' } = Astro.props;
+const {
+  title = 'CloudShellで実行',
+  phase = 'execute',
+  final = false,
+} = Astro.props;
+
+const phaseLabels = {
+  prepare: '準備',
+  execute: '実行',
+  verify: '結果確認',
+} as const;
 ---
 
-<div class="command-frame">
+<div class:list={['command-frame', `command-phase-${phase}`, { 'command-is-final': final }]} data-command-phase={phase}>
   <div class="command-title">
     <span aria-hidden="true">›_</span>
+    <span class="command-phase-label">{phaseLabels[phase]}</span>
     <strong>{title}</strong>
+    {final && <span class="command-final-label">最終確認</span>}
     <small>コード右上からコピーできます</small>
   </div>
   <div class="command-body"><slot /></div>

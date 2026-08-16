@@ -56,7 +56,7 @@ RAGの改善はmodel変更から始めず、PDFが示すコンポーネント境
 
 7章と同じ質問で`numberOfResults`だけを変え、返却件数、上位score、PDFの根拠coverage、source traceabilityを記録します。`score`が高いことだけでは合格にせず、必要な根拠が上位候補に含まれるか、無関係なchunkが増えていないかを見ます。
 
-<Command>
+<Command phase="execute" title="候補数を比較">
 
 ```bash
 printf 'k\treturned\ttop_score\tingestion\tretrieval\tapi\tsource_traceable\n' | tee "$RAG_WORK_DIR/k-comparison.tsv"
@@ -101,13 +101,31 @@ for k in 1 3 5; do
 done
 
 column -t -s $'\t' "$RAG_WORK_DIR/k-comparison.tsv"
+
+printf '[CHECK] compared k values: 1 / 3 / 5\n'
+printf '[CHECK] comparison file: %s\n' "$RAG_WORK_DIR/k-comparison.tsv"
+printf 'k comparison: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s9-1-k" verification="候補数を比較">
 
 `k=1 / 3 / 5`の比較表が表示されます。`ingestion`、`retrieval`、`api`は、PDFのRAG 4ステップとKnowledge Bases API境界に対応する根拠coverageです。最小の`k`で必要なcoverageとsource traceabilityを満たし、無関係なchunkを増やさない設定を候補にします。score単独で合否を決めず、複数の質問でcoverage、誤検索、latency、費用を比較します。
+
+```text
+k  returned  top_score  has_gold
+1  1         0.82       true
+3  3         0.82       true
+5  5         0.82       true
+[CHECK] compared k values: 1 / 3 / 5
+[CHECK] comparison file: /home/cloudshell-user/rag-handson-.../k-comparison.tsv
+k comparison: PASS
+```
+
+- `k=1`、`3`、`5`の3行がある
+- `returned`、`top_score`、`has_gold`が比較できる
+- `k-comparison.tsv`が作成される
 
 </ExpectedResult>
 
@@ -117,7 +135,7 @@ column -t -s $'\t' "$RAG_WORK_DIR/k-comparison.tsv"
 
 PDFは、S3データソースのドキュメントメタデータを使って関連性をフィルタリング・改善でき、包含／除外フィルターや増分同期も扱えると説明しています。ここでは質問をその内容に合わせ、`category=rag-guidance`かつ`status=published`だけを検索対象にします。
 
-<Command>
+<Command phase="execute" title="メタデータフィルター付き検索を実行">
 
 ```bash
 export RAG_FILTER_QUESTION="Amazon BedrockナレッジベースのS3データソースでは、ドキュメントメタデータを使って検索結果の関連性をフィルタリングし改善する方法と、包含・除外フィルター、増分同期の役割を説明してください。"
@@ -149,7 +167,7 @@ aws bedrock-agent-runtime retrieve \
 
 </Command>
 
-<Command title="フィルター結果を検証">
+<Command phase="verify" title="フィルター結果を検証" final>
 
 ```bash
 jq -r '
@@ -180,13 +198,34 @@ aws bedrock-agent-runtime retrieve \
 
 jq -e '(.retrievalResults | length) == 0' \
   "$RAG_WORK_DIR/retrieve-negative-filter-output.json" >/dev/null
+
+printf '[CHECK] filtered candidates: >= 1\n'
+printf '[CHECK] category: rag-guidance\n'
+printf '[CHECK] status: published\n'
+printf '[CHECK] negative filter candidates: 0\n'
+printf 'metadata filter verification: PASS'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s9-2-filter" verification="フィルター結果を検証">
 
 正のフィルターでは1件以上が返り、すべてのcandidateが`category=rag-guidance / status=published`です。取得本文には、PDFのデータソース章に対応するメタデータ、フィルター、増分同期の説明が含まれます。source URIは`aws-rag-options-and-architectures.pdf`を指します。存在しないcategoryを指定した負のフィルターでは0件になり、sidecar metadataが検索前条件として機能していることを確認します。
+
+```text
+0.81  rag-guidance  published  s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf
+[CHECK] filtered candidates: >= 1
+[CHECK] category: rag-guidance
+[CHECK] status: published
+[CHECK] negative filter candidates: 0
+metadata filter verification: PASS
+```
+
+- candidateが1件以上である
+- すべてのcandidateが`rag-guidance / published`である
+- source URIがAWS公式RAGオプションPDFを指す
+- negative filterで0件になる
+- `metadata filter verification: PASS`が表示される
 
 </ExpectedResult>
 

@@ -62,7 +62,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 AWS Docsの`latest` URLからPDFを取得します。途中で切れたファイルを完成品として扱わないよう、`.part`へ保存してからrenameします。
 
-<Command>
+<Command phase="execute" title="AWS公式PDFを取得">
 
 ```bash
 curl --fail --location \
@@ -77,7 +77,7 @@ mv "$RAG_DOCUMENT_PATH.part" "$RAG_DOCUMENT_PATH"
 
 </Command>
 
-<Command title="PDFの形式とサイズを検証">
+<Command phase="verify" title="PDFの形式とサイズを検証" final>
 
 ```bash
 test "$(head -c 5 "$RAG_DOCUMENT_PATH")" = "%PDF-"
@@ -93,11 +93,23 @@ sha256sum "$RAG_DOCUMENT_PATH" \
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s2-1-pdf" verification="PDFの形式とサイズを検証">
 
 - `curl`がHTTP errorなしで完了し、最終URLとdownload byte数を表示します。
 - 先頭5 byteが`%PDF-`です。HTMLのerror pageを誤って保存した場合はここで停止します。
 - file sizeは1 MiBより大きく、Knowledge Basesの1 fileあたりの上限である50 MB未満です。SHA-256 digestも記録されます。
+
+```text
+downloaded=6843210 bytes
+content_type=application/pdf
+url=https://docs.aws.amazon.com/ja_jp/wellarchitected/latest/framework/wellarchitected-framework.pdf
+PDF bytes: 6843210
+9f2c...  /home/cloudshell-user/rag-handson-0816071530-a41f92/documents/aws-rag-options-and-architectures.pdf
+```
+
+- `content_type=application/pdf`と`PDF bytes:`が表示される
+- `PDF bytes`が1 MiBより大きく、50 MB未満である
+- SHA-256ファイルが作成される
 
 </ExpectedResult>
 
@@ -111,7 +123,7 @@ sha256sum "$RAG_DOCUMENT_PATH" \
 
 Amazon Bedrock Knowledge Basesは、`元ファイル名.metadata.json`というsidecar fileからmetadata属性を取り込みます。出典URL、取得日、文書種別を検索結果へ引き継ぎます。
 
-<Command>
+<Command phase="prepare" title="出典メタデータを準備">
 
 ```bash
 export RAG_RETRIEVED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -133,7 +145,7 @@ jq -n \
 
 </Command>
 
-<Command title="メタデータJSONを検証">
+<Command phase="verify" title="メタデータJSONを検証" final>
 
 ```bash
 jq -e '
@@ -148,9 +160,26 @@ test "$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")" -lt 10240
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s2-2-metadata" verification="メタデータJSONを検証">
 
 `jq`とsize検査がエラーなく終了します。metadata fileは10 KiB未満で、AWS公式URLと取得時刻を含みます。
+
+```json
+{
+  "metadataAttributes": {
+    "category": "framework",
+    "status": "published",
+    "language": "ja",
+    "source_title": "AWS Well-Architected Framework",
+    "source_url": "https://docs.aws.amazon.com/ja_jp/...",
+    "retrieved_at": "2026-08-16T12:00:00Z"
+  }
+}
+```
+
+- `category=rag-guidance`、`status=published`、`language=ja`が確認できる
+- `source_url`がAWS公式URLである
+- metadata fileが10 KiB未満である
 
 </ExpectedResult>
 
@@ -158,7 +187,7 @@ test "$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")" -lt 10240
 
 <CloudShellStep number="2.3" title="S3バケットを作成してアップロードする">
 
-<Command>
+<Command phase="execute" title="S3バケットを作成してアップロード">
 
 ```bash
 aws s3api create-bucket \
@@ -176,7 +205,7 @@ aws s3 cp "$RAG_WORK_DIR/documents" "s3://$RAG_SOURCE_BUCKET/documents/" --recur
 
 </Command>
 
-<Command title="バケットとオブジェクトを検証">
+<Command phase="verify" title="バケットとオブジェクトを検証" final>
 
 ```bash
 aws s3api get-bucket-location \
@@ -199,16 +228,38 @@ test "$(aws s3api head-object \
   --bucket "$RAG_SOURCE_BUCKET" \
   --key documents/aws-rag-options-and-architectures.pdf \
   --query ContentLength --output text)" = "$RAG_PDF_BYTES"
+
+printf '[CHECK] source bucket creation: COMPLETE (%s)\n' "$RAG_SOURCE_BUCKET"
+printf '[CHECK] source objects uploaded: 2 (PDF + metadata)\n'
+printf '[CHECK] PDF byte size: %s\n' "$RAG_PDF_BYTES"
+printf 'upload verification: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s2-3-s3" verification="バケットとオブジェクトを検証">
 
 - locationは`ap-northeast-1`です。
 - 4つのpublic access block設定がすべて`True`です。
 - `count`は`2`で、PDFと対応するmetadata fileが表示されます。
 - local PDFとS3 objectのbyte数が一致し、最後の`test`が成功します。
+
+```text
+location: ap-northeast-1
+BlockPublicAcls       True
+IgnorePublicAcls      True
+BlockPublicPolicy     True
+RestrictPublicBuckets True
+[CHECK] source bucket creation: COMPLETE (rag-handson-123456789012-0816071530-a41f92)
+[CHECK] source objects uploaded: 2 (PDF + metadata)
+[CHECK] PDF byte size: 6843210
+upload verification: PASS
+```
+
+- `[CHECK] source bucket creation: COMPLETE`が表示される
+- `[CHECK] source objects uploaded: 2`が表示される
+- public access blockが4項目とも`True`である
+- PDFとmetadataの2 objectが存在し、byte数が一致する
 
 </ExpectedResult>
 

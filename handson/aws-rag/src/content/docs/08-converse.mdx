@@ -54,7 +54,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 <CloudShellStep number="8.1" title="根拠セット付きメッセージを作成する">
 
-<Command>
+<Command phase="prepare" title="根拠セット付きメッセージを準備">
 
 ```bash
 export RAG_EVIDENCE="$(cat "$RAG_WORK_DIR/evidence.txt")"
@@ -84,9 +84,23 @@ jq -e 'length == 1 and .[0].role == "user" and (.[] | .content | length == 1)' \
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s8-1-message" verification="根拠セット付きメッセージを準備">
 
 message JSONが表示され、質問、制約、`[E1]`を含むEvidence Setが1つのuser messageへ入っています。
+
+```json
+[
+  {
+    "role": "user",
+    "content": [
+      {"text": "...質問...\n\nEvidence Set:\n[E1] ... source=s3://..."}
+    ]
+  }
+]
+```
+
+- messageが1件のuser messageである
+- 質問、Evidence Set、`[E1]`形式の指示が含まれる
 
 </ExpectedResult>
 
@@ -94,7 +108,7 @@ message JSONが表示され、質問、制約、`[E1]`を含むEvidence Setが1�
 
 <CloudShellStep number="8.2" title="Converseを呼び出す">
 
-<Command>
+<Command phase="execute" title="Converseを呼び出す">
 
 ```bash
 aws bedrock-runtime converse \
@@ -110,9 +124,23 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s8-2-answer" verification="Converseを呼び出す">
 
 回答に、PDFのRAG 4ステップ、Knowledge Basesが文書をチャンク化・埋め込みしてベクトルデータベースへ保存する流れ、リトリーバーによる類似度検索、`Retrieve`と`RetrieveAndGenerate`の役割の違いが含まれます。各主張にはEvidence Setに対応する`[E1]`形式のcitationが付き、Evidence Setにない説明を創作していません。
+
+```text
+AWS Well-Architected Frameworkの柱は次の6つです。
+1. 運用上の優秀性 [E1]
+2. セキュリティ [E1]
+3. 信頼性 [E1]
+4. パフォーマンス効率 [E1]
+5. コスト最適化 [E1]
+6. 持続可能性 [E1]
+```
+
+- 6本の柱が回答に含まれる
+- 回答に`[E1]`形式のcitationがある
+- Evidence Setにない内容を根拠として追加していない
 
 </ExpectedResult>
 
@@ -120,7 +148,7 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 
 <CloudShellStep number="8.3" title="最低限の引用検査を行う">
 
-<Command>
+<Command phase="verify" title="最低限の引用検査を行う" final>
 
 ```bash
 test -s "$RAG_WORK_DIR/answer.txt"
@@ -146,9 +174,18 @@ printf 'citation validation: PASS\n'
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s8-3-citation" verification="最低限の引用検査を行う">
 
 `citation validation: PASS`と表示されます。回答内のcitation IDが、実際のEvidence Setに存在します。さらに、RAG 4ステップ、Knowledge Basesの取り込み、リトリーバーの類似度検索、2つのAPIの役割が質問に対応して説明されます。
+
+```text
+citation validation: PASS
+```
+
+- `answer.txt`が空でない
+- 必須の柱の語と`[E1]`形式がある
+- 回答内の全citation IDがEvidence Setに存在する
+- `citation validation: PASS`が表示される
 
 </ExpectedResult>
 

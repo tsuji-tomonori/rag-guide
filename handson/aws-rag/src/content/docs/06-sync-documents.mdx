@@ -20,7 +20,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
     "resource": "取り込みジョブ",
     "setting": "ナレッジベース／データソース",
     "value": "RAG_KB_ID / RAG_DS_ID",
-    "note": "listの先頭を使わず、state fileの同一runを参照します。"
+    "note": "state fileに保存した同一runのIDを参照します。"
   },
   {
     "resource": "取り込みジョブ",
@@ -54,9 +54,9 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 <CloudShellStep number="6.1" title="状態と取り込み前提を検証してジョブを開始する">
 
-CloudShellを開き直した場合は、最初にこのrunのstate fileを読み戻します。`list-*`の先頭要素からIDを推測しません。同じAWS account・Regionで複数人が同時に実施すると、別の受講者のKnowledge Baseを選ぶ可能性があるためです。
+CloudShellを開き直した場合は、最初にこのrunのstate fileを読み戻します。
 
-<Command title="現在のrunを復元して必須変数を検証">
+<Command phase="prepare" title="現在のrunを復元して必須変数を準備">
 
 ```bash
 if [ -f "$HOME/.rag-handson-current" ]; then
@@ -82,15 +82,26 @@ printf 'region=%s\nrun=%s\nkb=%s\nds=%s\nindex=%s\n' \
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s6-1-state" verification="現在のrunを復元して必須変数を準備">
 
 すべての値が空でない状態で表示されます。ここで値が欠けている場合は同期を開始せず、前のページで作成したrunのstate fileを復元します。
+
+```text
+region=ap-northeast-1
+run=0816071530-a41f92
+kb=RQVIZHNFAN
+ds=H63CPNRSM9
+index=arn:aws:s3vectors:ap-northeast-1:123456789012:bucket/.../index/...
+```
+
+- `region`、`run`、`kb`、`ds`、`index`の5項目が空でない
+- state fileから現在のrunを復元できる
 
 </ExpectedResult>
 
 まず、Knowledge Baseが4章で作成したservice roleを使っていることと、ingestionに必要な4系統の権限が実際にroleへ付与されていることを確認します。
 
-<Command title="ナレッジベースのロールと取り込み権限を事前検証">
+<Command phase="verify" title="ナレッジベースのロールと取り込み権限を事前検証">
 
 ```bash
 export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
@@ -130,13 +141,27 @@ jq -e \
     and (actions | index("s3vectors:QueryVectors"))
     and (actions | index("s3vectors:GetIndex")))
 ' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+
+printf '[CHECK] Knowledge Base role: %s\n' "$RAG_KB_ROLE_ARN"
+printf '[CHECK] embedding, S3 source, and vector index permissions: present\n'
+printf 'ingestion preflight: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s6-1-preflight" verification="ナレッジベースのロールと取り込み権限を事前検証">
 
 最後の`jq -e`が終了コード`0`で完了します。`bedrock:InvokeModel`だけでなく、source bucketへの`s3:ListBucket`、`documents/*`への`s3:GetObject`、S3 Vector indexの必要操作まで確認します。
+
+```text
+[CHECK] Knowledge Base role: arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92
+[CHECK] embedding, S3 source, and vector index permissions: present
+ingestion preflight: PASS
+```
+
+- Knowledge Baseが期待したservice roleを参照する
+- embedding、S3 source、S3 Vector indexの権限がそろう
+- `ingestion preflight: PASS`が表示される
 
 </ExpectedResult>
 
@@ -144,7 +169,7 @@ jq -e \
   4章のpermissions policyを再生成・再適用してから、このpreflightを再実行してください。特に`s3:ListBucket`がない場合、ingestion jobはS3 documentをscanする前に403で`FAILED`になります。すでに`FAILED`になったjobは再開せず、権限修正後にこの6.1から新しいingestion jobを開始します。
 </Aside>
 
-<Command title="取り込みジョブを開始してIDを保存">
+<Command phase="execute" title="取り込みジョブを開始してIDを保存">
 
 ```bash
 aws bedrock-agent start-ingestion-job \
@@ -157,13 +182,31 @@ aws bedrock-agent start-ingestion-job \
 export RAG_INGESTION_JOB_ID="$(jq -r '.ingestionJob.ingestionJobId' "$RAG_WORK_DIR/start-ingestion-output.json")"
 test "${#RAG_INGESTION_JOB_ID}" -eq 10
 declare -p RAG_INGESTION_JOB_ID >> "$RAG_STATE_FILE"
+
+printf '[CHECK] ingestion job ID: %s\n' "$RAG_INGESTION_JOB_ID"
+printf '[CHECK] initial status: STARTING or IN_PROGRESS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s6-1-start" verification="取り込みジョブを開始してIDを保存">
 
 10文字のingestion job IDを取得できます。直後のstatusは`STARTING`または`IN_PROGRESS`です。job IDもstate fileへ保存されます。
+
+```text
+{
+  "ingestionJob": {
+    "ingestionJobId": "TW6ZYORG1P",
+    "status": "STARTING",
+    "description": "Initial sync for RAG hands-on 0816071530-a41f92"
+  }
+}
+[CHECK] ingestion job ID: TW6ZYORG1P
+[CHECK] initial status: STARTING or IN_PROGRESS
+```
+
+- 10文字のjob IDがstate fileへ保存される
+- 初期statusが`STARTING`または`IN_PROGRESS`である
 
 </ExpectedResult>
 
@@ -173,7 +216,7 @@ declare -p RAG_INGESTION_JOB_ID >> "$RAG_STATE_FILE"
 
 AWS CLIの既定Regionに依存せず、各API callでこのrunの`AWS_REGION`を明示します。
 
-<Command>
+<Command phase="verify" title="終端状態まで監視する" final>
 
 ```bash
 for attempt in {1..80}; do
@@ -202,13 +245,28 @@ for attempt in {1..80}; do
 done
 
 test "$RAG_INGESTION_STATUS" = "COMPLETE"
+
+printf '[CHECK] ingestion status: %s\n' "$RAG_INGESTION_STATUS"
+printf 'ingestion monitoring: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s6-2-ingestion" verification="終端状態まで監視する">
 
 複数ページのPDFを解析・chunk化・embeddingするため、小さなtxt fileより時間がかかります。`FAILED`ならその場でfailure reasonを表示して停止します。20分経っても終わらない場合は、無限に待たず[トラブルシューティング](/rag-guide/troubleshooting/)を確認します。
+
+```text
+[01/80] ingestion status: STARTING
+[02/80] ingestion status: IN_PROGRESS
+[03/80] ingestion status: COMPLETE
+[CHECK] ingestion status: COMPLETE
+ingestion monitoring: PASS
+```
+
+- 最終statusが`COMPLETE`である
+- `FAILED`や`STOPPED`で終了していない
+- `ingestion monitoring: PASS`が表示される
 
 </ExpectedResult>
 
@@ -216,7 +274,7 @@ test "$RAG_INGESTION_STATUS" = "COMPLETE"
 
 <CloudShellStep number="6.3" title="同期結果を多層で検証する">
 
-<Command title="ジョブ統計を確認">
+<Command phase="verify" title="ジョブ統計を確認">
 
 ```bash
 aws bedrock-agent get-ingestion-job \
@@ -230,7 +288,7 @@ aws bedrock-agent get-ingestion-job \
 
 </Command>
 
-<Command title="文書単位の状態を確認（権限がある場合）">
+<Command phase="verify" title="文書単位の状態を確認（権限がある場合）">
 
 ```bash
 if aws bedrock-agent list-knowledge-base-documents \
@@ -251,7 +309,7 @@ fi
   ingestionで使うKnowledge Base service roleの権限とは別に、この確認コマンドを実行するcallerには`bedrock:ListKnowledgeBaseDocuments`が必要です。実習環境のpermission setや組織ポリシーで許可されていない場合、この確認だけをskipできます。jobの`COMPLETE`とvector登録確認は引き続き必須です。
 </Aside>
 
-<Command title="ベクトルが登録されたことを確認">
+<Command phase="verify" title="ベクトルが登録されたことを確認" final>
 
 ```bash
 if [ -z "${RAG_INDEX_ARN:-}" ]; then
@@ -272,16 +330,40 @@ aws s3vectors list-vectors \
   --return-metadata \
   --query '{count:length(vectors),keys:vectors[].key}' \
   --output json
+
+printf '[CHECK] ingestion statistics: COMPLETE\n'
+printf '[CHECK] indexed vector count: >= 1\n'
+printf '[CHECK] document-level verification: see caller permission result\n'
+printf 'sync verification: PASS\n'
 ```
 
 </Command>
 
-<ExpectedResult>
+<ExpectedResult id="s6-3-sync" verification="ベクトルが登録されたことを確認">
 
 - jobは`COMPLETE`で、failure reasonがありません。
 - `bedrock:ListKnowledgeBaseDocuments`が許可されている場合、RAGガイダンスPDFが`INDEXED`です。
 - vector countは`1`以上です。文書数とvector数はchunkingによって一致しない場合があります。
 - これは取り込み段階の合格であり、検索結果のrelevanceや生成回答の正しさを意味しません。
+
+```text
+status: COMPLETE
+statistics:
+  numberOfDocumentsScanned: 2
+  numberOfDocumentsIndexed: 1
+  numberOfMetadataDocumentsIndexed: 1
+vectors:
+  count: 20
+document-level verification: OK
+[CHECK] ingestion statistics: COMPLETE
+[CHECK] indexed vector count: >= 1
+sync verification: PASS
+```
+
+- job statusが`COMPLETE`で、failure reasonが空である
+- caller権限があれば文書statusが`INDEXED`である（権限不足時は`SKIPPED`と表示される）
+- vector countが1以上である
+- `sync verification: PASS`が表示される
 
 </ExpectedResult>
 

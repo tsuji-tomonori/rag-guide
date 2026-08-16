@@ -10,7 +10,7 @@ import Command from '../../components/Command.astro';
 
 `manifest.env`を保存した作業directoryを探し、値を復元します。ID類は作成後に追加されていないため、APIから名前で検索して復元します。
 
-<Command>
+<Command phase="prepare" title="作業状態とリソースIDを復元">
 
 ```bash
 export RAG_WORK_DIR="$(find "$HOME" -maxdepth 2 -type f -name manifest.env -printf '%T@ %h\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)"
