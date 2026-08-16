@@ -28,14 +28,17 @@ aws s3vectors create-vector-bucket \
 ```bash
 aws s3vectors get-vector-bucket \
   --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --region "$AWS_REGION" \
   --query 'vectorBucket.{name:vectorBucketName,arn:vectorBucketArn,encryption:encryptionConfiguration.sseType}' \
   --output table
 
 export RAG_VECTOR_BUCKET_ARN="$(aws s3vectors get-vector-bucket \
   --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --region "$AWS_REGION" \
   --query 'vectorBucket.vectorBucketArn' \
   --output text)"
 test "$RAG_VECTOR_BUCKET_ARN" != "None"
+declare -p RAG_VECTOR_BUCKET_ARN >> "$RAG_STATE_FILE"
 ```
 
 </Command>
@@ -74,24 +77,27 @@ aws s3vectors create-index \
 aws s3vectors get-index \
   --vector-bucket-name "$RAG_VECTOR_BUCKET" \
   --index-name "$RAG_INDEX_NAME" \
+  --region "$AWS_REGION" \
   --query 'index.{name:indexName,dataType:dataType,dimension:dimension,distance:distanceMetric,metadata:metadataConfiguration.nonFilterableMetadataKeys,arn:indexArn}' \
   --output table
 
 export RAG_INDEX_ARN="$(aws s3vectors get-index \
   --vector-bucket-name "$RAG_VECTOR_BUCKET" \
   --index-name "$RAG_INDEX_NAME" \
+  --region "$AWS_REGION" \
   --query 'index.indexArn' \
   --output text)"
 
-test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --query 'index.dimension' --output text)" = "1024"
-test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --query 'index.distanceMetric' --output text)" = "cosine"
+test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --region "$AWS_REGION" --query 'index.dimension' --output text)" = "1024"
+test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --region "$AWS_REGION" --query 'index.distanceMetric' --output text)" = "cosine"
+declare -p RAG_INDEX_ARN >> "$RAG_STATE_FILE"
 ```
 
 </Command>
 
 <ExpectedResult>
 
-`float32`、`1024`、`cosine`、2つの`AMAZON_BEDROCK_*` keyとindex ARNが表示され、`test`がエラーなく終了します。
+`float32`、`1024`、`cosine`、2つの`AMAZON_BEDROCK_*` keyとindex ARNが表示され、`test`がエラーなく終了します。取得したARNはstate fileへ追記されるため、CloudShellを開き直しても復元できます。
 
 </ExpectedResult>
 
@@ -105,6 +111,7 @@ test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --query 'index.dist
 
 - vector bucket ARNを`RAG_VECTOR_BUCKET_ARN`へ保存した
 - index ARNを`RAG_INDEX_ARN`へ保存した
+- 両ARNをstate fileへ永続化した
 - indexは`float32 / 1024 / cosine`である
 - non-filterable keyはAWS指定の2 keyである
 

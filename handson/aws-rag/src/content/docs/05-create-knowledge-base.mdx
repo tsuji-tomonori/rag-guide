@@ -9,7 +9,7 @@ import Command from '../../components/Command.astro';
 import ExpectedResult from '../../components/ExpectedResult.astro';
 import Checkpoint from '../../components/Checkpoint.astro';
 
-Knowledge Baseのembedding設定とindex設定を接続します。両方を`1024 / FLOAT32`へ固定し、作成後にAPIからread-backします。
+Knowledge Baseのembedding設定とindex設定を接続します。両方を`1024 / FLOAT32`へ固定し、作成後にAPIからread-backします。作成されたIDはstate fileへ保存し、CloudShell sessionが切り替わっても同じrunを継続できるようにします。
 
 <CloudShellStep number="5.1" title="Knowledge Baseを作成する">
 
@@ -31,29 +31,20 @@ jq -n \
       type:"VECTOR",
       vectorKnowledgeBaseConfiguration:{
         embeddingModelArn:("arn:aws:bedrock:"+$region+"::foundation-model/"+$embedModel),
-        embeddingModelConfiguration:{
-          bedrockEmbeddingModelConfiguration:{
-            dimensions:1024,
-            embeddingDataType:"FLOAT32"
-          }
-        }
+        embeddingModelConfiguration:{bedrockEmbeddingModelConfiguration:{dimensions:1024,embeddingDataType:"FLOAT32"}}
       }
     },
-    storageConfiguration:{
-      type:"S3_VECTORS",
-      s3VectorsConfiguration:{
-        vectorBucketArn:$vectorBucketArn,
-        indexArn:$indexArn
-      }
-    }
+    storageConfiguration:{type:"S3_VECTORS",s3VectorsConfiguration:{vectorBucketArn:$vectorBucketArn,indexArn:$indexArn}}
   }' | tee "$RAG_WORK_DIR/create-kb.json"
 
 aws bedrock-agent create-knowledge-base \
+  --region "$AWS_REGION" \
   --cli-input-json "file://$RAG_WORK_DIR/create-kb.json" \
   | tee "$RAG_WORK_DIR/create-kb-output.json"
 
 export RAG_KB_ID="$(jq -r '.knowledgeBase.knowledgeBaseId' "$RAG_WORK_DIR/create-kb-output.json")"
 test "${#RAG_KB_ID}" -eq 10
+declare -p RAG_KB_ID >> "$RAG_STATE_FILE"
 ```
 
 </Command>
@@ -67,13 +58,14 @@ test "${#RAG_KB_ID}" -eq 10
 ```bash
 for attempt in {1..20}; do
   RAG_KB_STATUS="$(aws bedrock-agent get-knowledge-base \
+    --region "$AWS_REGION" \
     --knowledge-base-id "$RAG_KB_ID" \
     --query 'knowledgeBase.status' \
     --output text)"
   printf 'knowledge base status: %s\n' "$RAG_KB_STATUS"
   case "$RAG_KB_STATUS" in
     ACTIVE) break ;;
-    FAILED) aws bedrock-agent get-knowledge-base --knowledge-base-id "$RAG_KB_ID"; exit 1 ;;
+    FAILED) aws bedrock-agent get-knowledge-base --region "$AWS_REGION" --knowledge-base-id "$RAG_KB_ID"; exit 1 ;;
   esac
   sleep 10
 done
@@ -81,6 +73,7 @@ done
 test "$RAG_KB_STATUS" = "ACTIVE"
 
 aws bedrock-agent get-knowledge-base \
+  --region "$AWS_REGION" \
   --knowledge-base-id "$RAG_KB_ID" \
   --query 'knowledgeBase.{id:knowledgeBaseId,status:status,role:roleArn,type:storageConfiguration.type,index:storageConfiguration.s3VectorsConfiguration.indexArn,dimensions:knowledgeBaseConfiguration.vectorKnowledgeBaseConfiguration.embeddingModelConfiguration.bedrockEmbeddingModelConfiguration.dimensions}' \
   --output table
@@ -111,31 +104,19 @@ jq -n \
     knowledgeBaseId:$kbId,
     name:$name,
     description:"S3 documents for CloudShell RAG hands-on",
-    dataSourceConfiguration:{
-      type:"S3",
-      s3Configuration:{
-        bucketArn:$bucketArn,
-        inclusionPrefixes:["documents/"]
-      }
-    },
+    dataSourceConfiguration:{type:"S3",s3Configuration:{bucketArn:$bucketArn,inclusionPrefixes:["documents/"]}},
     dataDeletionPolicy:"DELETE",
-    vectorIngestionConfiguration:{
-      chunkingConfiguration:{
-        chunkingStrategy:"FIXED_SIZE",
-        fixedSizeChunkingConfiguration:{
-          maxTokens:300,
-          overlapPercentage:10
-        }
-      }
-    }
+    vectorIngestionConfiguration:{chunkingConfiguration:{chunkingStrategy:"FIXED_SIZE",fixedSizeChunkingConfiguration:{maxTokens:300,overlapPercentage:10}}}
   }' | tee "$RAG_WORK_DIR/create-data-source.json"
 
 aws bedrock-agent create-data-source \
+  --region "$AWS_REGION" \
   --cli-input-json "file://$RAG_WORK_DIR/create-data-source.json" \
   | tee "$RAG_WORK_DIR/create-data-source-output.json"
 
 export RAG_DS_ID="$(jq -r '.dataSource.dataSourceId' "$RAG_WORK_DIR/create-data-source-output.json")"
 test "${#RAG_DS_ID}" -eq 10
+declare -p RAG_DS_ID >> "$RAG_STATE_FILE"
 ```
 
 </Command>
@@ -144,6 +125,7 @@ test "${#RAG_DS_ID}" -eq 10
 
 ```bash
 aws bedrock-agent get-data-source \
+  --region "$AWS_REGION" \
   --knowledge-base-id "$RAG_KB_ID" \
   --data-source-id "$RAG_DS_ID" \
   --query 'dataSource.{id:dataSourceId,status:status,type:dataSourceConfiguration.type,bucket:dataSourceConfiguration.s3Configuration.bucketArn,prefixes:dataSourceConfiguration.s3Configuration.inclusionPrefixes,deletion:dataDeletionPolicy,chunking:vectorIngestionConfiguration.chunkingConfiguration}' \
@@ -154,7 +136,7 @@ aws bedrock-agent get-data-source \
 
 <ExpectedResult>
 
-statusは`AVAILABLE`、typeは`S3`、prefixは`documents/`、deletion policyは`DELETE`、chunkingは`FIXED_SIZE / 300 / 10`です。
+statusは`AVAILABLE`、typeは`S3`、prefixは`documents/`、deletion policyは`DELETE`、chunkingは`FIXED_SIZE / 300 / 10`です。`RAG_KB_ID`と`RAG_DS_ID`はstate fileへ保存されています。
 
 </ExpectedResult>
 
@@ -165,6 +147,7 @@ statusは`AVAILABLE`、typeは`S3`、prefixは`documents/`、deletion policyは`
 - Knowledge Baseは`ACTIVE`である
 - embeddingとindexはともに1024次元floatである
 - data sourceは`AVAILABLE`である
+- `RAG_KB_ID`と`RAG_DS_ID`をstate fileへ永続化した
 - S3 prefixは`documents/`だけである
 - data deletion policyは`DELETE`である
 
