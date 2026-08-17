@@ -64,6 +64,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 Knowledge Baseのembedding設定とindex設定を接続します。両方を`1024 / FLOAT32`へ固定し、作成後にAPIからread-backします。作成されたIDはstate fileへ保存し、ターミナルセッションが切り替わっても同じrunを継続できるようにします。
 
+## 手順 5.1. ナレッジベースを作成する
+
 <CliStep number="5.1" title="ナレッジベースを作成する">
 
 <Command phase="prepare" title="Knowledge Baseの作成設定を生成">
@@ -174,6 +176,8 @@ knowledge base verification: PASS
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 5.2. S3データソースを作成する
 
 <CliStep number="5.2" title="S3データソースを作成する">
 

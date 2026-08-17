@@ -57,7 +57,7 @@
   </g>
 
   <rect x="570" y="188" width="955" height="252" rx="18" class="lane"/>
-  <text x="596" y="220" class="lane-title">Batch Layer｜文書取り込み</text>
+  <text x="596" y="220" class="lane-title">バッチ｜文書取り込み</text>
   <text x="596" y="242" class="lane-note">S3の文書をKnowledge Basesで取り込み、Bedrock埋め込みモデルでindex化</text>
 
   <g filter="url(#shadow)">
@@ -105,7 +105,7 @@
   <text x="1242" y="324" class="edge-label">indexへ保存</text>
 
   <rect x="570" y="486" width="955" height="293" rx="18" class="lane"/>
-  <text x="596" y="518" class="lane-title">Real-time Layer｜質問・回答</text>
+  <text x="596" y="518" class="lane-title">リアルタイム｜質問・回答</text>
   <text x="596" y="540" class="lane-note">Knowledge BasesがS3 Vectorsの同じindexを検索し、呼び出し元でEvidence Setを作成</text>
 
   <g filter="url(#shadow)">
@@ -137,17 +137,17 @@
     <text x="1322" y="722" class="mini">モデルアクセスを事前確認</text>
   </g>
 
-  <path d="M330 535 H460 V650 H590" class="edge"/>
+  <path d="M330 535 H470 V620 H590" class="edge"/>
   <text x="344" y="521" class="edge-label">質問</text>
   <path d="M795 650 H855" class="edge"/>
   <text x="797" y="632" class="edge-label">S3 Vectorsへ検索</text>
-  <path d="M590 690 H430 V612 H330" class="edge"/>
+  <path d="M590 690 H410 V600 H330" class="edge"/>
   <text x="348" y="676" class="edge-label">Retrieve response</text>
-  <path d="M330 665 H480 V760 H1280 V650 H1300" class="edge"/>
-  <text x="800" y="748" class="edge-label">Evidence context</text>
+  <path d="M330 665 H370 V780 H1280 V650 H1300" class="edge"/>
+  <text x="800" y="768" class="edge-label">Evidence context</text>
   <path d="M1372 402 V515 H957 V584" class="edge-dashed"/>
   <text x="1120" y="505" class="edge-label">同じindexを参照</text>
-  <path d="M1505 650 H1550 V820 H180 V678" class="edge"/>
+  <path d="M1505 650 H1550 V830 H180 V700" class="edge"/>
   <text x="1510" y="637" class="edge-label">回答</text>
   <text x="42" y="870" class="subtitle">実習で作成する主なリソース：S3 source bucket、S3 Vectors bucket / index、Knowledge Base、data source</text>
 </svg>

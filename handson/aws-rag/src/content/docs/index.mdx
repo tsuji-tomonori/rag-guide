@@ -20,20 +20,24 @@ import BuildProgress from '../../components/BuildProgress.astro';
 <BuildProgress current={0} />
 
 
-<figure class="architecture-figure">
-  <img
-    src="/rag-guide/images/aws-rag-architecture-overview.png"
-    alt="AWS RAGハンズオンの全体構成図"
-  />
-  <figcaption>まず全体構成を確認してから、0. 全体像と進め方へ進みます。</figcaption>
+<figure class="architecture-figure diagram-figure">
+  <a href="/rag-guide/images/aws-rag-physical-architecture.svg" target="_blank" rel="noreferrer">
+    <img
+      src="/rag-guide/images/aws-rag-physical-architecture.svg"
+      alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
+    />
+  </a>
+  <figcaption>物理構成：S3、Knowledge Bases、S3 Vectors、Converseの接続関係です。図をクリックすると拡大表示できます。</figcaption>
 </figure>
 
 <figure class="architecture-figure diagram-figure">
-  <img
-    src="/rag-guide/images/aws-rag-physical-architecture.svg"
-    alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
-  />
-  <figcaption>物理構成：S3、Knowledge Bases、S3 Vectors、Converseの接続関係を先に確認できます。</figcaption>
+  <a href="/rag-guide/images/aws-rag-logical-architecture.svg" target="_blank" rel="noreferrer">
+    <img
+      src="/rag-guide/images/aws-rag-logical-architecture.svg"
+      alt="バッチとリアルタイムの処理、およびAWSリソースの対応を示すAWS RAGの論理構成図"
+    />
+  </a>
+  <figcaption>論理構成：バッチとリアルタイムの処理境界です。図をクリックすると拡大表示できます。</figcaption>
 </figure>
 
 ## このハンズオンで作るもの

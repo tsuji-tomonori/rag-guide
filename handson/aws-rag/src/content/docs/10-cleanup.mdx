@@ -54,6 +54,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
   このページのコマンドは、このハンズオンで作成したAWSリソースを削除します。`RAG_RUN_ID`と各resource名が現在のrunの値であることを必ず確認してください。別の名前へ置き換えないでください。
 </Aside>
 
+## 手順 10.1. 削除対象を固定する
+
 <CliStep number="10.1" title="削除対象を固定する">
 
 <Command phase="prepare" title="削除対象を固定して確認">
@@ -99,6 +101,8 @@ IAM role                BedrockKnowledgeBaseRole-0816071530-a41f92
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 10.2. データソースとナレッジベースを削除する
 
 <CliStep number="10.2" title="データソースとナレッジベースを削除する">
 
@@ -185,6 +189,8 @@ Bedrock deletion: PASS
 
 </CliStep>
 
+## 手順 10.3. S3 Vectorsを削除する
+
 <CliStep number="10.3" title="S3 Vectorsを削除する">
 
 <Command phase="execute" title="S3 Vectorsを削除">
@@ -257,6 +263,8 @@ S3 Vectors deletion: PASS
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 10.4. S3とIAMロールを削除する
 
 <CliStep number="10.4" title="S3とIAMロールを削除する">
 

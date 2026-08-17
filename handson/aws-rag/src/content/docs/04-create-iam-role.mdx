@@ -64,6 +64,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 Knowledge Basesはservice roleを引き受け、S3文書の読み取り、embedding modelの呼び出し、vectorの登録・検索を行います。対象resourceをこのrunで作成したものへ限定します。
 
+## 手順 4.1. 信頼ポリシーを作成する
+
 <CliStep number="4.1" title="信頼ポリシーを作成する">
 
 <Command phase="prepare" title="信頼ポリシーを生成して検証">
@@ -113,6 +115,8 @@ trust policyが表示され、`SourceAccount`と東京リージョンのKnowledg
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 4.2. サービスロールと最小権限ポリシーを作成する
 
 <CliStep number="4.2" title="サービスロールと最小権限ポリシーを作成する">
 
@@ -257,6 +261,8 @@ IAM permission verification: PASS
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 4.3. ベクトルバケットポリシーを設定する
 
 <CliStep number="4.3" title="ベクトルバケットポリシーを設定する">
 

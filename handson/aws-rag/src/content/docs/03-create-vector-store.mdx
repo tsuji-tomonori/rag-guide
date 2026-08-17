@@ -64,6 +64,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 S3 Vectorsにvector bucketとindexを作成します。indexの`dimension`、`distanceMetric`、non-filterable metadata keyは後から変更できないため、Knowledge Baseと接続する前にread-backします。
 
+## 手順 3.1. ベクトルバケットを作成する
+
 <CliStep number="3.1" title="ベクトルバケットを作成する">
 
 <Command phase="execute" title="ベクトルバケットを作成">
@@ -119,6 +121,8 @@ vector bucket名とARNが表示されます。暗号化を明示しない場合�
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 3.2. 1024次元のベクトルインデックスを作成する
 
 <CliStep number="3.2" title="1024次元のベクトルインデックスを作成する">
 
