@@ -58,6 +58,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 数行の自作文書ではなく、AWSが公開している日本語版 **AWSのRAGオプションとアーキテクチャ** PDFを検索対象にします。複数ページにまたがる実文書を使うことで、PDF解析、chunk分割、複数candidateのscoreと本文を実際に観察できます。
 
+## 手順 2.1. AWS公式PDFをcurlで取得する
+
 <CliStep number="2.1" title="AWS公式PDFをcurlで取得する">
 
 AWS Docsの`latest` URLからPDFを取得します。途中で切れたファイルを完成品として扱わないよう、`.part`へ保存してからrenameします。
@@ -102,7 +104,7 @@ sha256sum "$RAG_DOCUMENT_PATH" \
 ```text
 downloaded=6843210 bytes
 content_type=application/pdf
-url=https://docs.aws.amazon.com/ja_jp/wellarchitected/latest/framework/wellarchitected-framework.pdf
+url=https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/retrieval-augmented-generation-options.pdf
 PDF bytes: 6843210
 9f2c...  $HOME/rag-handson-0816071530-a41f92/documents/aws-rag-options-and-architectures.pdf
 ```
@@ -118,6 +120,8 @@ PDF bytes: 6843210
 </Aside>
 
 </CliStep>
+
+## 手順 2.2. 出典メタデータを作成する
 
 <CliStep number="2.2" title="出典メタデータを作成する">
 
@@ -149,7 +153,7 @@ jq -n \
 
 ```bash
 jq -e '
-  .metadataAttributes.category == "framework" and
+  .metadataAttributes.category == "rag-guidance" and
   .metadataAttributes.status == "published" and
   .metadataAttributes.language == "ja" and
   (.metadataAttributes.source_url | startswith("https://docs.aws.amazon.com/"))
@@ -167,11 +171,11 @@ test "$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")" -lt 10240
 ```json
 {
   "metadataAttributes": {
-    "category": "framework",
+    "category": "rag-guidance",
     "status": "published",
     "language": "ja",
-    "source_title": "AWS Well-Architected Framework",
-    "source_url": "https://docs.aws.amazon.com/ja_jp/...",
+    "source_title": "AWSのRAGオプションとアーキテクチャ",
+    "source_url": "https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/retrieval-augmented-generation-options.pdf",
     "retrieved_at": "2026-08-16T12:00:00Z"
   }
 }
@@ -184,6 +188,8 @@ test "$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")" -lt 10240
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 2.3. S3バケットを作成してアップロードする
 
 <CliStep number="2.3" title="S3バケットを作成してアップロードする">
 

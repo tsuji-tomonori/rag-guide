@@ -52,6 +52,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 同期は、PDFのRAG 4ステップのうち「文書をチャンク化・埋め込みしてベクトルデータベースへ取り込む」段階です。成功は「APIが受け付けた」だけでは判定しません。job終端状態、statistics、可能なら文書単位の状態、vector indexを分けて確認します。ここで確認するのは取り込みの成功であり、質問に対する根拠の関連性や回答の正しさは7〜9章で別に判定します。ターミナルセッションが途中で切り替わっても別の受講者のresourceを誤って使わないよう、このrunで保存したIDとARNを復元してから進めます。
 
+## 手順 6.1. 状態と取り込み前提を検証してジョブを開始する
+
 <CliStep number="6.1" title="状態と取り込み前提を検証してジョブを開始する">
 
 ターミナルを開き直した場合は、最初にこのrunのstate fileを読み戻します。
@@ -212,6 +214,8 @@ printf '[CHECK] initial status: STARTING or IN_PROGRESS\n'
 
 </CliStep>
 
+## 手順 6.2. 終端状態まで監視する
+
 <CliStep number="6.2" title="終端状態まで監視する">
 
 AWS CLIの既定Regionに依存せず、各API callでこのrunの`AWS_REGION`を明示します。
@@ -271,6 +275,8 @@ ingestion monitoring: PASS
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 6.3. 同期結果を多層で検証する
 
 <CliStep number="6.3" title="同期結果を多層で検証する">
 

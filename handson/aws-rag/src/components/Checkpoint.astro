@@ -15,7 +15,7 @@ const { title = '次へ進む前のチェック' } = Astro.props;
     <div class="checkpoint-static"><slot /></div>
     <div class="checkpoint-sync" data-checkpoint-sync aria-live="polite">
       <div class="checkpoint-sync-heading">
-        <strong>こうなれば成功と同期したチェック</strong>
+        <strong>各手順の成功条件</strong>
         <span class="checkpoint-progress" data-checkpoint-progress>0 / 0</span>
       </div>
       <ul class="checkpoint-sync-list" data-checkpoint-list></ul>
@@ -80,7 +80,7 @@ const { title = '次へ進む前のチェック' } = Astro.props;
 
   const getCheckpointGroup = (sourceInput: HTMLInputElement) => {
     const sourceResult = sourceInput.closest<HTMLElement>('[data-check-source]');
-    const step = sourceResult?.closest<HTMLElement>('.shell-step');
+    const step = sourceResult?.closest<HTMLElement>('.cli-step');
     const number = step?.dataset.stepNumber?.trim();
     const title = step?.dataset.stepTitle?.trim();
 

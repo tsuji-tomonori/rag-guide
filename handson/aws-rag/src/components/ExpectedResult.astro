@@ -17,9 +17,10 @@ const {
   <div>
     <strong>{title}</strong>
     {verification && (
-      <div class="result-verification">
-        <span>結果確認に対応：</span><code>{verification}</code>
-      </div>
+      <p class="result-perspective">
+        <strong>確認の観点</strong>
+        <span>「{verification}」で、件数・値・状態が期待どおりかを確認します。</span>
+      </p>
     )}
     <div class="result-content"><slot /></div>
   </div>

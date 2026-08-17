@@ -8,16 +8,18 @@ import Command from '../../components/Command.astro';
 
 ## 環境変数が消えた場合
 
-`manifest.env`を保存した作業directoryを探し、値を復元します。ID類は作成後に追加されていないため、APIから名前で検索して復元します。
+`$HOME/.rag-handson-current`から現在のstate fileを読み込みます。ファイルがない場合だけ、最新の`state.env`を探して復元します。
 
 <Command phase="prepare" title="作業状態とリソースIDを復元">
 
 ```bash
-export RAG_WORK_DIR="$(find "$HOME" -maxdepth 2 -type f -name manifest.env -printf '%T@ %h\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)"
-test -n "$RAG_WORK_DIR"
-set -a
-source "$RAG_WORK_DIR/manifest.env"
-set +a
+if test -s "$HOME/.rag-handson-current"; then
+  source "$HOME/.rag-handson-current"
+else
+  export RAG_STATE_FILE="$(find "$HOME" -maxdepth 2 -type f -name state.env -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)"
+  test -n "$RAG_STATE_FILE"
+  source "$RAG_STATE_FILE"
+fi
 
 export RAG_ROLE_ARN="$(aws iam get-role --role-name "$RAG_ROLE_NAME" --query 'Role.Arn' --output text)"
 export RAG_VECTOR_BUCKET_ARN="$(aws s3vectors get-vector-bucket --vector-bucket-name "$RAG_VECTOR_BUCKET" --query 'vectorBucket.vectorBucketArn' --output text)"

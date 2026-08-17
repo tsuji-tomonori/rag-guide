@@ -10,7 +10,7 @@
         <mxCell id="user" value="受講者／呼び出し元&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;質問を送信&lt;br&gt;Retrieve responseから&lt;br&gt;Evidence Setを作成&lt;br&gt;Evidenceをcontextにして&lt;br&gt;Converseを呼び出す&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#5e7e96;fontSize=17;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="30" y="480" width="300" height="220" as="geometry"/>
         </mxCell>
-        <mxCell id="batch" value="Batch Layer｜文書取り込み&lt;br&gt;&lt;font style=&quot;font-size:13px;font-weight:normal&quot;&gt;S3の文書をKnowledge Basesで取り込み、Bedrock埋め込みモデルでindex化&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f2f6f7;strokeColor=#c2d0d8;dashed=0;fontSize=18;fontStyle=1;verticalAlign=top;spacingTop=16;" vertex="1" parent="1">
+        <mxCell id="batch" value="バッチ｜文書取り込み&lt;br&gt;&lt;font style=&quot;font-size:13px;font-weight:normal&quot;&gt;S3の文書をKnowledge Basesで取り込み、Bedrock埋め込みモデルでindex化&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f2f6f7;strokeColor=#c2d0d8;dashed=0;fontSize=18;fontStyle=1;verticalAlign=top;spacingTop=16;" vertex="1" parent="1">
           <mxGeometry x="570" y="188" width="955" height="252" as="geometry"/>
         </mxCell>
         <mxCell id="s3-source" value="Amazon S3&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;source bucket&lt;br&gt;日本語PDF・metadata&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#7aa116;fontSize=17;fontStyle=1;" vertex="1" parent="1">
@@ -25,7 +25,7 @@
         <mxCell id="s3-vectors" value="S3 Vectors&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;vector bucket&lt;br&gt;index：1024 / cosine&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c47f5;fontSize=17;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="1260" y="280" width="225" height="122" as="geometry"/>
         </mxCell>
-        <mxCell id="online" value="Real-time Layer｜質問・回答&lt;br&gt;&lt;font style=&quot;font-size:13px;font-weight:normal&quot;&gt;Knowledge BasesがS3 Vectorsの同じindexを検索し、呼び出し元でEvidence Setを作成&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f2f6f7;strokeColor=#c2d0d8;fontSize=18;fontStyle=1;verticalAlign=top;spacingTop=16;" vertex="1" parent="1">
+        <mxCell id="online" value="リアルタイム｜質問・回答&lt;br&gt;&lt;font style=&quot;font-size:13px;font-weight:normal&quot;&gt;Knowledge BasesがS3 Vectorsの同じindexを検索し、呼び出し元でEvidence Setを作成&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f2f6f7;strokeColor=#c2d0d8;fontSize=18;fontStyle=1;verticalAlign=top;spacingTop=16;" vertex="1" parent="1">
           <mxGeometry x="570" y="486" width="955" height="293" as="geometry"/>
         </mxCell>
         <mxCell id="retrieve" value="Knowledge&lt;br&gt;Bases&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;Retrieve API&lt;br&gt;検索条件・numberOfResults&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#2fa9a1;fontSize=17;fontStyle=1;" vertex="1" parent="1">
@@ -48,20 +48,20 @@
         <mxCell id="edge-embedding" value="embedding生成" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;" edge="1" parent="1" source="knowledge-base-ingestion" target="embedding-model"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="edge-index" value="indexへ保存" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;" edge="1" parent="1" source="embedding-model" target="s3-vectors"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="edge-query" value="質問" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;exitX=1;exitY=0.25;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="user" target="retrieve">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="460" y="535"/><mxPoint x="460" y="650"/></Array></mxGeometry>
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="470" y="535"/><mxPoint x="470" y="620"/></Array></mxGeometry>
         </mxCell>
         <mxCell id="edge-search" value="同じindexを検索" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;" edge="1" parent="1" source="retrieve" target="vector-search"><mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="edge-retrieve-response" value="Retrieve response" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;exitX=0;exitY=0.8;exitPerimeter=1;entryX=1;entryY=0.6;entryPerimeter=1;" edge="1" parent="1" source="retrieve" target="user">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="430" y="690"/><mxPoint x="430" y="612"/></Array></mxGeometry>
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="410" y="690"/><mxPoint x="410" y="600"/></Array></mxGeometry>
         </mxCell>
         <mxCell id="edge-context" value="Evidence context" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;exitX=1;exitY=0.84;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="user" target="converse">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="480" y="665"/><mxPoint x="480" y="760"/><mxPoint x="1280" y="760"/><mxPoint x="1280" y="650"/></Array></mxGeometry>
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="370" y="665"/><mxPoint x="370" y="780"/><mxPoint x="1280" y="780"/><mxPoint x="1280" y="650"/></Array></mxGeometry>
         </mxCell>
         <mxCell id="edge-same-index" value="同じindex" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 7;endArrow=block;strokeColor=#779a8d;strokeWidth=2;exitX=0.5;exitY=1;exitPerimeter=1;entryX=0.5;entryY=0;entryPerimeter=1;" edge="1" parent="1" source="s3-vectors" target="vector-search">
           <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1372" y="515"/><mxPoint x="957" y="515"/></Array></mxGeometry>
         </mxCell>
         <mxCell id="edge-response" value="回答" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#315b7d;strokeWidth=2;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0.73;entryY=1;entryPerimeter=1;" edge="1" parent="1" source="converse" target="user">
-          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1550" y="650"/><mxPoint x="1550" y="820"/><mxPoint x="180" y="820"/><mxPoint x="180" y="678"/></Array></mxGeometry>
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1550" y="650"/><mxPoint x="1550" y="830"/><mxPoint x="180" y="830"/><mxPoint x="180" y="700"/></Array></mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>

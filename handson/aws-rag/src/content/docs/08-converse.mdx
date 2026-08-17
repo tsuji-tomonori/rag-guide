@@ -52,6 +52,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 ここでは`RetrieveAndGenerate`を使わず、PDFの4ステップのうち「リトリーバー」と「ジェネレーター」を明示的に分けます。`Retrieve`で返ったコンテキストを確認してから`Converse`へ渡すため、生成前の重複排除、版の確認、根拠不足判定を追加できます。`RetrieveAndGenerate`は、取得・プロンプト拡張・生成を一つのAPIで行う比較対象です。
 
+## 手順 8.1. 根拠セット付きメッセージを作成する
+
 <CliStep number="8.1" title="根拠セット付きメッセージを作成する">
 
 <Command phase="prepare" title="根拠セット付きメッセージを準備">
@@ -106,6 +108,8 @@ message JSONが表示され、質問、制約、`[E1]`を含むEvidence Setが1�
 
 </CliStep>
 
+## 手順 8.2. Converseを呼び出す
+
 <CliStep number="8.2" title="Converseを呼び出す">
 
 <Command phase="execute" title="Converseを呼び出す">
@@ -129,22 +133,20 @@ jq -r '.output.message.content[] | select(.text) | .text' \
 回答に、PDFのRAG 4ステップ、Knowledge Basesが文書をチャンク化・埋め込みしてベクトルデータベースへ保存する流れ、リトリーバーによる類似度検索、`Retrieve`と`RetrieveAndGenerate`の役割の違いが含まれます。各主張にはEvidence Setに対応する`[E1]`形式のcitationが付き、Evidence Setにない説明を創作していません。
 
 ```text
-AWS Well-Architected Frameworkの柱は次の6つです。
-1. 運用上の優秀性 [E1]
-2. セキュリティ [E1]
-3. 信頼性 [E1]
-4. パフォーマンス効率 [E1]
-5. コスト最適化 [E1]
-6. 持続可能性 [E1]
+RAGは、文書を取り込み [E1]、自然言語の質問を受け取り [E1]、
+類似度検索で関連データを取得し [E2]、クエリと根拠を使って回答を生成します [E2]。
+Knowledge Basesは文書をチャンク化・埋め込みしてベクトルデータベースへ保存します [E1]。
 ```
 
-- 6本の柱が回答に含まれる
+- RAGの4ステップとKnowledge Basesの処理が回答に含まれる
 - 回答に`[E1]`形式のcitationがある
 - Evidence Setにない内容を根拠として追加していない
 
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 8.3. 最低限の引用検査を行う
 
 <CliStep number="8.3" title="最低限の引用検査を行う">
 
@@ -183,7 +185,7 @@ citation validation: PASS
 ```
 
 - `answer.txt`が空でない
-- 必須の柱の語と`[E1]`形式がある
+- RAG 4ステップとKnowledge Basesの語、および`[E1]`形式がある
 - 回答内の全citation IDがEvidence Setに存在する
 - `citation validation: PASS`が表示される
 

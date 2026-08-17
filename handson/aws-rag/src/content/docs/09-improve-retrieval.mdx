@@ -37,7 +37,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
   {
     "resource": "回答生成",
     "setting": "modelArn / maxTokens / temperature / topP",
-    "value": "amazon.nova-lite-v1:0 / 400 / 0.1 / 0.9",
+    "value": "RAG_GENERATION_MODEL_ARN / 400 / 0.1 / 0.9",
     "note": "1章で疎通確認したNova Liteを使います。"
   },
   {
@@ -57,9 +57,11 @@ import ResourceTable from '../../components/ResourceTable.astro';
   9.1の準備、9.2の1回のAPI呼び出し、9.3の結果確認を上から順に実行します。検索と回答生成を細かく制御したい場合は、前の[7. Retrieveで検索](/rag-guide/07-retrieve/)と[8. Converseで回答生成](/rag-guide/08-converse/)の分離型へ戻ります。
 </Aside>
 
+## 手順 9.1. 一撃実行のリクエストを準備する
+
 <CliStep number="9.1" title="一撃実行のリクエストを準備する">
 
-Knowledge Base ID、質問、生成モデル、検索条件を1つのJSONへまとめます。`$search_results$`と`$query$`はKnowledge Baseが検索結果と質問へ置き換えるprompt placeholderです。
+Knowledge Base ID、質問、生成モデル、検索条件を1つのJSONへまとめます。`$search_results$`と`$query$`はKnowledge Baseが検索結果と質問へ置き換え、`$output_format_instructions$`は引用を含む出力形式へ置き換えるprompt placeholderです。
 
 <Command phase="prepare" title="RetrieveAndGenerateの入力を作成">
 
@@ -68,7 +70,7 @@ export RAG_QUESTION="この資料の説明に沿って、RAGの4つのステッ�
 
 jq -n \
   --arg kbId "$RAG_KB_ID" \
-  --arg modelId "$RAG_GENERATION_MODEL_ID" \
+  --arg modelArn "$RAG_GENERATION_MODEL_ARN" \
   --arg question "$RAG_QUESTION" \
   '{
     input:{text:$question},
@@ -76,7 +78,7 @@ jq -n \
       type:"KNOWLEDGE_BASE",
       knowledgeBaseConfiguration:{
         knowledgeBaseId:$kbId,
-        modelArn:$modelId,
+        modelArn:$modelArn,
         retrievalConfiguration:{
           vectorSearchConfiguration:{
             numberOfResults:5,
@@ -96,6 +98,7 @@ jq -n \
               "あなたはAWS公式RAGガイダンスPDFを根拠に回答するアシスタントです。\n" +
               "検索結果に含まれる情報だけを使い、日本語で簡潔に回答してください。\n" +
               "根拠が見つからない場合は、推測せず『根拠不足です』と回答してください。\n\n" +
+              "出力形式:\n$output_format_instructions$\n\n" +
               "検索結果:\n$search_results$\n\n質問:\n$query$"
             )
           }
@@ -108,9 +111,11 @@ jq -e '
   .input.text and
   .retrieveAndGenerateConfiguration.type == "KNOWLEDGE_BASE" and
   (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.knowledgeBaseId | length) > 0 and
+  (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.modelArn | startswith("arn:aws:bedrock:")) and
   .retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.retrievalConfiguration.vectorSearchConfiguration.overrideSearchType == "SEMANTIC" and
   .retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.retrievalConfiguration.vectorSearchConfiguration.numberOfResults == 5 and
-  (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.generationConfiguration.promptTemplate.textPromptTemplate | contains("$search_results$"))
+  (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.generationConfiguration.promptTemplate.textPromptTemplate | contains("$search_results$")) and
+  (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.generationConfiguration.promptTemplate.textPromptTemplate | contains("$output_format_instructions$"))
 ' "$RAG_WORK_DIR/retrieve-and-generate-input.json" >/dev/null
 ```
 
@@ -127,7 +132,7 @@ jq -e '
     "type": "KNOWLEDGE_BASE",
     "knowledgeBaseConfiguration": {
       "knowledgeBaseId": "RQVIZHNFAN",
-      "modelArn": "amazon.nova-lite-v1:0",
+      "modelArn": "arn:aws:bedrock:ap-northeast-1::foundation-model/amazon.nova-lite-v1:0",
       "retrievalConfiguration": {
         "vectorSearchConfiguration": {
           "numberOfResults": 5,
@@ -141,12 +146,15 @@ jq -e '
 
 - `retrieve-and-generate-input.json`が作成される
 - `type`が`KNOWLEDGE_BASE`である
+- `modelArn`がNova Liteのfoundation model ARNである
 - `overrideSearchType`が`SEMANTIC`、`numberOfResults`が`5`である
-- promptに`$search_results$`が含まれる
+- promptに`$search_results$`と`$output_format_instructions$`が含まれる
 
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 9.2. Knowledge Baseで検索と回答生成を一撃実行する
 
 <CliStep number="9.2" title="Knowledge Baseで検索と回答生成を一撃実行する">
 
@@ -199,6 +207,8 @@ HTTP errorがなくJSONが返り、`output.text`、`citations`、`sessionId`が�
 </ExpectedResult>
 
 </CliStep>
+
+## 手順 9.3. 回答とcitationを確認する
 
 <CliStep number="9.3" title="回答とcitationを確認する">
 

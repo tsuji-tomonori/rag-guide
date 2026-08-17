@@ -36,8 +36,6 @@ export default defineConfig({
           label: 'AWS RAG ハンズオン',
           items: [
             { label: '0. 全体像と進め方', link: '/00-overview/' },
-            { label: 'AWSリソースのパラメータシート', link: '/parameters/' },
-            { label: 'ハンズオン費用（1人1回）', link: '/cost/' },
             { label: '1. CLI実行環境を準備', link: '/01-prepare-cli/' },
             { label: '2. AWS公式PDFをS3へ配置', link: '/02-upload-documents/' },
             { label: '3. S3 Vectorsを作成', link: '/03-create-vector-store/' },
@@ -53,6 +51,8 @@ export default defineConfig({
         {
           label: 'リファレンス',
           items: [
+            { label: 'AWSリソースのパラメータシート', link: '/parameters/' },
+            { label: 'ハンズオン費用（1人1回）', link: '/cost/' },
             { label: 'トラブルシューティング', link: '/troubleshooting/' },
             { label: '構成値と公式資料', link: '/reference/' },
           ],

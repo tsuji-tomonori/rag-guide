@@ -53,7 +53,7 @@ import { Aside } from '@astrojs/starlight/components';
 | Nova Lite：RetrieveAndGenerate output | 400 token × $0.000288 / 1,000 token | $0.000115 |
 | **Bedrock小計** |  | **約$0.00342** |
 
-Knowledge Baseの取り込みは、ここでは別の固定料金として二重計上せず、内部で発生するembedding tokenを計上しています。実行する構成は、S3 Vectorsを接続した自前管理のKnowledge Baseです。Managed Knowledge BaseやOpenSearch Serverlessは作成しないため、それらの料金は含みません。
+Knowledge Baseの取り込みは、ここでは別の固定料金として二重計上せず、内部で発生するembedding tokenを計上しています。実行する構成は、S3 Vectorsを接続したカスタマーマネージド型Knowledge Baseです。Managed Knowledge BaseやOpenSearch Serverlessは作成しないため、それらの料金は含みません。
 
 ### 2. Amazon S3 Vectors
 

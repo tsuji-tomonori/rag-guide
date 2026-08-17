@@ -46,6 +46,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 このページではまだAWSリソースを作りません。後続の失敗を早期に見つけるため、認証、リージョン、AWS CLIのservice command、利用モデルを先に確認します。
 
+## 手順 1.1. AWS CLI実行環境を確認する
+
 <CliStep number="1.1" title="AWS CLI実行環境を確認する">
 
 AWS CLIを実行できるターミナルを開き、想定したAWSアカウントへ認証されていることを確認します。認証方式は、AWS CLIの設定済みprofile、IAM Identity Center、環境変数など、利用する実行環境に合わせてください。
@@ -79,6 +81,8 @@ aws sts get-caller-identity --output table
 
 </CliStep>
 
+## 手順 1.2. 共通変数を設定する
+
 <CliStep number="1.2" title="共通変数を設定する">
 
 以降は同じターミナルセッションで作業します。複数人が同じAWS account・Regionで同時に実施しても名前が衝突しにくいよう、UTC時刻に6桁のランダムな16進数を加えたrun IDを使います。また、ターミナルセッションが途中で再作成されても復旧できるよう、環境変数を`$HOME`配下へ保存します。
@@ -103,6 +107,7 @@ export RAG_KB_NAME="rag-handson-kb-${RAG_RUN_ID}"
 export RAG_DS_NAME="rag-handson-s3-${RAG_RUN_ID}"
 export RAG_EMBED_MODEL_ID="amazon.titan-embed-text-v2:0"
 export RAG_GENERATION_MODEL_ID="amazon.nova-lite-v1:0"
+export RAG_GENERATION_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_GENERATION_MODEL_ID}"
 export RAG_DOCUMENT_URL="https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/retrieval-augmented-generation-options.pdf"
 export RAG_DOCUMENT_PATH="$RAG_WORK_DIR/documents/aws-rag-options-and-architectures.pdf"
 
@@ -113,7 +118,7 @@ declare -p \
   RAG_ACCOUNT_ID RAG_RUN_ID RAG_WORK_DIR RAG_STATE_FILE \
   RAG_SOURCE_BUCKET RAG_VECTOR_BUCKET RAG_INDEX_NAME \
   RAG_ROLE_NAME RAG_POLICY_NAME RAG_KB_NAME RAG_DS_NAME \
-  RAG_EMBED_MODEL_ID RAG_GENERATION_MODEL_ID \
+  RAG_EMBED_MODEL_ID RAG_GENERATION_MODEL_ID RAG_GENERATION_MODEL_ARN \
   RAG_DOCUMENT_URL RAG_DOCUMENT_PATH \
   > "$RAG_STATE_FILE"
 
@@ -133,6 +138,7 @@ test -d "$RAG_WORK_DIR/documents"
 test -s "$RAG_STATE_FILE"
 test -s "$HOME/.rag-handson-current"
 [[ "$RAG_DOCUMENT_URL" == https://docs.aws.amazon.com/* ]]
+[[ "$RAG_GENERATION_MODEL_ARN" == "arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_GENERATION_MODEL_ID}" ]]
 printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR"
 ```
 
@@ -151,6 +157,7 @@ work=$HOME/rag-handson-0816071530-a41f92
 - `region=ap-northeast-1`が表示される
 - `run`が`10桁のUTC時刻-6桁hex`形式である
 - state fileと復元用ファイルが空でない
+- 生成モデルARNが東京リージョンのNova Liteを指す
 
 </ExpectedResult>
 
@@ -159,6 +166,8 @@ work=$HOME/rag-handson-0816071530-a41f92
 </Aside>
 
 </CliStep>
+
+## 手順 1.3. CLIとAWSサービスを検証する
 
 <CliStep number="1.3" title="CLIとAWSサービスを検証する">
 
@@ -193,6 +202,8 @@ jq-1.7
 </Aside>
 
 </CliStep>
+
+## 手順 1.4. 利用モデルを検証する
 
 <CliStep number="1.4" title="利用モデルを検証する">
 

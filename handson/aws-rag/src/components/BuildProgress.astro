@@ -21,10 +21,12 @@ const { current } = Astro.props;
 const currentIndex = Math.min(Math.max(current, 0), stages.length - 1);
 const currentStage = stages[currentIndex];
 const nextStage = stages[currentIndex + 1];
-const baseUrl = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-const roadmapSrc = `${baseUrl}images/aws-rag-construction-roadmap.png`;
+const phases = [
+  { label: '構築準備', range: '0〜1' },
+  { label: 'バッチ', range: '2〜6' },
+  { label: 'リアルタイム', range: '7〜9' },
+  { label: '後片付け', range: '10' },
+];
 ---
 
 <section class="build-progress" aria-label="ハンズオンの構築状況">
@@ -41,14 +43,11 @@ const roadmapSrc = `${baseUrl}images/aws-rag-construction-roadmap.png`;
     <span class="build-progress-count">{currentStage.number} / {stages.length - 1}</span>
   </div>
 
-  <figure class="build-progress-figure">
-    <img
-      src={roadmapSrc}
-      alt="AWS RAGハンズオンの0から10までの構築ロードマップ"
-      loading="lazy"
-    />
-    <figcaption>PDF本文の図版デザインに合わせた構築ロードマップです。下の現在地表示で、このページの段階を確認できます。</figcaption>
-  </figure>
+  <div class="build-progress-phases" aria-label="構築フェーズ">
+    {phases.map((phase) => (
+      <span><strong>{phase.label}</strong><small>手順 {phase.range}</small></span>
+    ))}
+  </div>
 
   <ol class="build-progress-steps">
     {stages.map((stage) => (

@@ -17,32 +17,28 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 このハンズオンでは、AWS公式の日本語版RAGガイダンスPDFをAWS CLIから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。7・8では`Retrieve`で候補を取得し、呼び出し元でEvidence Setを整えてから`Converse`へ渡します。9では同じKnowledge Baseに対して`RetrieveAndGenerate`を1回呼び出し、検索から回答生成までを一撃で試します。
 
-<figure class="architecture-figure">
-  <img
-    src="/rag-guide/images/aws-rag-architecture-overview.png"
-    alt="S3 DocumentsからKnowledge Base、S3 Vectors、Retrieve、Evidence Set、Converseを経てAnswerへ進むAWS RAG構成図"
-  />
-  <figcaption>図はImageGen 2.0で作成した全体構成図です。Offline / Indexing、Online / Retrieval、Generationの境界を示しています。</figcaption>
-</figure>
-
 ## AWS構成図
 
-このハンズオンで実際に作成するAWSリソースを、AWSの物理構成とRAGの論理構成に分けて示します。物理構成はDraw.ioの編集元をリポジトリに残し、公開ページではSVGとして読み込みます。
+このハンズオンで作成するAWSリソースを物理構成で、RAGの処理境界を論理構成で示します。
 
 <figure class="architecture-figure diagram-figure">
-  <img
-    src="/rag-guide/images/aws-rag-physical-architecture.svg"
-    alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
-  />
-  <figcaption>物理構成：S3の文書をKnowledge Basesで取り込み、S3 Vectorsを検索し、Amazon Bedrock Converseで回答を生成します。</figcaption>
+  <a href="/rag-guide/images/aws-rag-physical-architecture.svg" target="_blank" rel="noreferrer">
+    <img
+      src="/rag-guide/images/aws-rag-physical-architecture.svg"
+      alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
+    />
+  </a>
+  <figcaption>物理構成：S3の文書をKnowledge Basesで取り込み、S3 Vectorsを検索し、Amazon Bedrock Converseで回答を生成します。図をクリックすると拡大表示できます。</figcaption>
 </figure>
 
 <figure class="architecture-figure diagram-figure">
-  <img
-    src="/rag-guide/images/aws-rag-logical-architecture.svg"
-    alt="Batch LayerとReal-time Layer、およびAWSリソースの対応を示すAWS RAGの論理構成図"
-  />
-  <figcaption>論理構成：Batch LayerとReal-time Layerの各責務を、対応するAWSリソースに結び付けています。</figcaption>
+  <a href="/rag-guide/images/aws-rag-logical-architecture.svg" target="_blank" rel="noreferrer">
+    <img
+      src="/rag-guide/images/aws-rag-logical-architecture.svg"
+      alt="バッチとリアルタイムの処理、およびAWSリソースの対応を示すAWS RAGの論理構成図"
+    />
+  </a>
+  <figcaption>論理構成：バッチとリアルタイムの各責務を、対応するAWSリソースに結び付けています。図をクリックすると拡大表示できます。</figcaption>
 </figure>
 
 <Aside type="note" title="リソースと設定値を先に確認する">
@@ -96,10 +92,9 @@ import ResourceTable from '../../components/ResourceTable.astro';
 <Steps>
 
 1. **準備**：AWS CLIの認証、リージョン、CLI機能、モデルを検証します。
-2. **Offline Layer**：文書、vector store、IAM role、Knowledge Base、data sourceを作成して同期します。
-3. **Online Layer**：`Retrieve`で検索結果を確認し、`RetrieveAndGenerate`で同じKnowledge Baseの一体型実行も試します。
-4. **Generation**：8では取得した根拠だけを`Converse`へ渡し、9ではKnowledge Baseに検索と回答生成を一度に依頼します。
-5. **Cleanup**：作成したリソースを依存順に削除し、残存がないことを確認します。
+2. **バッチ**：文書、vector store、IAM role、Knowledge Base、data sourceを作成して同期します。
+3. **リアルタイム**：`Retrieve`で検索結果を確認し、取得した根拠だけを`Converse`へ渡します。さらに`RetrieveAndGenerate`で一体型の実行も試します。
+4. **後片付け**：作成したリソースを依存順に削除し、残存がないことを確認します。
 
 </Steps>
 
