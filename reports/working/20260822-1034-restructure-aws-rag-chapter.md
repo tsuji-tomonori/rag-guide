@@ -25,7 +25,8 @@
 - `10.5.Generation構成.md`で生成API、model、prompt、推論parameter、Guardrails、citation評価、troubleshooting、片付けを説明した。
 - `序文.md`を5節構成へ更新した。
 - `samples/rag_api.py`へ`retrieve`、`generate`、`both`の実行modeと、任意のBedrock reranker設定を追加した。既定の`both`は従来の一括確認動作を維持する。
-- 内部向け文言、旧節参照、旧10.6、Markdown tableを除去した。
+- 第9章序文から引用件数の再調査・保存手順を削除し、`docs/章構成.md`から内部向けの掲載基準を削除した。
+- 旧節参照、旧10.6、Markdown tableを除去した。
 
 ## 変更成果物
 
@@ -36,6 +37,8 @@
 - `docs/10.AWSで設計・実装する/10.5.Generation構成.md`
 - `docs/10.AWSで設計・実装する/序文.md`
 - `docs/10.AWSで設計・実装する/samples/rag_api.py`
+- `docs/9.失敗パターンに応じて高度化する/序文.md`
+- `docs/章構成.md`
 
 ## 検証結果
 
