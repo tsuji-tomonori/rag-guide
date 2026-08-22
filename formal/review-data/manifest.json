@@ -1,19 +1,19 @@
 {
   "method_version": 2,
-  "canonical_commit": "4c1e458869e03a544d03b3aba0ab8db33cd2cf6b",
-  "generated_from_commit": "4c1e458869e03a544d03b3aba0ab8db33cd2cf6b",
-  "markdown_files": 99,
-  "explanation_states": 356,
+  "canonical_commit": "cf28a88e42bb0534e09a8e32c56f0341328e4f2d",
+  "generated_from_commit": "cf28a88e42bb0534e09a8e32c56f0341328e4f2d",
+  "markdown_files": 100,
+  "explanation_states": 377,
   "chapter_introductions": 11,
-  "numbered_sections": 345,
+  "numbered_sections": 366,
   "technical_elements": 49,
-  "unique_external_sources": 199,
-  "active_external_sources": 185,
-  "inactive_external_sources": 14,
+  "unique_external_sources": 204,
+  "active_external_sources": 175,
+  "inactive_external_sources": 29,
   "source_registry_policy": "append_only_url_identity_with_inactive_tombstones",
-  "source_registry_count": 199,
+  "source_registry_count": 204,
   "resolved_sources": 199,
-  "unresolved_sources": 0,
+  "unresolved_sources": 5,
   "findings": 8,
   "findings_by_severity": {
     "Blocker": 0,
@@ -22,9 +22,9 @@
     "Minor": 1
   },
   "sha256": {
-    "explanation_states.csv": "24ad9c65d000b3f17229276aa1ebfc05b1885282e7d32086691f34538f0a15ed",
-    "technical_elements.csv": "5abb8e1adcb23dc095dc799663399898f34c286e12b0ea000d08a6f7a6f2741b",
-    "primary_sources.csv": "13e4a2eadda3a678a06cf507015f6a76e7661bee0b5c5ae03efe2786f282269a",
+    "explanation_states.csv": "879ca711730d7a715e7b14d78e794a66d2e0cfdeac824537f4b6a4a4377fc9b5",
+    "technical_elements.csv": "69df5a22067187532e953ad1103fcb2df22c76d6355ab9da1814d9c2ef9308cf",
+    "primary_sources.csv": "9e803caa249a34fc3e5ae31b5bfaebd4d358eb7a25036882bb29415e425a978d",
     "findings.csv": "5bece628ad0bd4ff3a0250b50ce9bc16f25c2b1d9353efb7af341003f3090f80"
   }
 }

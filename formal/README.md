@@ -10,16 +10,16 @@
 
 | 項目 | 値 |
 |---|---:|
-| 正本commit | `4c1e458869e03a544d03b3aba0ab8db33cd2cf6b` |
-| Markdownファイル | 99 |
-| 説明状態 | 356 |
+| 正本commit | `cf28a88e42bb0534e09a8e32c56f0341328e4f2d` |
+| Markdownファイル | 100 |
+| 説明状態 | 377 |
 | 章序文 | 11 |
-| 番号付き節 | 345 |
+| 番号付き節 | 366 |
 | 正規化した技術要素 | 49 |
-| 外部資料台帳 | 199 |
-| 現正本で利用中の外部資料 | 185 |
+| 外部資料台帳 | 204 |
+| 現正本で利用中の外部資料 | 175 |
 | 解決済み資料 | 199 |
-| 適格一次資料 | 198/199（99.50%） |
+| 適格一次資料 | 198/204（97.06%） |
 | 要旨・仕様ページを直接検査した一次資料 | 198/198（100%） |
 | 明示的Abstractを直接検査した一次資料 | 128/198（64.65%） |
 | 形式命題の主張極性をcuration済みの公式仕様 | 16/198（8.08%） |
@@ -27,24 +27,25 @@
 | 不変条件 | 25 |
 | 決定的シナリオ | 19 |
 | 指摘 | 8 |
-| 抽出センテンス相当行 | 4,831 |
-| 根拠必須センテンス | 731 |
-| 一次資料対応済み | 423（57.87%） |
-| 厳格直接対応 | 391（53.49%） |
-| 未カバーセンテンス | 308 |
+| 抽出センテンス相当行 | 5,063 |
+| 根拠必須センテンス | 764 |
+| 一次資料対応済み | 415（54.32%） |
+| 厳格直接対応 | 385（50.39%） |
+| 未カバーセンテンス | 349 |
 | 具体技術 | 47 |
 | 一次資料・Lean台帳を持つ具体技術 | 47/47（100%） |
 | Quintで振る舞い契約を検査した中核技術 | 14/47（29.79%） |
-| 制御語彙へ形式化できたセンテンス | 42/731（5.75%） |
-| source atomsからLeanで導出したatom射影 | 40/731（5.47%） |
-| Atom/AND/OR/IMPLIES/NOTへ論理分解できたセンテンス | 676/731（92.48%） |
-| 一次資料候補を割り当てたセンテンス | 731/731（100%） |
-| 文献要旨の形式命題からLeanで条件付き導出した論理式 | 478/731（65.39%） |
-| 含意・否定の関係構造が未証明のセンテンス | 57/731（7.80%） |
+| 制御語彙へ形式化できたセンテンス | 42/764（5.50%） |
+| source atomsからLeanで導出したatom射影 | 40/764（5.24%） |
+| Atom/AND/OR/IMPLIES/NOTへ論理分解できたセンテンス | 688/764（90.05%） |
+| 一次資料候補を割り当てたセンテンス | 764/764（100%） |
+| 文献要旨の形式命題からLeanで条件付き導出した論理式 | 478/764（62.57%） |
+| 含意・否定の関係構造が未証明のセンテンス | 61/764（7.98%） |
 | Issue #35最終判定・独立レビュー | 678/678（100%） |
 | Issue #35本文反映 | 655/655（100%） |
-| 自然言語全文のkernel-certified自動意味論証明 | 0/731（0%） |
-| 経験的結果・実サービス動作の独立真偽確認 | 0/731（0%） |
+| Google Sheets readback | 0/1（新正本commitへの同期待ち） |
+| 自然言語全文のkernel-certified自動意味論証明 | 0/764（0%） |
+| 経験的結果・実サービス動作の独立真偽確認 | 0/764（0%） |
 
 `formal/review-data/manifest.json` は生成元commit、件数、主要CSVのSHA-256を記録します。`tools/formal_review/generate_review_data.py` は正本commitと `docs/` の内容が異なる状態での生成を拒否するため、レビュー対象の取り違えを防ぎます。
 
@@ -77,19 +78,19 @@
 - `formal/review-data/appropriateness_sheet_readback.json`: Sheet readbackのhash・remote revision・正本commit
 - `formal/review-data/appropriateness_post_review_recalculation.json`: 新docs commitでの再計算snapshot
 - `formal/review-data/technical_elements.csv`: 49技術要素と原点候補資料、説明状態、不変条件の対応
-- `formal/review-data/primary_sources.csv`: 199外部資料のURL、題名、著者・管理主体、年、利用節
-- `formal/review-data/explanation_states.csv`: 356説明状態の追跡表
+- `formal/review-data/primary_sources.csv`: 204外部資料のURL、題名、著者・管理主体、年、利用節
+- `formal/review-data/explanation_states.csv`: 377説明状態の追跡表
 - `formal/review-data/findings.csv`: 不適切・曖昧・矛盾表現の指摘
 - `formal/review-data/concrete_technologies.csv`: BM25等47具体技術の機構、一次資料、形式化対応
-- `formal/review-data/trusted_primary_sources.csv`: 199資料の一次性・信頼tier・適格性
-- `formal/review-data/sentence_evidence.csv`: 4,831センテンス相当行の根拠要否・資料対応
-- `formal/review-data/uncovered_sentences.csv`: 一次資料が未対応の308センテンス
+- `formal/review-data/trusted_primary_sources.csv`: 204資料の一次性・信頼tier・適格性
+- `formal/review-data/sentence_evidence.csv`: 5,063センテンス相当行の根拠要否・資料対応
+- `formal/review-data/uncovered_sentences.csv`: 一次資料が未対応の349センテンス
 - `formal/review-data/coverage_summary.csv`: カバレッジ分子・分母・百分率
-- `formal/review-data/semantic_assurance.csv`: 731文のatom形式化、導出、全文意味論、真偽ステータス
+- `formal/review-data/semantic_assurance.csv`: 764文のatom形式化、導出、全文意味論、真偽ステータス
 - `formal/review-data/source_claim_formalizations.csv`: 47具体技術の一次資料命題と77atom
 - `formal/review-data/semantic_assurance_summary.csv`: 意味論・真偽カバレッジ
 - `formal/review-data/literature_source_theorems.csv`: 198適格一次資料の検査状態、形式要旨命題、URL
-- `formal/review-data/sentence_logical_proofs.csv`: 731文の論理分解、候補文献、未支持atom、Lean定理、保証境界
+- `formal/review-data/sentence_logical_proofs.csv`: 764文の論理分解、候補文献、未支持atom、Lean定理、保証境界
 - `formal/review-data/logical_proof_summary.csv`: 文献要旨ベースの論理分解・条件付き証明カバレッジ
 - `formal/quint/invariants.csv`: 25不変条件の正本対応表
 - `formal/quint/scenarios.csv`: 19シナリオと期待結果

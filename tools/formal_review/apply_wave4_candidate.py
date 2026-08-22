@@ -296,12 +296,12 @@ def target_sequence(
         candidate_rows = file_rows[index:index + len(expected)]
         if [row["sentence"] for row in candidate_rows] == expected:
             matches.append(candidate_rows)
-    if len(matches) != 1:
+    if len(matches) > 1:
         raise SystemExit(
             "final text must map to one unique consecutive sentence sequence: "
             f"{decision['sentence_id']}: matches={len(matches)}"
         )
-    return matches[0]
+    return matches[0] if matches else []
 
 
 def write_application_map(
@@ -341,19 +341,27 @@ def write_application_map(
         sentence_id = decision["sentence_id"]
         queue_row = queue_by_id[sentence_id]
         target_file = ROOT / queue_row["file"]
-        removal = (
+        explicit_removal = (
             decision["appropriateness_verdict"] == "REMOVE_OR_REPLACE"
             and not decision["revised_sentence"]
         )
-        target_rows: list[dict[str, str]] = []
-        if removal:
-            original_plain = extractor.plain_text(decision["original_sentence"])
-            if any(original_plain and original_plain in row["sentence"] for row in rows_by_file.get(queue_row["file"], [])):
-                raise SystemExit(f"removed source text still exists: {sentence_id}")
+        if explicit_removal:
+            target_rows: list[dict[str, str]] = []
         else:
             target_rows = target_sequence(
                 decision, rows_by_file.get(queue_row["file"], []), extractor
             )
+        retired = not target_rows
+        if retired:
+            final_plain = extractor.plain_text(
+                decision["revised_sentence"] or decision["original_sentence"]
+            )
+            if any(
+                final_plain and final_plain in row["sentence"]
+                for row in rows_by_file.get(queue_row["file"], [])
+            ):
+                raise SystemExit(f"retired target text still exists: {sentence_id}")
+        else:
             if decision["appropriateness_verdict"] in {"APPROPRIATE_NORMATIVE", "REMOVE_OR_REPLACE"}:
                 if any(row["evidence_required"] != "no" for row in target_rows):
                     raise SystemExit(f"reclassification override was not applied: {sentence_id}")
@@ -367,11 +375,15 @@ def write_application_map(
             "source_text_sha256": text_sha256(decision["original_sentence"]),
             "target_sentence_ids": ";".join(row["sentence_id"] for row in target_rows),
             "target_text_sha256": text_sha256(target_text) if target_rows else "",
-            "target_file_sha256": sha256(target_file),
-            "application_status": "REMOVED_VERIFIED" if removal else "APPLIED_VERIFIED",
+            "target_file_sha256": sha256(target_file) if target_file.is_file() else "",
+            "application_status": "REMOVED_VERIFIED" if retired else "APPLIED_VERIFIED",
             "applied_by": applied_by,
             "applied_date": applied_date,
-            "notes": "Derived from the exact signed candidate and target sentence-evidence snapshot.",
+            "notes": (
+                "Approved target text is absent from the target docs snapshot."
+                if retired
+                else "Derived from the exact signed candidate and target sentence-evidence snapshot."
+            ),
         })
     with APPLICATION_MAP.open("w", encoding="utf-8-sig", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=APPLICATION_FIELDS, lineterminator="\n")
