@@ -1,7 +1,7 @@
 {
   "method_version": 2,
   "authoritative_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "target_docs_commit": "cf28a88e42bb0534e09a8e32c56f0341328e4f2d",
+  "target_docs_commit": "c49b0f7ca1607af13b9906e73361b19155730964",
   "unresolved_sentence_count": 678,
   "decision_count": 678,
   "controlled_projection_sentence_count": 632,
@@ -16,18 +16,18 @@
     "not_proved": "Review verdict correctness, natural-language adequacy, source truth, or production behavior."
   },
   "sha256": {
-    "formal/review-data/appropriateness_review_config.json": "fc1d7b7488d280c1a2f64c755fcbb670efb5dd431627e8d347353aff88934795",
+    "formal/review-data/appropriateness_review_config.json": "081bcbb6c253e937b99f12e541cf99094c11f7a99f93b2d2b79cabac661e5ecb",
     "formal/review-data/appropriateness_review_queue.csv": "a854a00f75236dcc551e298660c9ced415e6a0bf643355a06d1633d58ab1c13b",
     "formal/review-data/appropriateness_review_decisions.csv": "13d99d3339a154ebc1d7d371c6b4525e62b081e42ab6f12f1d6bbdfbb271c3bd",
     "formal/review-data/appropriateness_gold_fixture.csv": "b998aa955d3f088b29a38f326c16820b45e46d96549502a994dedfef647d5a4d",
-    "formal/review-data/appropriateness_review_application_map.csv": "7e38d0f024de042256dde4f559056fc32294c0c3c92cd52d7ba608fecd6579c2",
+    "formal/review-data/appropriateness_review_application_map.csv": "a7fa688bba6929853050f92d20281cb3def09bbd6450a547475be3cf0c8698d5",
     "formal/review-data/appropriateness_relation_evidence.csv": "978a7febd9e03893b65bff9ad5cc2d4d46a1dc9cbf677d5784bdea658e9a9a82",
     "formal/review-data/appropriateness_classification_overrides.csv": "29582690814470fdd50b1b01df1e3305b1cbe4052c30b89369253f559e9f867e",
     "formal/review-data/appropriateness_review_summary.csv": "a3f0599cf3e4c5f08f7c3e1a21280fdd25d82f11b4792f340587348a1f19cdf3",
-    "formal/review-data/appropriateness_sheet_export.csv": "f6e381f576ad9edec0bd6c9ba8a9faab6edda634b852ee553ee8eda837c1e24e",
-    "formal/review-data/appropriateness_sheet_export_manifest.json": "18ba68c115ec57e45d20fae421e948f2dce48da500ceec8ec6f065ae9830ac4f",
+    "formal/review-data/appropriateness_sheet_export.csv": "0206b6361636b4ab6e2ccd198fbdcc78b87b35368542ad04ca9f13157dba2886",
+    "formal/review-data/appropriateness_sheet_export_manifest.json": "461db89a57c6767cb67693bab238a68d0bb9a5253e23d9026ac76a35dc60b363",
     "formal/review-data/appropriateness_sheet_readback.json": "94cac45ea046848b9aa7d5db3499ce2386fc00f0c89eb817e24515e87fb09b2f",
-    "formal/review-data/appropriateness_post_review_recalculation.json": "5c017b5be005133a5109924d3fefb8272dd56ab994007e8a079af6dea239fbf3",
+    "formal/review-data/appropriateness_post_review_recalculation.json": "b2cc2b2a3800085910e4d84e46be4a1553245839e14565ca961000d33fbb7483",
     "formal/lean/RagEvidence/AppropriatenessGenerated.lean": "fe548382bf60b4f4399a085fcda84fc9f615f8216dd9195b9c762f598892ab7a"
   }
 }
