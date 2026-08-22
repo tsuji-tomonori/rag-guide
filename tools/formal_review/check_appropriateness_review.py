@@ -448,6 +448,19 @@ def main() -> int:
         "generic normalized revised_sentence shells remain",
     )
 
+    application_by_id: dict[str, dict[str, str]] = {}
+    for row in applications:
+        sentence_id = row.get("sentence_id", "")
+        require(sentence_id in queue_by_id, f"application row is outside baseline queue: {sentence_id}")
+        require(sentence_id not in application_by_id, f"duplicate application row: {sentence_id}")
+        application_by_id[sentence_id] = row
+    retired_ids = {
+        sentence_id
+        for sentence_id, application in application_by_id.items()
+        if application["application_status"] == "REMOVED_VERIFIED"
+        and not split_values(application["target_sentence_ids"])
+    }
+
     classification_rows = rows(CLASSIFICATION_OVERRIDES)
     classification_by_id: dict[str, dict[str, str]] = {}
     for row in classification_rows:
@@ -457,11 +470,13 @@ def main() -> int:
         classification_by_id[sentence_id] = row
     expected_classification_ids = {
         row["sentence_id"] for row in decisions
-        if row["appropriateness_verdict"] == "APPROPRIATE_NORMATIVE"
+        if row["sentence_id"] not in retired_ids
+        and (
+            row["appropriateness_verdict"] == "APPROPRIATE_NORMATIVE"
         or (
             row["appropriateness_verdict"] == "REMOVE_OR_REPLACE"
             and bool(row["revised_sentence"])
-        )
+        ))
     }
     require(
         set(classification_by_id) == expected_classification_ids,
@@ -485,13 +500,6 @@ def main() -> int:
         require(override["evidence_required"] == "no", f"classification override is not fail-closed to no: {sentence_id}")
         require(override["review_status"] == "FINAL_TWO_REVIEWER_APPROVED", f"classification override lacks final review: {sentence_id}")
 
-    application_by_id: dict[str, dict[str, str]] = {}
-    for row in applications:
-        sentence_id = row.get("sentence_id", "")
-        require(sentence_id in queue_by_id, f"application row is outside baseline queue: {sentence_id}")
-        require(sentence_id not in application_by_id, f"duplicate application row: {sentence_id}")
-        application_by_id[sentence_id] = row
-
     current_sentences = {row["sentence_id"]: row for row in rows("sentence_evidence.csv")}
     actionable = [row for row in decisions if action_required(row)]
     for decision in actionable:
@@ -505,20 +513,28 @@ def main() -> int:
         require(application["source_text_sha256"] == text_sha256(decision["original_sentence"]), f"application source text hash mismatch: {sentence_id}")
         target_file = (ROOT / application["file"]).resolve()
         require(target_file.is_relative_to((ROOT / "docs").resolve()), f"application target escapes docs/: {sentence_id}")
-        require(target_file.is_file(), f"application target file is absent: {sentence_id}")
-        require(application["target_file_sha256"] == file_sha256(target_file), f"application target file hash mismatch: {sentence_id}")
         require(application["applied_by"], f"application without applier: {sentence_id}")
         require_iso_date(application["applied_date"], f"invalid application date: {sentence_id}")
         target_ids = split_values(application["target_sentence_ids"])
-        if decision["appropriateness_verdict"] == "REMOVE_OR_REPLACE" and not target_ids:
+        if target_file.is_file():
+            require(application["target_file_sha256"] == file_sha256(target_file), f"application target file hash mismatch: {sentence_id}")
+        else:
+            require(not target_ids, f"absent application file has target sentence IDs: {sentence_id}")
+            require(application["target_file_sha256"] == "", f"absent application file has a hash: {sentence_id}")
+        if not target_ids:
             require(application["application_status"] == "REMOVED_VERIFIED", f"removal not verified: {sentence_id}")
             current_file_text = normalized_plain_text("".join(
                 row["sentence"] for row in current_sentences.values()
                 if row["file"] == application["file"]
             ))
+            expected_target = decision["revised_sentence"] or decision["original_sentence"]
+            require(
+                normalized_plain_text(expected_target) not in current_file_text,
+                f"retired target text still exists: {sentence_id}",
+            )
             require(
                 normalized_plain_text(decision["original_sentence"]) not in current_file_text,
-                f"removed sentence still exists: {sentence_id}",
+                f"retired original text still exists: {sentence_id}",
             )
         else:
             require(application["application_status"] == "APPLIED_VERIFIED", f"application not verified: {sentence_id}")

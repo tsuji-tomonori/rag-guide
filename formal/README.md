@@ -2,7 +2,7 @@
 
 ## 判定
 
-総合判定は **不合格（残る8指摘は修正後に再レビューが必要）** です。Critical 1件、Major 6件、Minor 1件は未解消ですが、Issue #35 Wave 4の独立監査・本文反映ゲートは完了しました。形式モデルそのものは、元の横断契約に加え、BM25等14件の具体技術契約の型検査、決定的シナリオ、5,000件のランダムトレース、Apalache境界付き検査を通過しました。Lean 4は、センテンス根拠台帳の件数、未カバー集合、一次資料割当、割合計算、40件の制御語彙atom導出、BM25・RRFの記号式性質に加え、478件の「文献要旨の形式命題ならば分解済みguide論理式」という条件付き導出を追加公理なしで検査します。
+総合判定は **不合格（残る8指摘は修正後に再レビューが必要）** です。Critical 1件、Major 6件、Minor 1件は未解消ですが、Issue #35 Wave 4の独立監査・本文反映ゲートは完了しました。形式モデルそのものは、元の横断契約に加え、BM25等14件の具体技術契約の型検査、決定的シナリオ、5,000件のランダムトレース、Apalache境界付き検査を通過しました。Lean 4は、センテンス根拠台帳の件数、未カバー集合、一次資料割当、割合計算、40件の制御語彙atom導出、BM25・RRFの記号式性質に加え、476件の「文献要旨の形式命題ならば分解済みguide論理式」という条件付き導出を追加公理なしで検査します。
 
 この判定は「形式モデルに反例がない」ことと「自然言語の正本が実装可能な一意の契約になっている」ことを分けて扱います。前者は合格、後者は未合格です。
 
@@ -10,41 +10,42 @@
 
 | 項目 | 値 |
 |---|---:|
-| 正本commit | `4c1e458869e03a544d03b3aba0ab8db33cd2cf6b` |
-| Markdownファイル | 99 |
-| 説明状態 | 356 |
+| 正本commit | `cf28a88e42bb0534e09a8e32c56f0341328e4f2d` |
+| Markdownファイル | 100 |
+| 説明状態 | 377 |
 | 章序文 | 11 |
-| 番号付き節 | 345 |
+| 番号付き節 | 366 |
 | 正規化した技術要素 | 49 |
-| 外部資料台帳 | 199 |
-| 現正本で利用中の外部資料 | 185 |
+| 外部資料台帳 | 204 |
+| 現正本で利用中の外部資料 | 175 |
 | 解決済み資料 | 199 |
-| 適格一次資料 | 198/199（99.50%） |
-| 要旨・仕様ページを直接検査した一次資料 | 198/198（100%） |
-| 明示的Abstractを直接検査した一次資料 | 128/198（64.65%） |
-| 形式命題の主張極性をcuration済みの公式仕様 | 16/198（8.08%） |
-| 主張と比較対象・背景言及の区別を要レビュー | 182/198（91.92%） |
+| 適格一次資料 | 203/204（99.51%） |
+| 要旨・仕様ページを直接検査した一次資料 | 203/203（100%） |
+| 明示的Abstractを直接検査した一次資料 | 128/203（63.05%） |
+| 形式命題の主張極性をcuration済みの公式仕様 | 16/203（7.88%） |
+| 主張と比較対象・背景言及の区別を要レビュー | 187/203（92.12%） |
 | 不変条件 | 25 |
 | 決定的シナリオ | 19 |
 | 指摘 | 8 |
-| 抽出センテンス相当行 | 4,831 |
-| 根拠必須センテンス | 731 |
-| 一次資料対応済み | 423（57.87%） |
-| 厳格直接対応 | 391（53.49%） |
-| 未カバーセンテンス | 308 |
+| 抽出センテンス相当行 | 5,063 |
+| 根拠必須センテンス | 764 |
+| 一次資料対応済み | 423（55.37%） |
+| 厳格直接対応 | 390（51.05%） |
+| 未カバーセンテンス | 341 |
 | 具体技術 | 47 |
 | 一次資料・Lean台帳を持つ具体技術 | 47/47（100%） |
 | Quintで振る舞い契約を検査した中核技術 | 14/47（29.79%） |
-| 制御語彙へ形式化できたセンテンス | 42/731（5.75%） |
-| source atomsからLeanで導出したatom射影 | 40/731（5.47%） |
-| Atom/AND/OR/IMPLIES/NOTへ論理分解できたセンテンス | 676/731（92.48%） |
-| 一次資料候補を割り当てたセンテンス | 731/731（100%） |
-| 文献要旨の形式命題からLeanで条件付き導出した論理式 | 478/731（65.39%） |
-| 含意・否定の関係構造が未証明のセンテンス | 57/731（7.80%） |
+| 制御語彙へ形式化できたセンテンス | 42/764（5.50%） |
+| source atomsからLeanで導出したatom射影 | 40/764（5.24%） |
+| Atom/AND/OR/IMPLIES/NOTへ論理分解できたセンテンス | 688/764（90.05%） |
+| 一次資料候補を割り当てたセンテンス | 764/764（100%） |
+| 文献要旨の形式命題からLeanで条件付き導出した論理式 | 476/764（62.30%） |
+| 含意・否定の関係構造が未証明のセンテンス | 61/764（7.98%） |
 | Issue #35最終判定・独立レビュー | 678/678（100%） |
 | Issue #35本文反映 | 655/655（100%） |
-| 自然言語全文のkernel-certified自動意味論証明 | 0/731（0%） |
-| 経験的結果・実サービス動作の独立真偽確認 | 0/731（0%） |
+| Google Sheets readback | 0/1（新正本commitへの同期待ち） |
+| 自然言語全文のkernel-certified自動意味論証明 | 0/764（0%） |
+| 経験的結果・実サービス動作の独立真偽確認 | 0/764（0%） |
 
 `formal/review-data/manifest.json` は生成元commit、件数、主要CSVのSHA-256を記録します。`tools/formal_review/generate_review_data.py` は正本commitと `docs/` の内容が異なる状態での生成を拒否するため、レビュー対象の取り違えを防ぎます。
 
@@ -77,32 +78,32 @@
 - `formal/review-data/appropriateness_sheet_readback.json`: Sheet readbackのhash・remote revision・正本commit
 - `formal/review-data/appropriateness_post_review_recalculation.json`: 新docs commitでの再計算snapshot
 - `formal/review-data/technical_elements.csv`: 49技術要素と原点候補資料、説明状態、不変条件の対応
-- `formal/review-data/primary_sources.csv`: 199外部資料のURL、題名、著者・管理主体、年、利用節
-- `formal/review-data/explanation_states.csv`: 356説明状態の追跡表
+- `formal/review-data/primary_sources.csv`: 204外部資料のURL、題名、著者・管理主体、年、利用節
+- `formal/review-data/explanation_states.csv`: 377説明状態の追跡表
 - `formal/review-data/findings.csv`: 不適切・曖昧・矛盾表現の指摘
 - `formal/review-data/concrete_technologies.csv`: BM25等47具体技術の機構、一次資料、形式化対応
-- `formal/review-data/trusted_primary_sources.csv`: 199資料の一次性・信頼tier・適格性
-- `formal/review-data/sentence_evidence.csv`: 4,831センテンス相当行の根拠要否・資料対応
-- `formal/review-data/uncovered_sentences.csv`: 一次資料が未対応の308センテンス
+- `formal/review-data/trusted_primary_sources.csv`: 204資料の一次性・信頼tier・適格性
+- `formal/review-data/sentence_evidence.csv`: 5,063センテンス相当行の根拠要否・資料対応
+- `formal/review-data/uncovered_sentences.csv`: 一次資料が未対応の341センテンス
 - `formal/review-data/coverage_summary.csv`: カバレッジ分子・分母・百分率
-- `formal/review-data/semantic_assurance.csv`: 731文のatom形式化、導出、全文意味論、真偽ステータス
+- `formal/review-data/semantic_assurance.csv`: 764文のatom形式化、導出、全文意味論、真偽ステータス
 - `formal/review-data/source_claim_formalizations.csv`: 47具体技術の一次資料命題と77atom
 - `formal/review-data/semantic_assurance_summary.csv`: 意味論・真偽カバレッジ
 - `formal/review-data/literature_source_theorems.csv`: 198適格一次資料の検査状態、形式要旨命題、URL
-- `formal/review-data/sentence_logical_proofs.csv`: 731文の論理分解、候補文献、未支持atom、Lean定理、保証境界
+- `formal/review-data/sentence_logical_proofs.csv`: 764文の論理分解、候補文献、未支持atom、Lean定理、保証境界
 - `formal/review-data/logical_proof_summary.csv`: 文献要旨ベースの論理分解・条件付き証明カバレッジ
 - `formal/quint/invariants.csv`: 25不変条件の正本対応表
 - `formal/quint/scenarios.csv`: 19シナリオと期待結果
 - `formal/quint/rag_pipeline.qnt`: 章3〜9を横断する有限状態モデル
 - `formal/quint/retrieval_techniques.qnt`: 14具体技術の機構・pipeline契約
-- `formal/lean/`: 生成台帳、514宣言、13要件のトレーサビリティ
+- `formal/lean/`: 生成台帳、512宣言、13要件のトレーサビリティ
 - `formal/verification/verification-report.md`: 実行条件と検証結果
 - `formal/verification/evidence-verification-report.md`: 具体技術・カバレッジ・Lean検証結果
 - `formal/verification/results.csv`: 機械可読な検証結果
 
 ## 形式化の限界
 
-Quintモデルは、認可、tenant、削除、来歴、時点、根拠十分性、矛盾、grounding、引用、tool実行、release、auditの横断契約と、具体技術の機構を有限状態へ抽象化したものです。Leanは、生成台帳の集合・件数・資料割当・割合、制御文法40件の`guide atoms ⊆ source atoms`、および478件の`source-summary facts → guide formula`を証明します。後者は文献要旨を真理公理として導入せず、任意のvaluationにおける明示的な条件付き含意として証明しています。Wave 4では対象632文の主張極性を二名でレビューしましたが、文献台帳側では論文等182資料の要旨射影について、著者自身の主張と比較対象・背景言及を区別する追加curationが残ります。さらに、日本語・英語からatom・論理式への変換が意味を完全保存することを検査するkernel-certified semantic parserはないため、自然言語全文の自動証明は0件です。論文の実験結果やホストされたサービスの実動作も一次資料の記述だけから真とせず、独立再現・runtime観測は0件として明示します。この境界は`formal/lean/traceability.json`で`INCONCLUSIVE`として追跡します。
+Quintモデルは、認可、tenant、削除、来歴、時点、根拠十分性、矛盾、grounding、引用、tool実行、release、auditの横断契約と、具体技術の機構を有限状態へ抽象化したものです。Leanは、生成台帳の集合・件数・資料割当・割合、制御文法40件の`guide atoms ⊆ source atoms`、および476件の`source-summary facts → guide formula`を証明します。後者は文献要旨を真理公理として導入せず、任意のvaluationにおける明示的な条件付き含意として証明しています。Wave 4では対象632文の主張極性を二名でレビューしましたが、文献台帳側では187資料の要旨射影について、著者自身の主張と比較対象・背景言及を区別する追加curationが残ります。さらに、日本語・英語からatom・論理式への変換が意味を完全保存することを検査するkernel-certified semantic parserはないため、自然言語全文の自動証明は0件です。論文の実験結果やホストされたサービスの実動作も一次資料の記述だけから真とせず、独立再現・runtime観測は0件として明示します。この境界は`formal/lean/traceability.json`で`INCONCLUSIVE`として追跡します。
 
 ## 再生成
 
