@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the two Bedrock APIs used by the minimal four-element RAG lab."""
+"""Run the Bedrock APIs used by the minimal four-element RAG lab."""
 
 from __future__ import annotations
 
@@ -15,7 +15,6 @@ from botocore.exceptions import BotoCoreError, ClientError
 
 REGION = os.getenv("AWS_REGION", "ap-northeast-1")
 KNOWLEDGE_BASE_ID = os.getenv("KB_ID", "")
-NUMBER_OF_RESULTS = 5
 GENERATION_MODEL_ARN = os.getenv(
     "GENERATION_MODEL_ARN",
     (
@@ -23,8 +22,22 @@ GENERATION_MODEL_ARN = os.getenv(
         "anthropic.claude-haiku-4-5-20251001-v1:0"
     ),
 )
+RERANKER_MODEL_ARN = os.getenv("RERANKER_MODEL_ARN", "")
 MAX_QUESTION_CHARACTERS = 1_000
 TEXT_PREVIEW_CHARACTERS = 1_200
+
+
+def env_int(name: str, default: int) -> int:
+    """Read an integer environment variable with a useful error."""
+    raw = os.getenv(name, str(default))
+    try:
+        return int(raw)
+    except ValueError as error:
+        raise SystemExit(f"{name}は整数で指定してください: {raw}") from error
+
+
+NUMBER_OF_RESULTS = env_int("RETRIEVAL_RESULTS", 5)
+NUMBER_OF_RERANKED_RESULTS = env_int("RERANKED_RESULTS", 5)
 
 
 def s3_uri(item: dict[str, Any]) -> str:
@@ -42,6 +55,28 @@ def text_content(item: dict[str, Any]) -> str:
     return text[:TEXT_PREVIEW_CHARACTERS] + "..."
 
 
+def vector_search_configuration() -> dict[str, Any]:
+    """Build the shared retrieval settings, optionally with reranking."""
+    configuration: dict[str, Any] = {
+        "numberOfResults": NUMBER_OF_RESULTS,
+        "overrideSearchType": "SEMANTIC",
+    }
+    if RERANKER_MODEL_ARN:
+        configuration["rerankingConfiguration"] = {
+            "type": "BEDROCK_RERANKING_MODEL",
+            "bedrockRerankingConfiguration": {
+                "numberOfRerankedResults": NUMBER_OF_RERANKED_RESULTS,
+                "modelConfiguration": {
+                    "modelArn": RERANKER_MODEL_ARN,
+                },
+                "metadataConfiguration": {
+                    "selectionMode": "ALL",
+                },
+            },
+        }
+    return configuration
+
+
 def retrieve(
     client: Any, question: str
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -50,10 +85,7 @@ def retrieve(
         knowledgeBaseId=KNOWLEDGE_BASE_ID,
         retrievalQuery={"text": question},
         retrievalConfiguration={
-            "vectorSearchConfiguration": {
-                "numberOfResults": NUMBER_OF_RESULTS,
-                "overrideSearchType": "SEMANTIC",
-            }
+            "vectorSearchConfiguration": vector_search_configuration()
         },
     )
     raw_results = response.get("retrievalResults", [])
@@ -68,6 +100,10 @@ def retrieve(
     ]
     summary = {
         "requested_results": NUMBER_OF_RESULTS,
+        "reranker_enabled": bool(RERANKER_MODEL_ARN),
+        "reranked_results": (
+            NUMBER_OF_RERANKED_RESULTS if RERANKER_MODEL_ARN else None
+        ),
         "returned_results": len(results),
         "results": results,
     }
@@ -112,10 +148,7 @@ def retrieve_and_generate(client: Any, question: str) -> dict[str, Any]:
                 "knowledgeBaseId": KNOWLEDGE_BASE_ID,
                 "modelArn": GENERATION_MODEL_ARN,
                 "retrievalConfiguration": {
-                    "vectorSearchConfiguration": {
-                        "numberOfResults": NUMBER_OF_RESULTS,
-                        "overrideSearchType": "SEMANTIC",
-                    }
+                    "vectorSearchConfiguration": vector_search_configuration()
                 },
             },
         },
@@ -140,29 +173,47 @@ def validate(question: str) -> None:
         raise SystemExit(
             f"質問は{MAX_QUESTION_CHARACTERS}文字以内にしてください。"
         )
+    if not 1 <= NUMBER_OF_RESULTS <= 100:
+        raise SystemExit("RETRIEVAL_RESULTSは1から100で指定してください。")
+    if RERANKER_MODEL_ARN and not (
+        1 <= NUMBER_OF_RERANKED_RESULTS <= NUMBER_OF_RESULTS
+    ):
+        raise SystemExit(
+            "RERANKED_RESULTSは1以上かつRETRIEVAL_RESULTS以下にしてください。"
+        )
 
 
 def parse_args() -> argparse.Namespace:
-    """Parse the one required question argument."""
+    """Parse the API mode and required question."""
     parser = argparse.ArgumentParser(
         description=(
             "Retrieveで順位を確認し、RetrieveAndGenerateで回答を取得します。"
         )
+    )
+    parser.add_argument(
+        "--mode",
+        choices=("retrieve", "generate", "both"),
+        default="both",
+        help="実行する工程。既定値はboth。",
     )
     parser.add_argument("question", help="Knowledge Baseへ送る一つの質問")
     return parser.parse_args()
 
 
 def main() -> None:
-    """Run both API calls and print one machine-readable JSON document."""
+    """Run the selected API calls and print one machine-readable document."""
     args = parse_args()
     question = args.question.strip()
     validate(question)
 
     client = boto3.client("bedrock-agent-runtime", region_name=REGION)
     try:
-        _, retrieval = retrieve(client, question)
-        generation = retrieve_and_generate(client, question)
+        retrieval = None
+        generation = None
+        if args.mode in {"retrieve", "both"}:
+            _, retrieval = retrieve(client, question)
+        if args.mode in {"generate", "both"}:
+            generation = retrieve_and_generate(client, question)
     except (BotoCoreError, ClientError) as error:
         if isinstance(error, ClientError):
             details = error.response.get("Error", {})
@@ -185,9 +236,12 @@ def main() -> None:
         "aws_region": REGION,
         "knowledge_base_id": KNOWLEDGE_BASE_ID,
         "question": question,
-        "retrieval": retrieval,
-        "generation": generation,
+        "mode": args.mode,
     }
+    if retrieval is not None:
+        output["retrieval"] = retrieval
+    if generation is not None:
+        output["generation"] = generation
     print(json.dumps(output, ensure_ascii=False, indent=2))
 
 
