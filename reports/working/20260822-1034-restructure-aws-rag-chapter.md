@@ -27,6 +27,7 @@
 - `samples/rag_api.py`へ`retrieve`、`generate`、`both`の実行modeと、任意のBedrock reranker設定を追加した。既定の`both`は従来の一括確認動作を維持する。
 - 第9章序文から引用件数の再調査・保存手順を削除し、`docs/章構成.md`から内部向けの掲載基準を削除した。
 - 旧節参照、旧10.6、Markdown tableを除去した。
+- 最新`main`の印刷規約に合わせて番号付き見出しとコード行長を調整し、`docs/索引.md`と`docs/章構成.md`の第10章参照を5節構成へ更新した。
 
 ## 変更成果物
 
@@ -39,6 +40,7 @@
 - `docs/10.AWSで設計・実装する/samples/rag_api.py`
 - `docs/9.失敗パターンに応じて高度化する/序文.md`
 - `docs/章構成.md`
+- `docs/索引.md`
 
 ## 検証結果
 
@@ -46,7 +48,7 @@
 - `pre-commit run --files <changed-files>`: 全hook成功。
 - `PYTHONDONTWRITEBYTECODE=1 python3 docs/10.AWSで設計・実装する/samples/rag_api.py --help`: 成功。3 modeを確認。
 - botocore serializer: rerankerを含む`Retrieve`と`RetrieveAndGenerate`のrequest shapeを検証し成功。
-- `make -C print`: 成功。278ページのPDFを生成。
+- `make -C print`: 最新`main`を親とする最終treeで成功。259ページのPDFを生成。
 - `rg`による確認: 第10章のMarkdown table、旧節名、旧10.6参照、内部向け文言はいずれも0件。
 - LaTeX log: overfull/underfullはいずれも0件。
 - PDF目視確認: 10.1〜10.5の見出し、改ページ、コード例、箇条書きの可読性を確認。

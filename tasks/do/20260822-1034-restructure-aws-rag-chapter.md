@@ -23,6 +23,7 @@
 - `docs/10.AWSで設計・実装する/samples/rag_api.py`
 - `docs/9.失敗パターンに応じて高度化する/序文.md`
 - `docs/章構成.md`
+- `docs/索引.md`
 - 第10章のPDF生成結果
 
 対象外:
