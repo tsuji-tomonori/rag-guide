@@ -1,9 +1,9 @@
 {
   "spreadsheet_id": "1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM",
   "sheet_title": "論理未証明",
-  "authoritative_docs_commit": "cf28a88e42bb0534e09a8e32c56f0341328e4f2d",
+  "authoritative_docs_commit": "c49b0f7ca1607af13b9906e73361b19155730964",
   "row_count": 678,
   "column_count": 22,
-  "export_sha256": "f6e381f576ad9edec0bd6c9ba8a9faab6edda634b852ee553ee8eda837c1e24e",
+  "export_sha256": "0206b6361636b4ab6e2ccd198fbdcc78b87b35368542ad04ca9f13157dba2886",
   "sync_direction": "repository_csv_to_google_sheets_one_way"
 }

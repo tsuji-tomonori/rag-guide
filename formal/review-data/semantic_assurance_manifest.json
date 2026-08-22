@@ -1,7 +1,7 @@
 {
   "method_version": 2,
-  "authoritative_commit": "cf28a88e42bb0534e09a8e32c56f0341328e4f2d",
-  "required_sentences": 764,
+  "authoritative_commit": "c49b0f7ca1607af13b9906e73361b19155730964",
+  "required_sentences": 883,
   "controlled_formalizations": 42,
   "relative_entailments_proved": 40,
   "contract_rejections": 2,
@@ -14,12 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "5eb5c096d575af78c0d0c14eb9f0b93db59516800e1e0563cb9bd6e3589833b5",
-    "formal/review-data/sentence_evidence.csv": "fc6c1795cd70524790e22f654e3eaa23ebf5d6ae63f241c5332c22b71a4f3516",
-    "formal/review-data/concrete_technologies.csv": "c5dd037c70e8f9af1f8bee0809dfaa0123401619d1dab0cb5d15af370b5a6239",
-    "formal/review-data/semantic_assurance.csv": "f8b1d1ea4ef15de94822954929243ebbeec1d21e35ba6f2f5cf3f80a6b844caa",
+    "formal/review-data/coverage_manifest.json": "c618ba3eb537bc9cfd438ee68b5a2f5311c9e57dc83a1260bff21d4c5e45f54c",
+    "formal/review-data/sentence_evidence.csv": "a7d5ade66c95894b8dad11e1f86ab81a601c820d28aae6c75bef98c14482feb4",
+    "formal/review-data/concrete_technologies.csv": "be3f96fe2389b42ccc1ee3d9b1bb55ce7b4bb12cb914b6e028dc212c825300ee",
+    "formal/review-data/semantic_assurance.csv": "94566813e31472e2173c20e11eb8f3fc2945b239bed9eab8b9314c4173d7f815",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "7af5e6b60fe91245266b79755c616cc6c8e213ea93c1750cb05d03fbdf20f2a5",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "0db89741bb4323dc5b9e133c51664b8d30ef4733279e774976644127bb6fe0e5"
+    "formal/review-data/semantic_assurance_summary.csv": "12b5a69627012130cdd0cdc6a647a8ea6d61c477b02d8bb809e55cd3773b23dc",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "1c3a6cd709afbbd28fb88d4fd9ddbb8fe48108be6a2d26d698eca41229ef4e40"
   }
 }
