@@ -85,4 +85,10 @@
 
 ## 状態
 
-`doing`
+`done`
+
+## Pull Request
+
+- PR: https://github.com/tsuji-tomonori/rag-guide/pull/55
+- 受け入れ条件確認コメント: https://github.com/tsuji-tomonori/rag-guide/pull/55#issuecomment-5377234682
+- セルフレビューコメント: https://github.com/tsuji-tomonori/rag-guide/pull/55#issuecomment-5377235057
