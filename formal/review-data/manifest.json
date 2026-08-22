@@ -12,8 +12,8 @@
   "inactive_external_sources": 29,
   "source_registry_policy": "append_only_url_identity_with_inactive_tombstones",
   "source_registry_count": 204,
-  "resolved_sources": 199,
-  "unresolved_sources": 5,
+  "resolved_sources": 204,
+  "unresolved_sources": 0,
   "findings": 8,
   "findings_by_severity": {
     "Blocker": 0,
@@ -24,7 +24,7 @@
   "sha256": {
     "explanation_states.csv": "879ca711730d7a715e7b14d78e794a66d2e0cfdeac824537f4b6a4a4377fc9b5",
     "technical_elements.csv": "69df5a22067187532e953ad1103fcb2df22c76d6355ab9da1814d9c2ef9308cf",
-    "primary_sources.csv": "9e803caa249a34fc3e5ae31b5bfaebd4d358eb7a25036882bb29415e425a978d",
+    "primary_sources.csv": "ce5e73cf85d7b13144de97df850446ff854096b4cbee8647d8224a65075fed21",
     "findings.csv": "5bece628ad0bd4ff3a0250b50ce9bc16f25c2b1d9353efb7af341003f3090f80"
   }
 }

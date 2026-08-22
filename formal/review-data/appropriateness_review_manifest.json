@@ -27,7 +27,7 @@
     "formal/review-data/appropriateness_sheet_export.csv": "f6e381f576ad9edec0bd6c9ba8a9faab6edda634b852ee553ee8eda837c1e24e",
     "formal/review-data/appropriateness_sheet_export_manifest.json": "18ba68c115ec57e45d20fae421e948f2dce48da500ceec8ec6f065ae9830ac4f",
     "formal/review-data/appropriateness_sheet_readback.json": "94cac45ea046848b9aa7d5db3499ce2386fc00f0c89eb817e24515e87fb09b2f",
-    "formal/review-data/appropriateness_post_review_recalculation.json": "af8a30a491d8771fb7c5898709d23b13f2728b0d0a3570efd21a71bb0138aa81",
+    "formal/review-data/appropriateness_post_review_recalculation.json": "5c017b5be005133a5109924d3fefb8272dd56ab994007e8a079af6dea239fbf3",
     "formal/lean/RagEvidence/AppropriatenessGenerated.lean": "fe548382bf60b4f4399a085fcda84fc9f615f8216dd9195b9c762f598892ab7a"
   }
 }

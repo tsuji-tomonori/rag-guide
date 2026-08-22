@@ -14,12 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "c4b83e39c0bada940045670e9e428bfead4ebd5cc31d596de94b05ae1762f89b",
-    "formal/review-data/sentence_evidence.csv": "3247b133a8a528d3926726e92c2d952468c18803434b24bf8a445ea4b1091211",
+    "formal/review-data/coverage_manifest.json": "5eb5c096d575af78c0d0c14eb9f0b93db59516800e1e0563cb9bd6e3589833b5",
+    "formal/review-data/sentence_evidence.csv": "fc6c1795cd70524790e22f654e3eaa23ebf5d6ae63f241c5332c22b71a4f3516",
     "formal/review-data/concrete_technologies.csv": "c5dd037c70e8f9af1f8bee0809dfaa0123401619d1dab0cb5d15af370b5a6239",
-    "formal/review-data/semantic_assurance.csv": "27e707a293a1cd6f25b9fc449919dedb3a6cfcaf215c937f31e865c687130b24",
+    "formal/review-data/semantic_assurance.csv": "f8b1d1ea4ef15de94822954929243ebbeec1d21e35ba6f2f5cf3f80a6b844caa",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "7d1791c1f2c28dc18719054d7bd5e6275d4658be31a1d1192312f542854471fd",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "8b0d6b34bd5c3bcb123e51bde41c783b40d0affcf4e3b8a71ab2d2ac7b8e759c"
+    "formal/review-data/semantic_assurance_summary.csv": "7af5e6b60fe91245266b79755c616cc6c8e213ea93c1750cb05d03fbdf20f2a5",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "0db89741bb4323dc5b9e133c51664b8d30ef4733279e774976644127bb6fe0e5"
   }
 }

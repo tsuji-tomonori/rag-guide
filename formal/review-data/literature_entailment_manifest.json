@@ -1,11 +1,11 @@
 {
   "method_version": 2,
   "authoritative_commit": "cf28a88e42bb0534e09a8e32c56f0341328e4f2d",
-  "primary_sources": 198,
+  "primary_sources": 203,
   "required_sentences": 764,
   "formalized_sentences": 688,
   "sourced_sentences": 764,
-  "conditional_logical_proofs": 478,
+  "conditional_logical_proofs": 476,
   "end_to_end_proofs": 0,
   "source_projections_claim_polarity_reviewed": 16,
   "curated_official_sources": 16,
@@ -16,15 +16,15 @@
     "anti_circularity": "Source summaries are explicit theorem premises, not custom Lean axioms and not copied from guide sentences."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "c4b83e39c0bada940045670e9e428bfead4ebd5cc31d596de94b05ae1762f89b",
-    "formal/review-data/semantic_assurance_manifest.json": "e3cfd1abc05c5a80f56375eb334b2d01456b07a44a1472b0e1413c42680134e9",
-    "formal/review-data/sentence_evidence.csv": "3247b133a8a528d3926726e92c2d952468c18803434b24bf8a445ea4b1091211",
-    "formal/review-data/trusted_primary_sources.csv": "a7cae78d54817dc298052a8940239e5715d651ec8528643fab373bb660719db9",
-    "formal/review-data/source_summary_formalizations.csv": "72291c138acd00bb09509ad1369b243f1402682d1c30b316dc262521de5b8135",
-    "formal/review-data/literature_source_theorems.csv": "c7fad79bac1163cb5243d881a815b9ad4b9bf50d9985d1b7b93b8a442f5e203b",
-    "formal/review-data/sentence_logical_proofs.csv": "05c271b19cd1a1c54107dc9d2f9965c71a8ffd0fd3d8027ed243beecf894ac34",
-    "formal/review-data/logical_proof_summary.csv": "016661ce969f203f285419183bcb17a66b5773f14033010908717cadcc117ee3",
-    "formal/lean/RagEvidence/LiteratureGenerated.lean": "59020ab051789c41b884cd867bacb6dc382d22af0f4d76808b65000f68e76da8",
-    "formal/lean/RagEvidence/LiteratureProofs.lean": "0df30a7066a6ca27822be3955aa8a2fb8980a98d644edde7310117c8eebb6ade"
+    "formal/review-data/coverage_manifest.json": "5eb5c096d575af78c0d0c14eb9f0b93db59516800e1e0563cb9bd6e3589833b5",
+    "formal/review-data/semantic_assurance_manifest.json": "4978f57fce7a936f3666719be9bbc503d08282513f931d1d59d6b18c83c7b806",
+    "formal/review-data/sentence_evidence.csv": "fc6c1795cd70524790e22f654e3eaa23ebf5d6ae63f241c5332c22b71a4f3516",
+    "formal/review-data/trusted_primary_sources.csv": "6c58a16907e8a7dbc72ad6cddfc9011904c7b057130e6e76902ac8e9bfeab844",
+    "formal/review-data/source_summary_formalizations.csv": "195c5ae87ece33ec99c9e7f3c39489537b412db5599403a383c0abc520893f2d",
+    "formal/review-data/literature_source_theorems.csv": "72814181694ecff09c8b05d393fbc3ea8382e61ea2667f4b43b0e8d31aca5f8e",
+    "formal/review-data/sentence_logical_proofs.csv": "4a64bade0ab02399bd0bb11ccfd93e97a95ec1aaebf12c9928ab84474e254cbb",
+    "formal/review-data/logical_proof_summary.csv": "88caf30444372cbafbe47a7b92d2272cac67cc2738995444d29a3e2ffd0d137a",
+    "formal/lean/RagEvidence/LiteratureGenerated.lean": "fbb9a0135c9819f560aa749e5705e1045b9e95f5840d5514b2dc77f8e68c9a2f",
+    "formal/lean/RagEvidence/LiteratureProofs.lean": "6e99ac9ead473bc5629e124c0c9896b60e6cf704bf94013c30a81e869d2b7ba1"
   }
 }

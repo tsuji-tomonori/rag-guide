@@ -68,8 +68,8 @@ def sentenceLedger : List EvidenceRow := [
   { id := 244, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 249, trustedPrimary := true, direct := false, sourceCount := 1 },
   { id := 250, trustedPrimary := true, direct := true, sourceCount := 1 },
-  { id := 261, trustedPrimary := false, direct := false, sourceCount := 0 },
-  { id := 263, trustedPrimary := false, direct := false, sourceCount := 0 },
+  { id := 261, trustedPrimary := true, direct := false, sourceCount := 1 },
+  { id := 263, trustedPrimary := true, direct := true, sourceCount := 1 },
   { id := 264, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 265, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 272, trustedPrimary := false, direct := false, sourceCount := 0 },
@@ -79,9 +79,9 @@ def sentenceLedger : List EvidenceRow := [
   { id := 297, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 299, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 302, trustedPrimary := false, direct := false, sourceCount := 0 },
-  { id := 309, trustedPrimary := false, direct := false, sourceCount := 0 },
-  { id := 310, trustedPrimary := false, direct := false, sourceCount := 0 },
-  { id := 311, trustedPrimary := false, direct := false, sourceCount := 0 },
+  { id := 309, trustedPrimary := true, direct := false, sourceCount := 1 },
+  { id := 310, trustedPrimary := true, direct := false, sourceCount := 1 },
+  { id := 311, trustedPrimary := true, direct := true, sourceCount := 1 },
   { id := 312, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 363, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 364, trustedPrimary := false, direct := false, sourceCount := 0 },
@@ -89,7 +89,7 @@ def sentenceLedger : List EvidenceRow := [
   { id := 382, trustedPrimary := true, direct := true, sourceCount := 1 },
   { id := 385, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 391, trustedPrimary := false, direct := false, sourceCount := 0 },
-  { id := 398, trustedPrimary := false, direct := false, sourceCount := 0 },
+  { id := 398, trustedPrimary := true, direct := true, sourceCount := 1 },
   { id := 426, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 447, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 448, trustedPrimary := false, direct := false, sourceCount := 0 },
@@ -101,8 +101,8 @@ def sentenceLedger : List EvidenceRow := [
   { id := 464, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 465, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 466, trustedPrimary := false, direct := false, sourceCount := 0 },
-  { id := 477, trustedPrimary := false, direct := false, sourceCount := 0 },
-  { id := 487, trustedPrimary := false, direct := false, sourceCount := 0 },
+  { id := 477, trustedPrimary := true, direct := true, sourceCount := 1 },
+  { id := 487, trustedPrimary := true, direct := true, sourceCount := 1 },
   { id := 507, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 515, trustedPrimary := false, direct := false, sourceCount := 0 },
   { id := 520, trustedPrimary := false, direct := false, sourceCount := 0 },
@@ -835,12 +835,12 @@ def techniqueLedger : List TechniqueRow := [
   { id := 47, concrete := true, trustedSourceCount := 1, quintModeled := false }
 ]
 
-def reportedUncovered : List Nat := [51, 75, 76, 84, 87, 106, 108, 110, 113, 114, 117, 119, 131, 134, 136, 139, 140, 144, 151, 155, 185, 196, 198, 200, 204, 219, 226, 231, 235, 240, 241, 243, 244, 261, 263, 264, 265, 272, 292, 293, 295, 297, 299, 302, 309, 310, 311, 312, 363, 364, 366, 385, 391, 398, 426, 447, 448, 450, 452, 456, 459, 460, 464, 465, 466, 477, 487, 507, 515, 520, 528, 529, 537, 542, 543, 548, 550, 556, 592, 601, 602, 603, 605, 606, 612, 629, 630, 631, 633, 634, 635, 640, 646, 649, 650, 651, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 683, 799, 800, 807, 809, 818, 849, 855, 871, 1044, 1069, 1103, 1188, 1216, 1217, 1261, 1265, 1273, 1274, 1278, 1288, 1292, 1312, 1393, 1399, 1403, 1406, 1447, 1451, 1462, 1463, 1470, 1472, 1486, 1502, 1512, 1514, 1519, 1532, 1533, 1539, 1541, 1546, 1549, 1550, 1551, 1559, 1560, 1609, 1620, 1625, 1629, 1653, 1656, 1665, 1671, 1692, 1709, 1721, 1724, 1730, 1743, 1746, 1768, 1836, 1837, 1864, 1865, 1893, 1951, 1953, 1958, 1964, 1982, 1995, 1998, 2038, 2046, 2049, 2054, 2055, 2060, 2061, 2074, 2089, 2090, 2095, 2096, 2103, 2105, 2107, 2108, 2110, 2120, 2137, 2143, 2153, 2160, 2168, 2172, 2175, 2184, 2195, 2198, 2201, 2213, 2226, 2231, 2235, 2239, 2241, 2243, 2255, 2261, 2281, 2295, 2299, 2337, 2378, 2382, 2440, 2449, 2474, 2484, 2485, 2497, 2500, 2501, 2502, 2520, 2532, 2533, 2538, 2555, 2577, 2596, 2609, 2625, 2709, 2840, 2884, 2885, 2939, 2941, 3005, 3120, 3126, 3142, 3148, 3154, 3156, 3200, 3217, 3230, 3235, 3236, 3247, 3250, 3296, 3347, 3359, 3362, 3364, 3369, 3394, 3404, 3415, 3417, 3419, 3420, 3423, 3488, 3541, 3637, 3655, 3658, 3708, 3720, 3725, 3753, 3760, 3774, 3781, 3782, 3786, 3792, 3818, 3848, 3859, 3860, 3866, 3897, 3906, 3907, 3912, 3947, 4031, 4044, 4089, 4178, 4182, 4213, 4276, 4286, 4302, 4304, 4309, 4365, 4374, 4386, 4394, 4401, 4407, 4450, 4581, 4641, 4652, 4653, 4674, 4693, 4713, 4723, 4761, 4768, 4770, 4778, 4798, 4836, 4868, 4874, 4876, 4963, 4972, 4974]
+def reportedUncovered : List Nat := [51, 75, 76, 84, 87, 106, 108, 110, 113, 114, 117, 119, 131, 134, 136, 139, 140, 144, 151, 155, 185, 196, 198, 200, 204, 219, 226, 231, 235, 240, 241, 243, 244, 264, 265, 272, 292, 293, 295, 297, 299, 302, 312, 363, 364, 366, 385, 391, 426, 447, 448, 450, 452, 456, 459, 460, 464, 465, 466, 507, 515, 520, 528, 529, 537, 542, 543, 548, 550, 556, 592, 601, 602, 603, 605, 606, 612, 629, 630, 631, 633, 634, 635, 640, 646, 649, 650, 651, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 683, 799, 800, 807, 809, 818, 849, 855, 871, 1044, 1069, 1103, 1188, 1216, 1217, 1261, 1265, 1273, 1274, 1278, 1288, 1292, 1312, 1393, 1399, 1403, 1406, 1447, 1451, 1462, 1463, 1470, 1472, 1486, 1502, 1512, 1514, 1519, 1532, 1533, 1539, 1541, 1546, 1549, 1550, 1551, 1559, 1560, 1609, 1620, 1625, 1629, 1653, 1656, 1665, 1671, 1692, 1709, 1721, 1724, 1730, 1743, 1746, 1768, 1836, 1837, 1864, 1865, 1893, 1951, 1953, 1958, 1964, 1982, 1995, 1998, 2038, 2046, 2049, 2054, 2055, 2060, 2061, 2074, 2089, 2090, 2095, 2096, 2103, 2105, 2107, 2108, 2110, 2120, 2137, 2143, 2153, 2160, 2168, 2172, 2175, 2184, 2195, 2198, 2201, 2213, 2226, 2231, 2235, 2239, 2241, 2243, 2255, 2261, 2281, 2295, 2299, 2337, 2378, 2382, 2440, 2449, 2474, 2484, 2485, 2497, 2500, 2501, 2502, 2520, 2532, 2533, 2538, 2555, 2577, 2596, 2609, 2625, 2709, 2840, 2884, 2885, 2939, 2941, 3005, 3120, 3126, 3142, 3148, 3154, 3156, 3200, 3217, 3230, 3235, 3236, 3247, 3250, 3296, 3347, 3359, 3362, 3364, 3369, 3394, 3404, 3415, 3417, 3419, 3420, 3423, 3488, 3541, 3637, 3655, 3658, 3708, 3720, 3725, 3753, 3760, 3774, 3781, 3782, 3786, 3792, 3818, 3848, 3859, 3860, 3866, 3897, 3906, 3907, 3912, 3947, 4031, 4044, 4089, 4178, 4182, 4213, 4276, 4286, 4302, 4304, 4309, 4365, 4374, 4386, 4394, 4401, 4407, 4450, 4581, 4641, 4652, 4653, 4674, 4693, 4713, 4723, 4761, 4768, 4770, 4778, 4798, 4836, 4868, 4874, 4876, 4963, 4972, 4974]
 
 def reportedRequired : Nat := 764
-def reportedCovered : Nat := 415
-def reportedDirect : Nat := 385
-def reportedCoverageBasisPoints : Nat := 5432
-def reportedDirectBasisPoints : Nat := 5039
+def reportedCovered : Nat := 423
+def reportedDirect : Nat := 390
+def reportedCoverageBasisPoints : Nat := 5537
+def reportedDirectBasisPoints : Nat := 5105
 
 end RagEvidence.Generated

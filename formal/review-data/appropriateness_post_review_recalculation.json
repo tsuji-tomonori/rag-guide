@@ -10,18 +10,18 @@
     "literature": "cf28a88e42bb0534e09a8e32c56f0341328e4f2d"
   },
   "evidence_required_sentences": 764,
-  "conditional_logical_proofs": 478,
+  "conditional_logical_proofs": 476,
   "end_to_end_assurance_count": 0,
   "end_to_end_assurance_denominator": 764,
   "independently_verified_external_truth_count": 0,
   "independently_verified_external_truth_denominator": 764,
   "source_files": {
-    "formal/review-data/coverage_manifest.json": "c4b83e39c0bada940045670e9e428bfead4ebd5cc31d596de94b05ae1762f89b",
-    "formal/review-data/semantic_assurance_manifest.json": "e3cfd1abc05c5a80f56375eb334b2d01456b07a44a1472b0e1413c42680134e9",
-    "formal/review-data/literature_entailment_manifest.json": "f1561410e098a92ab615d4377caf60cdeefdfd94cd0d413cd4d38e018f44477c",
-    "formal/review-data/semantic_assurance_summary.csv": "7d1791c1f2c28dc18719054d7bd5e6275d4658be31a1d1192312f542854471fd",
-    "formal/review-data/logical_proof_summary.csv": "016661ce969f203f285419183bcb17a66b5773f14033010908717cadcc117ee3",
-    "formal/review-data/sentence_logical_proofs.csv": "05c271b19cd1a1c54107dc9d2f9965c71a8ffd0fd3d8027ed243beecf894ac34"
+    "formal/review-data/coverage_manifest.json": "5eb5c096d575af78c0d0c14eb9f0b93db59516800e1e0563cb9bd6e3589833b5",
+    "formal/review-data/semantic_assurance_manifest.json": "4978f57fce7a936f3666719be9bbc503d08282513f931d1d59d6b18c83c7b806",
+    "formal/review-data/literature_entailment_manifest.json": "314092a8db4f665864cba4da9d3cdab2ddaca6ccb0faef2377cdc786faf9b5f2",
+    "formal/review-data/semantic_assurance_summary.csv": "7af5e6b60fe91245266b79755c616cc6c8e213ea93c1750cb05d03fbdf20f2a5",
+    "formal/review-data/logical_proof_summary.csv": "88caf30444372cbafbe47a7b92d2272cac67cc2738995444d29a3e2ffd0d137a",
+    "formal/review-data/sentence_logical_proofs.csv": "4a64bade0ab02399bd0bb11ccfd93e97a95ec1aaebf12c9928ab84474e254cbb"
   },
   "assurance_boundary": "Recalculation proves snapshot/count provenance only; human judgments and external truth remain separate."
 }

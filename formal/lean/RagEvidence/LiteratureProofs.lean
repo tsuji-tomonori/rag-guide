@@ -8,7 +8,7 @@ namespace RagEvidence.LiteratureProofs
 open LiteratureLogic LiteratureGenerated
 
 theorem reported_literature_entailments_count_exact :
-    reportedDerivedIds.length = 478 := by
+    reportedDerivedIds.length = 476 := by
   decide
 
 theorem every_required_sentence_assessed : sentenceProofRows.length = reportedRequiredCount := by
@@ -174,6 +174,16 @@ theorem literature_SENT_0143 :
     (valuation := valuation)
     hFacts
 
+theorem literature_SENT_0144 :
+    ∀ valuation : Nat → Prop,
+      allFacts valuation [13, 19, 32, 46, 56, 77, 83, 118, 119, 120, 122] →
+      Formula.Holds valuation (.and (.atom 118) (.atom 122)) := by
+  intro valuation hFacts
+  exact Derives.sound
+    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 77 (List.Mem.tail 83 (List.Mem.head [119, 120, 122]))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 77 (List.Mem.tail 83 (List.Mem.tail 118 (List.Mem.tail 119 (List.Mem.tail 120 (List.Mem.head [])))))))))))))
+    (valuation := valuation)
+    hFacts
+
 theorem literature_SENT_0151 :
     ∀ valuation : Nat → Prop,
       allFacts valuation [13, 19, 56, 119, 120] →
@@ -196,21 +206,21 @@ theorem literature_SENT_0185 :
 
 theorem literature_SENT_0198 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 34, 40] →
+      allFacts valuation [13, 34, 40, 46, 83, 119] →
       Formula.Holds valuation (.atom 40) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .atom (List.Mem.tail 13 (List.Mem.tail 34 (List.Mem.head []))))
+    (proof := .atom (List.Mem.tail 13 (List.Mem.tail 34 (List.Mem.head [46, 83, 119]))))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0200 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 32, 46, 83, 119, 122] →
+      allFacts valuation [13, 32, 40, 46, 83, 119, 122] →
       Formula.Holds valuation (.and (.atom 119) (.atom 122)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 83 (List.Mem.head [122])))))) (.atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head []))))))))
+    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 83 (List.Mem.head [122]))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [])))))))))
     (valuation := valuation)
     hFacts
 
@@ -221,16 +231,6 @@ theorem literature_SENT_0250 :
   intro valuation hFacts
   exact Derives.sound
     (proof := .and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.head [83, 119, 122])))) (.atom (List.Mem.head [32, 46, 83, 119, 122]))) (.atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head []))))))))
-    (valuation := valuation)
-    hFacts
-
-theorem literature_SENT_0261 :
-    ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 32, 46, 83, 119, 122] →
-      Formula.Holds valuation (.atom 122) := by
-  intro valuation hFacts
-  exact Derives.sound
-    (proof := .atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [])))))))
     (valuation := valuation)
     hFacts
 
@@ -246,151 +246,121 @@ theorem literature_SENT_0265 :
 
 theorem literature_SENT_0272 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 34, 40] →
+      allFacts valuation [13, 34, 40, 46, 83, 119] →
       Formula.Holds valuation (.and (.atom 40) (.atom 34)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 34 (List.Mem.head [])))) (.atom (List.Mem.tail 13 (List.Mem.head [40]))))
-    (valuation := valuation)
-    hFacts
-
-theorem literature_SENT_0292 :
-    ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122] →
-      Formula.Holds valuation (.and (.and (.and (.atom 119) (.atom 46)) (.atom 13)) (.atom 40)) := by
-  intro valuation hFacts
-  exact Derives.sound
-    (proof := .and (.and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 63 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.head [56, 63, 83, 119, 120, 122]))))))))) (.atom (List.Mem.head [18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122]))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.head [46, 56, 63, 83, 119, 120, 122]))))))))
-    (valuation := valuation)
-    hFacts
-
-theorem literature_SENT_0293 :
-    ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 32, 46, 56, 83, 119, 120, 122] →
-      Formula.Holds valuation (.and (.atom 119) (.atom 122)) := by
-  intro valuation hFacts
-  exact Derives.sound
-    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.tail 120 (List.Mem.head [])))))))))))
-    (valuation := valuation)
-    hFacts
-
-theorem literature_SENT_0309 :
-    ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 32, 46, 83, 119, 122] →
-      Formula.Holds valuation (.atom 122) := by
-  intro valuation hFacts
-  exact Derives.sound
-    (proof := .atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [])))))))
+    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 34 (List.Mem.head [46, 83, 119])))) (.atom (List.Mem.tail 13 (List.Mem.head [40, 46, 83, 119]))))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0312 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 32, 46, 56, 83, 119, 120, 122] →
+      allFacts valuation [13, 32, 46, 77, 83, 118, 119] →
       Formula.Holds valuation (.and (.atom 119) (.atom 83)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.head [119, 120, 122]))))))))
+    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 77 (List.Mem.tail 83 (List.Mem.tail 118 (List.Mem.head [])))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 77 (List.Mem.head [118, 119])))))))
     (valuation := valuation)
     hFacts
 
-theorem literature_SENT_0366 :
+theorem literature_SENT_0398 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 32, 46, 56, 83, 119, 120, 122] →
-      Formula.Holds valuation (.and (.and (.atom 119) (.atom 56)) (.atom 120)) := by
+      allFacts valuation [13, 118, 119] →
+      Formula.Holds valuation (.and (.atom 118) (.atom 13)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.head [83, 119, 120, 122]))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [122]))))))))))
+    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.head [119]))) (.atom (List.Mem.head [118, 119])))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0447 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 46, 56, 83, 84, 118, 119, 120] →
       Formula.Holds valuation (.and (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 46)) (.atom 19)) (.atom 13)) (.atom 120)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.and (.and (.and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 63 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.head [63, 83, 119, 120, 122])))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.head [56, 63, 83, 119, 120, 122]))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.head [32, 34, 40, 46, 56, 63, 83, 119, 120, 122]))))) (.atom (List.Mem.head [18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122]))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 63 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [122]))))))))))))))
+    (proof := .and (.and (.and (.and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.head [120]))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.head [83, 84, 118, 119, 120])))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.head [56, 83, 84, 118, 119, 120]))))) (.atom (List.Mem.tail 13 (List.Mem.head [46, 56, 83, 84, 118, 119, 120])))) (.atom (List.Mem.head [19, 46, 56, 83, 84, 118, 119, 120]))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.tail 119 (List.Mem.head [])))))))))))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0456 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 32, 46, 56, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 46, 56, 83, 84, 118, 119, 120] →
       Formula.Holds valuation (.and (.and (.atom 119) (.atom 56)) (.atom 120)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.head [83, 119, 120, 122]))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [122]))))))))))
+    (proof := .and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.head [120]))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.head [83, 84, 118, 119, 120])))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.tail 119 (List.Mem.head [])))))))))))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0460 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 32, 46, 56, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 46, 56, 83, 118, 119, 120] →
       Formula.Holds valuation (.atom 119) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.head [120, 122]))))))))
+    (proof := .atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 118 (List.Mem.head [120]))))))))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0464 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 32, 46, 56, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 46, 56, 83, 84, 118, 119, 120] →
       Formula.Holds valuation (.and (.and (.atom 119) (.atom 56)) (.atom 120)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.head [83, 119, 120, 122]))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [122]))))))))))
+    (proof := .and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.head [120]))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.head [83, 84, 118, 119, 120])))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.tail 119 (List.Mem.head [])))))))))))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0487 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 46, 56, 83, 118, 119, 120] →
       Formula.Holds valuation (.and (.atom 46) (.atom 13)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.head [56, 63, 83, 119, 120, 122])))))))) (.atom (List.Mem.head [18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122])))
+    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.head [56, 83, 118, 119, 120])))) (.atom (List.Mem.head [19, 46, 56, 83, 118, 119, 120])))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0515 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 56, 119, 120] →
+      allFacts valuation [13, 19, 46, 56, 83, 118, 119, 120] →
       Formula.Holds valuation (.atom 19) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .atom (List.Mem.tail 13 (List.Mem.head [56, 119, 120])))
+    (proof := .atom (List.Mem.tail 13 (List.Mem.head [46, 56, 83, 118, 119, 120])))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0537 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 46, 56, 83, 84, 118, 119, 120] →
       Formula.Holds valuation (.and (.and (.and (.and (.atom 119) (.atom 56)) (.atom 46)) (.atom 13)) (.atom 120)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.and (.and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 63 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.head [63, 83, 119, 120, 122])))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.head [56, 63, 83, 119, 120, 122]))))))))) (.atom (List.Mem.head [18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122]))) (.atom (List.Mem.tail 13 (List.Mem.tail 18 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 34 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 63 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [122]))))))))))))))
+    (proof := .and (.and (.and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.head [120]))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.head [83, 84, 118, 119, 120])))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.head [56, 83, 84, 118, 119, 120]))))) (.atom (List.Mem.head [19, 46, 56, 83, 84, 118, 119, 120]))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.tail 119 (List.Mem.head [])))))))))))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0542 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 32, 46, 56, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 46, 56, 83, 84, 118, 119, 120] →
       Formula.Holds valuation (.and (.and (.atom 119) (.atom 56)) (.atom 120)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.head [83, 119, 120, 122]))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [122]))))))))))
+    (proof := .and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.head [120]))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.head [83, 84, 118, 119, 120])))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 84 (List.Mem.tail 118 (List.Mem.tail 119 (List.Mem.head [])))))))))))
     (valuation := valuation)
     hFacts
 
 theorem literature_SENT_0548 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 46, 56, 83, 84, 118, 119, 120] →
       Formula.Holds valuation (.atom 13) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .atom (List.Mem.head [18, 19, 32, 34, 40, 46, 56, 63, 83, 119, 120, 122]))
+    (proof := .atom (List.Mem.head [19, 46, 56, 83, 84, 118, 119, 120]))
     (valuation := valuation)
     hFacts
 
@@ -406,11 +376,11 @@ theorem literature_SENT_0550 :
 
 theorem literature_SENT_0602 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 34, 40] →
+      allFacts valuation [13, 34, 40, 46, 83, 119] →
       Formula.Holds valuation (.and (.atom 40) (.atom 34)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 34 (List.Mem.head [])))) (.atom (List.Mem.tail 13 (List.Mem.head [40]))))
+    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 34 (List.Mem.head [46, 83, 119])))) (.atom (List.Mem.tail 13 (List.Mem.head [40, 46, 83, 119]))))
     (valuation := valuation)
     hFacts
 
@@ -424,13 +394,23 @@ theorem literature_SENT_0603 :
     (valuation := valuation)
     hFacts
 
+theorem literature_SENT_0605 :
+    ∀ valuation : Nat → Prop,
+      allFacts valuation [13, 19, 32, 46, 56, 77, 83, 118, 119, 120, 122] →
+      Formula.Holds valuation (.and (.atom 118) (.atom 13)) := by
+  intro valuation hFacts
+  exact Derives.sound
+    (proof := .and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 77 (List.Mem.tail 83 (List.Mem.head [119, 120, 122]))))))))) (.atom (List.Mem.head [19, 32, 46, 56, 77, 83, 118, 119, 120, 122])))
+    (valuation := valuation)
+    hFacts
+
 theorem literature_SENT_0606 :
     ∀ valuation : Nat → Prop,
-      allFacts valuation [13, 19, 32, 46, 56, 83, 119, 120, 122] →
+      allFacts valuation [13, 19, 32, 40, 46, 56, 77, 83, 118, 119, 120, 122] →
       Formula.Holds valuation (.and (.and (.and (.atom 119) (.atom 56)) (.atom 19)) (.atom 120)) := by
   intro valuation hFacts
   exact Derives.sound
-    (proof := .and (.and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.head [120, 122])))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.head [83, 119, 120, 122]))))))) (.atom (List.Mem.tail 13 (List.Mem.head [32, 46, 56, 83, 119, 120, 122])))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 83 (List.Mem.tail 119 (List.Mem.head [122]))))))))))
+    (proof := .and (.and (.and (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 77 (List.Mem.tail 83 (List.Mem.tail 118 (List.Mem.head [120, 122]))))))))))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.head [77, 83, 118, 119, 120, 122])))))))) (.atom (List.Mem.tail 13 (List.Mem.head [32, 40, 46, 56, 77, 83, 118, 119, 120, 122])))) (.atom (List.Mem.tail 13 (List.Mem.tail 19 (List.Mem.tail 32 (List.Mem.tail 40 (List.Mem.tail 46 (List.Mem.tail 56 (List.Mem.tail 77 (List.Mem.tail 83 (List.Mem.tail 118 (List.Mem.tail 119 (List.Mem.head [122])))))))))))))
     (valuation := valuation)
     hFacts
 
@@ -4838,19 +4818,16 @@ end RagEvidence.LiteratureProofs
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0087
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0106
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0143
+#print axioms RagEvidence.LiteratureProofs.literature_SENT_0144
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0151
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0185
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0198
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0200
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0250
-#print axioms RagEvidence.LiteratureProofs.literature_SENT_0261
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0265
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0272
-#print axioms RagEvidence.LiteratureProofs.literature_SENT_0292
-#print axioms RagEvidence.LiteratureProofs.literature_SENT_0293
-#print axioms RagEvidence.LiteratureProofs.literature_SENT_0309
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0312
-#print axioms RagEvidence.LiteratureProofs.literature_SENT_0366
+#print axioms RagEvidence.LiteratureProofs.literature_SENT_0398
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0447
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0456
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0460
@@ -4863,6 +4840,7 @@ end RagEvidence.LiteratureProofs
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0550
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0602
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0603
+#print axioms RagEvidence.LiteratureProofs.literature_SENT_0605
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0606
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0630
 #print axioms RagEvidence.LiteratureProofs.literature_SENT_0631
