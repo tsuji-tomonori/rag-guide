@@ -1,8 +1,8 @@
 {
   "method_version": 2,
-  "canonical_commit": "8cab9def1258189d77646668fd3d1971f2db0bd5",
-  "generated_from_commit": "8cab9def1258189d77646668fd3d1971f2db0bd5",
-  "markdown_files": 102,
+  "canonical_commit": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
+  "generated_from_commit": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
+  "markdown_files": 98,
   "explanation_states": 328,
   "chapter_introductions": 11,
   "numbered_sections": 317,
@@ -22,8 +22,8 @@
     "Minor": 1
   },
   "sha256": {
-    "explanation_states.csv": "5a0a1f282a5a1e8b0ec19fdae3b988d73ba09a3ec8ff46b217343c2a7c2103e0",
-    "technical_elements.csv": "5b412bc62e53fb518444a245c41650a34373882b0bf14826f63e5c5293edcc81",
+    "explanation_states.csv": "77bc7a7449a48ebe0a59cf5878d0e1cffe497c99fb61798329bdb499a626535c",
+    "technical_elements.csv": "dbd4b3b639c17d3c0b2ca4361b48afc3eae538af7c8370ed312f8e188e1d4b96",
     "primary_sources.csv": "9e2836bdc2fca9c41ac0a44d7517913a327069550a70d8bc76247baf96d12d5b",
     "findings.csv": "5bece628ad0bd4ff3a0250b50ce9bc16f25c2b1d9353efb7af341003f3090f80"
   }

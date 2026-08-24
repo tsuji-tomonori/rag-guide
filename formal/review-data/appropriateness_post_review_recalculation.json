@@ -1,27 +1,27 @@
 {
   "verification_status": "VERIFIED",
   "baseline_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "target_docs_commit": "8cab9def1258189d77646668fd3d1971f2db0bd5",
+  "target_docs_commit": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
   "docs_changed": true,
   "current_docs_match_target": true,
   "upstream_manifest_commits": {
-    "coverage": "8cab9def1258189d77646668fd3d1971f2db0bd5",
-    "semantic": "8cab9def1258189d77646668fd3d1971f2db0bd5",
-    "literature": "8cab9def1258189d77646668fd3d1971f2db0bd5"
+    "coverage": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
+    "semantic": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
+    "literature": "fe9bae05bb67e835f4966e7e26b0a80f5e876280"
   },
-  "evidence_required_sentences": 882,
-  "conditional_logical_proofs": 534,
+  "evidence_required_sentences": 771,
+  "conditional_logical_proofs": 481,
   "end_to_end_assurance_count": 0,
-  "end_to_end_assurance_denominator": 882,
+  "end_to_end_assurance_denominator": 771,
   "independently_verified_external_truth_count": 0,
-  "independently_verified_external_truth_denominator": 882,
+  "independently_verified_external_truth_denominator": 771,
   "source_files": {
-    "formal/review-data/coverage_manifest.json": "7d9512f2f7bc7b7fa24ee1c4338cbff36fd2082e9e31633db37b82a014ae3cda",
-    "formal/review-data/semantic_assurance_manifest.json": "7e5b2019553b68f23db502bc06973892921c03da87f0bebc67a59a457172c2ba",
-    "formal/review-data/literature_entailment_manifest.json": "f345217871281343175c753a9956f2384f48663272e81157891e2f1bf1c1f539",
-    "formal/review-data/semantic_assurance_summary.csv": "622caa2791d28089b05182387a6a45ac66d89d7181a9b3e63f952775cdb43520",
-    "formal/review-data/logical_proof_summary.csv": "65d45f7a2108b661dccf7398214328400abcc0a8feeaa85155f0d83aaaa2ab0c",
-    "formal/review-data/sentence_logical_proofs.csv": "f16ae7edb258c91988818654af6acbc712dae1582277d5164c2b97115e9cdc10"
+    "formal/review-data/coverage_manifest.json": "8a70b6a968eb2dfffdceb12b95159ceb76a500c8d1ac1aed250e21567d2aa56b",
+    "formal/review-data/semantic_assurance_manifest.json": "3d99bc99f0d5c96ebfbaa702ea264cbee09e8ad805d088aeff2e07ec81b008db",
+    "formal/review-data/literature_entailment_manifest.json": "93fe4db013eafab29bb01d1fc48d1e26f591e840eae8b43875f1c2c54496947d",
+    "formal/review-data/semantic_assurance_summary.csv": "8af0ac99dba79284ba733503a4dbec75b5c10a0ec35537c608da15c018be22b3",
+    "formal/review-data/logical_proof_summary.csv": "1ae7b9ba78553f07f2718cb8932d9f8ef3ca21f923d27d20e3426ee8719f666f",
+    "formal/review-data/sentence_logical_proofs.csv": "6d1f1ce714658005efd4f0490a733d6dacb4af5501593d7a43d7eae1ffe06ce8"
   },
   "assurance_boundary": "Recalculation proves snapshot/count provenance only; human judgments and external truth remain separate."
 }
