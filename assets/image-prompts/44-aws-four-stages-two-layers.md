@@ -1,14 +1,19 @@
-# 図44: AWS RAGの四工程と二層
+# 図44: 四工程・二層とAWSの配置
 
 - 出力先: `assets/images/v4/44-aws-four-stages-two-layers.png`
-- 使用箇所: `docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md`
-- 挿入位置: 「10.1.1. 四工程と二層をAWSリソースへ対応付ける」の対応表の直後
+- 使用箇所: `docs/10.AWSで設計・実装する/10.1.四工程・二層をAWSへ対応づける.md`
+- 挿入位置: 表10-1の直後
 - 代替テキスト: 四工程と二層にAWSサービスとリソースを対応付けた構成図
+- 生成方法: image-gen 2.0
 
 ## 生成プロンプト
 
-日本語の技術書に掲載する、AWS上のAdvanced RAGアーキテクチャの横長インフォグラフィック。16:9、白背景、濃紺とAWSオレンジをアクセントにした端正なフラットデザイン。左から右へ「検索前処理」「検索」「検索後処理」「生成」の四工程を大きな矢印で接続し、上下を「Batch Layer」と「Real-time Layer」の二層に分ける。
+日本語の技術書に掲載する16:9の横長インフォグラフィック。背景はオフホワイト`#F7F6F1`、文字はディープネイビー`#2B3A4A`、アクセントはくすんだ青`#5E7E96`、補助図形は淡いブルーグレーだけを使う。フラットで端正な編集デザインとし、十分な安全余白を取る。
 
-Batch Layerには、Amazon S3、Bedrock Knowledge Basesのdata source、parser、chunking、embedding、S3 VectorsまたはOpenSearch Serverless、評価データと回帰評価を配置する。Real-time Layerには、query変換・metadata filter、RetrieveまたはAgenticRetrieveStream、Bedrock Rerank、LambdaまたはStep FunctionsによるEvidence Set、ConverseとGuardrails、citation検査を配置する。二層を横断する細い帯としてIAM、KMS、CloudWatch、traceを置く。
+上部を「1. 検索前処理」「2. 検索」「3. 検索後処理」「4. 生成」の四列、本文を「Batch Layer／質問前に更新」「Real-time Layer／質問ごとに実行」の二行に分ける。
 
-各要素はAWS公式アイコンの模倣ではなく、サービス名が読める簡潔なカードと抽象アイコンで表現する。工程と層の境界、データの流れ、Batchで作成したindexをReal-time検索が利用する関係が一目で分かること。過度な装飾、立体表現、写真、人物、余分な説明文は不要。日本語ラベルを正確に、書籍本文と同じ用語で表示する。
+Batch Layerは検索前処理列の中だけに置き、「S3 原文／Amazon S3」→「解析・分割／Knowledge Bases」→「埋め込み／Bedrock」→「索引／S3 Vectors / OpenSearch」を縦に接続する。他の三列にはBatch処理を置かない。「索引」からReal-time Layerの「候補取得」へだけ矢印を引き、「公開した索引を参照」と表示する。
+
+Real-time Layerは四列を左から右へ、「質問理解・検索条件／アプリ / Bedrock」→「候補取得／Knowledge Bases」→「Rerank・Evidence／Bedrock Rerank / アプリ」→「回答・引用・保留／Bedrock 生成モデル」と接続する。最下部には全幅の帯として「全工程を横断：IAM・KMS・CloudWatch・評価・版管理・コスト」を置く。
+
+すべてのカードを正しい列と層の内側へ収め、矢印を文字と交差させない。日本語はNoto Sans JP相当で正確に表示する。写真、人物、立体表現、強い影、グラデーション、原色、装飾用の図形、AWS公式ロゴの模倣、余分な説明文は使わない。
