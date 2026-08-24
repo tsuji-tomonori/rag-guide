@@ -1,7 +1,7 @@
 {
   "method_version": 2,
-  "authoritative_commit": "c49b0f7ca1607af13b9906e73361b19155730964",
-  "required_sentences": 883,
+  "authoritative_commit": "8cab9def1258189d77646668fd3d1971f2db0bd5",
+  "required_sentences": 882,
   "controlled_formalizations": 42,
   "relative_entailments_proved": 40,
   "contract_rejections": 2,
@@ -14,12 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "c618ba3eb537bc9cfd438ee68b5a2f5311c9e57dc83a1260bff21d4c5e45f54c",
-    "formal/review-data/sentence_evidence.csv": "a7d5ade66c95894b8dad11e1f86ab81a601c820d28aae6c75bef98c14482feb4",
-    "formal/review-data/concrete_technologies.csv": "be3f96fe2389b42ccc1ee3d9b1bb55ce7b4bb12cb914b6e028dc212c825300ee",
-    "formal/review-data/semantic_assurance.csv": "94566813e31472e2173c20e11eb8f3fc2945b239bed9eab8b9314c4173d7f815",
+    "formal/review-data/coverage_manifest.json": "7d9512f2f7bc7b7fa24ee1c4338cbff36fd2082e9e31633db37b82a014ae3cda",
+    "formal/review-data/sentence_evidence.csv": "05f4115cb01ca5dc26014e505f6b53c8a649941eec643645450e1b9c4bf73b38",
+    "formal/review-data/concrete_technologies.csv": "47e627633f46a2b23224764749c5a72a6bee868c7c76749cc4a47fe371bc7359",
+    "formal/review-data/semantic_assurance.csv": "9522a6f4f3c7a0d44594ae6c6dc941b05c46e024d1aee251ba9038f57484ae57",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "12b5a69627012130cdd0cdc6a647a8ea6d61c477b02d8bb809e55cd3773b23dc",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "1c3a6cd709afbbd28fb88d4fd9ddbb8fe48108be6a2d26d698eca41229ef4e40"
+    "formal/review-data/semantic_assurance_summary.csv": "622caa2791d28089b05182387a6a45ac66d89d7181a9b3e63f952775cdb43520",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "8678e3961ca3c3eb85ae62ad73fc845b437d55cdddbedd94d57ed6faf9d647a2"
   }
 }

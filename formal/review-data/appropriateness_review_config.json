@@ -1,8 +1,8 @@
 {
   "baseline_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "target_docs_commit": "c49b0f7ca1607af13b9906e73361b19155730964",
+  "target_docs_commit": "8cab9def1258189d77646668fd3d1971f2db0bd5",
   "baseline_review_count": 678,
   "spreadsheet_id": "1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM",
   "spreadsheet_tab": "論理未証明",
-  "note": "PR #56 chapter 10 AWS RAG design rewrite; evidence ledgers regenerated against the committed docs snapshot"
+  "note": "PR #56 chapter 10 overview table and figure revision; evidence ledgers regenerated against the committed docs snapshot"
 }
