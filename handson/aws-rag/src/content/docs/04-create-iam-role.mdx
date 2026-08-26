@@ -87,30 +87,43 @@ jq -n \
     }]
   }' | tee "$RAG_WORK_DIR/bedrock-kb-trust.json"
 
-jq -e '.Statement[0].Principal.Service == "bedrock.amazonaws.com"' \
-  "$RAG_WORK_DIR/bedrock-kb-trust.json" >/dev/null
+jq -e \
+  --arg account "$RAG_ACCOUNT_ID" \
+  --arg sourceArn "arn:aws:bedrock:${AWS_REGION}:${RAG_ACCOUNT_ID}:knowledge-base/*" '
+  (.Statement | length) == 1 and
+  .Statement[0].Principal.Service == "bedrock.amazonaws.com" and
+  .Statement[0].Action == "sts:AssumeRole" and
+  .Statement[0].Condition.StringEquals["aws:SourceAccount"] == $account and
+  .Statement[0].Condition.ArnLike["AWS:SourceArn"] == $sourceArn
+' "$RAG_WORK_DIR/bedrock-kb-trust.json" >/dev/null
+
+printf '[CHECK] trust principal: bedrock.amazonaws.com\n'
+printf '[CHECK] trust action: sts:AssumeRole\n'
+printf '[CHECK] SourceAccount: %s\n' "$RAG_ACCOUNT_ID"
+printf '[CHECK] SourceArn: arn:aws:bedrock:%s:%s:knowledge-base/*\n' \
+  "$AWS_REGION" "$RAG_ACCOUNT_ID"
+printf 'trust policy verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s4-1-trust" verification="信頼ポリシーを生成して検証">
 
-trust policyが表示され、`SourceAccount`と東京リージョンのKnowledge Base ARN patternが設定されています。
+次の5行が表示されれば成功です。
 
-```json
-{
-  "Principal": {"Service": "bedrock.amazonaws.com"},
-  "Action": "sts:AssumeRole",
-  "Condition": {
-    "StringEquals": {"aws:SourceAccount": "123456789012"},
-    "ArnLike": {"AWS:SourceArn": "arn:aws:bedrock:ap-northeast-1:123456789012:knowledge-base/*"}
-  }
-}
+```text
+[CHECK] trust principal: bedrock.amazonaws.com
+[CHECK] trust action: sts:AssumeRole
+[CHECK] SourceAccount: 123456789012
+[CHECK] SourceArn: arn:aws:bedrock:ap-northeast-1:123456789012:knowledge-base/*
+trust policy verification: PASS
 ```
 
-- service principalが`bedrock.amazonaws.com`である
-- `SourceAccount`が今回のAWS accountである
-- `SourceArn`が`ap-northeast-1`のKnowledge Baseに限定される
+- `[CHECK] trust principal: bedrock.amazonaws.com`が表示される
+- `[CHECK] trust action: sts:AssumeRole`が表示される
+- `[CHECK] SourceAccount:`に今回のAWS account IDが表示される
+- `[CHECK] SourceArn:`が東京リージョンのKnowledge Base ARNに限定される
+- `trust policy verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -243,7 +256,7 @@ printf 'IAM permission verification: PASS\n'
 
 <ExpectedResult id="s4-2-permissions" verification="必要権限を読み戻して強制検証する">
 
-最後の`jq -e`が終了コード`0`で完了します。これにより、ingestionに必要なembedding model呼び出し、S3 bucket一覧、S3文書読み取り、S3 Vector indexの読み書き権限が、実際にservice roleへ付与されたことを確認できます。
+次の6行が表示されれば成功です。
 
 ```text
 [CHECK] bedrock:InvokeModel: arn:aws:bedrock:ap-northeast-1::foundation-model/amazon.titan-embed-text-v2:0
@@ -254,9 +267,12 @@ printf 'IAM permission verification: PASS\n'
 IAM permission verification: PASS
 ```
 
-- embedding model、source bucket、`documents/*`、indexの4対象が表示される
+- `[CHECK] bedrock:InvokeModel:`が表示される
+- `[CHECK] s3:ListBucket:`が表示される
+- `[CHECK] s3:GetObject:`が表示される
+- `[CHECK] S3 Vectors index access:`が表示される
 - `[CHECK] IAM role creation: COMPLETE`が表示される
-- 最後に`IAM permission verification: PASS`が表示される
+- `IAM permission verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -301,25 +317,54 @@ aws s3vectors put-vector-bucket-policy \
 <Command phase="verify" title="ロールとポリシーを読み戻して検証する" final>
 
 ```bash
-aws iam get-role \
+export RAG_ROLE_READBACK_ARN="$(aws iam get-role \
   --role-name "$RAG_ROLE_NAME" \
-  --query 'Role.{arn:Arn,created:CreateDate}' \
-  --output table
+  --query 'Role.Arn' \
+  --output text)"
+test "$RAG_ROLE_READBACK_ARN" = "$RAG_ROLE_ARN"
 
 aws iam get-role-policy \
   --role-name "$RAG_ROLE_NAME" \
   --policy-name "$RAG_POLICY_NAME" \
-  --query 'PolicyDocument.Statement[].{sid:Sid,action:Action,resource:Resource}' \
-  --output table
+  --query 'PolicyDocument' \
+  --output json \
+  | tee "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+
+export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
+export RAG_EXPECTED_SOURCE_BUCKET_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}"
+export RAG_EXPECTED_SOURCE_OBJECT_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}/documents/*"
+
+jq -e \
+  --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" \
+  --arg bucketArn "$RAG_EXPECTED_SOURCE_BUCKET_ARN" \
+  --arg objectArn "$RAG_EXPECTED_SOURCE_OBJECT_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" '
+  ([.Statement[].Resource] | sort) ==
+    ([$modelArn, $bucketArn, $objectArn, $indexArn] | sort)
+' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
 
 aws s3vectors get-vector-bucket-policy \
   --vector-bucket-name "$RAG_VECTOR_BUCKET" \
   --query 'policy' \
-  --output text | jq -r '.Statement[0] | {principal:.Principal.AWS,resource:.Resource,actions:.Action}'
+  --output text \
+  | jq '.' \
+  | tee "$RAG_WORK_DIR/vector-bucket-policy-readback.json" >/dev/null
 
-printf '[CHECK] IAM role read-back: PASS (%s)\n' "$RAG_ROLE_ARN"
-printf '[CHECK] vector bucket policy creation: COMPLETE\n'
-printf '[CHECK] vector policy principal: %s\n' "$RAG_ROLE_ARN"
+jq -e \
+  --arg roleArn "$RAG_ROLE_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" '
+  (.Statement | length) == 1 and
+  .Statement[0].Effect == "Allow" and
+  .Statement[0].Principal.AWS == $roleArn and
+  .Statement[0].Resource == $indexArn and
+  ([.Statement[0].Action[]] | sort) ==
+    (["s3vectors:PutVectors", "s3vectors:GetVectors", "s3vectors:DeleteVectors", "s3vectors:QueryVectors", "s3vectors:GetIndex"] | sort)
+' "$RAG_WORK_DIR/vector-bucket-policy-readback.json" >/dev/null
+
+printf '[CHECK] IAM role ARN: MATCH (%s)\n' "$RAG_ROLE_READBACK_ARN"
+printf '[CHECK] inline policy scope: embedding / source bucket / documents/* / current index\n'
+printf '[CHECK] vector policy principal: MATCH (%s)\n' "$RAG_ROLE_ARN"
+printf '[CHECK] vector policy resource: current index only\n'
 printf 'role and vector policy verification: PASS\n'
 ```
 
@@ -327,24 +372,21 @@ printf 'role and vector policy verification: PASS\n'
 
 <ExpectedResult id="s4-3-vector-policy" verification="ロールとポリシーを読み戻して検証する">
 
-- role ARNが`RAG_ROLE_ARN`と一致します。
-- 4つのstatementが、embedding model、source bucket、`documents/*`、このrunのindexだけを参照します。
-- source bucketには`s3:ListBucket`、`documents/*`には`s3:GetObject`があります。
-- vector bucket policyのprincipalは作成したroleです。
+次の5行が表示されれば成功です。role ARN、inline policyの4対象、vector bucket policyのprincipalとresourceを実値で比較します。
 
 ```text
-arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92
-{ "principal": "arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92", "resource": "arn:aws:s3vectors:..." }
-[CHECK] IAM role read-back: PASS (arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92)
-[CHECK] vector bucket policy creation: COMPLETE
-[CHECK] vector policy principal: arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92
+[CHECK] IAM role ARN: MATCH (arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92)
+[CHECK] inline policy scope: embedding / source bucket / documents/* / current index
+[CHECK] vector policy principal: MATCH (arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92)
+[CHECK] vector policy resource: current index only
 role and vector policy verification: PASS
 ```
 
-- role ARNとpolicy principalが同じである
-- `[CHECK] vector bucket policy creation: COMPLETE`が表示される
-- source bucket、object、indexだけが対象になっている
-- 最後に`role and vector policy verification: PASS`が表示される
+- `[CHECK] IAM role ARN: MATCH`が表示される
+- `[CHECK] inline policy scope: embedding / source bucket / documents/* / current index`が表示される
+- `[CHECK] vector policy principal: MATCH`が表示される
+- `[CHECK] vector policy resource: current index only`が表示される
+- `role and vector policy verification: PASS`が表示される
 
 </ExpectedResult>
 

@@ -55,27 +55,36 @@ AWS CLIを実行できるターミナルを開き、想定したAWSアカウン�
 <Command phase="verify" title="AWS CLIの認証を確認" final>
 
 ```bash
-aws sts get-caller-identity --output table
+export RAG_CALLER_IDENTITY="$(aws sts get-caller-identity --output json)"
+printf '%s\n' "$RAG_CALLER_IDENTITY"
+
+jq -e '
+  (.Account | strings | length == 12) and
+  (.Arn | strings | startswith("arn:aws:")) and
+  (.UserId | strings | length > 0)
+' <<< "$RAG_CALLER_IDENTITY" >/dev/null
+
+export RAG_CALLER_ARN="$(jq -r '.Arn' <<< "$RAG_CALLER_IDENTITY")"
+printf '[CHECK] caller identity fields: Account / Arn / UserId\n'
+printf '[CHECK] caller principal: %s\n' "$RAG_CALLER_ARN"
+printf 'caller identity verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s1-1-identity" verification="AWS CLIの認証を確認">
 
-`Account`、`Arn`、`UserId`が表示されます。`Arn`が想定したハンズオン用principalであることを確認してください。
+次の3行が表示され、`caller principal`が想定したハンズオン用principalであれば成功です。
 
 ```text
----------------------------------------------
-|                 GetCallerIdentity          |
-+-------------+-----------------------------+
-| Account     | 123456789012                |
-| Arn         | arn:aws:iam::123456789012:role/WorkshopRole |
-| UserId      | AIDA...:terminal-session    |
-+-------------+-----------------------------+
+[CHECK] caller identity fields: Account / Arn / UserId
+[CHECK] caller principal: arn:aws:sts::123456789012:assumed-role/WorkshopRole/terminal-session
+caller identity verification: PASS
 ```
 
-- `Account`、`Arn`、`UserId`の3項目が出力される
-- `Arn`が今回の実習用principalである
+- `[CHECK] caller identity fields: Account / Arn / UserId`が表示される
+- `[CHECK] caller principal:`に今回の実習用principalが表示される
+- `caller identity verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -139,25 +148,32 @@ test -s "$RAG_STATE_FILE"
 test -s "$HOME/.rag-handson-current"
 [[ "$RAG_DOCUMENT_URL" == https://docs.aws.amazon.com/* ]]
 [[ "$RAG_GENERATION_MODEL_ARN" == "arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_GENERATION_MODEL_ID}" ]]
-printf 'region=%s\nrun=%s\nwork=%s\n' "$AWS_REGION" "$RAG_RUN_ID" "$RAG_WORK_DIR"
+printf '[CHECK] region: %s\n' "$AWS_REGION"
+printf '[CHECK] run ID format: UTC timestamp + 6-digit hex (%s)\n' "$RAG_RUN_ID"
+printf '[CHECK] state files: READY\n'
+printf '[CHECK] generation model ARN: %s\n' "$RAG_GENERATION_MODEL_ARN"
+printf 'environment verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s1-2-variables" verification="変数を検証">
 
-3行の値が表示され、エラーが出ません。`region=ap-northeast-1`になっていることを確認します。`run`には`0816071530-a41f92`のような時刻と6桁の16進数が入り、受講者ごとに異なる値になります。
+次の5行が表示されれば成功です。run IDと生成モデルARNには、このrunの実値が入ります。
 
 ```text
-region=ap-northeast-1
-run=0816071530-a41f92
-work=$HOME/rag-handson-0816071530-a41f92
+[CHECK] region: ap-northeast-1
+[CHECK] run ID format: UTC timestamp + 6-digit hex (0816071530-a41f92)
+[CHECK] state files: READY
+[CHECK] generation model ARN: arn:aws:bedrock:ap-northeast-1::foundation-model/amazon.nova-lite-v1:0
+environment verification: PASS
 ```
 
-- `region=ap-northeast-1`が表示される
-- `run`が`10桁のUTC時刻-6桁hex`形式である
-- state fileと復元用ファイルが空でない
-- 生成モデルARNが東京リージョンのNova Liteを指す
+- `[CHECK] region: ap-northeast-1`が表示される
+- `[CHECK] run ID format: UTC timestamp + 6-digit hex`が表示される
+- `[CHECK] state files: READY`が表示される
+- `[CHECK] generation model ARN:`に東京リージョンのNova Lite ARNが表示される
+- `environment verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -174,26 +190,48 @@ work=$HOME/rag-handson-0816071530-a41f92
 <Command phase="verify" title="CLIとAWSサービスを検証" final>
 
 ```bash
-aws --version
-jq --version
-aws s3vectors list-vector-buckets --max-results 1 --output json
-aws bedrock list-foundation-models --query 'length(modelSummaries)' --output text
+export RAG_AWS_CLI_VERSION="$(aws --version 2>&1)"
+export RAG_JQ_VERSION="$(jq --version)"
+
+aws s3vectors list-vector-buckets \
+  --max-results 1 \
+  --output json \
+  | tee "$RAG_WORK_DIR/list-vector-buckets.json" >/dev/null
+jq -e '.vectorBuckets | type == "array"' \
+  "$RAG_WORK_DIR/list-vector-buckets.json" >/dev/null
+
+export RAG_FOUNDATION_MODEL_COUNT="$(aws bedrock list-foundation-models \
+  --region "$AWS_REGION" \
+  --query 'length(modelSummaries)' \
+  --output text)"
+test "$RAG_FOUNDATION_MODEL_COUNT" -ge 1
+
+printf '[CHECK] AWS CLI version: %s\n' "$RAG_AWS_CLI_VERSION"
+printf '[CHECK] jq version: %s\n' "$RAG_JQ_VERSION"
+printf '[CHECK] S3 Vectors API: AVAILABLE\n'
+printf '[CHECK] foundation models: %s (>= 1)\n' "$RAG_FOUNDATION_MODEL_COUNT"
+printf 'CLI and service verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s1-3-cli" verification="CLIとAWSサービスを検証">
 
-- AWS CLIと`jq`のversionが表示されます。
-- `list-vector-buckets`がJSONを返します。vector bucketが0件でも問題ありません。
-- foundation model数が`1`以上です。
+次の5行が表示されれば成功です。vector bucketが0件でも、APIがJSONを返せれば`AVAILABLE`になります。
 
 ```text
-aws-cli/2.x.x ...
-jq-1.7
-[]
-20
+[CHECK] AWS CLI version: aws-cli/2.x.x ...
+[CHECK] jq version: jq-1.7
+[CHECK] S3 Vectors API: AVAILABLE
+[CHECK] foundation models: 20 (>= 1)
+CLI and service verification: PASS
 ```
+
+- `[CHECK] AWS CLI version:`が表示される
+- `[CHECK] jq version:`が表示される
+- `[CHECK] S3 Vectors API: AVAILABLE`が表示される
+- `[CHECK] foundation models:`に`1`以上の件数が表示される
+- `CLI and service verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -213,14 +251,33 @@ jq-1.7
 
 ```bash
 aws bedrock get-foundation-model \
+  --region "$AWS_REGION" \
   --model-identifier "$RAG_EMBED_MODEL_ID" \
-  --query 'modelDetails.{id:modelId,input:inputModalities,output:outputModalities}' \
-  --output table
+  --query 'modelDetails' \
+  --output json \
+  | tee "$RAG_WORK_DIR/embed-model.json" >/dev/null
 
 aws bedrock get-foundation-model \
+  --region "$AWS_REGION" \
   --model-identifier "$RAG_GENERATION_MODEL_ID" \
-  --query 'modelDetails.{id:modelId,input:inputModalities,output:outputModalities}' \
-  --output table
+  --query 'modelDetails' \
+  --output json \
+  | tee "$RAG_WORK_DIR/generation-model.json" >/dev/null
+
+jq -e --arg modelId "$RAG_EMBED_MODEL_ID" '
+  .modelId == $modelId and
+  (.inputModalities | index("TEXT")) and
+  (.outputModalities | index("FLOAT"))
+' "$RAG_WORK_DIR/embed-model.json" >/dev/null
+
+jq -e --arg modelId "$RAG_GENERATION_MODEL_ID" '
+  .modelId == $modelId and
+  (.inputModalities | index("TEXT")) and
+  (.outputModalities | index("TEXT"))
+' "$RAG_WORK_DIR/generation-model.json" >/dev/null
+
+printf '[CHECK] embedding model: %s (TEXT -> FLOAT)\n' "$RAG_EMBED_MODEL_ID"
+printf '[CHECK] generation model: %s (TEXT -> TEXT)\n' "$RAG_GENERATION_MODEL_ID"
 ```
 
 </Command>
@@ -228,28 +285,36 @@ aws bedrock get-foundation-model \
 <Command phase="execute" title="Converseの疎通確認（少量の推論料金が発生します）">
 
 ```bash
-aws bedrock-runtime converse \
+export RAG_SMOKE_RESPONSE="$(aws bedrock-runtime converse \
+  --region "$AWS_REGION" \
   --model-id "$RAG_GENERATION_MODEL_ID" \
   --messages '[{"role":"user","content":[{"text":"OKとだけ答えてください。"}]}]' \
   --inference-config '{"maxTokens":8,"temperature":0}' \
   --query 'output.message.content[0].text' \
-  --output text
+  --output text)"
+
+[[ "$RAG_SMOKE_RESPONSE" == *"OK"* ]]
+printf '[CHECK] Converse response: %s\n' "$RAG_SMOKE_RESPONSE"
+printf 'model verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s1-4-models" verification="Converseの疎通確認（少量の推論料金が発生します）">
 
-embedding modelとgeneration modelの表が表示され、最後のコマンドが`OK`を含む短い応答を返します。
+次の4行が表示されれば成功です。
 
 ```text
-amazon.titan-embed-text-v2:0   TEXT   FLOAT
-amazon.nova-lite-v1:0          TEXT   TEXT
-OK
+[CHECK] embedding model: amazon.titan-embed-text-v2:0 (TEXT -> FLOAT)
+[CHECK] generation model: amazon.nova-lite-v1:0 (TEXT -> TEXT)
+[CHECK] Converse response: OK
+model verification: PASS
 ```
 
-- 2つのmodel IDの表が表示される
-- 最後に`OK`を含む応答が表示される
+- `[CHECK] embedding model:`にTitan Text Embeddings V2が表示される
+- `[CHECK] generation model:`にNova Liteが表示される
+- `[CHECK] Converse response:`に`OK`を含む応答が表示される
+- `model verification: PASS`が表示される
 
 </ExpectedResult>
 

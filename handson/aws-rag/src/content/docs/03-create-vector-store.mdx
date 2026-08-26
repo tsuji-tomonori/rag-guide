@@ -25,8 +25,8 @@ import ResourceTable from '../../components/ResourceTable.astro';
   {
     "resource": "ベクトルバケット",
     "setting": "暗号化",
-    "value": "SSE-S3（既定）",
-    "note": "明示指定しない場合もS3管理キーによる暗号化が適用されます。"
+    "value": "SSE-S3（AES256）",
+    "note": "S3管理キーによる暗号化を作成時に明示し、APIから読み戻します。"
   },
   {
     "resource": "ベクトルインデックス",
@@ -73,6 +73,7 @@ S3 Vectorsにvector bucketとindexを作成します。indexの`dimension`、`di
 ```bash
 aws s3vectors create-vector-bucket \
   --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --encryption-configuration '{"sseType":"AES256"}' \
   --region "$AWS_REGION"
 ```
 
@@ -84,39 +85,46 @@ aws s3vectors create-vector-bucket \
 aws s3vectors get-vector-bucket \
   --vector-bucket-name "$RAG_VECTOR_BUCKET" \
   --region "$AWS_REGION" \
-  --query 'vectorBucket.{name:vectorBucketName,arn:vectorBucketArn,encryption:encryptionConfiguration.sseType}' \
-  --output table
+  --output json \
+  | tee "$RAG_WORK_DIR/vector-bucket-readback.json" >/dev/null
 
-export RAG_VECTOR_BUCKET_ARN="$(aws s3vectors get-vector-bucket \
-  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
-  --region "$AWS_REGION" \
-  --query 'vectorBucket.vectorBucketArn' \
-  --output text)"
-test "$RAG_VECTOR_BUCKET_ARN" != "None"
+jq -e --arg bucketName "$RAG_VECTOR_BUCKET" '
+  .vectorBucket.vectorBucketName == $bucketName and
+  (.vectorBucket.vectorBucketArn | startswith("arn:aws:s3vectors:")) and
+  .vectorBucket.encryptionConfiguration.sseType == "AES256"
+' "$RAG_WORK_DIR/vector-bucket-readback.json" >/dev/null
+
+export RAG_VECTOR_BUCKET_ARN="$(jq -r '.vectorBucket.vectorBucketArn' \
+  "$RAG_WORK_DIR/vector-bucket-readback.json")"
 declare -p RAG_VECTOR_BUCKET_ARN >> "$RAG_STATE_FILE"
+grep -Fq 'RAG_VECTOR_BUCKET_ARN' "$RAG_STATE_FILE"
 
 printf '[CHECK] vector bucket creation: COMPLETE (%s)\n' "$RAG_VECTOR_BUCKET"
-printf '[CHECK] vector bucket ARN saved: %s\n' "$RAG_VECTOR_BUCKET_ARN"
+printf '[CHECK] vector bucket ARN: %s\n' "$RAG_VECTOR_BUCKET_ARN"
+printf '[CHECK] vector bucket encryption: AES256 (SSE-S3)\n'
+printf '[CHECK] vector bucket ARN saved to state file\n'
+printf 'vector bucket verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s3-1-vector-bucket" verification="ベクトルバケットを検証する">
 
-vector bucket名とARNが表示されます。暗号化を明示しない場合も、S3管理キーによるSSE-S3が既定で適用されます。
+次の5行が表示されれば成功です。暗号化は表示欄の有無ではなく、APIから読み戻した値が`AES256`であることをコマンドが検証します。
 
 ```text
-| name       | rag-handson-vectors-123456789012-0816071530-a41f92 |
-| arn        | arn:aws:s3vectors:ap-northeast-1:123456789012:bucket/... |
-| encryption | AES256                                           |
 [CHECK] vector bucket creation: COMPLETE (rag-handson-vectors-123456789012-0816071530-a41f92)
-[CHECK] vector bucket ARN saved: arn:aws:s3vectors:...
+[CHECK] vector bucket ARN: arn:aws:s3vectors:ap-northeast-1:123456789012:bucket/...
+[CHECK] vector bucket encryption: AES256 (SSE-S3)
+[CHECK] vector bucket ARN saved to state file
+vector bucket verification: PASS
 ```
 
 - `[CHECK] vector bucket creation: COMPLETE`が表示される
-- vector bucket名とARNが表示される
-- `RAG_VECTOR_BUCKET_ARN`がstate fileへ保存される
-- 暗号化欄が表示される
+- `[CHECK] vector bucket ARN:`が表示される
+- `[CHECK] vector bucket encryption: AES256 (SSE-S3)`が表示される
+- `[CHECK] vector bucket ARN saved to state file`が表示される
+- `vector bucket verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -151,25 +159,29 @@ aws s3vectors get-index \
   --vector-bucket-name "$RAG_VECTOR_BUCKET" \
   --index-name "$RAG_INDEX_NAME" \
   --region "$AWS_REGION" \
-  --query 'index.{name:indexName,dataType:dataType,dimension:dimension,distance:distanceMetric,metadata:metadataConfiguration.nonFilterableMetadataKeys,arn:indexArn}' \
-  --output table
+  --output json \
+  | tee "$RAG_WORK_DIR/vector-index-readback.json" >/dev/null
 
-export RAG_INDEX_ARN="$(aws s3vectors get-index \
-  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
-  --index-name "$RAG_INDEX_NAME" \
-  --region "$AWS_REGION" \
-  --query 'index.indexArn' \
-  --output text)"
+jq -e --arg indexName "$RAG_INDEX_NAME" '
+  .index.indexName == $indexName and
+  .index.dataType == "float32" and
+  .index.dimension == 1024 and
+  .index.distanceMetric == "cosine" and
+  ([.index.metadataConfiguration.nonFilterableMetadataKeys[]] | sort) ==
+    (["AMAZON_BEDROCK_TEXT", "AMAZON_BEDROCK_METADATA"] | sort) and
+  (.index.indexArn | startswith("arn:aws:s3vectors:"))
+' "$RAG_WORK_DIR/vector-index-readback.json" >/dev/null
 
-test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --region "$AWS_REGION" --query 'index.dimension' --output text)" = "1024"
-test "$(aws s3vectors get-index --index-arn "$RAG_INDEX_ARN" --region "$AWS_REGION" --query 'index.distanceMetric' --output text)" = "cosine"
+export RAG_INDEX_ARN="$(jq -r '.index.indexArn' \
+  "$RAG_WORK_DIR/vector-index-readback.json")"
 declare -p RAG_INDEX_ARN >> "$RAG_STATE_FILE"
+grep -Fq 'RAG_INDEX_ARN' "$RAG_STATE_FILE"
 
 printf '[CHECK] vector index creation: COMPLETE (%s)\n' "$RAG_INDEX_NAME"
-printf '[CHECK] index data type: float32\n'
-printf '[CHECK] index dimension: 1024\n'
-printf '[CHECK] index distance metric: cosine\n'
-printf '[CHECK] index ARN saved: %s\n' "$RAG_INDEX_ARN"
+printf '[CHECK] index configuration: float32 / 1024 / cosine\n'
+printf '[CHECK] non-filterable metadata keys: AMAZON_BEDROCK_TEXT / AMAZON_BEDROCK_METADATA\n'
+printf '[CHECK] index ARN: %s\n' "$RAG_INDEX_ARN"
+printf '[CHECK] index ARN saved to state file\n'
 printf 'vector index verification: PASS\n'
 ```
 
@@ -177,26 +189,23 @@ printf 'vector index verification: PASS\n'
 
 <ExpectedResult id="s3-2-vector-index" verification="インデックス設定を読み戻して検証する">
 
-`float32`、`1024`、`cosine`、2つの`AMAZON_BEDROCK_*` keyとindex ARNが表示され、`test`がエラーなく終了します。取得したARNはstate fileへ追記されるため、ターミナルを開き直しても復元できます。
+次の6行が表示されれば成功です。メタデータキーとstate fileへの保存もコマンドが検証します。
 
 ```text
-| name      | rag-titan-v2-1024 |
-| dataType  | float32           |
-| dimension | 1024              |
-| distance  | cosine            |
-| metadata  | AMAZON_BEDROCK_TEXT, AMAZON_BEDROCK_METADATA |
 [CHECK] vector index creation: COMPLETE (rag-titan-v2-1024)
-[CHECK] index data type: float32
-[CHECK] index dimension: 1024
-[CHECK] index distance metric: cosine
-[CHECK] index ARN saved: arn:aws:s3vectors:...
+[CHECK] index configuration: float32 / 1024 / cosine
+[CHECK] non-filterable metadata keys: AMAZON_BEDROCK_TEXT / AMAZON_BEDROCK_METADATA
+[CHECK] index ARN: arn:aws:s3vectors:...
+[CHECK] index ARN saved to state file
 vector index verification: PASS
 ```
 
 - `[CHECK] vector index creation: COMPLETE`が表示される
-- `float32 / 1024 / cosine`が一致する
-- non-filterable metadata keyが2つ表示される
-- `RAG_INDEX_ARN`がstate fileへ保存される
+- `[CHECK] index configuration: float32 / 1024 / cosine`が表示される
+- `[CHECK] non-filterable metadata keys: AMAZON_BEDROCK_TEXT / AMAZON_BEDROCK_METADATA`が表示される
+- `[CHECK] index ARN:`が表示される
+- `[CHECK] index ARN saved to state file`が表示される
+- `vector index verification: PASS`が表示される
 
 </ExpectedResult>
 

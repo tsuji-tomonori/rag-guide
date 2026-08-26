@@ -78,26 +78,24 @@ export RAG_ROLE_ARN="$(aws iam get-role \
   --query 'Role.Arn' \
   --output text)"
 
-printf 'region=%s\nrun=%s\nkb=%s\nds=%s\nindex=%s\n' \
+printf '[CHECK] ingestion variables: READY (region=%s run=%s kb=%s ds=%s index=%s)\n' \
   "$AWS_REGION" "$RAG_RUN_ID" "$RAG_KB_ID" "$RAG_DS_ID" "$RAG_INDEX_ARN"
+printf 'ingestion variables verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s6-1-state" verification="現在のrunを復元して必須変数を準備">
 
-すべての値が空でない状態で表示されます。ここで値が欠けている場合は同期を開始せず、前のページで作成したrunのstate fileを復元します。
+次の2行が表示されれば成功です。state fileから復元できること自体は成功条件にせず、取り込みに必要な5つの値が現在そろっていることだけを確認します。
 
 ```text
-region=ap-northeast-1
-run=0816071530-a41f92
-kb=RQVIZHNFAN
-ds=H63CPNRSM9
-index=arn:aws:s3vectors:ap-northeast-1:123456789012:bucket/.../index/...
+[CHECK] ingestion variables: READY (region=ap-northeast-1 run=0816071530-a41f92 kb=RQVIZHNFAN ds=H63CPNRSM9 index=arn:aws:s3vectors:...)
+ingestion variables verification: PASS
 ```
 
-- `region`、`run`、`kb`、`ds`、`index`の5項目が空でない
-- state fileから現在のrunを復元できる
+- `[CHECK] ingestion variables: READY`が表示される
+- `ingestion variables verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -144,8 +142,8 @@ jq -e \
     and (actions | index("s3vectors:GetIndex")))
 ' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
 
-printf '[CHECK] Knowledge Base role: %s\n' "$RAG_KB_ROLE_ARN"
-printf '[CHECK] embedding, S3 source, and vector index permissions: present\n'
+printf '[CHECK] Knowledge Base role: MATCH (%s)\n' "$RAG_KB_ROLE_ARN"
+printf '[CHECK] ingestion permissions: embedding / S3 source / vector index\n'
 printf 'ingestion preflight: PASS\n'
 ```
 
@@ -153,16 +151,16 @@ printf 'ingestion preflight: PASS\n'
 
 <ExpectedResult id="s6-1-preflight" verification="ナレッジベースのロールと取り込み権限を事前検証">
 
-最後の`jq -e`が終了コード`0`で完了します。`bedrock:InvokeModel`だけでなく、source bucketへの`s3:ListBucket`、`documents/*`への`s3:GetObject`、S3 Vector indexの必要操作まで確認します。
+次の3行が表示されれば成功です。
 
 ```text
-[CHECK] Knowledge Base role: arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92
-[CHECK] embedding, S3 source, and vector index permissions: present
+[CHECK] Knowledge Base role: MATCH (arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92)
+[CHECK] ingestion permissions: embedding / S3 source / vector index
 ingestion preflight: PASS
 ```
 
-- Knowledge Baseが期待したservice roleを参照する
-- embedding、S3 source、S3 Vector indexの権限がそろう
+- `[CHECK] Knowledge Base role: MATCH`が表示される
+- `[CHECK] ingestion permissions: embedding / S3 source / vector index`が表示される
 - `ingestion preflight: PASS`が表示される
 
 </ExpectedResult>
@@ -183,32 +181,41 @@ aws bedrock-agent start-ingestion-job \
 
 export RAG_INGESTION_JOB_ID="$(jq -r '.ingestionJob.ingestionJobId' "$RAG_WORK_DIR/start-ingestion-output.json")"
 test "${#RAG_INGESTION_JOB_ID}" -eq 10
-declare -p RAG_INGESTION_JOB_ID >> "$RAG_STATE_FILE"
 
-printf '[CHECK] ingestion job ID: %s\n' "$RAG_INGESTION_JOB_ID"
-printf '[CHECK] initial status: STARTING or IN_PROGRESS\n'
+export RAG_INITIAL_INGESTION_STATUS="$(jq -r '.ingestionJob.status' \
+  "$RAG_WORK_DIR/start-ingestion-output.json")"
+case "$RAG_INITIAL_INGESTION_STATUS" in
+  STARTING|IN_PROGRESS) ;;
+  *)
+    printf 'ERROR: unexpected initial ingestion status: %s\n' \
+      "$RAG_INITIAL_INGESTION_STATUS" >&2
+    exit 1
+    ;;
+esac
+
+declare -p RAG_INGESTION_JOB_ID >> "$RAG_STATE_FILE"
+grep -Fq 'RAG_INGESTION_JOB_ID' "$RAG_STATE_FILE"
+
+printf '[CHECK] ingestion job ID saved to state file: %s\n' "$RAG_INGESTION_JOB_ID"
+printf '[CHECK] initial ingestion status: %s\n' "$RAG_INITIAL_INGESTION_STATUS"
+printf 'ingestion start verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s6-1-start" verification="取り込みジョブを開始してIDを保存">
 
-10文字のingestion job IDを取得できます。直後のstatusは`STARTING`または`IN_PROGRESS`です。job IDもstate fileへ保存されます。
+次の3行が表示されれば成功です。初期statusには`STARTING`または`IN_PROGRESS`の実値が表示されます。
 
 ```text
-{
-  "ingestionJob": {
-    "ingestionJobId": "TW6ZYORG1P",
-    "status": "STARTING",
-    "description": "Initial sync for RAG hands-on 0816071530-a41f92"
-  }
-}
-[CHECK] ingestion job ID: TW6ZYORG1P
-[CHECK] initial status: STARTING or IN_PROGRESS
+[CHECK] ingestion job ID saved to state file: TW6ZYORG1P
+[CHECK] initial ingestion status: STARTING
+ingestion start verification: PASS
 ```
 
-- 10文字のjob IDがstate fileへ保存される
-- 初期statusが`STARTING`または`IN_PROGRESS`である
+- `[CHECK] ingestion job ID saved to state file:`が表示される
+- `[CHECK] initial ingestion status:`に`STARTING`または`IN_PROGRESS`が表示される
+- `ingestion start verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -258,18 +265,14 @@ printf 'ingestion monitoring: PASS\n'
 
 <ExpectedResult id="s6-2-ingestion" verification="終端状態まで監視する">
 
-複数ページのPDFを解析・chunk化・embeddingするため、小さなtxt fileより時間がかかります。`FAILED`ならその場でfailure reasonを表示して停止します。20分経っても終わらない場合は、無限に待たず[トラブルシューティング](/rag-guide/troubleshooting/)を確認します。
+次の2行が表示されれば成功です。`FAILED`または`STOPPED`ではコマンドが終了し、この表示には到達しません。
 
 ```text
-[01/80] ingestion status: STARTING
-[02/80] ingestion status: IN_PROGRESS
-[03/80] ingestion status: COMPLETE
 [CHECK] ingestion status: COMPLETE
 ingestion monitoring: PASS
 ```
 
-- 最終statusが`COMPLETE`である
-- `FAILED`や`STOPPED`で終了していない
+- `[CHECK] ingestion status: COMPLETE`が表示される
 - `ingestion monitoring: PASS`が表示される
 
 </ExpectedResult>
@@ -288,8 +291,8 @@ aws bedrock-agent get-ingestion-job \
   --knowledge-base-id "$RAG_KB_ID" \
   --data-source-id "$RAG_DS_ID" \
   --ingestion-job-id "$RAG_INGESTION_JOB_ID" \
-  --query 'ingestionJob.{status:status,statistics:statistics,failures:failureReasons}' \
-  --output yaml
+  --output json \
+  | tee "$RAG_WORK_DIR/ingestion-final.json" >/dev/null
 ```
 
 </Command>
@@ -301,11 +304,19 @@ if aws bedrock-agent list-knowledge-base-documents \
   --region "$AWS_REGION" \
   --knowledge-base-id "$RAG_KB_ID" \
   --data-source-id "$RAG_DS_ID" \
-  --query 'documentDetails[].{status:status,uri:identifier.s3.uri,reason:statusReason}' \
-  --output table; then
-  echo "document-level verification: OK"
+  --output json \
+  > "$RAG_WORK_DIR/knowledge-base-documents.json" \
+  2> "$RAG_WORK_DIR/knowledge-base-documents.err"; then
+  jq -e '
+    (.documentDetails | length) > 0 and
+    all(.documentDetails[]; .status == "INDEXED")
+  ' "$RAG_WORK_DIR/knowledge-base-documents.json" >/dev/null
+  export RAG_DOCUMENT_CHECK="INDEXED"
+elif grep -q 'AccessDeniedException' "$RAG_WORK_DIR/knowledge-base-documents.err"; then
+  export RAG_DOCUMENT_CHECK="SKIPPED (caller lacks bedrock:ListKnowledgeBaseDocuments)"
 else
-  echo "document-level verification: SKIPPED (bedrock:ListKnowledgeBaseDocuments is not allowed for this caller)" >&2
+  cat "$RAG_WORK_DIR/knowledge-base-documents.err" >&2
+  exit 1
 fi
 ```
 
@@ -329,17 +340,28 @@ fi
 
 test -n "$RAG_INDEX_ARN"
 
+jq -e '
+  .ingestionJob.status == "COMPLETE" and
+  ((.ingestionJob.failureReasons // []) | length) == 0
+' "$RAG_WORK_DIR/ingestion-final.json" >/dev/null
+
 aws s3vectors list-vectors \
   --region "$AWS_REGION" \
   --index-arn "$RAG_INDEX_ARN" \
   --max-items 20 \
   --return-metadata \
-  --query '{count:length(vectors),keys:vectors[].key}' \
-  --output json
+  --output json \
+  | tee "$RAG_WORK_DIR/indexed-vectors.json" >/dev/null
 
-printf '[CHECK] ingestion statistics: COMPLETE\n'
-printf '[CHECK] indexed vector count: >= 1\n'
-printf '[CHECK] document-level verification: see caller permission result\n'
+export RAG_VECTOR_COUNT="$(jq '.vectors | length' \
+  "$RAG_WORK_DIR/indexed-vectors.json")"
+test "$RAG_VECTOR_COUNT" -ge 1
+: "${RAG_DOCUMENT_CHECK:?Run the document-level status command first}"
+
+printf '[CHECK] ingestion job status: COMPLETE\n'
+printf '[CHECK] failure reasons: NONE\n'
+printf '[CHECK] document status: %s\n' "$RAG_DOCUMENT_CHECK"
+printf '[CHECK] indexed vectors: %s (>= 1)\n' "$RAG_VECTOR_COUNT"
 printf 'sync verification: PASS\n'
 ```
 
@@ -347,28 +369,20 @@ printf 'sync verification: PASS\n'
 
 <ExpectedResult id="s6-3-sync" verification="ベクトルが登録されたことを確認">
 
-- jobは`COMPLETE`で、failure reasonがありません。
-- `bedrock:ListKnowledgeBaseDocuments`が許可されている場合、RAGガイダンスPDFが`INDEXED`です。
-- vector countは`1`以上です。文書数とvector数はchunkingによって一致しない場合があります。
-- これは取り込み段階の合格であり、検索結果のrelevanceや生成回答の正しさを意味しません。
+次の5行が表示されれば成功です。文書一覧の権限がない場合だけ、document statusは`SKIPPED`になります。
 
 ```text
-status: COMPLETE
-statistics:
-  numberOfDocumentsScanned: 2
-  numberOfDocumentsIndexed: 1
-  numberOfMetadataDocumentsIndexed: 1
-vectors:
-  count: 20
-document-level verification: OK
-[CHECK] ingestion statistics: COMPLETE
-[CHECK] indexed vector count: >= 1
+[CHECK] ingestion job status: COMPLETE
+[CHECK] failure reasons: NONE
+[CHECK] document status: INDEXED
+[CHECK] indexed vectors: 20 (>= 1)
 sync verification: PASS
 ```
 
-- job statusが`COMPLETE`で、failure reasonが空である
-- caller権限があれば文書statusが`INDEXED`である（権限不足時は`SKIPPED`と表示される）
-- vector countが1以上である
+- `[CHECK] ingestion job status: COMPLETE`が表示される
+- `[CHECK] failure reasons: NONE`が表示される
+- `[CHECK] document status:`に`INDEXED`または権限不足による`SKIPPED`が表示される
+- `[CHECK] indexed vectors:`に`1`以上の件数が表示される
 - `sync verification: PASS`が表示される
 
 </ExpectedResult>
@@ -381,7 +395,6 @@ sync verification: PASS
 
 <Checkpoint>
 
-- このrunの環境変数をstate fileから復元できる
 - Knowledge Baseが4章で作成したservice roleを使用している
 - service roleに`s3:ListBucket`、`s3:GetObject`、`bedrock:InvokeModel`、S3 Vectors必要権限がある
 - ingestion jobは`COMPLETE`である

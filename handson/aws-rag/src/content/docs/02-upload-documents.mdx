@@ -67,12 +67,15 @@ AWS Docsの`latest` URLからPDFを取得します。途中で切れたファイ
 <Command phase="execute" title="AWS公式PDFを取得">
 
 ```bash
-curl --fail --location \
+export RAG_DOWNLOAD_INFO="$(curl --fail --location \
   --retry 3 --retry-all-errors \
   --connect-timeout 20 --max-time 300 \
   --output "$RAG_DOCUMENT_PATH.part" \
   --write-out 'downloaded=%{size_download} bytes\ncontent_type=%{content_type}\nurl=%{url_effective}\n' \
-  "$RAG_DOCUMENT_URL"
+  "$RAG_DOCUMENT_URL")"
+
+printf '%s' "$RAG_DOWNLOAD_INFO" \
+  | tee "$RAG_WORK_DIR/pdf-download-info.txt"
 
 mv "$RAG_DOCUMENT_PATH.part" "$RAG_DOCUMENT_PATH"
 ```
@@ -82,36 +85,51 @@ mv "$RAG_DOCUMENT_PATH.part" "$RAG_DOCUMENT_PATH"
 <Command phase="verify" title="PDFの形式とサイズを検証" final>
 
 ```bash
+export RAG_DOWNLOAD_CONTENT_TYPE="$(sed -n 's/^content_type=//p' "$RAG_WORK_DIR/pdf-download-info.txt")"
+export RAG_DOWNLOAD_URL="$(sed -n 's/^url=//p' "$RAG_WORK_DIR/pdf-download-info.txt")"
+
+[[ "$RAG_DOWNLOAD_CONTENT_TYPE" == application/pdf* ]]
+[[ "$RAG_DOWNLOAD_URL" == https://docs.aws.amazon.com/* ]]
 test "$(head -c 5 "$RAG_DOCUMENT_PATH")" = "%PDF-"
 
 export RAG_PDF_BYTES="$(wc -c < "$RAG_DOCUMENT_PATH")"
 test "$RAG_PDF_BYTES" -gt 1048576
 test "$RAG_PDF_BYTES" -lt 50000000
 
-printf 'PDF bytes: %s\n' "$RAG_PDF_BYTES"
-sha256sum "$RAG_DOCUMENT_PATH" \
-  | tee "$RAG_WORK_DIR/aws-rag-options-and-architectures.sha256"
+export RAG_PDF_SHA256="$(sha256sum "$RAG_DOCUMENT_PATH" \
+  | tee "$RAG_WORK_DIR/aws-rag-options-and-architectures.sha256" \
+  | awk '{print $1}')"
+test -s "$RAG_WORK_DIR/aws-rag-options-and-architectures.sha256"
+
+printf '[CHECK] HTTP download: COMPLETE\n'
+printf '[CHECK] download source: AWS Docs\n'
+printf '[CHECK] PDF type: application/pdf / %%PDF-\n'
+printf '[CHECK] PDF size: %s bytes (1 MiB < size < 50 MB)\n' "$RAG_PDF_BYTES"
+printf '[CHECK] SHA-256 record: %s\n' "$RAG_PDF_SHA256"
+printf 'PDF verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s2-1-pdf" verification="PDFの形式とサイズを検証">
 
-- `curl`がHTTP errorなしで完了し、最終URLとdownload byte数を表示します。
-- 先頭5 byteが`%PDF-`です。HTMLのerror pageを誤って保存した場合はここで停止します。
-- file sizeは1 MiBより大きく、Knowledge Basesの1 fileあたりの上限である50 MB未満です。SHA-256 digestも記録されます。
+次の6行が表示されれば成功です。取得元、PDF形式、サイズ範囲、SHA-256記録をコマンドが検証済みです。
 
 ```text
-downloaded=6843210 bytes
-content_type=application/pdf
-url=https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/retrieval-augmented-generation-options.pdf
-PDF bytes: 6843210
-9f2c...  $HOME/rag-handson-0816071530-a41f92/documents/aws-rag-options-and-architectures.pdf
+[CHECK] HTTP download: COMPLETE
+[CHECK] download source: AWS Docs
+[CHECK] PDF type: application/pdf / %PDF-
+[CHECK] PDF size: 6843210 bytes (1 MiB < size < 50 MB)
+[CHECK] SHA-256 record: 9f2c...
+PDF verification: PASS
 ```
 
-- `content_type=application/pdf`と`PDF bytes:`が表示される
-- `PDF bytes`が1 MiBより大きく、50 MB未満である
-- SHA-256ファイルが作成される
+- `[CHECK] HTTP download: COMPLETE`が表示される
+- `[CHECK] download source: AWS Docs`が表示される
+- `[CHECK] PDF type: application/pdf / %PDF-`が表示される
+- `[CHECK] PDF size:`に`1 MiB < size < 50 MB`が表示される
+- `[CHECK] SHA-256 record:`が表示される
+- `PDF verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -156,34 +174,43 @@ jq -e '
   .metadataAttributes.category == "rag-guidance" and
   .metadataAttributes.status == "published" and
   .metadataAttributes.language == "ja" and
-  (.metadataAttributes.source_url | startswith("https://docs.aws.amazon.com/"))
+  (.metadataAttributes.source_url | startswith("https://docs.aws.amazon.com/")) and
+  (.metadataAttributes.retrieved_at | test("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"))
 ' "$RAG_DOCUMENT_PATH.metadata.json" >/dev/null
 
-test "$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")" -lt 10240
+export RAG_METADATA_BYTES="$(wc -c < "$RAG_DOCUMENT_PATH.metadata.json")"
+if [ "$RAG_METADATA_BYTES" -ge 10240 ]; then
+  printf 'ERROR: metadata size is %s bytes; it must be less than 10240 bytes\n' \
+    "$RAG_METADATA_BYTES" >&2
+  exit 1
+fi
+
+printf '[CHECK] metadata attributes: rag-guidance / published / ja\n'
+printf '[CHECK] metadata source: AWS Docs\n'
+printf '[CHECK] metadata timestamp: UTC ISO 8601\n'
+printf '[CHECK] metadata size: %s bytes (< 10240 bytes)\n' "$RAG_METADATA_BYTES"
+printf 'metadata verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s2-2-metadata" verification="メタデータJSONを検証">
 
-`jq`とsize検査がエラーなく終了します。metadata fileは10 KiB未満で、AWS公式URLと取得時刻を含みます。
+次の5行が表示されれば成功です。metadata fileが`10240 bytes`以上の場合は、`ERROR: metadata size is ...; it must be less than 10240 bytes`と表示して終了します。
 
-```json
-{
-  "metadataAttributes": {
-    "category": "rag-guidance",
-    "status": "published",
-    "language": "ja",
-    "source_title": "AWSのRAGオプションとアーキテクチャ",
-    "source_url": "https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/retrieval-augmented-generation-options.pdf",
-    "retrieved_at": "2026-08-16T12:00:00Z"
-  }
-}
+```text
+[CHECK] metadata attributes: rag-guidance / published / ja
+[CHECK] metadata source: AWS Docs
+[CHECK] metadata timestamp: UTC ISO 8601
+[CHECK] metadata size: 428 bytes (< 10240 bytes)
+metadata verification: PASS
 ```
 
-- `category=rag-guidance`、`status=published`、`language=ja`が確認できる
-- `source_url`がAWS公式URLである
-- metadata fileが10 KiB未満である
+- `[CHECK] metadata attributes: rag-guidance / published / ja`が表示される
+- `[CHECK] metadata source: AWS Docs`が表示される
+- `[CHECK] metadata timestamp: UTC ISO 8601`が表示される
+- `[CHECK] metadata size:`に`< 10240 bytes`が表示される
+- `metadata verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -214,30 +241,47 @@ aws s3 cp "$RAG_WORK_DIR/documents" "s3://$RAG_SOURCE_BUCKET/documents/" --recur
 <Command phase="verify" title="バケットとオブジェクトを検証" final>
 
 ```bash
-aws s3api get-bucket-location \
+export RAG_SOURCE_BUCKET_LOCATION="$(aws s3api get-bucket-location \
   --bucket "$RAG_SOURCE_BUCKET" \
   --query LocationConstraint \
-  --output text
+  --output text)"
+test "$RAG_SOURCE_BUCKET_LOCATION" = "$AWS_REGION"
 
 aws s3api get-public-access-block \
   --bucket "$RAG_SOURCE_BUCKET" \
-  --query 'PublicAccessBlockConfiguration' \
-  --output table
+  --output json \
+  | tee "$RAG_WORK_DIR/source-public-access-block.json" >/dev/null
+
+jq -e '
+  .PublicAccessBlockConfiguration.BlockPublicAcls and
+  .PublicAccessBlockConfiguration.IgnorePublicAcls and
+  .PublicAccessBlockConfiguration.BlockPublicPolicy and
+  .PublicAccessBlockConfiguration.RestrictPublicBuckets
+' "$RAG_WORK_DIR/source-public-access-block.json" >/dev/null
 
 aws s3api list-objects-v2 \
   --bucket "$RAG_SOURCE_BUCKET" \
   --prefix documents/ \
-  --query '{count:KeyCount,objects:Contents[].{key:Key,size:Size}}' \
-  --output table
+  --output json \
+  | tee "$RAG_WORK_DIR/source-objects.json" >/dev/null
 
-test "$(aws s3api head-object \
+jq -e \
+  --arg pdf 'documents/aws-rag-options-and-architectures.pdf' \
+  --arg metadata 'documents/aws-rag-options-and-architectures.pdf.metadata.json' '
+  .KeyCount == 2 and
+  ([.Contents[].Key] | sort) == ([$pdf, $metadata] | sort)
+' "$RAG_WORK_DIR/source-objects.json" >/dev/null
+
+export RAG_S3_PDF_BYTES="$(aws s3api head-object \
   --bucket "$RAG_SOURCE_BUCKET" \
   --key documents/aws-rag-options-and-architectures.pdf \
-  --query ContentLength --output text)" = "$RAG_PDF_BYTES"
+  --query ContentLength --output text)"
+test "$RAG_S3_PDF_BYTES" = "$RAG_PDF_BYTES"
 
-printf '[CHECK] source bucket creation: COMPLETE (%s)\n' "$RAG_SOURCE_BUCKET"
+printf '[CHECK] source bucket region: %s\n' "$RAG_SOURCE_BUCKET_LOCATION"
+printf '[CHECK] public access block: 4 / 4 True\n'
 printf '[CHECK] source objects uploaded: 2 (PDF + metadata)\n'
-printf '[CHECK] PDF byte size: %s\n' "$RAG_PDF_BYTES"
+printf '[CHECK] PDF byte size: MATCH (%s bytes)\n' "$RAG_S3_PDF_BYTES"
 printf 'upload verification: PASS\n'
 ```
 
@@ -245,27 +289,21 @@ printf 'upload verification: PASS\n'
 
 <ExpectedResult id="s2-3-s3" verification="バケットとオブジェクトを検証">
 
-- locationは`ap-northeast-1`です。
-- 4つのpublic access block設定がすべて`True`です。
-- `count`は`2`で、PDFと対応するmetadata fileが表示されます。
-- local PDFとS3 objectのbyte数が一致し、最後の`test`が成功します。
+次の5行が表示されれば成功です。
 
 ```text
-location: ap-northeast-1
-BlockPublicAcls       True
-IgnorePublicAcls      True
-BlockPublicPolicy     True
-RestrictPublicBuckets True
-[CHECK] source bucket creation: COMPLETE (rag-handson-123456789012-0816071530-a41f92)
+[CHECK] source bucket region: ap-northeast-1
+[CHECK] public access block: 4 / 4 True
 [CHECK] source objects uploaded: 2 (PDF + metadata)
-[CHECK] PDF byte size: 6843210
+[CHECK] PDF byte size: MATCH (6843210 bytes)
 upload verification: PASS
 ```
 
-- `[CHECK] source bucket creation: COMPLETE`が表示される
+- `[CHECK] source bucket region: ap-northeast-1`が表示される
+- `[CHECK] public access block: 4 / 4 True`が表示される
 - `[CHECK] source objects uploaded: 2`が表示される
-- public access blockが4項目とも`True`である
-- PDFとmetadataの2 objectが存在し、byte数が一致する
+- `[CHECK] PDF byte size: MATCH`が表示される
+- `upload verification: PASS`が表示される
 
 </ExpectedResult>
 

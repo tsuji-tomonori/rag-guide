@@ -90,31 +90,44 @@ jq -n \
 
 ```bash
 aws bedrock-agent-runtime retrieve \
+  --region "$AWS_REGION" \
   --cli-input-json "file://$RAG_WORK_DIR/retrieve-input.json" \
   | tee "$RAG_WORK_DIR/retrieve-output.json"
+
+jq -e '
+  (.retrievalResults | length) > 0 and
+  all(.retrievalResults[];
+    (.content.text | type == "string" and length > 0) and
+    (.score | type == "number") and
+    (.location.s3Location.uri | type == "string" and startswith("s3://")) and
+    (.metadata | type == "object"))
+' "$RAG_WORK_DIR/retrieve-output.json" >/dev/null
+
+export RAG_RETRIEVAL_COUNT="$(jq '.retrievalResults | length' \
+  "$RAG_WORK_DIR/retrieve-output.json")"
+printf '[CHECK] Retrieve API: COMPLETE\n'
+printf '[CHECK] retrieval candidates: %s (>= 1)\n' "$RAG_RETRIEVAL_COUNT"
+printf '[CHECK] candidate fields: text / score / S3 source URI / metadata\n'
+printf 'Retrieve execution verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s7-1-retrieve" verification="Retrieveを実行">
 
-`retrieve-output.json`に`retrievalResults`が入り、各candidateに本文、score、source URI、metadataが返ります。
+次の4行が表示されれば成功です。
 
-```json
-{
-  "retrievalResults": [
-    {
-      "score": 0.82,
-      "location": {"s3Location": {"uri": "s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf"}},
-      "content": {"text": "チャンク化、埋め込み、ベクトルデータベース、類似度検索、Retrieve、RetrieveAndGenerate..."},
-      "metadata": {"category": "rag-guidance", "language": "ja"}
-    }
-  ]
-}
+```text
+[CHECK] Retrieve API: COMPLETE
+[CHECK] retrieval candidates: 5 (>= 1)
+[CHECK] candidate fields: text / score / S3 source URI / metadata
+Retrieve execution verification: PASS
 ```
 
-- `retrievalResults`が1件以上ある
-- candidateに`text`、`score`、source URI、metadataがある
+- `[CHECK] Retrieve API: COMPLETE`が表示される
+- `[CHECK] retrieval candidates:`に`1`以上の件数が表示される
+- `[CHECK] candidate fields: text / score / S3 source URI / metadata`が表示される
+- `Retrieve execution verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -150,7 +163,7 @@ jq '
     )
   }
 ' "$RAG_WORK_DIR/retrieve-output.json" \
-  | tee "$RAG_WORK_DIR/retrieve-coverage.json"
+  | tee "$RAG_WORK_DIR/retrieve-coverage.json" >/dev/null
 
 jq -e '
   .returned > 0 and
@@ -160,10 +173,12 @@ jq -e '
   .sourceTraceable
 ' "$RAG_WORK_DIR/retrieve-coverage.json" >/dev/null
 
-printf '[CHECK] retrieval candidates: >= 1\n'
-printf '[CHECK] RAG 4-step coverage: ingestion / retrieval / api\n'
-printf '[CHECK] source: aws-rag-options-and-architectures.pdf\n'
-printf 'retrieval verification: PASS'
+export RAG_RETRIEVAL_COUNT="$(jq '.returned' \
+  "$RAG_WORK_DIR/retrieve-coverage.json")"
+printf '[CHECK] retrieval candidates: %s (>= 1)\n' "$RAG_RETRIEVAL_COUNT"
+printf '[CHECK] evidence coverage: ingestion / retrieval / API boundary\n'
+printf '[CHECK] source and category: expected PDF / rag-guidance\n'
+printf 'retrieval verification: PASS\n'
 ```
 
 </Command>
@@ -172,21 +187,18 @@ printf 'retrieval verification: PASS'
 
 <ExpectedResult id="s7-2-results" verification="検索結果を検証する">
 
-1件以上のcandidateが返り、`retrieve-coverage.json`で`ingestion`、`retrieval`、`api`、`sourceTraceable`がすべて`true`になります。検索本文には、チャンク化・埋め込み・ベクトルデータベース、類似度検索、取得（`Retrieve`）と`RetrieveAndGenerate`の説明が含まれます。source URIは`aws-rag-options-and-architectures.pdf`を指し、metadataのcategoryは`rag-guidance`です。
+次の4行が表示されれば成功です。
 
 ```text
-rank=1 score=0.82 category=rag-guidance
-source=s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf
-text=文書のチャンク化、埋め込み、ベクトルデータベース、類似度検索 ...
-[CHECK] retrieval candidates: >= 1
-[CHECK] RAG 4-step coverage: ingestion / retrieval / api
-[CHECK] source: aws-rag-options-and-architectures.pdf
+[CHECK] retrieval candidates: 5 (>= 1)
+[CHECK] evidence coverage: ingestion / retrieval / API boundary
+[CHECK] source and category: expected PDF / rag-guidance
 retrieval verification: PASS
 ```
 
-- candidateが1件以上である
-- `retrieve-coverage.json`の取り込み・リトリーバー・API境界がすべて`true`である
-- source URIとmetadata categoryが期待値である
+- `[CHECK] retrieval candidates:`に`1`以上の件数が表示される
+- `[CHECK] evidence coverage: ingestion / retrieval / API boundary`が表示される
+- `[CHECK] source and category: expected PDF / rag-guidance`が表示される
 - `retrieval verification: PASS`が表示される
 
 </ExpectedResult>
@@ -220,8 +232,15 @@ test -s "$RAG_WORK_DIR/evidence.txt"
 grep -q '\[E1\]' "$RAG_WORK_DIR/evidence.txt"
 grep -q 'source=s3://' "$RAG_WORK_DIR/evidence.txt"
 
-printf '[CHECK] evidence IDs: E1..E%d\n' "$(grep -c '^\[E[0-9][0-9]*\]$' "$RAG_WORK_DIR/evidence.txt")"
-printf '[CHECK] evidence source URI: present\n'
+export RAG_EVIDENCE_COUNT="$(grep -c '^\[E[0-9][0-9]*\]$' \
+  "$RAG_WORK_DIR/evidence.txt")"
+export RAG_EVIDENCE_SOURCE_COUNT="$(grep -c '^source=s3://' \
+  "$RAG_WORK_DIR/evidence.txt")"
+test "$RAG_EVIDENCE_COUNT" -ge 1
+test "$RAG_EVIDENCE_SOURCE_COUNT" -eq "$RAG_EVIDENCE_COUNT"
+
+printf '[CHECK] evidence blocks: %s (>= 1)\n' "$RAG_EVIDENCE_COUNT"
+printf '[CHECK] each block: citation ID / text / S3 source URI\n'
 printf 'evidence set verification: PASS\n'
 ```
 
@@ -229,23 +248,16 @@ printf 'evidence set verification: PASS\n'
 
 <ExpectedResult id="s7-3-evidence" verification="検索結果を根拠セットへ整形">
 
-各candidateに`E1`、`E2`…のcitation IDが付き、本文とS3 source URIが同じblockに保存されます。
+次の3行が表示されれば成功です。
 
 ```text
-[E1]
-チャンク化、埋め込み、類似度検索...
-source=s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf
-
-[E2]
-...
-source=s3://rag-handson-.../documents/aws-rag-options-and-architectures.pdf
-[CHECK] evidence IDs: E1..E5
-[CHECK] evidence source URI: present
+[CHECK] evidence blocks: 5 (>= 1)
+[CHECK] each block: citation ID / text / S3 source URI
 evidence set verification: PASS
 ```
 
-- `[E1]`以降のcitation IDがある
-- 各blockに本文と`source=s3://`がある
+- `[CHECK] evidence blocks:`に`1`以上の件数が表示される
+- `[CHECK] each block: citation ID / text / S3 source URI`が表示される
 - `evidence set verification: PASS`が表示される
 
 </ExpectedResult>
