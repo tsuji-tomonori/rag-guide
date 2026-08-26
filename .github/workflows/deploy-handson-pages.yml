@@ -1,6 +1,8 @@
 name: Deploy AWS RAG hands-on to GitHub Pages
 
 on:
+  schedule:
+    - cron: '02 * * * *'
   push:
     branches: [main]
     paths:
