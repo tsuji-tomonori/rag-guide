@@ -80,29 +80,38 @@ jq -n \
     }]
   }]' | tee "$RAG_WORK_DIR/converse-messages.json"
 
-jq -e 'length == 1 and .[0].role == "user" and (.[] | .content | length == 1)' \
+jq -e --arg question "$RAG_QUESTION" '
+  length == 1 and
+  .[0].role == "user" and
+  (.[0].content | length) == 1 and
+  (.[0].content[0].text | contains($question)) and
+  (.[0].content[0].text | contains("Evidence Set:")) and
+  (.[0].content[0].text | contains("[E1]")) and
+  (.[0].content[0].text | contains("source=s3://")) and
+  (.[0].content[0].text | contains("根拠不足です"))
+' \
   "$RAG_WORK_DIR/converse-messages.json" >/dev/null
+
+printf '[CHECK] message structure: 1 user message\n'
+printf '[CHECK] prompt contents: question / constraints / Evidence Set / citation IDs\n'
+printf 'message verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s8-1-message" verification="根拠セット付きメッセージを準備">
 
-message JSONが表示され、質問、制約、`[E1]`を含むEvidence Setが1つのuser messageへ入っています。
+次の3行が表示されれば成功です。
 
-```json
-[
-  {
-    "role": "user",
-    "content": [
-      {"text": "...質問...\n\nEvidence Set:\n[E1] ... source=s3://..."}
-    ]
-  }
-]
+```text
+[CHECK] message structure: 1 user message
+[CHECK] prompt contents: question / constraints / Evidence Set / citation IDs
+message verification: PASS
 ```
 
-- messageが1件のuser messageである
-- 質問、Evidence Set、`[E1]`形式の指示が含まれる
+- `[CHECK] message structure: 1 user message`が表示される
+- `[CHECK] prompt contents: question / constraints / Evidence Set / citation IDs`が表示される
+- `message verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -116,6 +125,7 @@ message JSONが表示され、質問、制約、`[E1]`を含むEvidence Setが1�
 
 ```bash
 aws bedrock-runtime converse \
+  --region "$AWS_REGION" \
   --model-id "$RAG_GENERATION_MODEL_ID" \
   --messages "file://$RAG_WORK_DIR/converse-messages.json" \
   --inference-config '{"maxTokens":400,"temperature":0.1,"topP":0.9}' \
@@ -124,23 +134,29 @@ aws bedrock-runtime converse \
 jq -r '.output.message.content[] | select(.text) | .text' \
   "$RAG_WORK_DIR/converse-output.json" \
   | tee "$RAG_WORK_DIR/answer.txt"
+
+test -s "$RAG_WORK_DIR/answer.txt"
+export RAG_ANSWER_BYTES="$(wc -c < "$RAG_WORK_DIR/answer.txt")"
+printf '[CHECK] Converse API: COMPLETE\n'
+printf '[CHECK] generated answer: PRESENT (%s bytes)\n' "$RAG_ANSWER_BYTES"
+printf 'Converse execution verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s8-2-answer" verification="Converseを呼び出す">
 
-回答に、PDFのRAG 4ステップ、Knowledge Basesが文書をチャンク化・埋め込みしてベクトルデータベースへ保存する流れ、リトリーバーによる類似度検索、`Retrieve`と`RetrieveAndGenerate`の役割の違いが含まれます。各主張にはEvidence Setに対応する`[E1]`形式のcitationが付き、Evidence Setにない説明を創作していません。
+次の3行が表示されればAPI呼び出しは成功です。回答内容とcitationの検査は次の8.3で行います。
 
 ```text
-RAGは、文書を取り込み [E1]、自然言語の質問を受け取り [E1]、
-類似度検索で関連データを取得し [E2]、クエリと根拠を使って回答を生成します [E2]。
-Knowledge Basesは文書をチャンク化・埋め込みしてベクトルデータベースへ保存します [E1]。
+[CHECK] Converse API: COMPLETE
+[CHECK] generated answer: PRESENT (862 bytes)
+Converse execution verification: PASS
 ```
 
-- RAGの4ステップとKnowledge Basesの処理が回答に含まれる
-- 回答に`[E1]`形式のcitationがある
-- Evidence Setにない内容を根拠として追加していない
+- `[CHECK] Converse API: COMPLETE`が表示される
+- `[CHECK] generated answer: PRESENT`が表示される
+- `Converse execution verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -171,6 +187,14 @@ for citation in $(grep -oE '\[E[0-9]+\]' "$RAG_WORK_DIR/answer.txt" | sort -u); 
   }
 done
 
+export RAG_CITATION_ID_COUNT="$(grep -oE '\[E[0-9]+\]' \
+  "$RAG_WORK_DIR/answer.txt" | sort -u | wc -l)"
+test "$RAG_CITATION_ID_COUNT" -ge 1
+
+printf '[CHECK] generated answer: NON-EMPTY\n'
+printf '[CHECK] required content: RAG 4 steps / Knowledge Bases / Retrieve / RetrieveAndGenerate\n'
+printf '[CHECK] citation IDs: %s (>= 1)\n' "$RAG_CITATION_ID_COUNT"
+printf '[CHECK] citation references: all present in Evidence Set\n'
 printf 'citation validation: PASS\n'
 ```
 
@@ -178,15 +202,20 @@ printf 'citation validation: PASS\n'
 
 <ExpectedResult id="s8-3-citation" verification="最低限の引用検査を行う">
 
-`citation validation: PASS`と表示されます。回答内のcitation IDが、実際のEvidence Setに存在します。さらに、RAG 4ステップ、Knowledge Basesの取り込み、リトリーバーの類似度検索、2つのAPIの役割が質問に対応して説明されます。
+次の5行が表示されれば成功です。
 
 ```text
+[CHECK] generated answer: NON-EMPTY
+[CHECK] required content: RAG 4 steps / Knowledge Bases / Retrieve / RetrieveAndGenerate
+[CHECK] citation IDs: 2 (>= 1)
+[CHECK] citation references: all present in Evidence Set
 citation validation: PASS
 ```
 
-- `answer.txt`が空でない
-- RAG 4ステップとKnowledge Basesの語、および`[E1]`形式がある
-- 回答内の全citation IDがEvidence Setに存在する
+- `[CHECK] generated answer: NON-EMPTY`が表示される
+- `[CHECK] required content: RAG 4 steps / Knowledge Bases / Retrieve / RetrieveAndGenerate`が表示される
+- `[CHECK] citation IDs:`に`1`以上の件数が表示される
+- `[CHECK] citation references: all present in Evidence Set`が表示される
 - `citation validation: PASS`が表示される
 
 </ExpectedResult>

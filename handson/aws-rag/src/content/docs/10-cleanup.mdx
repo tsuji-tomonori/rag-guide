@@ -76,27 +76,30 @@ test "${#RAG_DS_ID}" -eq 10
 [[ "$RAG_SOURCE_BUCKET" == *"$RAG_ACCOUNT_ID"*"$RAG_RUN_ID" ]]
 [[ "$RAG_VECTOR_BUCKET" == *"$RAG_ACCOUNT_ID"*"$RAG_RUN_ID" ]]
 [[ "$RAG_ROLE_NAME" == *"$RAG_RUN_ID" ]]
+
+printf '[CHECK] deletion targets: 7\n'
+printf '[CHECK] run-scoped names: MATCH (%s)\n' "$RAG_RUN_ID"
+printf '[CHECK] Knowledge Base and data source IDs: 10 characters\n'
+printf 'cleanup target verification: PASS\n'
 ```
 
 </Command>
 
 <ExpectedResult id="s10-1-targets" verification="削除対象を固定して確認">
 
-すべての名前がこのrun IDを含み、検証コマンドがエラーなく終了します。一つでも失敗した場合は削除を止め、[変数の復元](/rag-guide/troubleshooting/#環境変数が消えた場合)を行います。
+次の4行が表示されれば成功です。一つでも表示されない場合は削除を止め、[変数の復元](/rag-guide/troubleshooting/#環境変数が消えた場合)を行います。
 
 ```text
-run ID                  0816071530-a41f92
-knowledge base          RQVIZHNFAN
-data source             H63CPNRSM9
-source bucket           rag-handson-123456789012-0816071530-a41f92
-vector bucket           rag-handson-vectors-123456789012-0816071530-a41f92
-vector index            rag-titan-v2-1024
-IAM role                BedrockKnowledgeBaseRole-0816071530-a41f92
+[CHECK] deletion targets: 7
+[CHECK] run-scoped names: MATCH (0816071530-a41f92)
+[CHECK] Knowledge Base and data source IDs: 10 characters
+cleanup target verification: PASS
 ```
 
-- 7つの削除対象が表示される
-- bucket、role名が現在の`RAG_RUN_ID`を含む
-- Knowledge Baseとdata source IDが10文字である
+- `[CHECK] deletion targets: 7`が表示される
+- `[CHECK] run-scoped names: MATCH`が表示される
+- `[CHECK] Knowledge Base and data source IDs: 10 characters`が表示される
+- `cleanup target verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -171,18 +174,16 @@ printf 'Bedrock deletion: PASS\n'
 
 <ExpectedResult id="s10-2-bedrock" verification="データソースとKnowledge Baseを削除">
 
-`data source deleted`と`knowledge base deleted`が表示されます。削除API自体がエラーなく完了していることも確認してください。
+次の3行が表示されれば成功です。
 
 ```text
-data source deleted
-knowledge base deleted
 [CHECK] data source deletion: COMPLETE (absent)
 [CHECK] knowledge base deletion: COMPLETE (absent)
 Bedrock deletion: PASS
 ```
 
-- data sourceの削除完了が表示される
-- Knowledge Baseの削除完了が表示される
+- `[CHECK] data source deletion: COMPLETE (absent)`が表示される
+- `[CHECK] knowledge base deletion: COMPLETE (absent)`が表示される
 - `Bedrock deletion: PASS`が表示される
 
 </ExpectedResult>
@@ -246,18 +247,16 @@ printf 'S3 Vectors deletion: PASS\n'
 
 <ExpectedResult id="s10-3-vectors" verification="S3 Vectorsを削除">
 
-vector indexが削除された後、vector bucketの削除APIもエラーなく完了します。
+次の3行が表示されれば成功です。
 
 ```text
-vector index deleted
-vector bucket deleted
 [CHECK] vector index deletion: COMPLETE (absent)
 [CHECK] vector bucket deletion: COMPLETE (absent)
 S3 Vectors deletion: PASS
 ```
 
-- vector indexの削除完了を確認する
-- vector bucketが存在しないことを確認する
+- `[CHECK] vector index deletion: COMPLETE (absent)`が表示される
+- `[CHECK] vector bucket deletion: COMPLETE (absent)`が表示される
 - `S3 Vectors deletion: PASS`が表示される
 
 </ExpectedResult>
