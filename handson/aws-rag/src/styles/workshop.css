@@ -1,19 +1,19 @@
 :root {
-  --sl-color-accent-low: #dce8f0;
-  --sl-color-accent: #5e7e96;
-  --sl-color-accent-high: #2b3a4a;
+  --sl-color-accent-low: #e7eef4;
+  --sl-color-accent: #2f5d8a;
+  --sl-color-accent-high: #1c3d5e;
   --sl-font: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
-  --workshop-navy: #2b3a4a;
-  --workshop-blue: #5e7e96;
-  --workshop-pale: #afc5d3;
+  --workshop-navy: #1c1b19;
+  --workshop-blue: #2f5d8a;
+  --workshop-pale: #ccd8e3;
   --workshop-green: #779a8d;
-  --workshop-bg: #f7f6f1;
-  --workshop-line: #cbd9e3;
+  --workshop-bg: #f7f6f3;
+  --workshop-line: #e2ded4;
 }
 
 :root[data-theme='dark'] {
-  --sl-color-accent-low: #304553;
-  --sl-color-accent: #a8c0cf;
+  --sl-color-accent-low: #263746;
+  --sl-color-accent: #a9c2d8;
   --sl-color-accent-high: #f7f6f1;
 }
 
