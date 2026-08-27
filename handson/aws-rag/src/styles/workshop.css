@@ -5,6 +5,7 @@
   --sl-font: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
   --workshop-navy: #1c1b19;
   --workshop-blue: #2f5d8a;
+  --workshop-orange: #b7632d;
   --workshop-pale: #ccd8e3;
   --workshop-green: #779a8d;
   --workshop-bg: #f7f6f3;
@@ -138,6 +139,7 @@
 
 
 .build-progress {
+  container-type: inline-size;
   margin-block: 1.6rem 2.4rem;
   padding: 1.15rem;
   border: 1px solid color-mix(in srgb, var(--workshop-blue) 35%, var(--sl-color-gray-5));
@@ -217,27 +219,53 @@
   text-align: center;
 }
 
-.build-progress-phases {
+.build-progress-map {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-  margin-bottom: 0.9rem;
+  gap: 0.7rem;
 }
 
-.build-progress-phases span {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.35rem;
-  padding: 0.45rem 0.6rem;
+.build-progress-phase {
+  min-width: 0;
+  padding: 0.65rem;
   border: 1px solid var(--sl-color-gray-5);
-  border-radius: 0.45rem;
+  border-left: 5px solid var(--sl-color-gray-4);
+  border-radius: 0.65rem;
   background: var(--sl-color-bg);
 }
 
-.build-progress-phases strong { color: var(--workshop-navy); font-size: 0.78rem; }
-.build-progress-phases small { color: var(--sl-color-gray-3); font-size: 0.68rem; }
-:root[data-theme='dark'] .build-progress-phases strong { color: var(--sl-color-white); }
+.build-progress-phase.batch {
+  border-left-color: var(--workshop-blue);
+  background: color-mix(in srgb, var(--workshop-blue) 4%, var(--sl-color-bg));
+}
+
+.build-progress-phase.realtime {
+  border-left-color: var(--workshop-orange);
+  background: color-mix(in srgb, var(--workshop-orange) 5%, var(--sl-color-bg));
+}
+
+.build-progress-phase.has-current {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--workshop-blue) 16%, transparent);
+}
+
+.build-progress-phase > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+  padding-inline: 0.1rem;
+}
+
+.build-progress-phase > header strong {
+  color: var(--workshop-navy);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.build-progress-phase.batch > header strong { color: var(--workshop-blue); }
+.build-progress-phase.realtime > header strong { color: var(--workshop-orange); }
+.build-progress-phase > header small { color: var(--sl-color-gray-3); font-size: 0.76rem; }
+:root[data-theme='dark'] .build-progress-phase > header strong { color: var(--sl-color-white); }
 
 .architecture-figure > a {
   display: block;
@@ -249,48 +277,50 @@
   outline-offset: 3px;
 }
 
-@media (max-width: 40rem) {
-  .build-progress-phases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-.build-progress-steps {
+.build-progress-phase ol {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
-  gap: 0.55rem;
-  margin: 1rem 0 0;
+  gap: 0.5rem;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.build-progress-steps li {
+.build-progress-phase.steps-1 ol { grid-template-columns: minmax(0, 1fr); }
+.build-progress-phase.steps-2 ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.build-progress-phase.steps-3 ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.build-progress-phase.steps-5 ol { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.build-progress-phase.steps-5 li { grid-column: span 2; }
+.build-progress-phase.steps-5 li:nth-last-child(-n + 2) { grid-column: span 3; }
+
+.build-progress-phase li {
   min-width: 0;
   border: 1px solid var(--sl-color-gray-5);
   border-radius: 0.55rem;
   background: var(--sl-color-bg);
 }
 
-.build-progress-steps li.is-complete {
+.build-progress-phase li.is-complete {
   border-color: color-mix(in srgb, var(--workshop-green) 35%, var(--sl-color-gray-5));
   background: color-mix(in srgb, var(--workshop-green) 7%, var(--sl-color-bg));
 }
 
-.build-progress-steps li.is-current {
+.build-progress-phase li.is-current {
   border: 2px solid var(--workshop-blue);
   background: color-mix(in srgb, var(--workshop-blue) 12%, var(--sl-color-bg));
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--workshop-blue) 14%, transparent);
 }
 
-.build-progress-steps a {
+.build-progress-phase a {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  min-height: 3.25rem;
-  padding: 0.5rem 0.6rem;
+  gap: 0.6rem;
+  min-height: 3.45rem;
+  padding: 0.6rem 0.7rem;
   color: inherit;
   text-decoration: none;
 }
 
-.build-progress-steps a:hover { color: var(--workshop-blue); }
+.build-progress-phase a:hover { color: var(--workshop-blue); }
 
 .build-progress-number {
   display: grid;
@@ -308,14 +338,13 @@
 .is-complete .build-progress-number { background: var(--workshop-green); }
 .is-current .build-progress-number { background: var(--workshop-blue); }
 
-.build-progress-steps strong,
-.build-progress-steps small {
+.build-progress-phase a strong {
   display: block;
-  line-height: 1.25;
+  min-width: 0;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
-
-.build-progress-steps strong { font-size: 0.78rem; }
-.build-progress-steps small { color: var(--sl-color-gray-3); font-size: 0.68rem; }
 
 .resource-table-section {
   margin-block: 1.5rem 2rem;
@@ -378,5 +407,23 @@
   .build-progress { padding: 0.8rem; }
   .build-progress-heading { display: block; }
   .build-progress-count { display: inline-block; margin-top: 0.7rem; }
-  .build-progress-steps { grid-template-columns: 1fr 1fr; }
+}
+
+@container (max-width: 34rem) {
+  .build-progress-phase.steps-3 ol,
+  .build-progress-phase.steps-5 ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .build-progress-phase.steps-5 li,
+  .build-progress-phase.steps-5 li:nth-last-child(-n + 2) { grid-column: auto; }
+  .build-progress-phase.steps-3 li:last-child,
+  .build-progress-phase.steps-5 li:last-child { grid-column: 1 / -1; }
+}
+
+@container (max-width: 24rem) {
+  .build-progress-phase ol,
+  .build-progress-phase.steps-2 ol,
+  .build-progress-phase.steps-3 ol,
+  .build-progress-phase.steps-5 ol { grid-template-columns: 1fr; }
+  .build-progress-phase li,
+  .build-progress-phase.steps-3 li:last-child,
+  .build-progress-phase.steps-5 li:last-child { grid-column: auto; }
 }

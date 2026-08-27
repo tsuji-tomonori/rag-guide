@@ -4,17 +4,17 @@ interface Props {
 }
 
 const stages = [
-  { number: 0, label: '全体像', short: '構成確認', href: '/rag-guide/00-overview/' },
-  { number: 1, label: 'CLI実行環境', short: '事前準備', href: '/rag-guide/01-prepare-cli/' },
-  { number: 2, label: '文書をS3へ配置', short: '文書配置', href: '/rag-guide/02-upload-documents/' },
-  { number: 3, label: 'S3ベクトル作成', short: 'ベクトルストア', href: '/rag-guide/03-create-vector-store/' },
-  { number: 4, label: 'IAMロール作成', short: '権限設定', href: '/rag-guide/04-create-iam-role/' },
-  { number: 5, label: 'ナレッジベース作成', short: '検索基盤', href: '/rag-guide/05-create-knowledge-base/' },
-  { number: 6, label: '文書を同期', short: '取り込み', href: '/rag-guide/06-sync-documents/' },
-  { number: 7, label: '根拠を検索', short: '検索', href: '/rag-guide/07-retrieve/' },
-  { number: 8, label: '回答を生成', short: '回答生成', href: '/rag-guide/08-converse/' },
-  { number: 9, label: 'KBで検索＋回答を一撃実行', short: '一撃実行', href: '/rag-guide/09-improve-retrieval/' },
-  { number: 10, label: '後片付け', short: '削除確認', href: '/rag-guide/10-cleanup/' },
+  { number: 0, label: '全体像', href: '/rag-guide/00-overview/' },
+  { number: 1, label: 'CLI実行環境', href: '/rag-guide/01-prepare-cli/' },
+  { number: 2, label: '文書をS3へ配置', href: '/rag-guide/02-upload-documents/' },
+  { number: 3, label: 'S3ベクトル作成', href: '/rag-guide/03-create-vector-store/' },
+  { number: 4, label: 'IAMロール作成', href: '/rag-guide/04-create-iam-role/' },
+  { number: 5, label: 'ナレッジベース作成', href: '/rag-guide/05-create-knowledge-base/' },
+  { number: 6, label: '文書を同期', href: '/rag-guide/06-sync-documents/' },
+  { number: 7, label: '根拠を検索', href: '/rag-guide/07-retrieve/' },
+  { number: 8, label: '回答を生成', href: '/rag-guide/08-converse/' },
+  { number: 9, label: 'KBで検索＋回答を一撃実行', href: '/rag-guide/09-improve-retrieval/' },
+  { number: 10, label: '後片付け', href: '/rag-guide/10-cleanup/' },
 ];
 
 const { current } = Astro.props;
@@ -22,10 +22,10 @@ const currentIndex = Math.min(Math.max(current, 0), stages.length - 1);
 const currentStage = stages[currentIndex];
 const nextStage = stages[currentIndex + 1];
 const phases = [
-  { label: '構築準備', range: '0〜1' },
-  { label: 'バッチ', range: '2〜6' },
-  { label: 'リアルタイム', range: '7〜9' },
-  { label: '後片付け', range: '10' },
+  { label: '構築準備', range: '0〜1', tone: 'neutral', start: 0, end: 1 },
+  { label: 'バッチ', range: '2〜6', tone: 'batch', start: 2, end: 6 },
+  { label: 'リアルタイム', range: '7〜9', tone: 'realtime', start: 7, end: 9 },
+  { label: '後片付け', range: '10', tone: 'neutral', start: 10, end: 10 },
 ];
 ---
 
@@ -43,23 +43,34 @@ const phases = [
     <span class="build-progress-count">{currentStage.number} / {stages.length - 1}</span>
   </div>
 
-  <div class="build-progress-phases" aria-label="構築フェーズ">
-    {phases.map((phase) => (
-      <span><strong>{phase.label}</strong><small>手順 {phase.range}</small></span>
-    ))}
+  <div class="build-progress-map" aria-label="全11手順の現在地">
+    {phases.map((phase) => {
+      const phaseStages = stages.slice(phase.start, phase.end + 1);
+      return (
+        <section
+          class:list={[
+            'build-progress-phase',
+            phase.tone,
+            `steps-${phaseStages.length}`,
+            { 'has-current': currentIndex >= phase.start && currentIndex <= phase.end },
+          ]}
+        >
+          <header>
+            <strong>{phase.label}</strong>
+            <small>手順 {phase.range}</small>
+          </header>
+          <ol>
+            {phaseStages.map((stage) => (
+              <li class:list={{ 'is-current': stage.number === currentIndex, 'is-complete': stage.number < currentIndex }}>
+                <a href={stage.href} aria-current={stage.number === currentIndex ? 'step' : undefined}>
+                  <span class="build-progress-number">{stage.number}</span>
+                  <strong>{stage.label}</strong>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      );
+    })}
   </div>
-
-  <ol class="build-progress-steps">
-    {stages.map((stage) => (
-      <li class:list={{ 'is-current': stage.number === currentIndex, 'is-complete': stage.number < currentIndex }}>
-        <a href={stage.href} aria-current={stage.number === currentIndex ? 'step' : undefined}>
-          <span class="build-progress-number">{stage.number}</span>
-          <span>
-            <strong>{stage.label}</strong>
-            <small>{stage.short}</small>
-          </span>
-        </a>
-      </li>
-    ))}
-  </ol>
 </section>
