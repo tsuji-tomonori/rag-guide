@@ -9,6 +9,7 @@ import { Aside, Steps } from '@astrojs/starlight/components';
 import Checkpoint from '../../components/Checkpoint.astro';
 import BuildProgress from '../../components/BuildProgress.astro';
 import ResourceTable from '../../components/ResourceTable.astro';
+import ArchitectureOverview from '../../components/ArchitectureOverview.astro';
 
 <BuildProgress current={0} />
 
@@ -17,29 +18,7 @@ import ResourceTable from '../../components/ResourceTable.astro';
 
 このハンズオンでは、AWS公式の日本語版RAGガイダンスPDFをAWS CLIから`curl`で取得し、Knowledge Basesでchunk化・embeddingしてS3 Vectorsへ登録します。7・8では`Retrieve`で候補を取得し、呼び出し元でEvidence Setを整えてから`Converse`へ渡します。9では同じKnowledge Baseに対して`RetrieveAndGenerate`を1回呼び出し、検索から回答生成までを一撃で試します。
 
-## AWS構成図
-
-このハンズオンで作成するAWSリソースを物理構成で、RAGの処理境界を論理構成で示します。
-
-<figure class="architecture-figure diagram-figure">
-  <a href="/rag-guide/images/aws-rag-physical-architecture.svg" target="_blank" rel="noreferrer">
-    <img
-      src="/rag-guide/images/aws-rag-physical-architecture.svg"
-      alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
-    />
-  </a>
-  <figcaption>物理構成：S3の文書をKnowledge Basesで取り込み、S3 Vectorsを検索し、Amazon Bedrock Converseで回答を生成します。図をクリックすると拡大表示できます。</figcaption>
-</figure>
-
-<figure class="architecture-figure diagram-figure">
-  <a href="/rag-guide/images/aws-rag-logical-architecture.svg" target="_blank" rel="noreferrer">
-    <img
-      src="/rag-guide/images/aws-rag-logical-architecture.svg"
-      alt="バッチとリアルタイムの処理、およびAWSリソースの対応を示すAWS RAGの論理構成図"
-    />
-  </a>
-  <figcaption>論理構成：バッチとリアルタイムの各責務を、対応するAWSリソースに結び付けています。図をクリックすると拡大表示できます。</figcaption>
-</figure>
+<ArchitectureOverview />
 
 <Aside type="note" title="リソースと設定値を先に確認する">
   このハンズオンで作成するAWSリソースの一覧と、AWS CLIで指定する設定値は[AWSリソースのパラメータシート](/rag-guide/parameters/)にまとめています。各手順へ進む前に、作成対象・名前の形式・リージョン・embeddingとindexの整合を確認してください。

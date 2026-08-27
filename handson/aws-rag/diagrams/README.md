@@ -1,16 +1,15 @@
 # AWS構成図
 
-`*.drawio` は diagrams.net / Draw.io で編集する正本です。公開ページでは、同じ構成をSVGへ書き出したファイルを `public/images/` から読み込みます。
+公開ページの物理構成・論理構成は、レスポンシブなHTMLとして
+`../src/components/ArchitectureOverview.astro` に実装しています。表示内容を変更する場合は、このコンポーネントを正本として更新してください。
 
-| 図 | Draw.io編集元 | 公開用SVG |
+| 図 | 公開ページの正本 | 旧静的ファイル |
 |---|---|---|
-| 物理構成 | `aws-rag-physical-architecture.drawio` | `../public/images/aws-rag-physical-architecture.svg` |
-| 論理構成 | `aws-rag-logical-architecture.drawio` | `../public/images/aws-rag-logical-architecture.svg` |
+| 物理構成 | `../src/components/ArchitectureOverview.astro` | `aws-rag-physical-architecture.drawio` / `../public/images/aws-rag-physical-architecture.svg` |
+| 論理構成 | `../src/components/ArchitectureOverview.astro` | `aws-rag-logical-architecture.drawio` / `../public/images/aws-rag-logical-architecture.svg` |
 
-図を変更した場合は、Draw.ioでSVGを書き出し、公開用SVGを更新してください。論理構成図では、交差する対応線を使わず、各論理カード内の `AWS:` タグで対応リソースを示しています。
+旧Draw.io／SVGは、過去の直接リンクと編集履歴を壊さないために残していますが、公開ページからは読み込みません。新しい構成図はテキストを画像化せず、画面幅に合わせて組み替わるため、デスクトップ・モバイルの双方で内容を読めます。
 
-Draw.io正本のAWSサービス／AWS Cloud枠は、Draw.ioに組み込まれているAWS4ライブラリ（`mxgraph.aws4.resourceIcon` と `mxgraph.aws4.group`）を使用しています。公開用SVGもアイコンをSVG内へ埋め込んだ自己完結形式にしているため、GitHub Pagesやraw表示で相対パスが解決されない場合でも壊れません。埋め込み元の個別アイコンファイルはリポジトリに残していません。
+物理構成では、S3を文書bucket、Knowledge Basesを取り込み・chunk化・検索、Titan Text Embeddings V2を埋め込みモデル、S3 Vectorsをvector bucket／indexとして分離しています。
 
-Knowledge Bases、Retrieve、Converse、Titan Embeddingsは、公式パッケージに専用のサービスアイコンがないため、Amazon Bedrockの公式サービスアイコンで表現しています。
-
-物理構成では、Knowledge Basesを文書の取り込み・parse・chunking、Bedrockを埋め込みモデル／生成モデル、S3 Vectorsをベクトルbucket／indexとして分離しています。Retrieveの結果からEvidence Setを作成するのは呼び出し元であり、S3 VectorsからBedrock Converseへ直接つながる構成ではありません。
+`Retrieve`の結果からEvidence Setを作成するのは呼び出し元です。S3 VectorsからBedrock Converseへ直接つながる構成ではありません。手順9の`RetrieveAndGenerate`は、同じKnowledge Baseに対する一体型の比較経路として示しています。

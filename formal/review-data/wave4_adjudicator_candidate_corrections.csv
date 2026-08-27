@@ -1,5 +1,0 @@
-﻿sentence_id,field,current_value,replacement_value,reason
-SENT-0777,normative_criteria,本ガイド内で主体・対象・実行条件・判定基準を明示し、その基準に従う。,再解析前後のblock_idを対応付け、変更blockから派生したchunk_id、embedding version、citation_idを依存台帳で逆引きできることを検査する。,Goldで確定した依存関係の規範を観測可能な受入条件へ具体化する。
-SENT-0777,exceptions,一次資料または対象環境の検証結果が異なる場合は、その差分を優先して基準を更新する。,文面・構造・正規化結果が変わらずcontent hashの一致を確認できるblockは再生成対象から除外できる。,再解析で影響がないblockの明示的な適用除外条件を定める。
-SENT-2878,normative_criteria,本ガイド内で主体・対象・実行条件・判定基準を明示し、その基準に従う。,各失敗queryについてcorpus内正解有無、index版、parse span、embedding score、変換query、filter trace、取得rankを記録し、列挙した原因の一つへ主因を割り当てる。,Goldで確定した失敗分類を再現可能な診断項目へ具体化する。
-SENT-2878,exceptions,一次資料または対象環境の検証結果が異なる場合は、その差分を優先して基準を更新する。,複数原因が同時に成立する場合は主因と副因を併記し、証跡不足の事例はUNCLASSIFIEDのまま合格扱いしない。,複合原因と診断不能事例の扱いを明示する。

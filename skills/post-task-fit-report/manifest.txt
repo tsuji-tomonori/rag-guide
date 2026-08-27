@@ -1,3 +1,0 @@
-SKILL.md
-examples/example-report.md
-manifest.txt

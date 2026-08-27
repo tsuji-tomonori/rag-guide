@@ -1,0 +1,503 @@
+---
+const batchSteps = [
+  {
+    number: '01',
+    title: '文書を取得・配置',
+    detail: 'curlでPDFを取得し、SHA-256を保存',
+    resource: 'Amazon S3',
+  },
+  {
+    number: '02',
+    title: 'chunk化',
+    detail: '検索単位に分割',
+    resource: 'Knowledge Bases',
+  },
+  {
+    number: '03',
+    title: 'embedding生成',
+    detail: '1024次元の密ベクトル',
+    resource: 'Titan Text Embeddings V2',
+  },
+  {
+    number: '04',
+    title: 'ベクトルを登録',
+    detail: 'ingestion jobの完了を確認',
+    resource: 'S3 Vectors index',
+  },
+];
+
+const realtimeSteps = [
+  {
+    number: '01',
+    title: '自然言語で質問',
+    detail: 'CLIからqueryを送る',
+    resource: 'AWS CLI',
+  },
+  {
+    number: '02',
+    title: '類似度検索',
+    detail: 'semantic searchで関連chunkを取得',
+    resource: 'Retrieve → S3 Vectors',
+  },
+  {
+    number: '03',
+    title: '根拠を選別',
+    detail: 'scoreとsource URIを見てEvidence Setを作る',
+    resource: '呼び出し元（実習者）',
+  },
+  {
+    number: '04',
+    title: '回答を生成',
+    detail: '質問と根拠をLLMへ渡す',
+    resource: 'Converse / nova-lite',
+  },
+];
+
+const phases = [
+  {
+    name: '構築準備',
+    range: '0–1',
+    tone: 'neutral',
+    steps: ['0 全体像', '1 CLI実行環境'],
+  },
+  {
+    name: 'バッチ',
+    range: '2–6',
+    tone: 'batch',
+    steps: [
+      '2 文書をS3へ配置',
+      '3 S3 Vectors作成',
+      '4 IAMロール',
+      '5 Knowledge Base作成',
+      '6 文書を同期',
+    ],
+  },
+  {
+    name: 'リアルタイム',
+    range: '7–9',
+    tone: 'realtime',
+    steps: [
+      '7 Retrieveで検索',
+      '8 Converseで回答',
+      '9 RetrieveAndGenerateで一撃実行',
+    ],
+  },
+  {
+    name: '後片付け',
+    range: '10',
+    tone: 'neutral',
+    steps: ['10 依存順に削除'],
+  },
+];
+---
+
+<section class="architecture-showcase" id="aws-architecture" aria-labelledby="architecture-title">
+  <header class="architecture-header">
+    <div>
+      <p class="eyebrow">AWS RAG HANDSON — ARCHITECTURE</p>
+      <h2 id="architecture-title">AWS RAGハンズオン 構成図</h2>
+      <p class="lead">
+        S3の文書をBedrock Knowledge Basesで取り込み、S3 Vectorsを検索して回答を生成する構成です。
+        作成するリソースの接続関係と、バッチ／リアルタイムの処理境界を分けて示します。
+      </p>
+    </div>
+    <dl class="architecture-facts" aria-label="ハンズオンの前提">
+      <div><dt>リージョン</dt><dd>ap-northeast-1</dd></div>
+      <div><dt>所要時間</dt><dd>45–75 min</dd></div>
+      <div><dt>費用目安</dt><dd>≈ 0.005 USD</dd></div>
+    </dl>
+  </header>
+
+  <section class="architecture-section" aria-labelledby="physical-title">
+    <header class="section-heading">
+      <span aria-hidden="true">01</span>
+      <div>
+        <h3 id="physical-title">物理構成</h3>
+        <p>作成するAWSリソースと接続関係</p>
+      </div>
+    </header>
+
+    <div class="physical-card">
+      <div class="physical-layout">
+        <div class="actor-block">
+          <div class="actor-node">
+            <strong>実習者</strong>
+            <code>AWS CLI<br />terminal</code>
+          </div>
+          <p>すべての作成・確認・削除をCLIコマンドで実行</p>
+        </div>
+
+        <span class="layout-arrow" aria-hidden="true">→</span>
+
+        <div class="aws-region">
+          <span class="region-label">REGION ap-northeast-1</span>
+
+          <div class="service-flow" aria-label="取り込みと検索を担うAWSリソース">
+            <article class="service-node">
+              <span>STORAGE</span>
+              <h4>Amazon S3</h4>
+              <p>文書bucket<br />AWS規範ガイダンスPDF（日本語）</p>
+            </article>
+            <div class="flow-connector" aria-hidden="true">
+              <b>→</b><small>data source</small>
+            </div>
+            <article class="service-node service-node-wide">
+              <span>INGEST + SEARCH</span>
+              <h4>Amazon Bedrock<br />Knowledge Bases</h4>
+              <p>chunk化 / embedding / 同期</p>
+              <div class="service-tags">
+                <code>Titan Text Embeddings V2</code>
+                <code>IAM role（S3 / model / indexに限定）</code>
+              </div>
+            </article>
+            <div class="flow-connector" aria-hidden="true">
+              <b>⇄</b><small>upsert / query</small>
+            </div>
+            <article class="service-node">
+              <span>VECTOR STORE</span>
+              <h4>S3 Vectors</h4>
+              <p>vector bucket / index</p>
+              <div class="service-tags"><code>float32 / 1024 / cosine</code></div>
+            </article>
+          </div>
+
+          <div class="api-section">
+            <header>
+              <strong>呼び出しAPI</strong>
+              <p>同一Knowledge Baseに対する2通りの実行</p>
+            </header>
+            <div class="api-lanes">
+              <div class="api-lane">
+                <p class="lane-label">分離型<br /><span>手順 7–8</span></p>
+                <div class="pipeline">
+                  <div class="api-node accent"><code>Retrieve</code><small>候補を取得</small></div>
+                  <span aria-hidden="true">→</span>
+                  <div class="api-node"><strong>Evidence Set</strong><small>text / score / source URI</small></div>
+                  <span aria-hidden="true">→</span>
+                  <div class="api-node accent"><code>Converse</code><small>amazon.nova-lite-v1:0</small></div>
+                  <span aria-hidden="true">→</span>
+                  <div class="api-node"><strong>回答</strong><small>根拠を確認してから生成</small></div>
+                </div>
+              </div>
+              <div class="api-lane">
+                <p class="lane-label">一体型<br /><span>手順 9</span></p>
+                <div class="pipeline pipeline-combined">
+                  <div class="api-node accent dashed">
+                    <code>RetrieveAndGenerate</code>
+                    <small>検索と回答生成を1回のAPI呼び出しで実行</small>
+                  </div>
+                  <span aria-hidden="true">→</span>
+                  <div class="api-node"><strong>回答 + citation</strong><small>引用付きで返る</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="architecture-section" aria-labelledby="logical-title">
+    <header class="section-heading">
+      <span aria-hidden="true">02</span>
+      <div>
+        <h3 id="logical-title">論理構成</h3>
+        <p>バッチ／リアルタイムの処理境界と、担当リソースの対応</p>
+      </div>
+    </header>
+
+    <div class="logical-grid">
+      <article class="logical-card batch">
+        <header>
+          <div><h4>バッチ（事前に一度）</h4><p>文書を検索できる状態にするまで。ユーザーの質問とは非同期です。</p></div>
+          <span>手順 2–6</span>
+        </header>
+        <ol class="logical-flow">
+          {batchSteps.map((step) => (
+            <li>
+              <span class="logical-number">{step.number}</span>
+              <div><strong>{step.title}</strong><small>{step.detail}</small></div>
+              <code>{step.resource}</code>
+            </li>
+          ))}
+        </ol>
+        <p class="boundary-note">
+          完了条件：indexにベクトルが登録され、Knowledge Baseが検索可能になっている。
+        </p>
+      </article>
+
+      <article class="logical-card realtime">
+        <header>
+          <div><h4>リアルタイム（質問ごと）</h4><p>質問を受けてから回答を返すまで。検索と生成の責務を分けて観察します。</p></div>
+          <span>手順 7–9</span>
+        </header>
+        <ol class="logical-flow">
+          {realtimeSteps.map((step) => (
+            <li>
+              <span class="logical-number">{step.number}</span>
+              <div><strong>{step.title}</strong><small>{step.detail}</small></div>
+              <code>{step.resource}</code>
+            </li>
+          ))}
+        </ol>
+        <p class="boundary-note">
+          手順9では02–04を<code>RetrieveAndGenerate</code> 1回にまとめ、分離型との違いを比較する。
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="architecture-section" aria-labelledby="step-map-title">
+    <header class="section-heading compact">
+      <span aria-hidden="true">03</span>
+      <div>
+        <h3 id="step-map-title">手順マップ</h3>
+        <p>全11ステップと処理フェーズの対応</p>
+      </div>
+    </header>
+
+    <div class="step-map">
+      {phases.map((phase) => (
+        <section class:list={['phase', phase.tone]}>
+          <h4>{phase.name} · {phase.range}</h4>
+          <div class="phase-line" aria-hidden="true"></div>
+          <ul>{phase.steps.map((step) => <li>{step}</li>)}</ul>
+        </section>
+      ))}
+    </div>
+    <p class="cleanup-order">
+      削除順：Knowledge Base → vector index → S3 → IAM role（課金リソースの残存を確認）
+    </p>
+  </section>
+</section>
+
+<style>
+  .architecture-showcase {
+    --ink: #1c1b19;
+    --body: #4a4741;
+    --muted: #6f6b64;
+    --quiet: #8a857c;
+    --line: #e2ded4;
+    --paper: #fffefb;
+    --canvas: #f7f6f3;
+    --blue: #2f5d8a;
+    --blue-soft: #f4f7fa;
+    --blue-line: #ccd8e3;
+    --orange: #b0662c;
+    --orange-soft: #fbf5ef;
+    --orange-line: #e6d4c1;
+    width: 100%;
+    margin: 2rem 0 3rem;
+    color: var(--ink);
+    font-family: var(--sl-font);
+    text-wrap: pretty;
+  }
+
+  .architecture-showcase *,
+  .architecture-showcase *::before,
+  .architecture-showcase *::after { box-sizing: border-box; }
+
+  .architecture-showcase :where(h2, h3, h4, p, dl, dd, ol, ul) { margin: 0; }
+
+  .architecture-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: 1.35rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .architecture-header > div { max-width: 44rem; }
+  .eyebrow {
+    color: var(--muted);
+    font: 700 0.72rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: 0.16em;
+  }
+
+  .architecture-header h2 {
+    margin-top: 0.6rem;
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+  }
+
+  .lead { margin-top: 0.7rem !important; color: var(--body); line-height: 1.75; }
+  .architecture-facts { display: grid; gap: 0.45rem; flex: 0 0 auto; }
+  .architecture-facts div {
+    display: grid;
+    grid-template-columns: 5.4rem 1fr;
+    gap: 0.65rem;
+    align-items: baseline;
+    padding: 0.38rem 0.65rem;
+    border: 1px solid #d4d0c8;
+    border-radius: 999px;
+    background: var(--paper);
+    font: 500 0.72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .architecture-facts dt { color: var(--quiet); }
+  .architecture-facts dd { color: var(--body); }
+
+  .architecture-section { margin-top: 3rem; }
+  .section-heading { display: flex; align-items: baseline; gap: 0.85rem; margin-bottom: 1.35rem; }
+  .section-heading > span {
+    color: var(--quiet);
+    font: 500 0.78rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .section-heading > div { display: flex; align-items: baseline; gap: 0.8rem; min-width: 0; }
+  .section-heading h3 { font-size: 1.5rem; line-height: 1.25; }
+  .section-heading p { color: var(--muted); font-size: 0.86rem; line-height: 1.55; }
+
+  .physical-card,
+  .logical-card,
+  .step-map {
+    border: 1px solid var(--line);
+    border-radius: 0.5rem;
+    background: var(--paper);
+  }
+
+  .physical-card { padding: clamp(1rem, 3vw, 2rem); }
+  .physical-layout { display: grid; grid-template-columns: minmax(8.5rem, 0.24fr) 1.5rem minmax(0, 1fr); align-items: stretch; }
+  .actor-block { display: flex; flex-direction: column; justify-content: center; gap: 0.7rem; }
+  .actor-node { padding: 1rem; border: 1.5px solid var(--ink); border-radius: 0.35rem; background: #f2efe8; }
+  .actor-node strong { display: block; margin-bottom: 0.35rem; }
+  .actor-node code { padding: 0; color: var(--body); background: transparent; font-size: 0.76rem; }
+  .actor-block p { color: var(--muted); font-size: 0.73rem; line-height: 1.55; }
+  .layout-arrow { display: grid; place-items: center; color: #a8a29a; font-size: 1.2rem; }
+
+  .aws-region { position: relative; min-width: 0; padding: 1.65rem 1.3rem 1.2rem; border: 1px dashed #b9b3a8; border-radius: 0.4rem; }
+  .region-label {
+    position: absolute;
+    top: -0.7rem;
+    left: 1rem;
+    padding: 0 0.45rem;
+    color: var(--muted);
+    background: var(--paper);
+    font: 500 0.66rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: 0.1em;
+  }
+
+  .service-flow { display: grid; grid-template-columns: minmax(0, 1fr) 1.5rem minmax(0, 1.18fr) 1.5rem minmax(0, 1fr); align-items: center; }
+  .service-node {
+    min-width: 0;
+    height: 100%;
+    padding: 0.9rem;
+    border: 1.5px solid var(--blue);
+    border-top-width: 5px;
+    border-radius: 0.35rem;
+    background: var(--blue-soft);
+  }
+  .service-node > span { color: var(--blue); font: 600 0.61rem/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.08em; }
+  .service-node h4 { margin-top: 0.42rem; font-size: 0.96rem; line-height: 1.35; overflow-wrap: anywhere; }
+  .service-node p { margin-top: 0.35rem; color: var(--body); font-size: 0.74rem; line-height: 1.55; }
+  .service-tags { display: grid; gap: 0.35rem; margin-top: 0.7rem; }
+  .service-tags code { padding: 0.32rem 0.42rem; border: 1px solid var(--blue-line); border-radius: 0.25rem; color: var(--blue); background: var(--paper); font-size: 0.63rem; overflow-wrap: anywhere; white-space: normal; }
+  .service-tags code + code { border-color: #ddd8cd; color: var(--body); }
+  .flow-connector { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; color: #a8a29a; }
+  .flow-connector b { font-size: 1rem; font-weight: 400; }
+  .flow-connector small { color: var(--quiet); font: 500 0.55rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; writing-mode: vertical-rl; letter-spacing: 0.06em; }
+
+  .api-section { display: grid; grid-template-columns: minmax(6.5rem, 0.18fr) minmax(0, 1fr); gap: 1rem; margin-top: 1.35rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .api-section > header strong { color: var(--orange); font-size: 0.82rem; }
+  .api-section > header p { margin-top: 0.3rem; color: var(--muted); font-size: 0.68rem; line-height: 1.55; }
+  .api-lanes { display: grid; gap: 0.75rem; min-width: 0; }
+  .api-lane { display: grid; grid-template-columns: 4.4rem minmax(0, 1fr); gap: 0.65rem; align-items: center; min-width: 0; }
+  .lane-label { color: var(--orange); font: 600 0.64rem/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .lane-label span { font-size: 0.58rem; }
+  .pipeline { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 0.3rem; min-width: 0; }
+  .pipeline > span { color: #a8a29a; font-size: 0.8rem; }
+  .pipeline-combined { grid-template-columns: minmax(0, 2.5fr) auto minmax(0, 1fr); }
+  .api-node { min-width: 0; padding: 0.6rem; border: 1px solid #ddd8cd; border-radius: 0.3rem; background: var(--canvas); }
+  .api-node.accent { border: 1.5px solid var(--orange); background: var(--orange-soft); }
+  .api-node.dashed { border-style: dashed; }
+  .api-node :where(strong, code) { display: block; padding: 0; color: var(--ink); background: transparent; font-size: 0.69rem; overflow-wrap: anywhere; white-space: normal; }
+  .api-node small { display: block; margin-top: 0.25rem; color: var(--muted); font-size: 0.59rem; line-height: 1.45; overflow-wrap: anywhere; }
+
+  .logical-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .logical-card { min-width: 0; padding: 1.45rem; border-top: 5px solid var(--blue); }
+  .logical-card.realtime { border-top-color: var(--orange); }
+  .logical-card > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.8rem; }
+  .logical-card h4 { font-size: 1.06rem; line-height: 1.35; }
+  .logical-card > header p { margin-top: 0.32rem; color: var(--muted); font-size: 0.73rem; line-height: 1.55; }
+  .logical-card > header > span { flex: 0 0 auto; color: var(--blue); font: 600 0.63rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.07em; }
+  .logical-card.realtime > header > span { color: var(--orange); }
+  .logical-flow { margin-top: 1rem !important; padding: 0; list-style: none; }
+  .logical-flow li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) minmax(7rem, 0.68fr); gap: 0.65rem; align-items: center; min-width: 0; padding: 0.7rem 0; border-top: 1px solid #eeeae1; }
+  .logical-flow li:last-child { border-bottom: 1px solid #eeeae1; }
+  .logical-number { color: var(--blue); font: 600 0.72rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .realtime .logical-number { color: var(--orange); }
+  .logical-flow strong { display: block; font-size: 0.8rem; line-height: 1.4; }
+  .logical-flow small { display: block; margin-top: 0.2rem; color: var(--muted); font-size: 0.66rem; line-height: 1.45; }
+  .logical-flow code { min-width: 0; padding: 0.38rem 0.45rem; border: 1px solid var(--blue-line); border-radius: 0.25rem; color: var(--body); background: var(--blue-soft); font-size: 0.61rem; overflow-wrap: anywhere; white-space: normal; }
+  .realtime .logical-flow code { border-color: var(--orange-line); background: var(--orange-soft); }
+  .boundary-note { margin-top: 1rem !important; padding-left: 0.7rem; border-left: 2px solid var(--blue); color: var(--muted); font-size: 0.72rem; line-height: 1.65; }
+  .realtime .boundary-note { border-left-color: var(--orange); }
+  .boundary-note code { padding: 0; background: transparent; font-size: inherit; }
+
+  .step-map { display: grid; grid-template-columns: 2fr 5fr 3fr 1.4fr; gap: 1rem; padding: 1.25rem; }
+  .phase h4 { color: var(--quiet); font: 600 0.64rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.08em; }
+  .phase.batch h4 { color: var(--blue); }
+  .phase.realtime h4 { color: var(--orange); }
+  .phase-line { height: 4px; margin: 0.55rem 0; border-radius: 999px; background: #d4d0c8; }
+  .phase.batch .phase-line { background: var(--blue); }
+  .phase.realtime .phase-line { background: var(--orange); }
+  .phase ul { padding: 0; color: var(--body); font-size: 0.69rem; line-height: 1.55; list-style: none; }
+  .phase li + li { margin-top: 0.12rem; }
+  .cleanup-order { margin-top: 1rem !important; color: var(--quiet); font-size: 0.69rem; line-height: 1.55; }
+
+  :global(:root[data-theme='dark']) .architecture-showcase {
+    --ink: #f7f6f3;
+    --body: #ddd8cd;
+    --muted: #b9b3a8;
+    --quiet: #a8a29a;
+    --line: #4a4741;
+    --paper: #242321;
+    --canvas: #1c1b19;
+    --blue-soft: #263746;
+    --blue-line: #486882;
+    --orange-soft: #3a2b20;
+    --orange-line: #815134;
+  }
+
+  @media (max-width: 72rem) {
+    .architecture-header { align-items: flex-start; flex-direction: column; }
+    .architecture-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+    .architecture-facts div { display: block; border-radius: 0.4rem; }
+    .architecture-facts dd { margin-top: 0.25rem; }
+    .physical-layout { grid-template-columns: 1fr; gap: 0.75rem; }
+    .actor-block { display: grid; grid-template-columns: minmax(8rem, 0.35fr) 1fr; align-items: center; }
+    .layout-arrow { transform: rotate(90deg); }
+    .logical-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 54rem) {
+    .service-flow { grid-template-columns: 1fr; gap: 0.6rem; }
+    .flow-connector { flex-direction: row; justify-content: center; }
+    .flow-connector b { transform: rotate(90deg); }
+    .flow-connector small { writing-mode: horizontal-tb; }
+    .api-section { grid-template-columns: 1fr; }
+    .api-lane { grid-template-columns: 1fr; }
+    .lane-label br { display: none; }
+    .lane-label span::before { content: ' · '; }
+    .pipeline { grid-template-columns: 1fr; }
+    .pipeline > span { justify-self: center; transform: rotate(90deg); }
+    .pipeline-combined { grid-template-columns: 1fr; }
+    .step-map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 38rem) {
+    .architecture-showcase { margin-top: 1rem; }
+    .architecture-facts { grid-template-columns: 1fr; }
+    .section-heading,
+    .section-heading > div { align-items: flex-start; flex-direction: column; gap: 0.35rem; }
+    .section-heading > span { display: none; }
+    .physical-card { padding-inline: 0.75rem; }
+    .actor-block { grid-template-columns: 1fr; }
+    .aws-region { padding-inline: 0.75rem; }
+    .logical-card { padding: 1rem; }
+    .logical-card > header { flex-direction: column-reverse; }
+    .logical-flow li { grid-template-columns: 1.5rem minmax(0, 1fr); }
+    .logical-flow code { grid-column: 2; }
+    .step-map { grid-template-columns: 1fr; }
+  }
+</style>

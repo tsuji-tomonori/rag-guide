@@ -2,74 +2,8 @@
 title: AWS RAG ハンズオン
 description: AWS CLIを使って、根拠を検索して回答するRAGをAWS上に構築します。
 template: splash
-hero:
-  tagline: AWS CLIを使って、S3の文書を検索し、根拠に基づいて回答するRAGをAWS上に構築します。
-  actions:
-    - text: ハンズオンを始める
-      link: /rag-guide/00-overview/
-      icon: right-arrow
-      variant: primary
-    - text: GitHubでソースを見る
-      link: https://github.com/tsuji-tomonori/rag-guide/tree/main/handson/aws-rag
-      icon: external
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-import BuildProgress from '../../components/BuildProgress.astro';
+import LandingPage from '../../components/LandingPage.astro';
 
-<BuildProgress current={0} />
-
-
-<figure class="architecture-figure diagram-figure">
-  <a href="/rag-guide/images/aws-rag-physical-architecture.svg" target="_blank" rel="noreferrer">
-    <img
-      src="/rag-guide/images/aws-rag-physical-architecture.svg"
-      alt="S3、Bedrock Knowledge Bases、S3 Vectors、Retrieve、ConverseをつないだAWS RAGの物理構成図"
-    />
-  </a>
-  <figcaption>物理構成：S3、Knowledge Bases、S3 Vectors、Converseの接続関係です。図をクリックすると拡大表示できます。</figcaption>
-</figure>
-
-<figure class="architecture-figure diagram-figure">
-  <a href="/rag-guide/images/aws-rag-logical-architecture.svg" target="_blank" rel="noreferrer">
-    <img
-      src="/rag-guide/images/aws-rag-logical-architecture.svg"
-      alt="バッチとリアルタイムの処理、およびAWSリソースの対応を示すAWS RAGの論理構成図"
-    />
-  </a>
-  <figcaption>論理構成：バッチとリアルタイムの処理境界です。図をクリックすると拡大表示できます。</figcaption>
-</figure>
-
-## このハンズオンで作るもの
-
-<CardGrid>
-  <Card title="AWS CLIで実行" icon="seti:shell">
-    AWS CLIを実行できるターミナルから、コピー可能なコマンドだけで構築します。
-  </Card>
-  <Card title="毎回、完了を検証" icon="approve-check-circle">
-    作成コマンドの直後にread-onlyの確認コマンドを実行し、期待値を見てから次へ進みます。
-  </Card>
-  <Card title="分離型と一体型を体験" icon="puzzle">
-    7・8では`Retrieve`と`Converse`を分け、9では`RetrieveAndGenerate`を1回呼び出して検索から回答生成までを実行します。
-  </Card>
-  <Card title="最後に確実に削除" icon="delete">
-    Knowledge Base、vector index、S3、IAM roleを依存順に削除し、課金リソースが残っていないことを確認します。
-  </Card>
-</CardGrid>
-
-## 完成する構成
-
-分離型：`S3 data source → Amazon Bedrock Knowledge Bases → S3 Vectors → Retrieve → Converse`
-
-一体型：`S3 data source → Amazon Bedrock Knowledge Bases → S3 Vectors → RetrieveAndGenerate → 回答・citation`
-
-基準構成は密ベクトルによるsemantic searchです。7・8では検索結果を見ずに生成へ進まず、まず`Retrieve`で「適切な根拠が返っているか」を確認します。9では同じKnowledge Baseに対して、検索と回答生成を一撃で試します。
-
-## 所要時間と費用
-
-- 所要時間の目安：45〜75分
-- 対象リージョン：アジアパシフィック（東京）`ap-northeast-1`
-- 1人1回の概算：**約0.005 USD**（基準ケース、税・為替・割引・再実行を除く）
-- 主な費用：embedding、S3 Vectorsの保存・API、Knowledge Basesの取り込み、生成モデルの入出力token
-- [費用の前提と詳細を見る →](/rag-guide/cost/)
-- ハンズオン終了後は必ずCleanupまで実行してください。
+<LandingPage />
