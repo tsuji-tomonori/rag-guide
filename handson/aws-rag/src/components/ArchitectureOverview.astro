@@ -425,7 +425,7 @@ const phases = [
   .logical-card > header > span { flex: 0 0 auto; color: var(--blue); font: 600 0.74rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.07em; }
   .logical-card.realtime > header > span { color: var(--orange); }
   .logical-flow { margin-top: 1rem !important; padding: 0; list-style: none; }
-  .logical-flow li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) minmax(7rem, 0.68fr); gap: 0.65rem; align-items: center; min-width: 0; padding: 0.7rem 0; border-top: 1px solid #eeeae1; }
+  .logical-flow li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) minmax(7rem, 0.68fr); gap: 0.65rem; align-items: center; min-width: 0; margin: 0; padding: 0.7rem 0; border-top: 1px solid #eeeae1; }
   .logical-flow li:last-child { border-bottom: 1px solid #eeeae1; }
   .logical-number { color: var(--blue); font: 600 0.8rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   .realtime .logical-number { color: var(--orange); }
@@ -462,7 +462,7 @@ const phases = [
   .phase.steps-2 ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .phase.steps-3 ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .phase.steps-5 ul { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .phase li { min-width: 0; padding: 0.55rem 0.6rem; border: 1px solid var(--line); border-radius: 0.3rem; background: var(--paper); overflow-wrap: anywhere; }
+  .phase li { min-width: 0; margin: 0; padding: 0.55rem 0.6rem; border: 1px solid var(--line); border-radius: 0.3rem; background: var(--paper); overflow-wrap: anywhere; }
   .cleanup-order { margin-top: 1rem !important; color: var(--quiet); font-size: 0.8rem; line-height: 1.6; }
 
   :global(:root[data-theme='dark']) .architecture-showcase {
