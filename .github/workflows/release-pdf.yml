@@ -1,0 +1,101 @@
+name: Build and attach PDF to release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing release tag to rebuild and update
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release-pdf:
+    name: Build and upload PDF
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PDF_PATH: dist/rag-engineering-guide.pdf
+
+    steps:
+      - name: Check out the release source
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.2
+        with:
+          ref: ${{ inputs.release_tag || github.sha }}
+          persist-credentials: false
+
+      - name: Resolve release tag
+        id: release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          if [[ -n "$INPUT_RELEASE_TAG" ]]; then
+            release_tag="$INPUT_RELEASE_TAG"
+            publish=false
+          else
+            release_tag="v$(tr -d '[:space:]' < VERSION)"
+            if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${release_tag}" >/dev/null 2>&1; then
+              publish=false
+            else
+              publish=true
+            fi
+          fi
+          echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+
+      - name: Build PDF
+        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4.1.0
+        with:
+          root_file: print/rag-guide.tex
+          os: debian
+          extra_system_packages: >-
+            python3 ffmpeg fonts-noto-cjk fonts-noto-cjk-extra
+            fonts-dejavu-core fonts-texgyre
+          pre_compile: |
+            python3 print/build.py
+            mkdir -p print/build/latex dist
+          latexmk_use_lualatex: true
+          args: >-
+            -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+            -outdir=print/build/latex
+          post_compile: >-
+            cp print/build/latex/rag-guide.pdf dist/rag-engineering-guide.pdf
+
+      - name: Verify PDF
+        run: test -s "$PDF_PATH"
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: rag-engineering-guide-${{ github.sha }}
+          path: ${{ env.PDF_PATH }}
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Create tag and release
+        if: github.event_name == 'push' && steps.release.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.release_tag }}
+        run: |
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+            -f ref="refs/tags/${RELEASE_TAG}" \
+            -f sha="${GITHUB_SHA}"
+          gh release create "$RELEASE_TAG" \
+            --title "$RELEASE_TAG" \
+            --generate-notes
+
+      - name: Attach PDF to release
+        if: (github.event_name == 'push' && steps.release.outputs.publish == 'true') || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.release_tag }}
+        run: gh release upload "$RELEASE_TAG" "$PDF_PATH" --clobber

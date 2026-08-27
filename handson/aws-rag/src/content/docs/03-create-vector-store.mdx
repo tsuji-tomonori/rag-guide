@@ -1,0 +1,228 @@
+---
+title: 3. S3 Vectorsを作成する
+description: Titan Text Embeddings V2と互換な1024次元のS3ベクトルインデックスを作成し、設定値を検証します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CliStep from '../../components/CliStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={3} />
+
+<ResourceTable
+  title="作成するS3 Vectorsの設定値"
+  rows={[
+  {
+    "resource": "ベクトルバケット",
+    "setting": "名前",
+    "value": "rag-handson-vectors-${RAG_ACCOUNT_ID}-${RAG_RUN_ID}",
+    "note": "run単位で分離し、Cleanup対象を特定します。"
+  },
+  {
+    "resource": "ベクトルバケット",
+    "setting": "暗号化",
+    "value": "SSE-S3（AES256）",
+    "note": "S3管理キーによる暗号化を作成時に明示し、APIから読み戻します。"
+  },
+  {
+    "resource": "ベクトルインデックス",
+    "setting": "名前",
+    "value": "rag-titan-v2-1024",
+    "note": "state fileへARNを保存します。"
+  },
+  {
+    "resource": "ベクトルインデックス",
+    "setting": "データ型",
+    "value": "float32",
+    "note": "Knowledge BaseのembeddingDataTypeと一致させます。"
+  },
+  {
+    "resource": "ベクトルインデックス",
+    "setting": "次元数",
+    "value": "1024",
+    "note": "Titan Text Embeddings V2の設定と一致させます。"
+  },
+  {
+    "resource": "ベクトルインデックス",
+    "setting": "距離指標",
+    "value": "cosine",
+    "note": "意味比較のbaselineとして使用します。"
+  },
+  {
+    "resource": "メタデータ",
+    "setting": "フィルター対象外キー",
+    "value": "AMAZON_BEDROCK_TEXT / AMAZON_BEDROCK_METADATA",
+    "note": "Knowledge Basesが保存する本文・内部metadata用です。"
+  }
+]}
+/>
+
+
+S3 Vectorsにvector bucketとindexを作成します。indexの`dimension`、`distanceMetric`、non-filterable metadata keyは後から変更できないため、Knowledge Baseと接続する前にread-backします。
+
+## 手順 3.1. ベクトルバケットを作成する
+
+<CliStep number="3.1" title="ベクトルバケットを作成する">
+
+<Command phase="execute" title="ベクトルバケットを作成">
+
+```bash
+aws s3vectors create-vector-bucket \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --encryption-configuration '{"sseType":"AES256"}' \
+  --region "$AWS_REGION"
+```
+
+</Command>
+
+<Command phase="verify" title="ベクトルバケットを検証する" final>
+
+```bash
+aws s3vectors get-vector-bucket \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --region "$AWS_REGION" \
+  --output json \
+  | tee "$RAG_WORK_DIR/vector-bucket-readback.json" >/dev/null
+
+jq -e --arg bucketName "$RAG_VECTOR_BUCKET" '
+  .vectorBucket.vectorBucketName == $bucketName and
+  (.vectorBucket.vectorBucketArn | startswith("arn:aws:s3vectors:")) and
+  .vectorBucket.encryptionConfiguration.sseType == "AES256"
+' "$RAG_WORK_DIR/vector-bucket-readback.json" >/dev/null
+
+export RAG_VECTOR_BUCKET_ARN="$(jq -r '.vectorBucket.vectorBucketArn' \
+  "$RAG_WORK_DIR/vector-bucket-readback.json")"
+declare -p RAG_VECTOR_BUCKET_ARN >> "$RAG_STATE_FILE"
+grep -Fq 'RAG_VECTOR_BUCKET_ARN' "$RAG_STATE_FILE"
+
+printf '[CHECK] vector bucket creation: COMPLETE (%s)\n' "$RAG_VECTOR_BUCKET"
+printf '[CHECK] vector bucket ARN: %s\n' "$RAG_VECTOR_BUCKET_ARN"
+printf '[CHECK] vector bucket encryption: AES256 (SSE-S3)\n'
+printf '[CHECK] vector bucket ARN saved to state file\n'
+printf 'vector bucket verification: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult id="s3-1-vector-bucket" verification="ベクトルバケットを検証する">
+
+次の5行が表示されれば成功です。暗号化は表示欄の有無ではなく、APIから読み戻した値が`AES256`であることをコマンドが検証します。
+
+```text
+[CHECK] vector bucket creation: COMPLETE (rag-handson-vectors-123456789012-0816071530-a41f92)
+[CHECK] vector bucket ARN: arn:aws:s3vectors:ap-northeast-1:123456789012:bucket/...
+[CHECK] vector bucket encryption: AES256 (SSE-S3)
+[CHECK] vector bucket ARN saved to state file
+vector bucket verification: PASS
+```
+
+- `[CHECK] vector bucket creation: COMPLETE`が表示される
+- `[CHECK] vector bucket ARN:`が表示される
+- `[CHECK] vector bucket encryption: AES256 (SSE-S3)`が表示される
+- `[CHECK] vector bucket ARN saved to state file`が表示される
+- `vector bucket verification: PASS`が表示される
+
+</ExpectedResult>
+
+</CliStep>
+
+## 手順 3.2. 1024次元のベクトルインデックスを作成する
+
+<CliStep number="3.2" title="1024次元のベクトルインデックスを作成する">
+
+Titan Text Embeddings V2の1024次元float vectorへ合わせます。Knowledge Basesがchunk本文と内部metadataを保存できるよう、AWS公式手順で指定される2つのkeyをnon-filterableにします。
+
+<Command phase="execute" title="1024次元のベクトルインデックスを作成">
+
+```bash
+aws s3vectors create-index \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --index-name "$RAG_INDEX_NAME" \
+  --data-type float32 \
+  --dimension 1024 \
+  --distance-metric cosine \
+  --metadata-configuration \
+    '{"nonFilterableMetadataKeys":["AMAZON_BEDROCK_TEXT","AMAZON_BEDROCK_METADATA"]}' \
+  --region "$AWS_REGION"
+```
+
+</Command>
+
+<Command phase="verify" title="インデックス設定を読み戻して検証する" final>
+
+```bash
+aws s3vectors get-index \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --index-name "$RAG_INDEX_NAME" \
+  --region "$AWS_REGION" \
+  --output json \
+  | tee "$RAG_WORK_DIR/vector-index-readback.json" >/dev/null
+
+jq -e --arg indexName "$RAG_INDEX_NAME" '
+  .index.indexName == $indexName and
+  .index.dataType == "float32" and
+  .index.dimension == 1024 and
+  .index.distanceMetric == "cosine" and
+  ([.index.metadataConfiguration.nonFilterableMetadataKeys[]] | sort) ==
+    (["AMAZON_BEDROCK_TEXT", "AMAZON_BEDROCK_METADATA"] | sort) and
+  (.index.indexArn | startswith("arn:aws:s3vectors:"))
+' "$RAG_WORK_DIR/vector-index-readback.json" >/dev/null
+
+export RAG_INDEX_ARN="$(jq -r '.index.indexArn' \
+  "$RAG_WORK_DIR/vector-index-readback.json")"
+declare -p RAG_INDEX_ARN >> "$RAG_STATE_FILE"
+grep -Fq 'RAG_INDEX_ARN' "$RAG_STATE_FILE"
+
+printf '[CHECK] vector index creation: COMPLETE (%s)\n' "$RAG_INDEX_NAME"
+printf '[CHECK] index configuration: float32 / 1024 / cosine\n'
+printf '[CHECK] non-filterable metadata keys: AMAZON_BEDROCK_TEXT / AMAZON_BEDROCK_METADATA\n'
+printf '[CHECK] index ARN: %s\n' "$RAG_INDEX_ARN"
+printf '[CHECK] index ARN saved to state file\n'
+printf 'vector index verification: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult id="s3-2-vector-index" verification="インデックス設定を読み戻して検証する">
+
+次の6行が表示されれば成功です。メタデータキーとstate fileへの保存もコマンドが検証します。
+
+```text
+[CHECK] vector index creation: COMPLETE (rag-titan-v2-1024)
+[CHECK] index configuration: float32 / 1024 / cosine
+[CHECK] non-filterable metadata keys: AMAZON_BEDROCK_TEXT / AMAZON_BEDROCK_METADATA
+[CHECK] index ARN: arn:aws:s3vectors:...
+[CHECK] index ARN saved to state file
+vector index verification: PASS
+```
+
+- `[CHECK] vector index creation: COMPLETE`が表示される
+- `[CHECK] index configuration: float32 / 1024 / cosine`が表示される
+- `[CHECK] non-filterable metadata keys: AMAZON_BEDROCK_TEXT / AMAZON_BEDROCK_METADATA`が表示される
+- `[CHECK] index ARN:`が表示される
+- `[CHECK] index ARN saved to state file`が表示される
+- `vector index verification: PASS`が表示される
+
+</ExpectedResult>
+
+<Aside type="caution" title="S3 VectorsはHYBRID検索ではありません">
+  このハンズオンのstoreはdense vectorによるSEMANTIC検索です。AWS PDFでいうリトリーバーの候補取得を意味検索で観察する構成であり、score自体を回答の正しさとは判定しません。BM25などの語彙一致が必要な場合は、OpenSearch Serverless等の対応storeへ変更するか、別retrieverの結果をRRFやrerankerで統合します。
+</Aside>
+
+</CliStep>
+
+<Checkpoint>
+
+- vector bucket ARNを`RAG_VECTOR_BUCKET_ARN`へ保存した
+- index ARNを`RAG_INDEX_ARN`へ保存した
+- 両ARNをstate fileへ永続化した
+- indexは`float32 / 1024 / cosine`である
+- non-filterable keyはAWS指定の2 keyである
+
+</Checkpoint>
+
+[Knowledge Base用IAM roleを作成する →](/rag-guide/04-create-iam-role/)

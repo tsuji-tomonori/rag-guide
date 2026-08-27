@@ -1,0 +1,410 @@
+---
+title: 4. ナレッジベース用IAMロールを作成する
+description: Bedrockが埋め込みモデル、S3文書、S3ベクトルインデックスだけへアクセスできるサービスロールを作ります。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CliStep from '../../components/CliStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={4} />
+
+<ResourceTable
+  title="作成するIAMとリソースポリシーの設定値"
+  rows={[
+  {
+    "resource": "IAMロール",
+    "setting": "名前",
+    "value": "BedrockKnowledgeBaseRole-${RAG_RUN_ID}",
+    "note": "run単位で作成し、Cleanupで対象を固定します。"
+  },
+  {
+    "resource": "信頼ポリシー",
+    "setting": "プリンシパル／アクション",
+    "value": "bedrock.amazonaws.com / sts:AssumeRole",
+    "note": "Bedrock Knowledge Basesだけが引き受けます。"
+  },
+  {
+    "resource": "信頼ポリシー",
+    "setting": "条件",
+    "value": "aws:SourceAccount + Knowledge Base ARN",
+    "note": "confused deputy対策としてaccountとRegionを限定します。"
+  },
+  {
+    "resource": "インラインポリシー",
+    "setting": "名前",
+    "value": "BedrockKnowledgeBasePolicy-${RAG_RUN_ID}",
+    "note": "embedding、S3 source、S3 Vector indexだけを許可します。"
+  },
+  {
+    "resource": "埋め込みモデル",
+    "setting": "アクション／リソース",
+    "value": "bedrock:InvokeModel / Titan V2 ARN",
+    "note": "指定したembedding model以外は対象にしません。"
+  },
+  {
+    "resource": "原文書用S3",
+    "setting": "アクション／リソース",
+    "value": "s3:ListBucket + s3:GetObject / this runのbucket",
+    "note": "objectsはdocuments/*へ限定します。"
+  },
+  {
+    "resource": "ベクトルバケットポリシー",
+    "setting": "プリンシパル",
+    "value": "RAG_ROLE_ARN",
+    "note": "このrunで作成したKnowledge Base roleだけを許可します。"
+  }
+]}
+/>
+
+
+Knowledge Basesはservice roleを引き受け、S3文書の読み取り、embedding modelの呼び出し、vectorの登録・検索を行います。対象resourceをこのrunで作成したものへ限定します。
+
+## 手順 4.1. 信頼ポリシーを作成する
+
+<CliStep number="4.1" title="信頼ポリシーを作成する">
+
+<Command phase="prepare" title="信頼ポリシーを生成して検証">
+
+```bash
+jq -n \
+  --arg account "$RAG_ACCOUNT_ID" \
+  --arg region "$AWS_REGION" \
+  '{
+    Version:"2012-10-17",
+    Statement:[{
+      Effect:"Allow",
+      Principal:{Service:"bedrock.amazonaws.com"},
+      Action:"sts:AssumeRole",
+      Condition:{
+        StringEquals:{"aws:SourceAccount":$account},
+        ArnLike:{"AWS:SourceArn":("arn:aws:bedrock:"+$region+":"+$account+":knowledge-base/*")}
+      }
+    }]
+  }' | tee "$RAG_WORK_DIR/bedrock-kb-trust.json"
+
+jq -e \
+  --arg account "$RAG_ACCOUNT_ID" \
+  --arg sourceArn "arn:aws:bedrock:${AWS_REGION}:${RAG_ACCOUNT_ID}:knowledge-base/*" '
+  (.Statement | length) == 1 and
+  .Statement[0].Principal.Service == "bedrock.amazonaws.com" and
+  .Statement[0].Action == "sts:AssumeRole" and
+  .Statement[0].Condition.StringEquals["aws:SourceAccount"] == $account and
+  .Statement[0].Condition.ArnLike["AWS:SourceArn"] == $sourceArn
+' "$RAG_WORK_DIR/bedrock-kb-trust.json" >/dev/null
+
+printf '[CHECK] trust principal: bedrock.amazonaws.com\n'
+printf '[CHECK] trust action: sts:AssumeRole\n'
+printf '[CHECK] SourceAccount: %s\n' "$RAG_ACCOUNT_ID"
+printf '[CHECK] SourceArn: arn:aws:bedrock:%s:%s:knowledge-base/*\n' \
+  "$AWS_REGION" "$RAG_ACCOUNT_ID"
+printf 'trust policy verification: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult id="s4-1-trust" verification="信頼ポリシーを生成して検証">
+
+次の5行が表示されれば成功です。
+
+```text
+[CHECK] trust principal: bedrock.amazonaws.com
+[CHECK] trust action: sts:AssumeRole
+[CHECK] SourceAccount: 123456789012
+[CHECK] SourceArn: arn:aws:bedrock:ap-northeast-1:123456789012:knowledge-base/*
+trust policy verification: PASS
+```
+
+- `[CHECK] trust principal: bedrock.amazonaws.com`が表示される
+- `[CHECK] trust action: sts:AssumeRole`が表示される
+- `[CHECK] SourceAccount:`に今回のAWS account IDが表示される
+- `[CHECK] SourceArn:`が東京リージョンのKnowledge Base ARNに限定される
+- `trust policy verification: PASS`が表示される
+
+</ExpectedResult>
+
+</CliStep>
+
+## 手順 4.2. サービスロールと最小権限ポリシーを作成する
+
+<CliStep number="4.2" title="サービスロールと最小権限ポリシーを作成する">
+
+<Command phase="execute" title="サービスロールを作成してARNを保存">
+
+```bash
+aws iam create-role \
+  --role-name "$RAG_ROLE_NAME" \
+  --assume-role-policy-document "file://$RAG_WORK_DIR/bedrock-kb-trust.json" \
+  --description "Amazon Bedrock Knowledge Bases role for RAG hands-on $RAG_RUN_ID"
+
+aws iam wait role-exists --role-name "$RAG_ROLE_NAME"
+
+export RAG_ROLE_ARN="$(aws iam get-role \
+  --role-name "$RAG_ROLE_NAME" \
+  --query 'Role.Arn' \
+  --output text)"
+```
+
+</Command>
+
+<Command phase="execute" title="権限ポリシーを生成して適用する">
+
+```bash
+jq -n \
+  --arg account "$RAG_ACCOUNT_ID" \
+  --arg region "$AWS_REGION" \
+  --arg sourceBucket "$RAG_SOURCE_BUCKET" \
+  --arg indexArn "$RAG_INDEX_ARN" \
+  --arg embedModel "$RAG_EMBED_MODEL_ID" \
+  '{
+    Version:"2012-10-17",
+    Statement:[
+      {
+        Sid:"InvokeEmbeddingModel",
+        Effect:"Allow",
+        Action:["bedrock:InvokeModel"],
+        Resource:("arn:aws:bedrock:"+$region+"::foundation-model/"+$embedModel)
+      },
+      {
+        Sid:"ListSourceBucket",
+        Effect:"Allow",
+        Action:["s3:ListBucket"],
+        Resource:("arn:aws:s3:::"+$sourceBucket),
+        Condition:{StringEquals:{"aws:ResourceAccount":$account}}
+      },
+      {
+        Sid:"ReadSourceDocuments",
+        Effect:"Allow",
+        Action:["s3:GetObject"],
+        Resource:("arn:aws:s3:::"+$sourceBucket+"/documents/*"),
+        Condition:{StringEquals:{"aws:ResourceAccount":$account}}
+      },
+      {
+        Sid:"ReadWriteVectorIndex",
+        Effect:"Allow",
+        Action:[
+          "s3vectors:PutVectors",
+          "s3vectors:GetVectors",
+          "s3vectors:DeleteVectors",
+          "s3vectors:QueryVectors",
+          "s3vectors:GetIndex"
+        ],
+        Resource:$indexArn
+      }
+    ]
+  }' | tee "$RAG_WORK_DIR/bedrock-kb-permissions.json"
+
+aws iam put-role-policy \
+  --role-name "$RAG_ROLE_NAME" \
+  --policy-name "$RAG_POLICY_NAME" \
+  --policy-document "file://$RAG_WORK_DIR/bedrock-kb-permissions.json"
+```
+
+</Command>
+
+<Command phase="verify" title="必要権限を読み戻して強制検証する" final>
+
+```bash
+export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
+export RAG_EXPECTED_SOURCE_BUCKET_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}"
+export RAG_EXPECTED_SOURCE_OBJECT_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}/documents/*"
+
+aws iam get-role-policy \
+  --role-name "$RAG_ROLE_NAME" \
+  --policy-name "$RAG_POLICY_NAME" \
+  --query 'PolicyDocument' \
+  --output json \
+  | tee "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+
+jq -e \
+  --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" \
+  --arg bucketArn "$RAG_EXPECTED_SOURCE_BUCKET_ARN" \
+  --arg objectArn "$RAG_EXPECTED_SOURCE_OBJECT_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" '
+  def actions: (.Action | if type == "array" then . else [.] end);
+  any(.Statement[]; .Effect == "Allow" and (actions | index("bedrock:InvokeModel")) and .Resource == $modelArn)
+  and any(.Statement[]; .Effect == "Allow" and (actions | index("s3:ListBucket")) and .Resource == $bucketArn)
+  and any(.Statement[]; .Effect == "Allow" and (actions | index("s3:GetObject")) and .Resource == $objectArn)
+  and any(.Statement[];
+    .Effect == "Allow"
+    and .Resource == $indexArn
+    and (actions | index("s3vectors:PutVectors"))
+    and (actions | index("s3vectors:GetVectors"))
+    and (actions | index("s3vectors:DeleteVectors"))
+    and (actions | index("s3vectors:QueryVectors"))
+    and (actions | index("s3vectors:GetIndex")))
+' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+
+aws iam get-role \
+  --role-name "$RAG_ROLE_NAME" \
+  --query 'Role.{arn:Arn,created:CreateDate}' \
+  --output table
+
+printf '[CHECK] bedrock:InvokeModel: %s\n' "$RAG_EXPECTED_EMBED_MODEL_ARN"
+printf '[CHECK] s3:ListBucket: %s\n' "$RAG_EXPECTED_SOURCE_BUCKET_ARN"
+printf '[CHECK] s3:GetObject: %s\n' "$RAG_EXPECTED_SOURCE_OBJECT_ARN"
+printf '[CHECK] S3 Vectors index access: %s\n' "$RAG_INDEX_ARN"
+printf '[CHECK] IAM role creation: COMPLETE (%s)\n' "$RAG_ROLE_ARN"
+printf 'IAM permission verification: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult id="s4-2-permissions" verification="必要権限を読み戻して強制検証する">
+
+次の6行が表示されれば成功です。
+
+```text
+[CHECK] bedrock:InvokeModel: arn:aws:bedrock:ap-northeast-1::foundation-model/amazon.titan-embed-text-v2:0
+[CHECK] s3:ListBucket: arn:aws:s3:::rag-handson-123456789012-0816071530-a41f92
+[CHECK] s3:GetObject: arn:aws:s3:::rag-handson-123456789012-0816071530-a41f92/documents/*
+[CHECK] S3 Vectors index access: arn:aws:s3vectors:...
+[CHECK] IAM role creation: COMPLETE (arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92)
+IAM permission verification: PASS
+```
+
+- `[CHECK] bedrock:InvokeModel:`が表示される
+- `[CHECK] s3:ListBucket:`が表示される
+- `[CHECK] s3:GetObject:`が表示される
+- `[CHECK] S3 Vectors index access:`が表示される
+- `[CHECK] IAM role creation: COMPLETE`が表示される
+- `IAM permission verification: PASS`が表示される
+
+</ExpectedResult>
+
+</CliStep>
+
+## 手順 4.3. ベクトルバケットポリシーを設定する
+
+<CliStep number="4.3" title="ベクトルバケットポリシーを設定する">
+
+custom roleだけに、このindexへの必要操作を許可するresource-based policyを追加します。
+
+<Command phase="execute" title="ベクトルバケットポリシーを設定">
+
+```bash
+jq -n \
+  --arg roleArn "$RAG_ROLE_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" \
+  '{
+    Version:"2012-10-17",
+    Statement:[{
+      Sid:"AllowBedrockKnowledgeBaseRole",
+      Effect:"Allow",
+      Principal:{AWS:$roleArn},
+      Action:[
+        "s3vectors:PutVectors",
+        "s3vectors:GetVectors",
+        "s3vectors:DeleteVectors",
+        "s3vectors:QueryVectors",
+        "s3vectors:GetIndex"
+      ],
+      Resource:$indexArn
+    }]
+  }' | tee "$RAG_WORK_DIR/vector-bucket-policy.json"
+
+aws s3vectors put-vector-bucket-policy \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --policy "file://$RAG_WORK_DIR/vector-bucket-policy.json"
+```
+
+</Command>
+
+<Command phase="verify" title="ロールとポリシーを読み戻して検証する" final>
+
+```bash
+export RAG_ROLE_READBACK_ARN="$(aws iam get-role \
+  --role-name "$RAG_ROLE_NAME" \
+  --query 'Role.Arn' \
+  --output text)"
+test "$RAG_ROLE_READBACK_ARN" = "$RAG_ROLE_ARN"
+
+aws iam get-role-policy \
+  --role-name "$RAG_ROLE_NAME" \
+  --policy-name "$RAG_POLICY_NAME" \
+  --query 'PolicyDocument' \
+  --output json \
+  | tee "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+
+export RAG_EXPECTED_EMBED_MODEL_ARN="arn:aws:bedrock:${AWS_REGION}::foundation-model/${RAG_EMBED_MODEL_ID}"
+export RAG_EXPECTED_SOURCE_BUCKET_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}"
+export RAG_EXPECTED_SOURCE_OBJECT_ARN="arn:aws:s3:::${RAG_SOURCE_BUCKET}/documents/*"
+
+jq -e \
+  --arg modelArn "$RAG_EXPECTED_EMBED_MODEL_ARN" \
+  --arg bucketArn "$RAG_EXPECTED_SOURCE_BUCKET_ARN" \
+  --arg objectArn "$RAG_EXPECTED_SOURCE_OBJECT_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" '
+  ([.Statement[].Resource] | sort) ==
+    ([$modelArn, $bucketArn, $objectArn, $indexArn] | sort)
+' "$RAG_WORK_DIR/bedrock-kb-policy-readback.json" >/dev/null
+
+aws s3vectors get-vector-bucket-policy \
+  --vector-bucket-name "$RAG_VECTOR_BUCKET" \
+  --query 'policy' \
+  --output text \
+  | jq '.' \
+  | tee "$RAG_WORK_DIR/vector-bucket-policy-readback.json" >/dev/null
+
+jq -e \
+  --arg roleArn "$RAG_ROLE_ARN" \
+  --arg indexArn "$RAG_INDEX_ARN" '
+  (.Statement | length) == 1 and
+  .Statement[0].Effect == "Allow" and
+  .Statement[0].Principal.AWS == $roleArn and
+  .Statement[0].Resource == $indexArn and
+  ([.Statement[0].Action[]] | sort) ==
+    (["s3vectors:PutVectors", "s3vectors:GetVectors", "s3vectors:DeleteVectors", "s3vectors:QueryVectors", "s3vectors:GetIndex"] | sort)
+' "$RAG_WORK_DIR/vector-bucket-policy-readback.json" >/dev/null
+
+printf '[CHECK] IAM role ARN: MATCH (%s)\n' "$RAG_ROLE_READBACK_ARN"
+printf '[CHECK] inline policy scope: embedding / source bucket / documents/* / current index\n'
+printf '[CHECK] vector policy principal: MATCH (%s)\n' "$RAG_ROLE_ARN"
+printf '[CHECK] vector policy resource: current index only\n'
+printf 'role and vector policy verification: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult id="s4-3-vector-policy" verification="ロールとポリシーを読み戻して検証する">
+
+次の5行が表示されれば成功です。role ARN、inline policyの4対象、vector bucket policyのprincipalとresourceを実値で比較します。
+
+```text
+[CHECK] IAM role ARN: MATCH (arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92)
+[CHECK] inline policy scope: embedding / source bucket / documents/* / current index
+[CHECK] vector policy principal: MATCH (arn:aws:iam::123456789012:role/BedrockKnowledgeBaseRole-0816071530-a41f92)
+[CHECK] vector policy resource: current index only
+role and vector policy verification: PASS
+```
+
+- `[CHECK] IAM role ARN: MATCH`が表示される
+- `[CHECK] inline policy scope: embedding / source bucket / documents/* / current index`が表示される
+- `[CHECK] vector policy principal: MATCH`が表示される
+- `[CHECK] vector policy resource: current index only`が表示される
+- `role and vector policy verification: PASS`が表示される
+
+</ExpectedResult>
+
+<Aside type="note" title="IAMの反映には時間がかかることがあります">
+  次のKnowledge Base作成で`ValidationException`やassume role関連のerrorが出た場合は、policy内容を変更せず30〜60秒待ってから同じ作成コマンドを1回再実行します。
+</Aside>
+
+</CliStep>
+
+<Checkpoint>
+
+- service roleのtrust先は`bedrock.amazonaws.com`である
+- `SourceAccount`と`SourceArn`でconfused deputy対策を入れた
+- `s3:ListBucket`と`s3:GetObject`を含むsource S3権限を検証した
+- Titan Text Embeddings V2への`bedrock:InvokeModel`を検証した
+- S3 Vector indexの必要操作を検証した
+- vector bucket policyのprincipalは作成したservice roleである
+
+</Checkpoint>
+
+[ナレッジベースを作成する →](/rag-guide/05-create-knowledge-base/)

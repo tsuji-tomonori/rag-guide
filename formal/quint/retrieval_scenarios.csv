@@ -1,0 +1,15 @@
+scenario_id,technology,expected_contract,quint_run,primary_source_scope
+TECH-SCN-001,TF-IDF,語彙統計に基づく疎な候補生成,tfIdfContractTest,語重み付け機構
+TECH-SCN-002,BM25,語頻度飽和・文書長補正を持つ疎順位付け,bm25ContractTest,確率的検索機構
+TECH-SCN-003,SPLADE,転置索引互換の学習済み疎表現,spladeContractTest,第一段階検索機構
+TECH-SCN-004,DPR,二塔型単一ベクトルによる密な候補生成,dprContractTest,二塔型検索機構
+TECH-SCN-005,ColBERT,トークン複数ベクトルの遅延相互作用,colbertContractTest,MaxSim型検索機構
+TECH-SCN-006,HNSW,階層近傍グラフによるANN索引,hnswContractTest,ANN索引構造
+TECH-SCN-007,RRF,正のkと順位だけを使いcandidate IDを保持,rrfContractTest,順位統合式
+TECH-SCN-008,Query2doc,元質問とhard constraintを保持する検索用擬似文書,query2docContractTest,質問変換の安全契約
+TECH-SCN-009,HyDE,元質問とhard constraintを保持する仮想文書埋め込み,hydeContractTest,質問変換の安全契約
+TECH-SCN-010,ACORN,候補露出前に条件を組み込むfiltered ANN,acornContractTest,条件付きANN機構
+TECH-SCN-011,MMR,候補集合の部分集合として関連性と新規性を再選択,mmrContractTest,多様化機構
+TECH-SCN-012,BERT passage reranking,候補本文を読むが候補外根拠を生成しない,crossEncoderContractTest,交差符号化再順位付け
+TECH-SCN-013,monoT5,候補本文をpointwise評価し候補外根拠を生成しない,monoT5ContractTest,text-to-text再順位付け
+TECH-SCN-014,LLM listwise reranking,既知candidate IDだけを並べ替える,listwiseRerankerContractTest,一覧比較再順位付け

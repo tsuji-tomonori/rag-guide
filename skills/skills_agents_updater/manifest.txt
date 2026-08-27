@@ -1,0 +1,5 @@
+SKILL.md
+README.md
+tasks/update_skills_agents.md
+scripts/update_skills_agents.py
+examples/update_spec.yaml

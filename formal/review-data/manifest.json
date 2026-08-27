@@ -1,0 +1,30 @@
+{
+  "method_version": 2,
+  "canonical_commit": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
+  "generated_from_commit": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
+  "markdown_files": 98,
+  "explanation_states": 328,
+  "chapter_introductions": 11,
+  "numbered_sections": 317,
+  "technical_elements": 49,
+  "unique_external_sources": 204,
+  "active_external_sources": 166,
+  "inactive_external_sources": 38,
+  "source_registry_policy": "append_only_url_identity_with_inactive_tombstones",
+  "source_registry_count": 204,
+  "resolved_sources": 204,
+  "unresolved_sources": 0,
+  "findings": 8,
+  "findings_by_severity": {
+    "Blocker": 0,
+    "Critical": 1,
+    "Major": 6,
+    "Minor": 1
+  },
+  "sha256": {
+    "explanation_states.csv": "77bc7a7449a48ebe0a59cf5878d0e1cffe497c99fb61798329bdb499a626535c",
+    "technical_elements.csv": "dbd4b3b639c17d3c0b2ca4361b48afc3eae538af7c8370ed312f8e188e1d4b96",
+    "primary_sources.csv": "9e2836bdc2fca9c41ac0a44d7517913a327069550a70d8bc76247baf96d12d5b",
+    "findings.csv": "5bece628ad0bd4ff3a0250b50ce9bc16f25c2b1d9353efb7af341003f3090f80"
+  }
+}

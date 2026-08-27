@@ -1,0 +1,4 @@
+interface:
+  display_name: "Worktree Task PR Flow"
+  short_description: "Default repository-work flow through worktree, typed task file, validation, PR, and done state."
+  default_prompt: "Use $worktree-task-pr-flow by default for repository work involving file edits, commands, investigation, validation, docs, commits, or PRs. Create a dedicated worktree, classify the task as 機能追加, 修正, 調査, or ドキュメント更新, write the task file and acceptance criteria before implementation, perform nazenaze-analysis before 修正 work, commit, open a main-targeted PR with GitHub Apps, comment acceptance results, and move the task to done."

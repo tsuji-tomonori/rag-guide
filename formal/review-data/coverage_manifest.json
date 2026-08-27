@@ -1,0 +1,39 @@
+{
+  "canonical_commit": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
+  "method_version": 2,
+  "markdown_files": 98,
+  "sentences": 4913,
+  "evidence_required_sentences": 771,
+  "covered_sentences": 432,
+  "coverage_percent": 56.03,
+  "direct_covered_sentences": 398,
+  "direct_coverage_percent": 51.62,
+  "uncovered_sentences": 339,
+  "concrete_technologies": 47,
+  "trusted_primary_sources": 203,
+  "classification_overrides": 307,
+  "classification_override_sha256": "29582690814470fdd50b1b01df1e3305b1cbe4052c30b89369253f559e9f867e",
+  "source_trust_tiers": {
+    "A": 78,
+    "B": 125,
+    "C": 1
+  },
+  "coverage_definition": {
+    "denominator": "externally checkable technical, empirical, research, or official-product sentences",
+    "covered": "at least one eligible primary source mapped by direct link, concrete-technique mapping, or same paragraph",
+    "direct": "sentence-local link or curated concrete-technique primary source",
+    "not_required": "normative design instructions, examples, transitions, and structural prose"
+  },
+  "semantic_validation_boundary": "Lean proves ledger consistency, not that a source semantically entails the Japanese sentence.",
+  "sha256": {
+    "formal/review-data/manifest.json": "806a4cb26d7ddf9d0790438c478b8afbc9590fad8ce1ab7a2dcfc097b0207381",
+    "formal/review-data/primary_sources.csv": "9e2836bdc2fca9c41ac0a44d7517913a327069550a70d8bc76247baf96d12d5b",
+    "formal/review-data/trusted_primary_sources.csv": "576cd54b59cf2d8bc9a66ae7536f3e236f7d942d6314f1190b4bc44b3da89d73",
+    "formal/review-data/sentence_evidence.csv": "dde709012949b5e7f386ce3c0e0234f79f07de906a4d236211a3521f15bb24b3",
+    "formal/review-data/uncovered_sentences.csv": "cd9fc2d3cb3a4737c5627bf0dfd3cb28a1a3081202c259bef8454e9c239e8802",
+    "formal/review-data/concrete_technologies.csv": "4299cfa81ab35824eaec5cfaa028e46a46394debfd671e69eedf127eeb1f85a9",
+    "formal/review-data/coverage_summary.csv": "0e1542ba18b45e5f5455c875fc44fdcd1ec08a9d878c57eebe189ea8c42d29ef",
+    "formal/lean/RagEvidence/Generated.lean": "b9314974eda0b8ad6dde4171eccfd0bfdb0de49a50cf6de23e274ea92c2a0f11",
+    "formal/review-data/appropriateness_classification_overrides.csv": "29582690814470fdd50b1b01df1e3305b1cbe4052c30b89369253f559e9f867e"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Post-Task Fit Report"
+  short_description: "Always generate and save a completion report with instruction coverage, decisions, outputs, fit, and residual risks"
+  default_prompt: "After finishing the main task, always write a concise post-task completion report in Japanese, save it as a Markdown file under reports/working/, and separate user instructions, decisions made, work performed, delivered artifacts, instruction-fit evaluation, and any remaining risks or constraints unless the user explicitly asked to skip the report."

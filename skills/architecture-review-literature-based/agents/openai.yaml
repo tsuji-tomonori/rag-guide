@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Review"
+  short_description: "ATAM/SAAM/QAW based architecture evaluation and review reporting"
+  default_prompt: "Review the provided software or system architecture using ATAM, SAAM, QAW, or ATAM-lite as appropriate. Extract quality attribute scenarios, connect them to design decisions, identify risks/non-risks/sensitivity points/tradeoff points, and produce a concise decision-oriented review report."

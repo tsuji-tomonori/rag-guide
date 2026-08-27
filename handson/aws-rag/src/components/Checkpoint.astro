@@ -1,0 +1,248 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = '次へ進む前のチェック' } = Astro.props;
+---
+
+<aside class="checkpoint" data-checkpoint data-sync-results>
+  <div class="checkpoint-heading">
+    <span aria-hidden="true">◆</span>
+    <strong>{title}</strong>
+  </div>
+  <div class="checkpoint-content">
+    <div class="checkpoint-static"><slot /></div>
+    <div class="checkpoint-sync" data-checkpoint-sync aria-live="polite">
+      <div class="checkpoint-sync-heading">
+        <strong>各手順の成功条件</strong>
+        <span class="checkpoint-progress" data-checkpoint-progress>0 / 0</span>
+      </div>
+      <ul class="checkpoint-sync-list" data-checkpoint-list></ul>
+      <p class="checkpoint-ok" data-checkpoint-ok hidden>OK! すべての成功条件を確認しました。</p>
+    </div>
+  </div>
+</aside>
+
+<script>
+  type CheckState = Record<string, boolean>;
+
+  const storageKey = () => `rag-handson-checks:${window.location.pathname}`;
+
+  const readState = (): CheckState => {
+    try {
+      return JSON.parse(window.localStorage.getItem(storageKey()) ?? '{}') as CheckState;
+    } catch {
+      return {};
+    }
+  };
+
+  const writeState = (state: CheckState) => {
+    try {
+      window.localStorage.setItem(storageKey(), JSON.stringify(state));
+    } catch {
+      // Private browsingなどでlocalStorageが使えない場合も、画面上の操作は継続します。
+    }
+  };
+
+  const setInputState = (input: HTMLInputElement, checked: boolean) => {
+    input.checked = checked;
+    input.closest('.check-item')?.classList.toggle('is-checked', checked);
+  };
+
+  const bindInput = (input: HTMLInputElement) => {
+    input.addEventListener('change', () => {
+      const key = input.dataset.checkKey;
+      if (!key) return;
+      const state = readState();
+      state[key] = input.checked;
+      writeState(state);
+      document.querySelectorAll<HTMLInputElement>(`input[data-check-key="${CSS.escape(key)}"]`).forEach((peer) => {
+        setInputState(peer, input.checked);
+      });
+      document.dispatchEvent(new CustomEvent('workshop-check-updated'));
+    });
+  };
+
+  const makeCheckItem = (key: string, text: string, className = '') => {
+    const wrapper = document.createElement('label');
+    wrapper.className = `check-item ${className}`.trim();
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.dataset.checkKey = key;
+    input.setAttribute('aria-label', text);
+    const caption = document.createElement('span');
+    caption.textContent = text;
+    wrapper.append(input, caption);
+    bindInput(input);
+    return wrapper;
+  };
+
+  const getCheckpointGroup = (sourceInput: HTMLInputElement) => {
+    const sourceResult = sourceInput.closest<HTMLElement>('[data-check-source]');
+    const step = sourceResult?.closest<HTMLElement>('.cli-step');
+    const number = step?.dataset.stepNumber?.trim();
+    const title = step?.dataset.stepTitle?.trim();
+
+    if (number || title) {
+      return {
+        key: `step:${number ?? title}`,
+        label: [number ? `${number}.` : '', title].filter(Boolean).join(' '),
+      };
+    }
+
+    return {
+      key: `result:${sourceResult?.dataset.resultId ?? 'start'}`,
+      label: sourceResult?.dataset.resultTitle ?? '開始前の確認',
+    };
+  };
+
+  const convertResultLists = () => {
+    const state = readState();
+    document.querySelectorAll<HTMLElement>('[data-check-source]').forEach((result, resultIndex) => {
+      if (result.dataset.checksReady === 'true') return;
+      const resultId = result.dataset.resultId || `result-${resultIndex + 1}`;
+      const list = result.querySelector<HTMLElement>('.result-content ul');
+      const listItems = list ? Array.from(list.children).filter((child): child is HTMLElement => child.tagName === 'LI') : [];
+
+      if (listItems.length > 0) {
+        listItems.forEach((item, itemIndex) => {
+          const key = `${window.location.pathname}:${resultId}:${itemIndex + 1}`;
+          const label = document.createElement('label');
+          label.className = 'check-item';
+          const input = document.createElement('input');
+          input.type = 'checkbox';
+          input.dataset.checkKey = key;
+          const text = document.createElement('span');
+          while (item.firstChild) text.append(item.firstChild);
+          label.append(input, text);
+          item.replaceChildren(label);
+          bindInput(input);
+          setInputState(input, state[key] === true);
+        });
+      } else {
+        const content = result.querySelector<HTMLElement>('.result-content');
+        if (content) {
+          const key = `${window.location.pathname}:${resultId}:1`;
+          const item = makeCheckItem(key, '表示内容を確認し、コマンドがエラーなく終了した', 'check-item-single');
+          content.append(item);
+          setInputState(item.querySelector('input')!, state[key] === true);
+        }
+      }
+
+      const inputs = result.querySelectorAll<HTMLInputElement>('input[data-check-key]');
+      result.dataset.checkCount = String(inputs.length);
+      result.dataset.checksReady = 'true';
+      result.classList.toggle('is-complete', inputs.length > 0 && Array.from(inputs).every((input) => input.checked));
+    });
+  };
+
+  const convertStaticList = (list: HTMLElement, state: CheckState) => {
+    Array.from(list.children).forEach((child, index) => {
+      if (child.tagName !== 'LI' || child.querySelector('input')) return;
+      const key = `${window.location.pathname}:checkpoint:${index + 1}`;
+      const text = child.textContent?.trim() ?? '';
+      child.replaceChildren(makeCheckItem(key, text));
+      setInputState(child.querySelector('input')!, state[key] === true);
+    });
+  };
+
+  const renderCheckpoint = () => {
+    const checkpoint = document.querySelector<HTMLElement>('[data-checkpoint]');
+    if (!checkpoint) return;
+    const state = readState();
+    const results = Array.from(document.querySelectorAll<HTMLElement>('[data-check-source]'));
+    let sourceInputs = results.flatMap((result) => Array.from(result.querySelectorAll<HTMLInputElement>('input[data-check-key]')));
+    const list = checkpoint.querySelector<HTMLElement>('[data-checkpoint-list]');
+    const staticBlock = checkpoint.querySelector<HTMLElement>('.checkpoint-static');
+    const sync = checkpoint.querySelector<HTMLElement>('[data-checkpoint-sync]');
+    if (!list || !sync) return;
+
+    if (sourceInputs.length === 0) {
+      const staticList = staticBlock?.querySelector<HTMLElement>('ul');
+      if (staticList) {
+        convertStaticList(staticList, state);
+        sourceInputs = Array.from(staticList.querySelectorAll<HTMLInputElement>('input[data-check-key]'));
+      }
+    }
+
+    if (sourceInputs.length > 0) {
+      const groups = new Map<string, { label: string; inputs: HTMLInputElement[] }>();
+      sourceInputs.forEach((sourceInput) => {
+        const group = getCheckpointGroup(sourceInput);
+        const existing = groups.get(group.key);
+        if (existing) {
+          existing.inputs.push(sourceInput);
+        } else {
+          groups.set(group.key, { label: group.label, inputs: [sourceInput] });
+        }
+      });
+
+      list.replaceChildren();
+      groups.forEach((group) => {
+        const stepItem = document.createElement('li');
+        stepItem.className = 'checkpoint-step';
+
+        const stepTitle = document.createElement('strong');
+        stepTitle.className = 'checkpoint-step-title';
+        stepTitle.textContent = group.label;
+
+        const conditions = document.createElement('ul');
+        conditions.className = 'checkpoint-step-conditions';
+        group.inputs.forEach((sourceInput) => {
+          const sourceText = sourceInput.closest('.check-item')?.textContent?.trim() ?? '';
+          const condition = document.createElement('li');
+          condition.append(makeCheckItem(sourceInput.dataset.checkKey!, sourceText));
+          conditions.append(condition);
+          setInputState(condition.querySelector('input')!, sourceInput.checked);
+        });
+
+        stepItem.append(stepTitle, conditions);
+        list.append(stepItem);
+      });
+      staticBlock?.querySelectorAll('ul').forEach((staticList) => {
+        staticList.hidden = true;
+      });
+    }
+    sync.hidden = sourceInputs.length === 0;
+
+    const allInputs = list.querySelectorAll<HTMLInputElement>('input[data-check-key]');
+    const checked = Array.from(allInputs).filter((input) => input.checked).length;
+    const progress = checkpoint.querySelector<HTMLElement>('[data-checkpoint-progress]');
+    const ok = checkpoint.querySelector<HTMLElement>('[data-checkpoint-ok]');
+    if (progress) progress.textContent = `${checked} / ${allInputs.length}`;
+    if (ok) ok.hidden = allInputs.length === 0 || checked !== allInputs.length;
+    checkpoint.classList.toggle('is-complete', allInputs.length > 0 && checked === allInputs.length);
+  };
+
+  const initWorkshopChecks = () => {
+    convertResultLists();
+    renderCheckpoint();
+    document.querySelectorAll<HTMLElement>('[data-check-source]').forEach((result) => {
+      result.classList.toggle(
+        'is-complete',
+        Array.from(result.querySelectorAll<HTMLInputElement>('input[data-check-key]')).every((input) => input.checked),
+      );
+    });
+    document.querySelectorAll<HTMLInputElement>('[data-check-key]').forEach((input) => {
+      if (!input.dataset.workshopBound) {
+        input.dataset.workshopBound = 'true';
+        input.addEventListener('change', () => {
+          document.querySelectorAll<HTMLElement>('[data-check-source]').forEach((result) => {
+            const inputs = Array.from(result.querySelectorAll<HTMLInputElement>('input[data-check-key]'));
+            result.classList.toggle('is-complete', inputs.length > 0 && inputs.every((item) => item.checked));
+          });
+          renderCheckpoint();
+        });
+      }
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWorkshopChecks, { once: true });
+  } else {
+    initWorkshopChecks();
+  }
+  document.addEventListener('astro:page-load', initWorkshopChecks);
+  document.addEventListener('workshop-check-updated', initWorkshopChecks);
+</script>

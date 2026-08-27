@@ -1,0 +1,7 @@
+interface:
+  display_name: "EQ PM Layer"
+  short_description: "Turns fuzzy asks into calm, scoped product/engineering handoffs."
+  default_prompt: "Use $eq-pm-layer to clarify intent, scope, risks, and acceptance criteria before implementation."
+  brand_color: "#3B82F6"
+policy:
+  allow_implicit_invocation: true

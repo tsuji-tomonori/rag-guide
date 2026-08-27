@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Review Self Review"
+  short_description: "Self-review rag-assist PRs and comment the result in Japanese."
+  default_prompt: "Use $pr-review-self-review when creating or updating a rag-assist PR: inspect the diff, select the relevant repository checklist sections, record validation honestly, and post the self-review result as a Japanese PR comment."

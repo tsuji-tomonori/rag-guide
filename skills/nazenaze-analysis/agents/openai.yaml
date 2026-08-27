@@ -1,0 +1,4 @@
+interface:
+  display_name: "なぜなぜ分析"
+  short_description: "Analyze incidents and fixes with evidence-based root cause analysis."
+  default_prompt: "Use $nazenaze-analysis before 修正 tasks or incident prevention work. Define the observed problem, separate facts from assumptions, build causal branches, identify root cause and affected scope, then propose full remediation and follow-up checks."

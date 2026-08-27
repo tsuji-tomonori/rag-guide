@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs SWEBOK Template Writer"
+  short_description: "Create SWEBOK-lite docs templates."
+  default_prompt: "Create a new docs file in the appropriate docs directory using the repository SWEBOK-lite template and next sequential filename."

@@ -1,0 +1,52 @@
+---
+title: 構成値と公式資料
+description: ハンズオンのbaseline値、選定理由、AWS公式資料をまとめます。
+---
+
+## 基準構成
+
+| 項目 | このハンズオンの値 | 理由 |
+|---|---|---|
+| Region | `ap-northeast-1` | 東京でBedrockとS3 Vectorsを同一リージョンに配置 |
+| Data source | Amazon S3 | AWS公式PDFとsidecar metadataをそのまま取り込める |
+| Corpus | 日本語版AWS規範ガイダンス「RAGのオプションとアーキテクチャ」PDF | 複数ページの実文書でchunkと検索結果を観察 |
+| Embedding | Titan Text Embeddings V2 | Knowledge Basesで1024次元floatを利用 |
+| Dimension | 1024 | embedding設定とvector indexを明示的に一致 |
+| Vector store | S3 Vectors | infrastructure provision不要のsemantic baseline |
+| Distance | cosine | 正規化された意味比較のbaseline |
+| Chunking | 300 token / 10% overlap | 比較を始めるための固定長baseline。評価後に変更 |
+| Retrieval | `SEMANTIC` / 5 candidates | 検索結果を生成前に観察 |
+| Generation | Amazon Nova Lite / Converse | Evidence Setを明示的に入力 |
+| Data deletion | `DELETE` | data source削除時に取り込みvectorも削除 |
+
+この資料は39ページあり、RAGの基本フロー、Amazon Bedrock Knowledge Bases、S3データソース、ベクトルデータベース、`Retrieve` / `RetrieveAndGenerate`を一つの検索対象で確認できます。数行のサンプル文書より実際のchunk検索に近い状態を保ちつつ、ハンズオン内で取り込みを完了できる規模です。
+
+## AWS公式資料
+
+- [検索対象：AWSのRAGオプションとアーキテクチャ（日本語）](https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/introduction.html)
+- [検索対象PDFのdownload URL](https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/retrieval-augmented-generation-options/retrieval-augmented-generation-options.pdf)
+- [Knowledge Basesが対応するfile形式と50 MB制限](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html)
+- [S3 Vectorsのリージョンとquota](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-regions-quotas.html)
+- [S3 VectorsとKnowledge Basesの統合](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-bedrock-kb.html)
+- [既存S3 Vector storeをKnowledge Baseへ接続する前提](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup.html)
+- [Knowledge Bases service roleの権限](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-permissions.html)
+- [`create-knowledge-base` CLI reference](https://docs.aws.amazon.com/cli/latest/reference/bedrock-agent/create-knowledge-base.html)
+- [`create-data-source` CLI reference](https://docs.aws.amazon.com/cli/latest/reference/bedrock-agent/create-data-source.html)
+- [`start-ingestion-job` CLI reference](https://docs.aws.amazon.com/cli/latest/reference/bedrock-agent/start-ingestion-job.html)
+- [`retrieve` CLI reference](https://docs.aws.amazon.com/cli/latest/reference/bedrock-agent-runtime/retrieve.html)
+- [`RetrieveAndGenerate` API reference](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html)
+- [`KnowledgeBaseRetrieveAndGenerateConfiguration` API reference](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_KnowledgeBaseRetrieveAndGenerateConfiguration.html)
+- [Knowledge Basesのprompt placeholderと引用の設定](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html)
+- [`converse` CLI reference](https://docs.aws.amazon.com/cli/latest/reference/bedrock-runtime/converse.html)
+- [Amazon Nova Lite model card](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-amazon-nova-lite.html)
+
+## 本書との接続
+
+このハンズオンは、`rag-guide`第10章のカスタマーマネージド型baselineである`S3 → Knowledge Bases → S3 Vectors → Retrieve → Converse`を操作へ落としたものです。概念と設計判断は次を参照してください。
+
+- `docs/3.回答に使う資料を準備する/`：data source、chunking、metadata、embedding、index
+- `docs/4.質問に合う根拠を探す/`：semantic search、hybrid retrieval、filter
+- `docs/5.根拠を選別・整形する/`：Evidence Set、reranking、validation
+- `docs/6.根拠に基づいて回答する/`：grounded prompt、citation、answerability
+- `docs/7.品質を評価し改善する/`：Recall@k、generation・end-to-end評価
+- `docs/10.AWSで設計・実装する/`：AWSサービスへの対応付け

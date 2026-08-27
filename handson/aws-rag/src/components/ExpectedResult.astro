@@ -1,0 +1,27 @@
+---
+interface Props {
+  title?: string;
+  id?: string;
+  verification?: string;
+}
+
+const {
+  title = 'こうなれば成功',
+  id,
+  verification,
+} = Astro.props;
+---
+
+<aside class="expected-result" data-check-source data-result-id={id} data-result-title={title}>
+  <div class="result-icon" aria-hidden="true">✓</div>
+  <div>
+    <strong>{title}</strong>
+    {verification && (
+      <p class="result-perspective">
+        <strong>確認の観点</strong>
+        <span>「{verification}」で、件数・値・状態が期待どおりかを確認します。</span>
+      </p>
+    )}
+    <div class="result-content"><slot /></div>
+  </div>
+</aside>

@@ -1,0 +1,41 @@
+# Example update specification for scripts/update_skills_agents.py
+# Run dry-run first:
+#   python scripts/update_skills_agents.py --root . --spec examples/update_spec.yaml
+# Then write:
+#   python scripts/update_skills_agents.py --root . --spec examples/update_spec.yaml --write --backup
+
+create_skills:
+  - name: repo-maintainer
+    description: Maintain repository conventions and keep related agent definitions synchronized.
+    body: |
+      # Repo Maintainer Skill
+
+      Use this skill when repository-local skills or agents need to be updated consistently.
+
+      ## Workflow
+
+      1. Scan the repository.
+      2. Identify the exact skill or agent files to update.
+      3. Apply narrow edits.
+      4. Validate and show a diff.
+
+create_agents:
+  - name: reviewer
+    description: Review skill and agent updates for consistency before commit.
+    body: |
+      # Reviewer Agent
+
+      You review changes to skills and agents. Check naming, front matter, scope, and consistency.
+
+# To patch an existing file, add a section like this after the target file already exists:
+# files:
+#   - path: skills/example/SKILL.md
+#     frontmatter:
+#       description: Example skill with refreshed metadata.
+#     append_sections:
+#       - heading: Validation
+#         text: |
+#           Run the updater validation before committing changes.
+#     replacements:
+#       - pattern: "old instruction"
+#         replacement: "updated instruction"

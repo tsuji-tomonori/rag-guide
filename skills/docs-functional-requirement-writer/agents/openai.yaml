@@ -1,0 +1,4 @@
+interface:
+  display_name: "Functional Requirement Writer"
+  short_description: "Write functional requirements docs."
+  default_prompt: "Create or refine a functional requirements document using REQ_FUNCTIONAL_NNN.md under the repository docs tree."

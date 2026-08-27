@@ -1,0 +1,4 @@
+interface:
+  display_name: "Requirement Attributes Writer"
+  short_description: "Add requirement management attributes."
+  default_prompt: "Add or refine requirement attributes such as identifier, rationale, source, dependencies, conflicts, acceptance criteria, priority, stability, and change history."

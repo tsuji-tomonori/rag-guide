@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  number?: string;
+}
+
+const { title, number } = Astro.props;
+---
+
+<section
+  class="workshop-panel cli-step"
+  data-step-number={number}
+  data-step-title={title}
+>
+  <header>
+    <span class="terminal-mark" aria-hidden="true">$</span>
+    <div>
+      {number && <span class="eyebrow">手順 {number}</span>}
+      <strong class="cli-step-title">{title}</strong>
+    </div>
+  </header>
+  <div class="panel-body"><slot /></div>
+</section>

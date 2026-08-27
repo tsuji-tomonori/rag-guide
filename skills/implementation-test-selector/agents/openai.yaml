@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implementation Test Selector"
+  short_description: "Choose and report appropriate checks for implementation work."
+  default_prompt: "Before finishing implementation work, inspect changed files, choose the smallest sufficient validation commands, run them when feasible, and report passed, skipped, or failed checks without claiming unrun checks as completed."

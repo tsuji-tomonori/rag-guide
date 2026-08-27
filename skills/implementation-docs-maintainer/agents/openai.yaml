@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implementation Docs Maintainer"
+  short_description: "Keep docs aligned with implementation changes."
+  default_prompt: "During implementation, identify docs affected by code, config, API, workflow, or agent-instruction changes; update the smallest durable document; and report either the docs changed or why no docs update was needed."

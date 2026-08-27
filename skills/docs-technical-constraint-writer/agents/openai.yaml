@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Constraint Writer"
+  short_description: "Write technical constraint docs."
+  default_prompt: "Create or refine a technical constraint document using REQ_TECHNICAL_CONSTRAINT_NNN.md under the repository docs tree."

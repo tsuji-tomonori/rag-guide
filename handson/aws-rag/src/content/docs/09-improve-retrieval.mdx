@@ -1,0 +1,291 @@
+---
+title: 9. Knowledge Baseで検索と回答生成を一撃実行
+description: RetrieveAndGenerateを1回呼び出し、Knowledge Baseの検索結果を使った回答とcitationをまとめて確認します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import CliStep from '../../components/CliStep.astro';
+import Command from '../../components/Command.astro';
+import ExpectedResult from '../../components/ExpectedResult.astro';
+import Checkpoint from '../../components/Checkpoint.astro';
+import BuildProgress from '../../components/BuildProgress.astro';
+import ResourceTable from '../../components/ResourceTable.astro';
+
+<BuildProgress current={9} />
+
+<ResourceTable
+  title="RetrieveAndGenerateで固定する設定値"
+  rows={[
+  {
+    "resource": "質問",
+    "setting": "input.text",
+    "value": "この資料の説明に沿って、RAGの4つのステップ（文書の取り込み、自然言語クエリ、類似度検索による関連データの取得、クエリとコンテキストを使ったLLM回答）を説明してください。さらに、Amazon Bedrockナレッジベースの文書のチャンク化・埋め込み・ベクトルデータベースへの保存と、取得API（Retrieve）／RetrieveAndGenerate APIの違いも説明してください。",
+    "note": "これまでのRetrieve・Converseと同じ質問で、一体型の結果を比較します。"
+  },
+  {
+    "resource": "Knowledge Base",
+    "setting": "knowledgeBaseId",
+    "value": "RAG_KB_ID",
+    "note": "このハンズオンで作成したカスタマーマネージドKnowledge Baseを使います。"
+  },
+  {
+    "resource": "検索方式",
+    "setting": "overrideSearchType / numberOfResults",
+    "value": "SEMANTIC / 5",
+    "note": "S3 Vectorsのdense semantic searchで5件のcandidateを取得します。"
+  },
+  {
+    "resource": "回答生成",
+    "setting": "modelArn / maxTokens / temperature / topP",
+    "value": "RAG_GENERATION_MODEL_ARN / 400 / 0.1 / 0.9",
+    "note": "1章で疎通確認したNova Liteを使います。"
+  },
+  {
+    "resource": "出力",
+    "setting": "output / citations / sessionId",
+    "value": "回答本文 / 参照chunk・source URI / セッションID",
+    "note": "検索と生成の結果を1つのJSONから確認します。"
+  }
+]}
+/>
+
+7では`Retrieve`で検索結果だけを確認し、8では`Converse`へEvidence Setを渡しました。ここでは、カスタマーマネージドKnowledge Baseが提供する`RetrieveAndGenerate`を使い、**Knowledge Baseで検索して、その結果を使った回答を返す処理を1回のAPI呼び出しで試します**。
+
+このハンズオンのKnowledge Baseは、受講者がS3 Vectorsを選んで作成したカスタマーマネージド型です。そのため、このページでは`RetrieveAndGenerate`を使えます。AWSのManaged Knowledge BaseではこのAPIを使わず、`Retrieve`または`AgenticRetrieveStream`を使う必要があります。詳しくは[RetrieveAndGenerateのAPIリファレンス](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html)を参照してください。
+
+<Aside type="tip" title="まず動かすときはこのページだけで確認できます">
+  9.1の準備、9.2の1回のAPI呼び出し、9.3の結果確認を上から順に実行します。検索と回答生成を細かく制御したい場合は、前の[7. Retrieveで検索](/rag-guide/07-retrieve/)と[8. Converseで回答生成](/rag-guide/08-converse/)の分離型へ戻ります。
+</Aside>
+
+## 手順 9.1. 一撃実行のリクエストを準備する
+
+<CliStep number="9.1" title="一撃実行のリクエストを準備する">
+
+Knowledge Base ID、質問、生成モデル、検索条件を1つのJSONへまとめます。`$search_results$`と`$query$`はKnowledge Baseが検索結果と質問へ置き換え、`$output_format_instructions$`は引用を含む出力形式へ置き換えるprompt placeholderです。
+
+<Command phase="prepare" title="RetrieveAndGenerateの入力を作成">
+
+```bash
+export RAG_QUESTION="この資料の説明に沿って、RAGの4つのステップ（文書の取り込み、自然言語クエリ、類似度検索による関連データの取得、クエリとコンテキストを使ったLLM回答）を説明してください。さらに、Amazon Bedrockナレッジベースの文書のチャンク化・埋め込み・ベクトルデータベースへの保存と、取得API（Retrieve）／RetrieveAndGenerate APIの違いも説明してください。"
+
+jq -n \
+  --arg kbId "$RAG_KB_ID" \
+  --arg modelArn "$RAG_GENERATION_MODEL_ARN" \
+  --arg question "$RAG_QUESTION" \
+  '{
+    input:{text:$question},
+    retrieveAndGenerateConfiguration:{
+      type:"KNOWLEDGE_BASE",
+      knowledgeBaseConfiguration:{
+        knowledgeBaseId:$kbId,
+        modelArn:$modelArn,
+        retrievalConfiguration:{
+          vectorSearchConfiguration:{
+            numberOfResults:5,
+            overrideSearchType:"SEMANTIC"
+          }
+        },
+        generationConfiguration:{
+          inferenceConfig:{
+            textInferenceConfig:{
+              maxTokens:400,
+              temperature:0.1,
+              topP:0.9
+            }
+          },
+          promptTemplate:{
+            textPromptTemplate:(
+              "あなたはAWS公式RAGガイダンスPDFを根拠に回答するアシスタントです。\n" +
+              "検索結果に含まれる情報だけを使い、日本語で簡潔に回答してください。\n" +
+              "根拠が見つからない場合は、推測せず『根拠不足です』と回答してください。\n\n" +
+              "出力形式:\n$output_format_instructions$\n\n" +
+              "検索結果:\n$search_results$\n\n質問:\n$query$"
+            )
+          }
+        }
+      }
+    }
+  }' | tee "$RAG_WORK_DIR/retrieve-and-generate-input.json"
+
+jq -e '
+  .input.text and
+  .retrieveAndGenerateConfiguration.type == "KNOWLEDGE_BASE" and
+  (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.knowledgeBaseId | length) > 0 and
+  (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.modelArn | startswith("arn:aws:bedrock:")) and
+  .retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.retrievalConfiguration.vectorSearchConfiguration.overrideSearchType == "SEMANTIC" and
+  .retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.retrievalConfiguration.vectorSearchConfiguration.numberOfResults == 5 and
+  (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.generationConfiguration.promptTemplate.textPromptTemplate | contains("$search_results$")) and
+  (.retrieveAndGenerateConfiguration.knowledgeBaseConfiguration.generationConfiguration.promptTemplate.textPromptTemplate | contains("$output_format_instructions$"))
+' "$RAG_WORK_DIR/retrieve-and-generate-input.json" >/dev/null
+
+printf '[CHECK] request target: KNOWLEDGE_BASE (%s)\n' "$RAG_KB_ID"
+printf '[CHECK] generation model: %s\n' "$RAG_GENERATION_MODEL_ARN"
+printf '[CHECK] retrieval configuration: SEMANTIC / 5 results\n'
+printf '[CHECK] prompt placeholders: $search_results$ / $output_format_instructions$\n'
+printf 'RetrieveAndGenerate request verification: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult id="s9-1-input" verification="RetrieveAndGenerateの入力を作成">
+
+次の5行が表示されれば成功です。
+
+```text
+[CHECK] request target: KNOWLEDGE_BASE (RQVIZHNFAN)
+[CHECK] generation model: arn:aws:bedrock:ap-northeast-1::foundation-model/amazon.nova-lite-v1:0
+[CHECK] retrieval configuration: SEMANTIC / 5 results
+[CHECK] prompt placeholders: $search_results$ / $output_format_instructions$
+RetrieveAndGenerate request verification: PASS
+```
+
+- `[CHECK] request target: KNOWLEDGE_BASE`が表示される
+- `[CHECK] generation model:`にNova Liteのfoundation model ARNが表示される
+- `[CHECK] retrieval configuration: SEMANTIC / 5 results`が表示される
+- `[CHECK] prompt placeholders: $search_results$ / $output_format_instructions$`が表示される
+- `RetrieveAndGenerate request verification: PASS`が表示される
+
+</ExpectedResult>
+
+</CliStep>
+
+## 手順 9.2. Knowledge Baseで検索と回答生成を一撃実行する
+
+<CliStep number="9.2" title="Knowledge Baseで検索と回答生成を一撃実行する">
+
+次のコマンドが、このページの中心となる1回のAPI呼び出しです。Knowledge Baseが質問に関連するchunkを検索し、その結果をNova Liteへ渡して、回答とcitationを返します。
+
+<Command phase="execute" title="RetrieveAndGenerateを1回だけ実行">
+
+```bash
+aws bedrock-agent-runtime retrieve-and-generate \
+  --region "$AWS_REGION" \
+  --cli-input-json "file://$RAG_WORK_DIR/retrieve-and-generate-input.json" \
+  | tee "$RAG_WORK_DIR/retrieve-and-generate-output.json"
+
+jq -e '
+  (.output.text | type == "string" and length > 0) and
+  (.sessionId | type == "string" and length > 0) and
+  (([.citations[]?.retrievedReferences[]?] | length) > 0) and
+  ([.citations[]?.retrievedReferences[]?.location.s3Location.uri // ""]
+    | any(.[]; contains("aws-rag-options-and-architectures.pdf")))
+' "$RAG_WORK_DIR/retrieve-and-generate-output.json" >/dev/null
+
+export RAG_RAG_REFERENCE_COUNT="$(jq \
+  '[.citations[]?.retrievedReferences[]?] | length' \
+  "$RAG_WORK_DIR/retrieve-and-generate-output.json")"
+
+printf '[CHECK] RetrieveAndGenerate API: COMPLETE\n'
+printf '[CHECK] generated answer: PRESENT\n'
+printf '[CHECK] retrieved references: %s (>= 1)\n' "$RAG_RAG_REFERENCE_COUNT"
+printf '[CHECK] source: expected AWS RAG guidance PDF\n'
+printf '[CHECK] session ID: PRESENT\n'
+printf 'RetrieveAndGenerate execution verification: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult id="s9-2-call" verification="RetrieveAndGenerateを1回だけ実行">
+
+次の6行が表示されれば成功です。
+
+```text
+[CHECK] RetrieveAndGenerate API: COMPLETE
+[CHECK] generated answer: PRESENT
+[CHECK] retrieved references: 2 (>= 1)
+[CHECK] source: expected AWS RAG guidance PDF
+[CHECK] session ID: PRESENT
+RetrieveAndGenerate execution verification: PASS
+```
+
+- `[CHECK] RetrieveAndGenerate API: COMPLETE`が表示される
+- `[CHECK] generated answer: PRESENT`が表示される
+- `[CHECK] retrieved references:`に`1`以上の件数が表示される
+- `[CHECK] source: expected AWS RAG guidance PDF`が表示される
+- `[CHECK] session ID: PRESENT`が表示される
+- `RetrieveAndGenerate execution verification: PASS`が表示される
+
+</ExpectedResult>
+
+</CliStep>
+
+## 手順 9.3. 回答とcitationを確認する
+
+<CliStep number="9.3" title="回答とcitationを確認する">
+
+回答本文と、回答に使われたsource URI・根拠本文を見やすく表示します。`RetrieveAndGenerate`のcitationは回答へ`[E1]`という文字列を追加する方式ではなく、回答のspanとretrieved referenceを別フィールドで返す方式です。
+
+<Command phase="verify" title="一撃実行の結果を検証" final>
+
+```bash
+jq -r '.output.text' \
+  "$RAG_WORK_DIR/retrieve-and-generate-output.json" \
+  | tee "$RAG_WORK_DIR/retrieve-and-generate-answer.txt"
+
+printf '\n--- citations and retrieved references ---\n'
+jq -r '
+  .citations[]? as $citation
+  | ($citation.generatedResponsePart.textResponsePart.text // "-") as $answerPart
+  | $citation.retrievedReferences[]?
+  | "answer_part=\($answerPart)\nsource=\(.location.s3Location.uri // "-")\nreference=\(.content.text // "-")\n"
+' "$RAG_WORK_DIR/retrieve-and-generate-output.json"
+
+jq -e '
+  (.output.text | type == "string" and length > 0) and
+  (([.citations[]?.retrievedReferences[]?] | length) > 0) and
+  (([.citations[]?.retrievedReferences[]?.location.s3Location.uri // ""] | any(.[]; contains("aws-rag-options-and-architectures.pdf"))))
+' "$RAG_WORK_DIR/retrieve-and-generate-output.json" >/dev/null
+
+grep -Eq '文書の取り込み|文書を.*取り込' "$RAG_WORK_DIR/retrieve-and-generate-answer.txt"
+grep -Eq '自然言語.*クエリ|クエリ' "$RAG_WORK_DIR/retrieve-and-generate-answer.txt"
+grep -Eq '類似度検索|関連データ' "$RAG_WORK_DIR/retrieve-and-generate-answer.txt"
+grep -Eq 'LLM|回答を生成' "$RAG_WORK_DIR/retrieve-and-generate-answer.txt"
+grep -q 'RetrieveAndGenerate' "$RAG_WORK_DIR/retrieve-and-generate-answer.txt"
+
+RAG_CITATION_COUNT="$(jq '[.citations[]?.retrievedReferences[]?] | length' "$RAG_WORK_DIR/retrieve-and-generate-output.json")"
+printf '[CHECK] generated answer: present\n'
+printf '[CHECK] RAG 4-step keywords: 文書の取り込み / 類似度検索 / LLM回答\n'
+printf '[CHECK] retrieved references: %s\n' "$RAG_CITATION_COUNT"
+printf '[CHECK] source: aws-rag-options-and-architectures.pdf\n'
+printf 'retrieve-and-generate verification: PASS\n'
+```
+
+</Command>
+
+<ExpectedResult id="s9-3-result" verification="一撃実行の結果を検証">
+
+次の5行が表示されれば成功です。
+
+```text
+[CHECK] generated answer: present
+[CHECK] RAG 4-step keywords: 文書の取り込み / 類似度検索 / LLM回答
+[CHECK] retrieved references: 2
+[CHECK] source: aws-rag-options-and-architectures.pdf
+retrieve-and-generate verification: PASS
+```
+
+- `[CHECK] generated answer: present`が表示される
+- `[CHECK] RAG 4-step keywords: 文書の取り込み / 類似度検索 / LLM回答`が表示される
+- `[CHECK] retrieved references:`に`1`以上の件数が表示される
+- `[CHECK] source: aws-rag-options-and-architectures.pdf`が表示される
+- `retrieve-and-generate verification: PASS`が表示される
+
+</ExpectedResult>
+
+<Aside type="note" title="一撃実行と分離実行の使い分け">
+  `RetrieveAndGenerate`は、Knowledge Baseの標準検索・生成・citationを短くつないで動作確認したいときに向きます。重複排除、独自rerank、版や権限の厳密な確認、claim単位のEvidence Set検査が必要な場合は、7の`Retrieve`と8の`Converse`を分けて実装します。
+</Aside>
+
+</CliStep>
+
+<Checkpoint>
+
+- `RetrieveAndGenerate`の入力JSONを作成した
+- 1回のAPI呼び出しでKnowledge Base検索と回答生成を実行した
+- `output.text`にRAGの4ステップとKnowledge Basesの処理を説明する回答がある
+- `citations`のretrieved referenceがsource URIと根拠本文を持つ
+- `retrieve-and-generate verification: PASS`を確認した
+
+</Checkpoint>
+
+[リソースを削除する →](/rag-guide/10-cleanup/)
