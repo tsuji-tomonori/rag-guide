@@ -357,13 +357,13 @@ const phases = [
   }
 
   .physical-card { padding: clamp(1rem, 3vw, 2rem); }
-  .physical-layout { display: grid; grid-template-columns: minmax(8.5rem, 0.24fr) 1.5rem minmax(0, 1fr); align-items: stretch; }
-  .actor-block { display: flex; flex-direction: column; justify-content: center; gap: 0.7rem; }
+  .physical-layout { display: grid; grid-template-columns: 1fr; gap: 0.75rem; align-items: stretch; }
+  .actor-block { display: grid; grid-template-columns: minmax(8rem, 0.35fr) 1fr; align-items: center; gap: 0.7rem; }
   .actor-node { padding: 1rem; border: 1.5px solid var(--ink); border-radius: 0.35rem; background: #f2efe8; }
   .actor-node strong { display: block; margin-bottom: 0.35rem; }
   .actor-node code { padding: 0; color: var(--body); background: transparent; font-size: 0.76rem; }
   .actor-block p { color: var(--muted); font-size: 0.73rem; line-height: 1.55; }
-  .layout-arrow { display: grid; place-items: center; color: #a8a29a; font-size: 1.2rem; }
+  .layout-arrow { display: grid; place-items: center; color: #a8a29a; font-size: 1.2rem; transform: rotate(90deg); }
 
   .aws-region { position: relative; min-width: 0; padding: 1.65rem 1.3rem 1.2rem; border: 1px dashed #b9b3a8; border-radius: 0.4rem; }
   .region-label {
@@ -464,9 +464,6 @@ const phases = [
     .architecture-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
     .architecture-facts div { display: block; border-radius: 0.4rem; }
     .architecture-facts dd { margin-top: 0.25rem; }
-    .physical-layout { grid-template-columns: 1fr; gap: 0.75rem; }
-    .actor-block { display: grid; grid-template-columns: minmax(8rem, 0.35fr) 1fr; align-items: center; }
-    .layout-arrow { transform: rotate(90deg); }
     .logical-grid { grid-template-columns: 1fr; }
   }
 
