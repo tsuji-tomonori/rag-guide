@@ -1,8 +1,8 @@
 {
   "baseline_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "target_docs_commit": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
+  "target_docs_commit": "c6c9f5dcabf6f4a7052952bb0718c74d22af4ccb",
   "baseline_review_count": 678,
   "spreadsheet_id": "1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM",
   "spreadsheet_tab": "論理未証明",
-  "note": "PR #56 chapter 10 readability restructuring and figure replacement; evidence ledgers regenerated against the committed docs snapshot"
+  "note": "PR #60 chapter introduction cleanup; evidence ledgers regenerated against the committed docs snapshot"
 }

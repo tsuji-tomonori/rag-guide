@@ -1,7 +1,7 @@
 {
   "method_version": 2,
-  "authoritative_commit": "fe9bae05bb67e835f4966e7e26b0a80f5e876280",
-  "required_sentences": 771,
+  "authoritative_commit": "c6c9f5dcabf6f4a7052952bb0718c74d22af4ccb",
+  "required_sentences": 768,
   "controlled_formalizations": 42,
   "relative_entailments_proved": 40,
   "contract_rejections": 2,
@@ -14,12 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "8a70b6a968eb2dfffdceb12b95159ceb76a500c8d1ac1aed250e21567d2aa56b",
-    "formal/review-data/sentence_evidence.csv": "dde709012949b5e7f386ce3c0e0234f79f07de906a4d236211a3521f15bb24b3",
-    "formal/review-data/concrete_technologies.csv": "4299cfa81ab35824eaec5cfaa028e46a46394debfd671e69eedf127eeb1f85a9",
-    "formal/review-data/semantic_assurance.csv": "839d3386d653c6851a8fc458fbad624d9a9db2dfcaa09bfef7e33df618e1c3d9",
+    "formal/review-data/coverage_manifest.json": "88639c49f2fb307b72315df85e811ac151bbe991e8d5595cb757ea9b3bc8fdf5",
+    "formal/review-data/sentence_evidence.csv": "ce5e27781af46d2a261f43e95b614162b35e3f1021c638c91f900a65a79f9a7e",
+    "formal/review-data/concrete_technologies.csv": "13aa2f46dc8b3ef1b48b9d35d81a04117fc4bd4d633ba1a67c5c2f0966a270d0",
+    "formal/review-data/semantic_assurance.csv": "3e196f361e87d2accc534919c5d6cc2b90dc7355f419a50cdce31db5a9ccd4c2",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "8af0ac99dba79284ba733503a4dbec75b5c10a0ec35537c608da15c018be22b3",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "beeb0cb359475951ec3d0f493600c0213f5d51ce0163a44c9d67406944781bdb"
+    "formal/review-data/semantic_assurance_summary.csv": "ba4fedadfecac49489dd00e5e025f29d5f12591bad9891cc4ed77062b6b52b2b",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "87d556c1d9945013c11687205ea855e4cc06ef747a39b30b05efa2f58178d69b"
   }
 }
