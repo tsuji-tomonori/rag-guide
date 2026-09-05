@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" role="img" aria-labelledby="title desc">
+  <title id="title">長い入力で、重要な根拠をどこに置くか</title>
+  <desc id="desc">先頭、中央、末尾の位置効果を示す概念図。中央の情報が使われにくい場合があるが、情報が消えるわけではない。重要根拠を前方へ置き、条件と例外をまとめ、論点順や時系列も比較する。</desc>
+  <rect width="1600" height="800" rx="24" fill="#f8fafc"/>
+  <g font-family="'Noto Sans JP','Yu Gothic',sans-serif" fill="#142d40">
+    <text x="64" y="78" font-size="42" font-weight="700">長い入力：中央の根拠が使われにくい場合がある</text>
+    <text x="64" y="128" font-size="25" fill="#506579">Lost in the Middle ／ 位置効果の概念図・実測値ではない</text>
+    <text x="165" y="201" font-size="29" font-weight="700">先頭</text>
+    <text x="737" y="201" font-size="29" font-weight="700">中央</text>
+    <text x="1310" y="201" font-size="29" font-weight="700">末尾</text>
+    <path d="M70 231 H1530" stroke="#8095a4" stroke-width="3"/>
+    <path d="M1516 221 L1530 231 L1516 241" fill="none" stroke="#8095a4" stroke-width="3"/>
+    <rect x="64" y="272" width="430" height="132" rx="14" fill="#e0f0ee" stroke="#268075" stroke-width="2"/>
+    <rect x="584" y="272" width="430" height="132" rx="14" fill="#fff2df" stroke="#b67a2e" stroke-width="2" stroke-dasharray="9 6"/>
+    <rect x="1104" y="272" width="430" height="132" rx="14" fill="#e0f0ee" stroke="#268075" stroke-width="2"/>
+    <text x="279" y="324" text-anchor="middle" font-size="30" font-weight="700">重要な根拠</text>
+    <text x="279" y="371" text-anchor="middle" font-size="25">利用されやすい傾向</text>
+    <text x="799" y="324" text-anchor="middle" font-size="30" font-weight="700">重要な根拠</text>
+    <text x="799" y="371" text-anchor="middle" font-size="25">利用されにくい場合</text>
+    <text x="1319" y="324" text-anchor="middle" font-size="30" font-weight="700">重要な根拠</text>
+    <text x="1319" y="371" text-anchor="middle" font-size="25">利用されやすい傾向</text>
+    <text x="800" y="460" text-anchor="middle" font-size="27">中央の文字が消えるわけではない。効果はモデル・質問・入力長で変わる。</text>
+    <rect x="64" y="509" width="1470" height="204" rx="14" fill="#ffffff" stroke="#ccd6de" stroke-width="2"/>
+    <text x="95" y="557" font-size="29" font-weight="700">配置の出発点</text>
+    <text x="95" y="608" font-size="27">① 重要根拠を前方へ　　② 条件と例外を一緒に　　③ 論点順・時系列も比較</text>
+    <text x="95" y="663" font-size="27" fill="#20675e">不要部分を減らす → 同じ根拠で順序を変える → 条件の反映・引用を評価する</text>
+    <text x="64" y="762" font-size="22" fill="#506579">参照：ガイド5.6 / Liu et al., Lost in the Middle, arXiv:2307.03172</text>
+  </g>
+</svg>

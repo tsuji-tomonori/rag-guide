@@ -7,7 +7,7 @@ const { createWindow } = require('@mixmark-io/domino');
 const html = await readFile('dist/slides/rag-intro/index.html', 'utf8');
 const document = createWindow(html).document;
 assert.equal(document.querySelectorAll('[data-slide]').length, 30);
-const expectedTopics = [6,5,4,5,2,4].flatMap((count, i) => Array.from({length:count}, (_,j) => `${i+1}-${j+1}`));
+const expectedTopics = [6,5,5,5,2,4].flatMap((count, i) => Array.from({length:count}, (_,j) => `${i+1}-${j+1}`));
 assert.deepEqual([...new Set(slides.map(s => s.topic).filter(Boolean))], expectedTopics);
 assert.equal(slides.at(-1).items.length, 6);
 assert.equal(slides.filter(s => s.figure).length, 5);
@@ -45,4 +45,4 @@ for (const file of ['dist/index.html', 'dist/guide/index.html']) {
 }
 const entry = await readFile('dist/seminar/index.html', 'utf8');
 assert(entry.includes('duration=30') && entry.includes('duration=40'));
-console.log('Checked 30 slides, 26 topics, 5 shared figures, architecture, notes, source sections and exact 30/40-minute plans.');
+console.log('Checked 30 slides, 27 topics, 5 figures, architecture, notes, source sections and exact 30/40-minute plans.');

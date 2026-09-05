@@ -11,7 +11,7 @@ export function initSeminar() {
   let state: State = { index: 0, minutes: url.searchParams.get('duration') === '30' ? 30 : 40, elapsed: 0, started: null };
   const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-slide]'));
   // Keep links shared before the six-chapter reorganization useful.
-  const aliases: Record<string, string> = { 'two-layers': 'four-stages', 'stage-layer-map': 'four-stages', question: 'problems', query: 'batch', chunking: 'batch' };
+  const aliases: Record<string, string> = { 'two-layers': 'four-stages', 'stage-layer-map': 'four-stages', question: 'problems', query: 'batch', chunking: 'batch', reranking: 'context-packing' };
   const indexFromHash = () => {
     const id = location.hash.slice(1);
     return slides.findIndex((slide) => slide.id === (aliases[id] ?? id));
