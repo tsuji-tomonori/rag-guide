@@ -1,0 +1,80 @@
+[
+  {
+    "name": "aws-rag-physical-architecture",
+    "title": "ハンズオン：リソースとAPI呼び出し",
+    "width": 1200,
+    "height": 1400
+  },
+  {
+    "name": "aws-rag-logical-architecture",
+    "title": "ハンズオン：取り込みと検索・回答の流れ",
+    "width": 1200,
+    "height": 1130
+  },
+  {
+    "name": "44-aws-four-stages-two-layers",
+    "title": "四工程・二層をAWSへ対応づける",
+    "width": 1200,
+    "height": 850
+  },
+  {
+    "name": "45-aws-resource-selection",
+    "title": "AWSリソースを選ぶ四つの問い",
+    "width": 1200,
+    "height": 850
+  },
+  {
+    "name": "46-aws-kb-management-boundary",
+    "title": "Knowledge Baseの管理範囲を選ぶ",
+    "width": 1200,
+    "height": 1160
+  },
+  {
+    "name": "47-aws-batch-ingestion-flow",
+    "title": "原文から検索可能な索引を作る",
+    "width": 1200,
+    "height": 850
+  },
+  {
+    "name": "48-aws-vector-store-choice",
+    "title": "検索要件でベクトルストアを選ぶ",
+    "width": 1200,
+    "height": 650
+  },
+  {
+    "name": "49-aws-realtime-search-flow",
+    "title": "質問を根拠候補へ変換する",
+    "width": 1200,
+    "height": 850
+  },
+  {
+    "name": "50-aws-evidence-shaping-flow",
+    "title": "検索候補から回答に使う根拠を作る",
+    "width": 1200,
+    "height": 850
+  },
+  {
+    "name": "51-aws-generation-control-paths",
+    "title": "標準生成と根拠を制御する生成を分ける",
+    "width": 1200,
+    "height": 850
+  },
+  {
+    "name": "52-aws-app-vs-agentcore",
+    "title": "一巡のRAGとエージェントの実行を分ける",
+    "width": 1200,
+    "height": 1150
+  },
+  {
+    "name": "53-aws-crosscutting-controls",
+    "title": "認可・暗号化・観測を全工程に適用する",
+    "width": 1200,
+    "height": 850
+  },
+  {
+    "name": "54-aws-reference-architectures",
+    "title": "要件別に五つの構成を比較する",
+    "width": 1200,
+    "height": 1700
+  }
+]

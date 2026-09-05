@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram id="53-aws-crosscutting-controls" name="認可・暗号化・観測を全工程に適用する">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1200" pageHeight="850" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="認可・暗号化・観測を全工程に適用する" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=32;fontColor=#2B3A4A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="40" y="24" width="1120" height="48" />
+        </mxCell>
+        <mxCell id="subtitle" value="AWS Cloud / 横断する管理機能と、利用者が設計する運用規則" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=22;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="40" y="78" width="1120" height="40" />
+        </mxCell>
+        <mxCell id="legend" value="各段は管理対象の対応。APIの呼び出し順を表す矢印は置かない。" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=20;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="40" y="798" width="1120" height="32" />
+        </mxCell>
+        <mxCell id="security" value="" style="container=1;collapsible=0;rounded=0;html=0;fillColor=none;strokeColor=#ADB9C2;strokeWidth=1.5;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="40" y="130" width="1120" height="280" />
+        </mxCell>
+        <mxCell id="security-label" value="① アクセスとデータを保護する" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=23;fontColor=#2B3A4A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" parent="security" vertex="1">
+          <mxGeometry as="geometry" x="20" y="12" width="1080" height="34" />
+        </mxCell>
+        <mxCell id="security-0" value="" style="container=1;collapsible=0;fillColor=none;strokeColor=none;" parent="security" vertex="1">
+          <mxGeometry as="geometry" x="35.0" y="65" width="310" height="190" />
+        </mxCell>
+        <mxCell id="security-0-icon" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/png,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAQKADAAQAAAABAAAAQAAAAABGUUKwAAADP0lEQVRoBWO8a+LDMJQB01B2PMjtox4Y6BgcjYHRGKAwBEaTEIUBSLH20RigOAgpNGA0BigMQIq1j8YAxUFIoQFDPgZY8AeAxIR6LmsT/GpoKvvt6JkXBY14rCAQAwPreqC7CTqAQAxAvH7P1BdPGNBOSun0ZoKGE4gBgvoHXMGQ9wBRSQhrMLOpKPAFe7JrKLPKSTEwMv1++uL3w6ffDp/8uvfY/z9/sGqhhSA5HmARFRapzeWyNEZ2ENAnQMTjbvc788Wrys6f1+8gy9KOTbIHmEWEpOb3sIiL/H3/8fOm3V/3Hfv9+BnQfSyS4hx6GnwhXmzK8pIz2p7GFv5+9JR27oabTHIeEMqJB7r+x6XrTyJz301Z+PPa7X+fvwLRr1v3Pq3Z9jSm4OuBE0xcnELZcXA7aMog2QOQgvlVbe/ft+8xXQZM/W+7ZgDFOU31MWVpIUKyB5gF+IDu+PPsJS7X/Hn9FijFxMuNSwF1xUn2AHWtp9w0kjMx2VbiqVbhNT1EDZxLjF2jMUBMKIHVEBOuxKhBs5CEJCTRV8dlawrRjyc9wC1QOrXp25EzL4qa4CK0YJCQhOCuJ9YdjIwkayHWaIQ6EmIAoumemR/D//8IA9BYjIxwAWAMwNlABmakIScYZFlkcWQTsLJJ9gBWUxCCePyGUERNFukeQHUif7ivQEII0EUfFqz5uBLU/0AOS2SX4g9X/LLI5qCxScgDaDqBXA59TeGSNGDzDoiADCAXUw2tRUiPASQXsWuqAnlfdhwEkjwe9kDuj4vX4WGJFhVoXCRjEEy4XoQQIRZFHvhx/grQfKDTIbZAuIRspLI8RR74efPe64Z+0YZCoKOADCAXyMAV0mSELjF+pSgPAC34vHUfxBo4A8VW1ByPIkUlDkUxgNUN0JBmZESrB7AqplyQdA8AqyrUcKVR2iDSbyR7gD7hSqTrgcpIyAPfDp9GC3uC1gAbcwTVUKiAhBigdbuSPJ+QEAPkWUBrXUTFAK6indaOI8Z8AjEAHJ4nxhTaqSHoAMbRBU+0C32iTCaQhIgyY0AVjXpgQIMfaPloDIzGAIUhMJqEKAxAirWPxgDFQUihAaMxQGEAUqx9yMcAABcs0QNqdPp+AAAAAElFTkSuQmCC;" parent="security-0" vertex="1">
+          <mxGeometry as="geometry" x="116.0" y="0" width="78" height="78" />
+        </mxCell>
+        <mxCell id="security-0-name" value="AWS IAM" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=23;fontColor=#2B3A4A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" parent="security-0" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="89" width="310" height="64" />
+        </mxCell>
+        <mxCell id="security-0-role" value="API主体・ロール・権限" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=20;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="security-0" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="157" width="310" height="55" />
+        </mxCell>
+        <mxCell id="security-1" value="" style="container=1;collapsible=0;fillColor=none;strokeColor=none;" parent="security" vertex="1">
+          <mxGeometry as="geometry" x="405.0" y="65" width="310" height="190" />
+        </mxCell>
+        <mxCell id="security-1-icon" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/png,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;" parent="security-1" vertex="1">
+          <mxGeometry as="geometry" x="116.0" y="0" width="78" height="78" />
+        </mxCell>
+        <mxCell id="security-1-name" value="AWS KMS" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=23;fontColor=#2B3A4A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" parent="security-1" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="89" width="310" height="64" />
+        </mxCell>
+        <mxCell id="security-1-role" value="原文・索引・ログの暗号化" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=20;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="security-1" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="157" width="310" height="55" />
+        </mxCell>
+        <mxCell id="security-2" value="" style="container=1;collapsible=0;fillColor=none;strokeColor=none;" parent="security" vertex="1">
+          <mxGeometry as="geometry" x="775.0" y="65" width="310" height="190" />
+        </mxCell>
+        <mxCell id="security-2-icon" value="文書・ツールの認可" style="rounded=0;fillColor=#F0F4F6;strokeColor=#91A3B1;strokeWidth=1.5;fontFamily=Noto Sans CJK JP;fontSize=22;fontColor=#2B3A4A;whiteSpace=wrap;html=0;" parent="security-2" vertex="1">
+          <mxGeometry as="geometry" x="25.0" y="0" width="260" height="78" />
+        </mxCell>
+        <mxCell id="security-2-role" value="フィルター・ACL・業務規則" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=20;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="security-2" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="105" width="310" height="55" />
+        </mxCell>
+        <mxCell id="operations" value="" style="container=1;collapsible=0;rounded=0;html=0;fillColor=none;strokeColor=#ADB9C2;strokeWidth=1.5;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="40" y="430" width="1120" height="280" />
+        </mxCell>
+        <mxCell id="operations-label" value="② 変更と実行を追跡する" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=23;fontColor=#2B3A4A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" parent="operations" vertex="1">
+          <mxGeometry as="geometry" x="20" y="12" width="1080" height="34" />
+        </mxCell>
+        <mxCell id="operations-0" value="" style="container=1;collapsible=0;fillColor=none;strokeColor=none;" parent="operations" vertex="1">
+          <mxGeometry as="geometry" x="35.0" y="65" width="310" height="190" />
+        </mxCell>
+        <mxCell id="operations-0-icon" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/png,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;" parent="operations-0" vertex="1">
+          <mxGeometry as="geometry" x="116.0" y="0" width="78" height="78" />
+        </mxCell>
+        <mxCell id="operations-0-name" value="Amazon CloudWatch" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=23;fontColor=#2B3A4A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" parent="operations-0" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="89" width="310" height="64" />
+        </mxCell>
+        <mxCell id="operations-0-role" value="ログ・指標・アラーム" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=20;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="operations-0" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="157" width="310" height="55" />
+        </mxCell>
+        <mxCell id="operations-1" value="" style="container=1;collapsible=0;fillColor=none;strokeColor=none;" parent="operations" vertex="1">
+          <mxGeometry as="geometry" x="405.0" y="65" width="310" height="190" />
+        </mxCell>
+        <mxCell id="operations-1-icon" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/png,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAQKADAAQAAAABAAAAQAAAAABGUUKwAAAEx0lEQVRoBe1YW2wUVRies3PZbXehF2wBS7i2SJFoJESqpLVIxVpCTAwmBGIJ1hBIURPLgwkYby8+aMKL1ZAIjQEEWqoQoobAAyFgDBhaUjGigCLQFrp0dnvZy+zM+I9jyjizZy571lGSM9mHM////fdzzv/Pov6y7cz9/ATuZ+c132kA/3UFaQVoBQgzQLcQYQKJxWkFiFNIqIBWgDCBxOK0AsQpJFRAK0CYQGJxWgHiFBIq4AjljeKBopBQXxWsrxRq5yKBU1OSEh1PHu1LdPYod0aNyDyuUX6+iblA5PWnwltrUVjI4lxGGd/9ffzdbxlJzsIlI+WhAigSLPmiWVg6CzxJn72WOv5z6uRlJTqGghz3UHnB+iWhxgWFm57gF1eILQfk/jiZw2Zp0goggS3Z3yzUzVMGRsTWzvTpq2YLDMMvml7csY6dWQLeRxva87udSG+hyTtf0LwfHIk+92lW7yEeqa8/+kx7+rvf2OmTiz9by3CkRo05ItIl1M4rWPOompCGX9or34wZ9ZrWynBC3LBPviEKNbPDLTUmLskrQQAITXqnEWyPfnBC6rnp6IQiJuJtRwAWfmM5W1EUfrWu9MuWKSdbiz5ewz/yoKM4DpD7GQg2zIfdr9wevbPkIzUp4QyY6CUHNwSXV2nXEc/eY6lqrO1IYu/5exTXq9wrINRVgpWxXWfde6/hd57SfONZqfeWuHF/tGnX2CdnGISKPnyeqyrTWB6f3K9RYdkcsJU6cdmTRTjKycO9jMDFtnbB4QFZ6fx1FOIKNy4t3Lws3vaVJ20AziUArvIB2MH8omkgL1+LejUpbuk0iYx/fg4CEGq0TuL18RwAtNvImw1w/YMlyKWeRa9WTXj5qpYF2EKl3S8nunqTx35U40kTBvfKbgvX4XhWOlw7kW1PowBKHLwgvnIgt2NnVctkFHZOKV89lZ1VGmqsDm9+kknJ0rnrWZAWkodbKLRqYfGedWo6E9t0KPn1JYsqUkKgLAIXVGj1w8FnF4AuMBFr7VLH0vZ6PdxCQn0lo6ojb33zb3gPXsKIkTh0AXoi/KC1h5oWTtqx0t574HqoAKC1eeaGyCiqo15CAIxPU45vYRAztKI9c2nARpvbMwCzPlx2TCoDMyYs4KemMrpenaUTTSwbw/Ys6I8wmcPcwQQQjLc2YLe3UPkvO0xaBsr/ptiwTCKeXqHDwI0HA7m9lNsA1NEUTpENCyfihp75aRBg3Pw8BTA4932cVRsWTsQVXdVOGmKRPdi5AqiAt6rQ+9cEy/RqxesUT12PnVEMUo5fcM4BTP39batD+gGYYJlerXidMnFscAAjPdiodQPp4i0j0bp2DkBNY7/ETSzTq9WYewo0NZiOAJ/s7LGX8tYH7HXli6t9eXas5x+rSJ/69e6LHfZqnSrA/tWqZUXToq+N+qx0nZIVbBTMtoYTBZdmqKm6oPlx6C2ZK0Ox17qzAf9BcwhgWv97ANf3rr42SlvpE7vcCjYKOq5hWoHvT/hvxhHpEICjfB4ByvC4fGVI6huAUVf64Q+Xmv+PZ8Cl6zrMwzTqSa9vYBqAb6nGGKIVwCTGNzKtgG+pxhiiFcAkxjcyrYBvqcYYohXAJMY3Mq2Ab6nGGKIVwCTGN/KfdZSQk0NzRJsAAAAASUVORK5CYII=;" parent="operations-1" vertex="1">
+          <mxGeometry as="geometry" x="116.0" y="0" width="78" height="78" />
+        </mxCell>
+        <mxCell id="operations-1-name" value="AWS CloudTrail" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=23;fontColor=#2B3A4A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" parent="operations-1" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="89" width="310" height="64" />
+        </mxCell>
+        <mxCell id="operations-1-role" value="APIの監査記録" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=20;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="operations-1" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="157" width="310" height="55" />
+        </mxCell>
+        <mxCell id="operations-2" value="" style="container=1;collapsible=0;fillColor=none;strokeColor=none;" parent="operations" vertex="1">
+          <mxGeometry as="geometry" x="775.0" y="65" width="310" height="190" />
+        </mxCell>
+        <mxCell id="operations-2-icon" value="評価・版・費用" style="rounded=0;fillColor=#F0F4F6;strokeColor=#91A3B1;strokeWidth=1.5;fontFamily=Noto Sans CJK JP;fontSize=22;fontColor=#2B3A4A;whiteSpace=wrap;html=0;" parent="operations-2" vertex="1">
+          <mxGeometry as="geometry" x="25.0" y="0" width="260" height="78" />
+        </mxCell>
+        <mxCell id="operations-2-role" value="回帰評価・公開条件&#10;設定版・費用配賦" style="text;html=0;whiteSpace=wrap;align=center;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=20;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="operations-2" vertex="1">
+          <mxGeometry as="geometry" x="0.0" y="105" width="310" height="55" />
+        </mxCell>
+        <mxCell id="note735" value="Batch LayerとReal-time Layerの両方が対象。IAMだけで文書単位の閲覧権限は決まらない。" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK JP;fontSize=21;fontColor=#2B3A4A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="60" y="735" width="1080" height="54" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
