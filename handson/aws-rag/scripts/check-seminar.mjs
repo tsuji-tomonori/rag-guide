@@ -1,12 +1,18 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, access } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { slides, timings } from '../src/data/rag-seminar.ts';
 const require = createRequire(import.meta.url);
 const { createWindow } = require('@mixmark-io/domino');
 const html = await readFile('dist/slides/rag-intro/index.html', 'utf8');
 const document = createWindow(html).document;
-assert.equal(document.querySelectorAll('[data-slide]').length, 22);
+assert.equal(document.querySelectorAll('[data-slide]').length, 30);
+const expectedTopics = [6,5,4,5,2,4].flatMap((count, i) => Array.from({length:count}, (_,j) => `${i+1}-${j+1}`));
+assert.deepEqual([...new Set(slides.map(s => s.topic).filter(Boolean))], expectedTopics);
+assert.equal(slides.at(-1).items.length, 6);
+assert.equal(slides.filter(s => s.figure).length, 5);
+assert(document.querySelector('.logical-map .map-batch'));
+assert.equal(document.querySelectorAll('.logical-map .map-stages .map-node').length, 4);
 assert.equal(new Set(slides.map(s => s.id)).size, slides.length);
 assert.equal(document.querySelectorAll('h1').length, 1);
 assert(document.getElementById('speaker').hasAttribute('hidden'), 'Speaker notes must be hidden in audience HTML');
@@ -15,6 +21,11 @@ for (const slide of slides) {
   assert(slide.notes.length > 40 && slide.expand.length > 10);
   assert(slide.sources.length > 0);
   if (slide.rows) assert(slide.rows.every(row => row.length === slide.headers.length));
+  if (slide.figure) {
+    await access(`dist/${slide.figure.src.slice('/rag-guide/'.length)}`);
+    assert(slide.figure.alt.length > 20 && slide.figure.caption.length > 10);
+    assert.equal(document.getElementById(slide.id).querySelector('img').getAttribute('src'), slide.figure.src);
+  }
   for (const source of slide.sources) {
     if (!source.href.startsWith('/rag-guide/')) continue;
     const target = new URL(source.href, 'https://example.com');
@@ -34,4 +45,4 @@ for (const file of ['dist/index.html', 'dist/guide/index.html']) {
 }
 const entry = await readFile('dist/seminar/index.html', 'utf8');
 assert(entry.includes('duration=30') && entry.includes('duration=40'));
-console.log('Checked 22 slides, unique anchors, notes, source sections, entry points and exact 30/40-minute plans.');
+console.log('Checked 30 slides, 26 topics, 5 shared figures, architecture, notes, source sections and exact 30/40-minute plans.');

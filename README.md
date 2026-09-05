@@ -46,7 +46,9 @@ PDFは従来どおり `docs/` を入力として、上記のPDF生成・Release�
 ## 社内勉強会スライド
 
 [社内勉強会の案内](https://tsuji-tomonori.github.io/rag-guide/seminar/)から、
-30〜40分用・全22枚の[発表スライド](https://tsuji-tomonori.github.io/rag-guide/slides/rag-intro/)を開けます。
+30〜40分用・全30枚の[発表スライド](https://tsuji-tomonori.github.io/rag-guide/slides/rag-intro/)を開けます。
+RAGとは何か、アーキテクチャ、検索を支える技術要素、評価と改善、機能要件、AWSでRAGを設計する、の6分類・26小節とまとめで構成します。
+図はガイドの既存図を共有し、四工程と二層は一枚の論理構成図で確認できます。
 四工程・二層を中心に、主要技術、評価・セキュリティ・非機能、AWSへつなぎます。
 キーボード操作、全画面、目次、スライドごとのURL、印刷に対応します。
 別ウィンドウの発表者画面には説明ノート・次のスライド・30分／40分の時間配分・タイマーを表示し、投影画面と同期します。
