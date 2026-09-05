@@ -1,7 +1,7 @@
 {
   "method_version": 2,
-  "authoritative_commit": "c6c9f5dcabf6f4a7052952bb0718c74d22af4ccb",
-  "required_sentences": 768,
+  "authoritative_commit": "d560cba90702291f94467a26c61b453668be427a",
+  "required_sentences": 848,
   "controlled_formalizations": 42,
   "relative_entailments_proved": 40,
   "contract_rejections": 2,
@@ -14,12 +14,12 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "88639c49f2fb307b72315df85e811ac151bbe991e8d5595cb757ea9b3bc8fdf5",
-    "formal/review-data/sentence_evidence.csv": "ce5e27781af46d2a261f43e95b614162b35e3f1021c638c91f900a65a79f9a7e",
-    "formal/review-data/concrete_technologies.csv": "13aa2f46dc8b3ef1b48b9d35d81a04117fc4bd4d633ba1a67c5c2f0966a270d0",
-    "formal/review-data/semantic_assurance.csv": "3e196f361e87d2accc534919c5d6cc2b90dc7355f419a50cdce31db5a9ccd4c2",
+    "formal/review-data/coverage_manifest.json": "7af608e7ab94af3997e0927d3ec1aed59f9a761189c79a036138fb9a2d49cd2d",
+    "formal/review-data/sentence_evidence.csv": "12390ec971d19417731b49760bcbfce9d9d571b7d92bdbc2811a16a851ad1703",
+    "formal/review-data/concrete_technologies.csv": "28e935efa56f8a5f305e37ac9a349c43a61da9b284213217190392affe66d864",
+    "formal/review-data/semantic_assurance.csv": "94323874109bf054472ccb2f8c495eab0c2785940fa8f631244726c1dad5fef1",
     "formal/review-data/source_claim_formalizations.csv": "5252cee66fb95d6b9a3aba3bba0ce727c32eace66efba6d53e7deea3a14d58be",
-    "formal/review-data/semantic_assurance_summary.csv": "ba4fedadfecac49489dd00e5e025f29d5f12591bad9891cc4ed77062b6b52b2b",
-    "formal/lean/RagEvidence/SemanticGenerated.lean": "87d556c1d9945013c11687205ea855e4cc06ef747a39b30b05efa2f58178d69b"
+    "formal/review-data/semantic_assurance_summary.csv": "b9d3ab27f642ce90705ee142a31c87e915e835cb215fcfebb31323642895aabc",
+    "formal/lean/RagEvidence/SemanticGenerated.lean": "50fe84cac5873c8d62d26abaf1218ebf11b9a5c9ec41d3cf28cf3e86900fcc3e"
   }
 }

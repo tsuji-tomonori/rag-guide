@@ -94,6 +94,11 @@ TECH_PATTERNS: list[tuple[str, str, str, str]] = [
 # client. Record metadata confirmed against the publisher or official source so
 # the generated inventory remains complete and reproducible.
 SOURCE_METADATA_OVERRIDES = {
+    "https://arxiv.org/html/2404.10981v2": {
+        "title_resolved": "The Survey of Retrieval-Augmented Text Generation in Large Language Models",
+        "authors_or_owner": "Yizheng Huang; Jimmy X. Huang",
+        "year": "2024",
+    },
     "https://ieeexplore.ieee.org/document/666900": {
         "title_resolved": "On the resemblance and containment of documents",
         "authors_or_owner": "Andrei Z. Broder",
