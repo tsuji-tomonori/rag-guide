@@ -23,8 +23,9 @@ let pages = 0;
 for (const [file, document] of documents) {
   if (file.endsWith('/404.html')) continue;
   pages++;
-  assert(document.querySelector('[data-copy-markdown]'), `Copy button missing: ${file}`);
-  const content = document.querySelector('.sl-markdown-content');
+  const isSeminar = file === path.join(dist, 'slides/rag-intro/index.html');
+  if (!isSeminar) assert(document.querySelector('[data-copy-markdown]'), `Copy button missing: ${file}`);
+  const content = document.querySelector(isSeminar ? '[data-seminar]' : '.sl-markdown-content');
   assert(content, `Body missing: ${file}`);
   for (const element of content.querySelectorAll('a[href], img[src]')) {
     const target = element.getAttribute('href') ?? element.getAttribute('src');
@@ -63,7 +64,7 @@ const tableMarkdown = await pageMarkdown(parameters.querySelector('.sl-markdown-
 assert(tableMarkdown.includes('|'));
 assert(tableMarkdown.includes('RAG_RUN_ID'));
 for (const [file, document] of documents) {
-  if (file.includes('/guide/') || file.endsWith('/404.html')) continue;
+  if (file.includes('/guide/') || file.endsWith('/404.html') || file === path.join(dist, 'slides/rag-intro/index.html')) continue;
   globalThis.document = document;
   const text = await pageMarkdown(document.querySelector('.sl-markdown-content'), document.querySelector('h1').textContent);
   for (const pre of document.querySelectorAll('.sl-markdown-content .expressive-code pre')) {
