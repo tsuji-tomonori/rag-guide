@@ -36,6 +36,7 @@ pnpm-debug.log*
 .worktrees/
 
 # generated visual QA artifacts
+print/__pycache__/
 reports/working/visual-qa/*.png
 reports/working/visual-qa/*.log
 

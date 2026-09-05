@@ -1,0 +1,3168 @@
+{
+  "https://aclanthology.org/2020.acl-main.442/": {
+    "title": "Beyond Accuracy: Behavioral Testing of NLP Models with CheckList",
+    "authors": [
+      "Marco Tulio Ribeiro",
+      "Tongshuang Wu",
+      "Carlos Guestrin",
+      "Sameer Singh"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics"
+  },
+  "https://aclanthology.org/2022.aacl-main.57/": {
+    "title": "Unsupervised Domain Adaptation for Sparse Retrieval by Filling Vocabulary and Word Frequency Gaps",
+    "authors": [
+      "Hiroki Iida",
+      "Naoaki Okazaki"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 2nd Conference of the Asia-Pacific Chapter of the Association for Computational Linguistics and the 12th International Joint Conference on Natural Language Processing (Volume 1: Long Papers)"
+  },
+  "https://aclanthology.org/2024.acl-long.172/": {
+    "title": "LongBench: A Bilingual, Multitask Benchmark for Long Context Understanding",
+    "authors": [
+      "Yushi Bai",
+      "Xin Lv",
+      "Jiajie Zhang",
+      "Hongchang Lyu",
+      "Jiankai Tang",
+      "Zhidian Huang",
+      "Zhengxiao Du",
+      "Xiao Liu",
+      "Aohan Zeng",
+      "Lei Hou",
+      "Yuxiao Dong",
+      "Jie Tang",
+      "Juanzi Li"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)"
+  },
+  "https://aclanthology.org/J97-1003/": {
+    "title": "Text Tiling: Segmenting Text into Multi-paragraph Subtopic Passages",
+    "authors": [
+      "Marti A. Hearst"
+    ],
+    "year": "1997",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Computational Linguistics"
+  },
+  "https://aclanthology.org/N18-1074/": {
+    "title": "FEVER: a Large-scale Dataset for Fact Extraction and VERification",
+    "authors": [
+      "James Thorne",
+      "Andreas Vlachos",
+      "Christos Christodoulopoulos",
+      "Arpit Mittal"
+    ],
+    "year": "2018",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long Papers)"
+  },
+  "https://aclanthology.org/Q18-1041/": {
+    "title": "Data Statements for Natural Language Processing: Toward Mitigating System Bias and Enabling Better Science",
+    "authors": [
+      "Emily M. Bender",
+      "Batya Friedman"
+    ],
+    "year": "2018",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Transactions of the Association for Computational Linguistics"
+  },
+  "https://arxiv.org/abs/1603.09320": {
+    "title": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+    "authors": [
+      "Malkov, Yu. A.",
+      "Yashunin, D. A."
+    ],
+    "year": "2016",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1603.09320"
+  },
+  "https://arxiv.org/abs/1607.00133": {
+    "title": "Deep Learning with Differential Privacy",
+    "authors": [
+      "Abadi, Martín",
+      "Chu, Andy",
+      "Goodfellow, Ian",
+      "McMahan, H. Brendan",
+      "Mironov, Ilya",
+      "Talwar, Kunal",
+      "Zhang, Li"
+    ],
+    "year": "2016",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1607.00133"
+  },
+  "https://arxiv.org/abs/1702.08734": {
+    "title": "Billion-scale similarity search with GPUs",
+    "authors": [
+      "Johnson, Jeff",
+      "Douze, Matthijs",
+      "Jégou, Hervé"
+    ],
+    "year": "2017",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1702.08734"
+  },
+  "https://arxiv.org/abs/1803.09010": {
+    "title": "Datasheets for Datasets",
+    "authors": [
+      "Gebru, Timnit",
+      "Morgenstern, Jamie",
+      "Vecchione, Briana",
+      "Vaughan, Jennifer Wortman",
+      "Wallach, Hanna",
+      "Daumé III, Hal",
+      "Crawford, Kate"
+    ],
+    "year": "2018",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1803.09010"
+  },
+  "https://arxiv.org/abs/1806.03822": {
+    "title": "Know What You Don't Know: Unanswerable Questions for SQuAD",
+    "authors": [
+      "Rajpurkar, Pranav",
+      "Jia, Robin",
+      "Liang, Percy"
+    ],
+    "year": "2018",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1806.03822"
+  },
+  "https://arxiv.org/abs/1810.03993": {
+    "title": "Model Cards for Model Reporting",
+    "authors": [
+      "Mitchell, Margaret",
+      "Wu, Simone",
+      "Zaldivar, Andrew",
+      "Barnes, Parker",
+      "Vasserman, Lucy",
+      "Hutchinson, Ben",
+      "Spitzer, Elena",
+      "Raji, Inioluwa Deborah",
+      "Gebru, Timnit"
+    ],
+    "year": "2018",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1810.03993"
+  },
+  "https://arxiv.org/abs/1810.11953": {
+    "title": "Failing Loudly: An Empirical Study of Methods for Detecting Dataset Shift",
+    "authors": [
+      "Rabanser, Stephan",
+      "Günnemann, Stephan",
+      "Lipton, Zachary C."
+    ],
+    "year": "2018",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1810.11953"
+  },
+  "https://arxiv.org/abs/1901.04085": {
+    "title": "Passage Re-ranking with BERT",
+    "authors": [
+      "Nogueira, Rodrigo",
+      "Cho, Kyunghyun"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1901.04085"
+  },
+  "https://arxiv.org/abs/1904.08375": {
+    "title": "Document Expansion by Query Prediction",
+    "authors": [
+      "Nogueira, Rodrigo",
+      "Yang, Wei",
+      "Lin, Jimmy",
+      "Cho, Kyunghyun"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1904.08375"
+  },
+  "https://arxiv.org/abs/1908.07836": {
+    "title": "PubLayNet: largest dataset ever for document layout analysis",
+    "authors": [
+      "Zhong, Xu",
+      "Tang, Jianbin",
+      "Yepes, Antonio Jimeno"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1908.07836"
+  },
+  "https://arxiv.org/abs/1908.10084": {
+    "title": "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks",
+    "authors": [
+      "Reimers, Nils",
+      "Gurevych, Iryna"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1908.10084"
+  },
+  "https://arxiv.org/abs/1909.01066": {
+    "title": "Language Models as Knowledge Bases?",
+    "authors": [
+      "Petroni, Fabio",
+      "Rocktäschel, Tim",
+      "Lewis, Patrick",
+      "Bakhtin, Anton",
+      "Wu, Yuxiang",
+      "Miller, Alexander H.",
+      "Riedel, Sebastian"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1909.01066"
+  },
+  "https://arxiv.org/abs/1911.04942": {
+    "title": "RAT-SQL: Relation-Aware Schema Encoding and Linking for Text-to-SQL Parsers",
+    "authors": [
+      "Wang, Bailin",
+      "Shin, Richard",
+      "Liu, Xiaodong",
+      "Polozov, Oleksandr",
+      "Richardson, Matthew"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1911.04942"
+  },
+  "https://arxiv.org/abs/1912.13318": {
+    "title": "LayoutLM: Pre-training of Text and Layout for Document Image Understanding",
+    "authors": [
+      "Xu, Yiheng",
+      "Li, Minghao",
+      "Cui, Lei",
+      "Huang, Shaohan",
+      "Wei, Furu",
+      "Zhou, Ming"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:1912.13318"
+  },
+  "https://arxiv.org/abs/2001.00973": {
+    "title": "Closing the AI Accountability Gap: Defining an End-to-End Framework for Internal Algorithmic Auditing",
+    "authors": [
+      "Raji, Inioluwa Deborah",
+      "Smart, Andrew",
+      "White, Rebecca N.",
+      "Mitchell, Margaret",
+      "Gebru, Timnit",
+      "Hutchinson, Ben",
+      "Smith-Loud, Jamila",
+      "Theron, Daniel",
+      "Barnes, Parker"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2001.00973"
+  },
+  "https://arxiv.org/abs/2002.08909": {
+    "title": "REALM: Retrieval-Augmented Language Model Pre-Training",
+    "authors": [
+      "Guu, Kelvin",
+      "Lee, Kenton",
+      "Tung, Zora",
+      "Pasupat, Panupong",
+      "Chang, Ming-Wei"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2002.08909"
+  },
+  "https://arxiv.org/abs/2002.08910": {
+    "title": "How Much Knowledge Can You Pack Into the Parameters of a Language Model?",
+    "authors": [
+      "Roberts, Adam",
+      "Raffel, Colin",
+      "Shazeer, Noam"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2002.08910"
+  },
+  "https://arxiv.org/abs/2003.06713": {
+    "title": "Document Ranking with a Pretrained Sequence-to-Sequence Model",
+    "authors": [
+      "Nogueira, Rodrigo",
+      "Jiang, Zhiying",
+      "Lin, Jimmy"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2003.06713"
+  },
+  "https://arxiv.org/abs/2004.04906": {
+    "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+    "authors": [
+      "Karpukhin, Vladimir",
+      "Oğuz, Barlas",
+      "Min, Sewon",
+      "Lewis, Patrick",
+      "Wu, Ledell",
+      "Edunov, Sergey",
+      "Chen, Danqi",
+      "Yih, Wen-tau"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2004.04906"
+  },
+  "https://arxiv.org/abs/2004.12832": {
+    "title": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT",
+    "authors": [
+      "Khattab, Omar",
+      "Zaharia, Matei"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2004.12832"
+  },
+  "https://arxiv.org/abs/2005.11401": {
+    "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+    "authors": [
+      "Lewis, Patrick",
+      "Perez, Ethan",
+      "Piktus, Aleksandra",
+      "Petroni, Fabio",
+      "Karpukhin, Vladimir",
+      "Goyal, Naman",
+      "Küttler, Heinrich",
+      "Lewis, Mike",
+      "Yih, Wen-tau",
+      "Rocktäschel, Tim",
+      "Riedel, Sebastian",
+      "Kiela, Douwe"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2005.11401"
+  },
+  "https://arxiv.org/abs/2005.11723": {
+    "title": "Query Resolution for Conversational Search with Limited Supervision",
+    "authors": [
+      "Voskarides, Nikos",
+      "Li, Dan",
+      "Ren, Pengjie",
+      "Kanoulas, Evangelos",
+      "de Rijke, Maarten"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2005.11723"
+  },
+  "https://arxiv.org/abs/2007.00808": {
+    "title": "Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval",
+    "authors": [
+      "Xiong, Lee",
+      "Xiong, Chenyan",
+      "Li, Ye",
+      "Tang, Kwok-Fung",
+      "Liu, Jialin",
+      "Bennett, Paul",
+      "Ahmed, Junaid",
+      "Overwijk, Arnold"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2007.00808"
+  },
+  "https://arxiv.org/abs/2007.01282": {
+    "title": "Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering",
+    "authors": [
+      "Izacard, Gautier",
+      "Grave, Edouard"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2007.01282"
+  },
+  "https://arxiv.org/abs/2009.02252": {
+    "title": "KILT: a Benchmark for Knowledge Intensive Language Tasks",
+    "authors": [
+      "Petroni, Fabio",
+      "Piktus, Aleksandra",
+      "Fan, Angela",
+      "Lewis, Patrick",
+      "Yazdani, Majid",
+      "De Cao, Nicola",
+      "Thorne, James",
+      "Jernite, Yacine",
+      "Karpukhin, Vladimir",
+      "Maillard, Jean",
+      "Plachouras, Vassilis",
+      "Rocktäschel, Tim",
+      "Riedel, Sebastian"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2009.02252"
+  },
+  "https://arxiv.org/abs/2010.01195": {
+    "title": "Leveraging Semantic and Lexical Matching to Improve the Recall of Document Retrieval Systems: A Hybrid Approach",
+    "authors": [
+      "Kuzi, Saar",
+      "Zhang, Mingyang",
+      "Li, Cheng",
+      "Bendersky, Michael",
+      "Najork, Marc"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2010.01195"
+  },
+  "https://arxiv.org/abs/2010.04898": {
+    "title": "Open-Domain Question Answering Goes Conversational via Question Rewriting",
+    "authors": [
+      "Anantha, Raviteja",
+      "Vakulenko, Svitlana",
+      "Tu, Zhucheng",
+      "Longpre, Shayne",
+      "Pulman, Stephen",
+      "Chappidi, Srinivas"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2010.04898"
+  },
+  "https://arxiv.org/abs/2104.08663": {
+    "title": "BEIR: A Heterogenous Benchmark for Zero-shot Evaluation of Information Retrieval Models",
+    "authors": [
+      "Thakur, Nandan",
+      "Reimers, Nils",
+      "Rücklé, Andreas",
+      "Srivastava, Abhishek",
+      "Gurevych, Iryna"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2104.08663"
+  },
+  "https://arxiv.org/abs/2104.12016": {
+    "title": "Learning Passage Impacts for Inverted Indexes",
+    "authors": [
+      "Mallia, Antonio",
+      "Khattab, Omar",
+      "Tonellotto, Nicola",
+      "Suel, Torsten"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2104.12016"
+  },
+  "https://arxiv.org/abs/2105.04166": {
+    "title": "Few-Shot Conversational Dense Retrieval",
+    "authors": [
+      "Yu, Shi",
+      "Liu, Zhenghao",
+      "Xiong, Chenyan",
+      "Feng, Tao",
+      "Liu, Zhiyuan"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2105.04166"
+  },
+  "https://arxiv.org/abs/2105.09613": {
+    "title": "FreshDiskANN: A Fast and Accurate Graph-Based ANN Index for Streaming Similarity Search",
+    "authors": [
+      "Singh, Aditi",
+      "Subramanya, Suhas Jayaram",
+      "Krishnaswamy, Ravishankar",
+      "Simhadri, Harsha Vardhan"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2105.09613"
+  },
+  "https://arxiv.org/abs/2107.05720": {
+    "title": "SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking",
+    "authors": [
+      "Formal, Thibault",
+      "Piwowarski, Benjamin",
+      "Clinchant, Stéphane"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2107.05720"
+  },
+  "https://arxiv.org/abs/2107.06499": {
+    "title": "Deduplicating Training Data Makes Language Models Better",
+    "authors": [
+      "Lee, Katherine",
+      "Ippolito, Daphne",
+      "Nystrom, Andrew",
+      "Zhang, Chiyuan",
+      "Eck, Douglas",
+      "Callison-Burch, Chris",
+      "Carlini, Nicholas"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2107.06499"
+  },
+  "https://arxiv.org/abs/2108.04026": {
+    "title": "IntenT5: Search Result Diversification using Causal Language Models",
+    "authors": [
+      "MacAvaney, Sean",
+      "Macdonald, Craig",
+      "Murray-Smith, Roderick",
+      "Ounis, Iadh"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2108.04026"
+  },
+  "https://arxiv.org/abs/2109.10086": {
+    "title": "SPLADE v2: Sparse Lexical and Expansion Model for Information Retrieval",
+    "authors": [
+      "Formal, Thibault",
+      "Lassance, Carlos",
+      "Piwowarski, Benjamin",
+      "Clinchant, Stéphane"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2109.10086"
+  },
+  "https://arxiv.org/abs/2110.00061": {
+    "title": "PubTables-1M: Towards comprehensive table extraction from unstructured documents",
+    "authors": [
+      "Smock, Brandon",
+      "Pesala, Rohith",
+      "Abraham, Robin"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2110.00061"
+  },
+  "https://arxiv.org/abs/2111.15664": {
+    "title": "OCR-free Document Understanding Transformer",
+    "authors": [
+      "Kim, Geewook",
+      "Hong, Teakgyu",
+      "Yim, Moonbin",
+      "Nam, Jeongyeon",
+      "Park, Jinyoung",
+      "Yim, Jinyeong",
+      "Hwang, Wonseok",
+      "Yun, Sangdoo",
+      "Han, Dongyoon",
+      "Park, Seunghyun"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2111.15664"
+  },
+  "https://arxiv.org/abs/2112.01488": {
+    "title": "ColBERTv2: Effective and Efficient Retrieval via Lightweight Late Interaction",
+    "authors": [
+      "Santhanam, Keshav",
+      "Khattab, Omar",
+      "Saad-Falcon, Jon",
+      "Potts, Christopher",
+      "Zaharia, Matei"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2112.01488"
+  },
+  "https://arxiv.org/abs/2112.04426": {
+    "title": "Improving language models by retrieving from trillions of tokens",
+    "authors": [
+      "Borgeaud, Sebastian",
+      "Mensch, Arthur",
+      "Hoffmann, Jordan",
+      "Cai, Trevor",
+      "Rutherford, Eliza",
+      "Millican, Katie",
+      "Driessche, George van den",
+      "Lespiau, Jean-Baptiste",
+      "Damoc, Bogdan",
+      "Clark, Aidan",
+      "Casas, Diego de Las",
+      "Guy, Aurelia",
+      "Menick, Jacob",
+      "Ring, Roman",
+      "Hennigan, Tom",
+      "Huang, Saffron",
+      "Maggiore, Loren",
+      "Jones, Chris",
+      "Cassirer, Albin",
+      "Brock, Andy",
+      "Paganini, Michela",
+      "Irving, Geoffrey",
+      "Vinyals, Oriol",
+      "Osindero, Simon",
+      "Simonyan, Karen",
+      "Rae, Jack W.",
+      "Elsen, Erich",
+      "Sifre, Laurent"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2112.04426"
+  },
+  "https://arxiv.org/abs/2112.08558": {
+    "title": "CONQRR: Conversational Query Rewriting for Retrieval with Reinforcement Learning",
+    "authors": [
+      "Wu, Zeqiu",
+      "Luan, Yi",
+      "Rashkin, Hannah",
+      "Reitter, David",
+      "Hajishirzi, Hannaneh",
+      "Ostendorf, Mari",
+      "Tomar, Gaurav Singh"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2112.08558"
+  },
+  "https://arxiv.org/abs/2112.09118": {
+    "title": "Unsupervised Dense Information Retrieval with Contrastive Learning",
+    "authors": [
+      "Izacard, Gautier",
+      "Caron, Mathilde",
+      "Hosseini, Lucas",
+      "Riedel, Sebastian",
+      "Bojanowski, Piotr",
+      "Joulin, Armand",
+      "Grave, Edouard"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2112.09118"
+  },
+  "https://arxiv.org/abs/2112.09332": {
+    "title": "WebGPT: Browser-assisted question-answering with human feedback",
+    "authors": [
+      "Nakano, Reiichiro",
+      "Hilton, Jacob",
+      "Balaji, Suchir",
+      "Wu, Jeff",
+      "Ouyang, Long",
+      "Kim, Christina",
+      "Hesse, Christopher",
+      "Jain, Shantanu",
+      "Kosaraju, Vineet",
+      "Saunders, William",
+      "Jiang, Xu",
+      "Cobbe, Karl",
+      "Eloundou, Tyna",
+      "Krueger, Gretchen",
+      "Button, Kevin",
+      "Knight, Matthew",
+      "Chess, Benjamin",
+      "Schulman, John"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2112.09332"
+  },
+  "https://arxiv.org/abs/2112.12870": {
+    "title": "Measuring Attribution in Natural Language Generation Models",
+    "authors": [
+      "Rashkin, Hannah",
+      "Nikolaev, Vitaly",
+      "Lamm, Matthew",
+      "Aroyo, Lora",
+      "Collins, Michael",
+      "Das, Dipanjan",
+      "Petrov, Slav",
+      "Tomar, Gaurav Singh",
+      "Turc, Iulia",
+      "Reitter, David"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2112.12870"
+  },
+  "https://arxiv.org/abs/2203.11147": {
+    "title": "Teaching language models to support answers with verified quotes",
+    "authors": [
+      "Menick, Jacob",
+      "Trebacz, Maja",
+      "Mikulik, Vladimir",
+      "Aslanides, John",
+      "Song, Francis",
+      "Chadwick, Martin",
+      "Glaese, Mia",
+      "Young, Susannah",
+      "Campbell-Gillingham, Lucy",
+      "Irving, Geoffrey",
+      "McAleese, Nat"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2203.11147"
+  },
+  "https://arxiv.org/abs/2204.08387": {
+    "title": "LayoutLMv3: Pre-training for Document AI with Unified Text and Image Masking",
+    "authors": [
+      "Huang, Yupan",
+      "Lv, Tengchao",
+      "Cui, Lei",
+      "Lu, Yutong",
+      "Wei, Furu"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2204.08387"
+  },
+  "https://arxiv.org/abs/2205.00445": {
+    "title": "MRKL Systems: A modular, neuro-symbolic architecture that combines large language models, external knowledge sources and discrete reasoning",
+    "authors": [
+      "Karpas, Ehud",
+      "Abend, Omri",
+      "Belinkov, Yonatan",
+      "Lenz, Barak",
+      "Lieber, Opher",
+      "Ratner, Nir",
+      "Shoham, Yoav",
+      "Bata, Hofit",
+      "Levine, Yoav",
+      "Leyton-Brown, Kevin",
+      "Muhlgay, Dor",
+      "Rozen, Noam",
+      "Schwartz, Erez",
+      "Shachaf, Gal",
+      "Shalev-Shwartz, Shai",
+      "Shashua, Amnon",
+      "Tenenholtz, Moshe"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2205.00445"
+  },
+  "https://arxiv.org/abs/2205.11388": {
+    "title": "StreamingQA: A Benchmark for Adaptation to New Knowledge over Time in Question Answering Models",
+    "authors": [
+      "Liška, Adam",
+      "Kočiský, Tomáš",
+      "Gribovskaya, Elena",
+      "Terzi, Tayfun",
+      "Sezener, Eren",
+      "Agrawal, Devang",
+      "d'Autume, Cyprien de Masson",
+      "Scholtes, Tim",
+      "Zaheer, Manzil",
+      "Young, Susannah",
+      "Gilsenan-McMahon, Ellen",
+      "Austin, Sophia",
+      "Blunsom, Phil",
+      "Lazaridou, Angeliki"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2205.11388"
+  },
+  "https://arxiv.org/abs/2205.13147": {
+    "title": "Matryoshka Representation Learning",
+    "authors": [
+      "Kusupati, Aditya",
+      "Bhatt, Gantavya",
+      "Rege, Aniket",
+      "Wallingford, Matthew",
+      "Sinha, Aditya",
+      "Ramanujan, Vivek",
+      "Howard-Snyder, William",
+      "Chen, Kaifeng",
+      "Kakade, Sham",
+      "Jain, Prateek",
+      "Farhadi, Ali"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2205.13147"
+  },
+  "https://arxiv.org/abs/2206.01062": {
+    "title": "DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis",
+    "authors": [
+      "Pfitzmann, Birgit",
+      "Auer, Christoph",
+      "Dolfi, Michele",
+      "Nassar, Ahmed S",
+      "Staar, Peter W J"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2206.01062"
+  },
+  "https://arxiv.org/abs/2206.13843": {
+    "title": "Manu: A Cloud Native Vector Database Management System",
+    "authors": [
+      "Guo, Rentong",
+      "Luan, Xiaofan",
+      "Xiang, Long",
+      "Yan, Xiao",
+      "Yi, Xiaomeng",
+      "Luo, Jigao",
+      "Cheng, Qianya",
+      "Xu, Weizhi",
+      "Luo, Jiarui",
+      "Liu, Frank",
+      "Cao, Zhenshan",
+      "Qiao, Yanliang",
+      "Wang, Ting",
+      "Tang, Bo",
+      "Xie, Charles"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2206.13843"
+  },
+  "https://arxiv.org/abs/2210.03629": {
+    "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+    "authors": [
+      "Yao, Shunyu",
+      "Zhao, Jeffrey",
+      "Yu, Dian",
+      "Du, Nan",
+      "Shafran, Izhak",
+      "Narasimhan, Karthik",
+      "Cao, Yuan"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2210.03629"
+  },
+  "https://arxiv.org/abs/2210.07316": {
+    "title": "MTEB: Massive Text Embedding Benchmark",
+    "authors": [
+      "Muennighoff, Niklas",
+      "Tazi, Nouamane",
+      "Magne, Loïc",
+      "Reimers, Nils"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2210.07316"
+  },
+  "https://arxiv.org/abs/2210.08726": {
+    "title": "RARR: Researching and Revising What Language Models Say, Using Language Models",
+    "authors": [
+      "Gao, Luyu",
+      "Dai, Zhuyun",
+      "Pasupat, Panupong",
+      "Chen, Anthony",
+      "Chaganty, Arun Tejasvi",
+      "Fan, Yicheng",
+      "Zhao, Vincent Y.",
+      "Lao, Ni",
+      "Lee, Hongrae",
+      "Juan, Da-Cheng",
+      "Guu, Kelvin"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2210.08726"
+  },
+  "https://arxiv.org/abs/2210.10634": {
+    "title": "RankT5: Fine-Tuning T5 for Text Ranking with Ranking Losses",
+    "authors": [
+      "Zhuang, Honglei",
+      "Qin, Zhen",
+      "Jagerman, Rolf",
+      "Hui, Kai",
+      "Ma, Ji",
+      "Lu, Jing",
+      "Ni, Jianmo",
+      "Wang, Xuanhui",
+      "Bendersky, Michael"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2210.10634"
+  },
+  "https://arxiv.org/abs/2210.11934": {
+    "title": "An Analysis of Fusion Functions for Hybrid Retrieval",
+    "authors": [
+      "Bruch, Sebastian",
+      "Gai, Siyu",
+      "Ingber, Amir"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2210.11934"
+  },
+  "https://arxiv.org/abs/2212.03533": {
+    "title": "Text Embeddings by Weakly-Supervised Contrastive Pre-training",
+    "authors": [
+      "Wang, Liang",
+      "Yang, Nan",
+      "Huang, Xiaolong",
+      "Jiao, Binxing",
+      "Yang, Linjun",
+      "Jiang, Daxin",
+      "Majumder, Rangan",
+      "Wei, Furu"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2212.03533"
+  },
+  "https://arxiv.org/abs/2212.10496": {
+    "title": "Precise Zero-Shot Dense Retrieval without Relevance Labels",
+    "authors": [
+      "Gao, Luyu",
+      "Ma, Xueguang",
+      "Lin, Jimmy",
+      "Callan, Jamie"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2212.10496"
+  },
+  "https://arxiv.org/abs/2212.10509": {
+    "title": "Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions",
+    "authors": [
+      "Trivedi, Harsh",
+      "Balasubramanian, Niranjan",
+      "Khot, Tushar",
+      "Sabharwal, Ashish"
+    ],
+    "year": "2022",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2212.10509"
+  },
+  "https://arxiv.org/abs/2302.00539": {
+    "title": "Analyzing Leakage of Personally Identifiable Information in Language Models",
+    "authors": [
+      "Lukas, Nils",
+      "Salem, Ahmed",
+      "Sim, Robert",
+      "Tople, Shruti",
+      "Wutschitz, Lukas",
+      "Zanella-Béguelin, Santiago"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2302.00539"
+  },
+  "https://arxiv.org/abs/2302.04761": {
+    "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+    "authors": [
+      "Schick, Timo",
+      "Dwivedi-Yu, Jane",
+      "Dessì, Roberto",
+      "Raileanu, Roberta",
+      "Lomeli, Maria",
+      "Zettlemoyer, Luke",
+      "Cancedda, Nicola",
+      "Scialom, Thomas"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2302.04761"
+  },
+  "https://arxiv.org/abs/2302.12173": {
+    "title": "Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection",
+    "authors": [
+      "Greshake, Kai",
+      "Abdelnabi, Sahar",
+      "Mishra, Shailesh",
+      "Endres, Christoph",
+      "Holz, Thorsten",
+      "Fritz, Mario"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2302.12173"
+  },
+  "https://arxiv.org/abs/2303.07678": {
+    "title": "Query2doc: Query Expansion with Large Language Models",
+    "authors": [
+      "Wang, Liang",
+      "Yang, Nan",
+      "Wei, Furu"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2303.07678"
+  },
+  "https://arxiv.org/abs/2303.12570": {
+    "title": "RepoCoder: Repository-Level Code Completion Through Iterative Retrieval and Generation",
+    "authors": [
+      "Zhang, Fengji",
+      "Chen, Bei",
+      "Zhang, Yue",
+      "Keung, Jacky",
+      "Liu, Jin",
+      "Zan, Daoguang",
+      "Mao, Yi",
+      "Lou, Jian-Guang",
+      "Chen, Weizhu"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2303.12570"
+  },
+  "https://arxiv.org/abs/2303.16634": {
+    "title": "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment",
+    "authors": [
+      "Liu, Yang",
+      "Iter, Dan",
+      "Xu, Yichong",
+      "Wang, Shuohang",
+      "Xu, Ruochen",
+      "Zhu, Chenguang"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2303.16634"
+  },
+  "https://arxiv.org/abs/2304.09542": {
+    "title": "Is ChatGPT Good at Search? Investigating Large Language Models as Re-Ranking Agents",
+    "authors": [
+      "Sun, Weiwei",
+      "Yan, Lingyong",
+      "Ma, Xinyu",
+      "Wang, Shuaiqiang",
+      "Ren, Pengjie",
+      "Chen, Zhumin",
+      "Yin, Dawei",
+      "Ren, Zhaochun"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2304.09542"
+  },
+  "https://arxiv.org/abs/2304.11015": {
+    "title": "DIN-SQL: Decomposed In-Context Learning of Text-to-SQL with Self-Correction",
+    "authors": [
+      "Pourreza, Mohammadreza",
+      "Rafiei, Davood"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2304.11015"
+  },
+  "https://arxiv.org/abs/2304.12139": {
+    "title": "Anserini Gets Dense Retrieval: Integration of Lucene's HNSW Indexes",
+    "authors": [
+      "Ma, Xueguang",
+      "Teofili, Tommaso",
+      "Lin, Jimmy"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2304.12139"
+  },
+  "https://arxiv.org/abs/2305.02156": {
+    "title": "Zero-Shot Listwise Document Reranking with a Large Language Model",
+    "authors": [
+      "Ma, Xueguang",
+      "Zhang, Xinyu",
+      "Pradeep, Ronak",
+      "Lin, Jimmy"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2305.02156"
+  },
+  "https://arxiv.org/abs/2305.05176": {
+    "title": "FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance",
+    "authors": [
+      "Chen, Lingjiao",
+      "Zaharia, Matei",
+      "Zou, James"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2305.05176"
+  },
+  "https://arxiv.org/abs/2305.06983": {
+    "title": "Active Retrieval Augmented Generation",
+    "authors": [
+      "Jiang, Zhengbao",
+      "Xu, Frank F.",
+      "Gao, Luyu",
+      "Sun, Zhiqing",
+      "Liu, Qian",
+      "Dwivedi-Yu, Jane",
+      "Yang, Yiming",
+      "Callan, Jamie",
+      "Neubig, Graham"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2305.06983"
+  },
+  "https://arxiv.org/abs/2305.14251": {
+    "title": "FActScore: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation",
+    "authors": [
+      "Min, Sewon",
+      "Krishna, Kalpesh",
+      "Lyu, Xinxi",
+      "Lewis, Mike",
+      "Yih, Wen-tau",
+      "Koh, Pang Wei",
+      "Iyyer, Mohit",
+      "Zettlemoyer, Luke",
+      "Hajishirzi, Hannaneh"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2305.14251"
+  },
+  "https://arxiv.org/abs/2305.14283": {
+    "title": "Query Rewriting for Retrieval-Augmented Large Language Models",
+    "authors": [
+      "Ma, Xinbei",
+      "Gong, Yeyun",
+      "He, Pengcheng",
+      "Zhao, Hai",
+      "Duan, Nan"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2305.14283"
+  },
+  "https://arxiv.org/abs/2305.14627": {
+    "title": "Enabling Large Language Models to Generate Text with Citations",
+    "authors": [
+      "Gao, Tianyu",
+      "Yen, Howard",
+      "Yu, Jiatong",
+      "Chen, Danqi"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2305.14627"
+  },
+  "https://arxiv.org/abs/2306.05499": {
+    "title": "Prompt Injection attack against LLM-integrated Applications",
+    "authors": [
+      "Liu, Yi",
+      "Deng, Gelei",
+      "Li, Yuekang",
+      "Wang, Kailong",
+      "Wang, Zihao",
+      "Wang, Xiaofeng",
+      "Zhang, Tianwei",
+      "Liu, Yepang",
+      "Wang, Haoyu",
+      "Zheng, Yan",
+      "Zhang, Leo Yu",
+      "Liu, Yang"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2306.05499"
+  },
+  "https://arxiv.org/abs/2306.05685": {
+    "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+    "authors": [
+      "Zheng, Lianmin",
+      "Chiang, Wei-Lin",
+      "Sheng, Ying",
+      "Zhuang, Siyuan",
+      "Wu, Zhanghao",
+      "Zhuang, Yonghao",
+      "Lin, Zi",
+      "Li, Zhuohan",
+      "Li, Dacheng",
+      "Xing, Eric P.",
+      "Zhang, Hao",
+      "Gonzalez, Joseph E.",
+      "Stoica, Ion"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2306.05685"
+  },
+  "https://arxiv.org/abs/2307.03172": {
+    "title": "Lost in the Middle: How Language Models Use Long Contexts",
+    "authors": [
+      "Liu, Nelson F.",
+      "Lin, Kevin",
+      "Hewitt, John",
+      "Paranjape, Ashwin",
+      "Bevilacqua, Michele",
+      "Petroni, Fabio",
+      "Liang, Percy"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2307.03172"
+  },
+  "https://arxiv.org/abs/2307.16883": {
+    "title": "HAGRID: A Human-LLM Collaborative Dataset for Generative Information-Seeking with Attribution",
+    "authors": [
+      "Kamalloo, Ehsan",
+      "Jafari, Aref",
+      "Zhang, Xinyu",
+      "Thakur, Nandan",
+      "Lin, Jimmy"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2307.16883"
+  },
+  "https://arxiv.org/abs/2308.13418": {
+    "title": "Nougat: Neural Optical Understanding for Academic Documents",
+    "authors": [
+      "Blecher, Lukas",
+      "Cucurull, Guillem",
+      "Scialom, Thomas",
+      "Stojnic, Robert"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2308.13418"
+  },
+  "https://arxiv.org/abs/2309.01431": {
+    "title": "Benchmarking Large Language Models in Retrieval-Augmented Generation",
+    "authors": [
+      "Chen, Jiawei",
+      "Lin, Hongyu",
+      "Han, Xianpei",
+      "Sun, Le"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2309.01431"
+  },
+  "https://arxiv.org/abs/2309.06180": {
+    "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+    "authors": [
+      "Kwon, Woosuk",
+      "Li, Zhuohan",
+      "Zhuang, Siyuan",
+      "Sheng, Ying",
+      "Zheng, Lianmin",
+      "Yu, Cody Hao",
+      "Gonzalez, Joseph E.",
+      "Zhang, Hao",
+      "Stoica, Ion"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2309.06180"
+  },
+  "https://arxiv.org/abs/2309.11495": {
+    "title": "Chain-of-Verification Reduces Hallucination in Large Language Models",
+    "authors": [
+      "Dhuliawala, Shehzaad",
+      "Komeili, Mojtaba",
+      "Xu, Jing",
+      "Raileanu, Roberta",
+      "Li, Xian",
+      "Celikyilmaz, Asli",
+      "Weston, Jason"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2309.11495"
+  },
+  "https://arxiv.org/abs/2309.15217": {
+    "title": "Ragas: Automated Evaluation of Retrieval Augmented Generation",
+    "authors": [
+      "Es, Shahul",
+      "James, Jithin",
+      "Espinosa-Anke, Luis",
+      "Schockaert, Steven"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2309.15217"
+  },
+  "https://arxiv.org/abs/2310.01352": {
+    "title": "RA-DIT: Retrieval-Augmented Dual Instruction Tuning",
+    "authors": [
+      "Lin, Xi Victoria",
+      "Chen, Xilun",
+      "Chen, Mingda",
+      "Shi, Weijia",
+      "Lomeli, Maria",
+      "James, Rich",
+      "Rodriguez, Pedro",
+      "Kahn, Jacob",
+      "Szilvasy, Gergely",
+      "Lewis, Mike",
+      "Zettlemoyer, Luke",
+      "Yih, Scott"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2310.01352"
+  },
+  "https://arxiv.org/abs/2310.01427": {
+    "title": "Attention Sorting Combats Recency Bias In Long Context Language Models",
+    "authors": [
+      "Peysakhovich, Alexander",
+      "Lerer, Adam"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2310.01427"
+  },
+  "https://arxiv.org/abs/2310.03214": {
+    "title": "FreshLLMs: Refreshing Large Language Models with Search Engine Augmentation",
+    "authors": [
+      "Vu, Tu",
+      "Iyyer, Mohit",
+      "Wang, Xuezhi",
+      "Constant, Noah",
+      "Wei, Jerry",
+      "Wei, Jason",
+      "Tar, Chris",
+      "Sung, Yun-Hsuan",
+      "Zhou, Denny",
+      "Le, Quoc",
+      "Luong, Thang"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2310.03214"
+  },
+  "https://arxiv.org/abs/2310.04408": {
+    "title": "RECOMP: Improving Retrieval-Augmented LMs with Compression and Selective Augmentation",
+    "authors": [
+      "Xu, Fangyuan",
+      "Shi, Weijia",
+      "Choi, Eunsol"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2310.04408"
+  },
+  "https://arxiv.org/abs/2310.05736": {
+    "title": "LLMLingua: Compressing Prompts for Accelerated Inference of Large Language Models",
+    "authors": [
+      "Jiang, Huiqiang",
+      "Wu, Qianhui",
+      "Lin, Chin-Yew",
+      "Yang, Yuqing",
+      "Qiu, Lili"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2310.05736"
+  },
+  "https://arxiv.org/abs/2310.06201": {
+    "title": "Compressing Context to Enhance Inference Efficiency of Large Language Models",
+    "authors": [
+      "Li, Yucheng",
+      "Dong, Bo",
+      "Lin, Chenghua",
+      "Guerin, Frank"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2310.06201"
+  },
+  "https://arxiv.org/abs/2310.06839": {
+    "title": "LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression",
+    "authors": [
+      "Jiang, Huiqiang",
+      "Wu, Qianhui",
+      "Luo, Xufang",
+      "Li, Dongsheng",
+      "Lin, Chin-Yew",
+      "Yang, Yuqing",
+      "Qiu, Lili"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2310.06839"
+  },
+  "https://arxiv.org/abs/2310.11511": {
+    "title": "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection",
+    "authors": [
+      "Asai, Akari",
+      "Wu, Zeqiu",
+      "Wang, Yizhong",
+      "Sil, Avirup",
+      "Hajishirzi, Hannaneh"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2310.11511"
+  },
+  "https://arxiv.org/abs/2311.09476": {
+    "title": "ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems",
+    "authors": [
+      "Saad-Falcon, Jon",
+      "Khattab, Omar",
+      "Potts, Christopher",
+      "Zaharia, Matei"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2311.09476"
+  },
+  "https://arxiv.org/abs/2312.06648": {
+    "title": "Dense X Retrieval: What Retrieval Granularity Should We Use?",
+    "authors": [
+      "Chen, Tong",
+      "Wang, Hongwei",
+      "Chen, Sihao",
+      "Yu, Wenhao",
+      "Ma, Kaixin",
+      "Zhao, Xinran",
+      "Zhang, Hongming",
+      "Yu, Dong"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2312.06648"
+  },
+  "https://arxiv.org/abs/2312.10997": {
+    "title": "Retrieval-Augmented Generation for Large Language Models: A Survey",
+    "authors": [
+      "Gao, Yunfan",
+      "Xiong, Yun",
+      "Gao, Xinyu",
+      "Jia, Kangxiang",
+      "Pan, Jinliu",
+      "Bi, Yuxi",
+      "Dai, Yi",
+      "Sun, Jiawei",
+      "Wang, Meng",
+      "Wang, Haofen"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2312.10997"
+  },
+  "https://arxiv.org/abs/2312.14197": {
+    "title": "Benchmarking and Defending Against Indirect Prompt Injection Attacks on Large Language Models",
+    "authors": [
+      "Yi, Jingwei",
+      "Xie, Yueqi",
+      "Zhu, Bin",
+      "Kiciman, Emre",
+      "Sun, Guangzhong",
+      "Xie, Xing",
+      "Wu, Fangzhao"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2312.14197"
+  },
+  "https://arxiv.org/abs/2401.00396": {
+    "title": "RAGTruth: A Hallucination Corpus for Developing Trustworthy Retrieval-Augmented Language Models",
+    "authors": [
+      "Niu, Cheng",
+      "Wu, Yuanhao",
+      "Zhu, Juno",
+      "Xu, Siliang",
+      "Shum, Kashun",
+      "Zhong, Randy",
+      "Song, Juntong",
+      "Zhang, Tong"
+    ],
+    "year": "2023",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2401.00396"
+  },
+  "https://arxiv.org/abs/2401.07119": {
+    "title": "Curator: Efficient Indexing for Multi-Tenant Vector Databases",
+    "authors": [
+      "Jin, Yicheng",
+      "Wu, Yongji",
+      "Hu, Wenjun",
+      "Maggs, Bruce M.",
+      "Zhang, Xiao",
+      "Zhuo, Danyang"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2401.07119"
+  },
+  "https://arxiv.org/abs/2401.13222": {
+    "title": "It's About Time: Incorporating Temporality in Retrieval Augmented Language Models",
+    "authors": [
+      "Gade, Anoushka",
+      "Jetcheva, Jorjeta"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2401.13222"
+  },
+  "https://arxiv.org/abs/2401.15884": {
+    "title": "Corrective Retrieval Augmented Generation",
+    "authors": [
+      "Yan, Shi-Qi",
+      "Gu, Jia-Chen",
+      "Zhu, Yun",
+      "Ling, Zhen-Hua"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2401.15884"
+  },
+  "https://arxiv.org/abs/2401.18059": {
+    "title": "RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval",
+    "authors": [
+      "Sarthi, Parth",
+      "Abdullah, Salman",
+      "Tuli, Aditi",
+      "Khanna, Shubh",
+      "Goldie, Anna",
+      "Manning, Christopher D."
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2401.18059"
+  },
+  "https://arxiv.org/abs/2402.03216": {
+    "title": "M3-Embedding: Multi-Linguality, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation",
+    "authors": [
+      "Chen, Jianlv",
+      "Xiao, Shitao",
+      "Zhang, Peitian",
+      "Luo, Kun",
+      "Lian, Defu",
+      "Liu, Zheng"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2402.03216"
+  },
+  "https://arxiv.org/abs/2402.06363": {
+    "title": "StruQ: Defending Against Prompt Injection with Structured Queries",
+    "authors": [
+      "Chen, Sizhe",
+      "Piet, Julien",
+      "Sitawarin, Chawin",
+      "Wagner, David"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2402.06363"
+  },
+  "https://arxiv.org/abs/2402.07867": {
+    "title": "PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models",
+    "authors": [
+      "Zou, Wei",
+      "Geng, Runpeng",
+      "Wang, Binghui",
+      "Jia, Jinyuan"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2402.07867"
+  },
+  "https://arxiv.org/abs/2403.04651": {
+    "title": "Cedar: A New Language for Expressive, Fast, Safe, and Analyzable Authorization (Extended Version)",
+    "authors": [
+      "Cutler, Joseph W.",
+      "Disselkoen, Craig",
+      "Eline, Aaron",
+      "He, Shaobo",
+      "Headley, Kyle",
+      "Hicks, Michael",
+      "Hietala, Kesha",
+      "Ioannidis, Eleftherios",
+      "Kastner, John",
+      "Mamat, Anwar",
+      "McAdams, Darin",
+      "McCutchen, Matt",
+      "Rungta, Neha",
+      "Torlak, Emina",
+      "Wells, Andrew"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2403.04651"
+  },
+  "https://arxiv.org/abs/2403.04871": {
+    "title": "ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data",
+    "authors": [
+      "Patel, Liana",
+      "Kraft, Peter",
+      "Guestrin, Carlos",
+      "Zaharia, Matei"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2403.04871"
+  },
+  "https://arxiv.org/abs/2403.09040": {
+    "title": "RAGGED: Towards Informed Design of Scalable and Stable RAG Systems",
+    "authors": [
+      "Hsia, Jennifer",
+      "Shaikh, Afreen",
+      "Wang, Zhiruo",
+      "Neubig, Graham"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2403.09040"
+  },
+  "https://arxiv.org/abs/2403.10131": {
+    "title": "RAFT: Adapting Language Model to Domain Specific RAG",
+    "authors": [
+      "Zhang, Tianjun",
+      "Patil, Shishir G.",
+      "Jain, Naman",
+      "Shen, Sheng",
+      "Zaharia, Matei",
+      "Stoica, Ion",
+      "Gonzalez, Joseph E."
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2403.10131"
+  },
+  "https://arxiv.org/abs/2403.14403": {
+    "title": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+    "authors": [
+      "Jeong, Soyeong",
+      "Baek, Jinheon",
+      "Cho, Sukmin",
+      "Hwang, Sung Ju",
+      "Park, Jong C."
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2403.14403"
+  },
+  "https://arxiv.org/abs/2404.06654": {
+    "title": "RULER: What's the Real Context Size of Your Long-Context Language Models?",
+    "authors": [
+      "Hsieh, Cheng-Ping",
+      "Sun, Simeng",
+      "Kriman, Samuel",
+      "Acharya, Shantanu",
+      "Rekesh, Dima",
+      "Jia, Fei",
+      "Zhang, Yang",
+      "Ginsburg, Boris"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2404.06654"
+  },
+  "https://arxiv.org/abs/2404.10981": {
+    "title": "A Survey on Retrieval-Augmented Text Generation for Large Language Models",
+    "authors": [
+      "Huang, Yizheng",
+      "Huang, Jimmy"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2404.10981"
+  },
+  "https://arxiv.org/abs/2404.13208": {
+    "title": "The Instruction Hierarchy: Training LLMs to Prioritize Privileged Instructions",
+    "authors": [
+      "Wallace, Eric",
+      "Xiao, Kai",
+      "Leike, Reimar",
+      "Weng, Lilian",
+      "Heidecke, Johannes",
+      "Beutel, Alex"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2404.13208"
+  },
+  "https://arxiv.org/abs/2404.16130": {
+    "title": "From Local to Global: A Graph RAG Approach to Query-Focused Summarization",
+    "authors": [
+      "Edge, Darren",
+      "Trinh, Ha",
+      "Cheng, Newman",
+      "Bradley, Joshua",
+      "Chao, Alex",
+      "Mody, Apurva",
+      "Truitt, Steven",
+      "Metropolitansky, Dasha",
+      "Ness, Robert Osazuwa",
+      "Larson, Jonathan"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2404.16130"
+  },
+  "https://arxiv.org/abs/2405.07437": {
+    "title": "Evaluation of Retrieval-Augmented Generation: A Survey",
+    "authors": [
+      "Yu, Hao",
+      "Gan, Aoran",
+      "Zhang, Kai",
+      "Tong, Shiwei",
+      "Liu, Qi",
+      "Liu, Zhaofeng"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2405.07437"
+  },
+  "https://arxiv.org/abs/2405.14486": {
+    "title": "RefChecker: Reference-based Fine-grained Hallucination Checker and Benchmark for Large Language Models",
+    "authors": [
+      "Hu, Xiangkun",
+      "Ru, Dongyu",
+      "Qiu, Lin",
+      "Guo, Qipeng",
+      "Zhang, Tianhang",
+      "Xu, Yang",
+      "Luo, Yun",
+      "Liu, Pengfei",
+      "Zhang, Yue",
+      "Zhang, Zheng"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2405.14486"
+  },
+  "https://arxiv.org/abs/2406.18665": {
+    "title": "RouteLLM: Learning to Route LLMs with Preference Data",
+    "authors": [
+      "Ong, Isaac",
+      "Almahairi, Amjad",
+      "Wu, Vincent",
+      "Chiang, Wei-Lin",
+      "Wu, Tianhao",
+      "Gonzalez, Joseph E.",
+      "Kadous, M Waleed",
+      "Stoica, Ion"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2406.18665"
+  },
+  "https://arxiv.org/abs/2406.19234": {
+    "title": "Generating Is Believing: Membership Inference Attacks against Retrieval-Augmented Generation",
+    "authors": [
+      "Li, Yuying",
+      "Liu, Gaoyang",
+      "Wang, Chen",
+      "Yang, Yang"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2406.19234"
+  },
+  "https://arxiv.org/abs/2407.01449": {
+    "title": "ColPali: Efficient Document Retrieval with Vision Language Models",
+    "authors": [
+      "Faysse, Manuel",
+      "Sibille, Hugues",
+      "Wu, Tony",
+      "Omrani, Bilel",
+      "Viaud, Gautier",
+      "Hudelot, Céline",
+      "Colombo, Pierre"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2407.01449"
+  },
+  "https://arxiv.org/abs/2407.16833": {
+    "title": "Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach",
+    "authors": [
+      "Li, Zhuowan",
+      "Li, Cheng",
+      "Zhang, Mingyang",
+      "Mei, Qiaozhu",
+      "Bendersky, Michael"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2407.16833"
+  },
+  "https://arxiv.org/abs/2407.21059": {
+    "title": "Modular RAG: Transforming RAG Systems into LEGO-like Reconfigurable Frameworks",
+    "authors": [
+      "Gao, Yunfan",
+      "Xiong, Yun",
+      "Wang, Meng",
+      "Wang, Haofen"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2407.21059"
+  },
+  "https://arxiv.org/abs/2408.08067": {
+    "title": "RAGChecker: A Fine-grained Framework for Diagnosing Retrieval-Augmented Generation",
+    "authors": [
+      "Ru, Dongyu",
+      "Qiu, Lin",
+      "Hu, Xiangkun",
+      "Zhang, Tianhang",
+      "Shi, Peng",
+      "Chang, Shuaichen",
+      "Jiayang, Cheng",
+      "Wang, Cunxiang",
+      "Sun, Shichao",
+      "Li, Huanyu",
+      "Zhang, Zizhao",
+      "Wang, Binjie",
+      "Jiang, Jiarong",
+      "He, Tong",
+      "Wang, Zhiguo",
+      "Liu, Pengfei",
+      "Zhang, Yue",
+      "Zhang, Zheng"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2408.08067"
+  },
+  "https://arxiv.org/abs/2409.04701": {
+    "title": "Late Chunking: Contextual Chunk Embeddings Using Long-Context Embedding Models",
+    "authors": [
+      "Günther, Michael",
+      "Mohr, Isabelle",
+      "Williams, Daniel James",
+      "Wang, Bo",
+      "Xiao, Han"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2409.04701"
+  },
+  "https://arxiv.org/abs/2410.14452": {
+    "title": "SPFresh: Incremental In-Place Update for Billion-Scale Vector Search",
+    "authors": [
+      "Xu, Yuming",
+      "Liang, Hengyu",
+      "Li, Jin",
+      "Xu, Shuotao",
+      "Chen, Qi",
+      "Zhang, Qianxi",
+      "Li, Cheng",
+      "Yang, Ziyue",
+      "Yang, Fan",
+      "Yang, Yuqing",
+      "Cheng, Peng",
+      "Yang, Mao"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2410.14452"
+  },
+  "https://arxiv.org/abs/2411.14110": {
+    "title": "Feedback-Guided Extraction of Knowledge Base from Retrieval-Augmented LLM Applications",
+    "authors": [
+      "Jiang, Changyue",
+      "Pan, Xudong",
+      "Hong, Geng",
+      "Bao, Chenfu",
+      "Chen, Yang",
+      "Yang, Min"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2411.14110"
+  },
+  "https://arxiv.org/abs/2502.06872": {
+    "title": "Towards Trustworthy Retrieval Augmented Generation for Large Language Models: A Survey",
+    "authors": [
+      "Ni, Bo",
+      "Liu, Zheyuan",
+      "Wang, Leyao",
+      "Lei, Yongjia",
+      "Zhao, Yuying",
+      "Cheng, Xueqi",
+      "Zeng, Qingkai",
+      "Dong, Luna",
+      "Xia, Yinglong",
+      "Kenthapadi, Krishnaram",
+      "Rossi, Ryan",
+      "Dernoncourt, Franck",
+      "Tanjim, Md Mehrab",
+      "Ahmed, Nesreen",
+      "Liu, Xiaorui",
+      "Fan, Wenqi",
+      "Blasch, Erik",
+      "Wang, Yu",
+      "Jiang, Meng",
+      "Derr, Tyler"
+    ],
+    "year": "2025",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2502.06872"
+  },
+  "https://arxiv.org/abs/2502.09891": {
+    "title": "ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation",
+    "authors": [
+      "Wang, Shu",
+      "Fang, Yixiang",
+      "Zhou, Yingli",
+      "Liu, Xilin",
+      "Ma, Yuchi"
+    ],
+    "year": "2025",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2502.09891"
+  },
+  "https://arxiv.org/abs/2504.03598": {
+    "title": "EnrichIndex: Using LLMs to Enrich Retrieval Indices Offline",
+    "authors": [
+      "Chen, Peter Baile",
+      "Wolfson, Tomer",
+      "Cafarella, Michael",
+      "Roth, Dan"
+    ],
+    "year": "2025",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2504.03598"
+  },
+  "https://arxiv.org/abs/2506.23397": {
+    "title": "NaviX: A Native Vector Index Design for Graph DBMSs With Robust Predicate-Agnostic Search Performance",
+    "authors": [
+      "Sehgal, Gaurav",
+      "Salihoglu, Semih"
+    ],
+    "year": "2025",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2506.23397"
+  },
+  "https://arxiv.org/abs/2510.12323": {
+    "title": "RAG-Anything: All-in-One RAG Framework",
+    "authors": [
+      "Guo, Zirui",
+      "Ren, Xubin",
+      "Xu, Lingrui",
+      "Zhang, Jiahao",
+      "Huang, Chao"
+    ],
+    "year": "2025",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2510.12323"
+  },
+  "https://arxiv.org/abs/2511.04073": {
+    "title": "Learning Filter-Aware Distance Metrics for Nearest Neighbor Search with Multiple Filters",
+    "authors": [
+      "Sutradhar, Ananya",
+      "Gupta, Suryansh",
+      "Krishnaswamy, Ravishankar",
+      "Xu, Haiyang",
+      "Rastogi, Aseem",
+      "Srinivasa, Gopal"
+    ],
+    "year": "2025",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2511.04073"
+  },
+  "https://arxiv.org/abs/2603.16415": {
+    "title": "IndexRAG: Bridging Facts for Cross-Document Reasoning at Index Time",
+    "authors": [
+      "Bao, Zhenghua",
+      "Shi, Yi"
+    ],
+    "year": "2026",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2603.16415"
+  },
+  "https://arxiv.org/abs/2605.05287": {
+    "title": "Securing the Agent: Vendor-Neutral, Multitenant Enterprise Retrieval and Tool Use",
+    "authors": [
+      "Arceo, Francisco Javier",
+      "Narsing, Varsha Prasad"
+    ],
+    "year": "2026",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2605.05287"
+  },
+  "https://arxiv.org/abs/2607.26497v3": {
+    "title": "BM25 Wins at Scale: A Scaling Study of Retrieval-Augmented Generation Paradigms",
+    "authors": [
+      "Wang, Pengyu",
+      "Xu, Benfeng",
+      "Wang, Shaohan",
+      "Du, Mingxuan",
+      "Zeng, Xin",
+      "Wu, Huarui",
+      "Zhang, Lei",
+      "Zhang, Licheng"
+    ],
+    "year": "2026",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2607.26497",
+    "note": "参照版：v3（2026年7月31日）。本文確認日：2026年9月5日"
+  },
+  "https://arxiv.org/abs/2608.06305": {
+    "title": "Beyond Top-K: Replacing Black-Box Retrieval with Interpretable Agentic Operations",
+    "authors": [
+      "Tamang, Sagar",
+      "Vyas, Ayush",
+      "Hazarika, Tabarakul"
+    ],
+    "year": "2026",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2608.06305",
+    "note": "公開論文。本文確認日：2026年9月5日"
+  },
+  "https://arxiv.org/abs/2608.30163": {
+    "title": "Doc-REFRAG: Rethinking Multimodal Document Retrieval-Augmented Generation",
+    "authors": [
+      "Hu, Ruofan",
+      "Xu, Shengyang",
+      "Hong, Minjie",
+      "Yang, Xiaoda",
+      "Zhou, Sashuai",
+      "Lei, Ke",
+      "Jin, Tao",
+      "Zhao, Zhou"
+    ],
+    "year": "2026",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2608.30163",
+    "note": "参照版：v1（2026年8月31日）。本文確認日：2026年9月5日"
+  },
+  "https://arxiv.org/html/2404.10981v2": {
+    "title": "The Survey of Retrieval-Augmented Text Generation in Large Language Models",
+    "authors": [
+      "Yizheng Huang",
+      "Jimmy X. Huang"
+    ],
+    "year": "2024",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "arXiv:2404.10981v2",
+    "note": "公開著者版v2（2024年8月23日）"
+  },
+  "https://aws.amazon.com/bedrock/agentcore/pricing/": {
+    "title": "Amazon Bedrock AgentCore Pricing - AWS",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://aws.amazon.com/bedrock/pricing/": {
+    "title": "Amazon Bedrock Pricing",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://aws.amazon.com/opensearch-service/pricing/": {
+    "title": "Amazon OpenSearch Service - Pricing",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://aws.amazon.com/s3/pricing/": {
+    "title": "S3 Pricing",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://dl.acm.org/doi/10.1145/1242572.1242592": {
+    "title": "Detecting near-duplicates for web crawling",
+    "authors": [
+      "Gurmeet Singh Manku",
+      "Arvind Jain",
+      "Anish Das Sarma"
+    ],
+    "year": "2007",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 16th international conference on World Wide Web",
+    "doi": "10.1145/1242572.1242592"
+  },
+  "https://dl.acm.org/doi/10.1145/1571941.1572114": {
+    "title": "Reciprocal rank fusion outperforms condorcet and individual rank learning methods",
+    "authors": [
+      "Gordon V. Cormack",
+      "Charles L A Clarke",
+      "Stefan Buettcher"
+    ],
+    "year": "2009",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval",
+    "doi": "10.1145/1571941.1572114"
+  },
+  "https://dl.acm.org/doi/10.1145/290941.291025": {
+    "title": "The use of MMR, diversity-based reranking for reordering documents and producing summaries",
+    "authors": [
+      "Jaime Carbonell",
+      "Jade Goldstein"
+    ],
+    "year": "1998",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 21st annual international ACM SIGIR conference on Research and development in information retrieval",
+    "doi": "10.1145/290941.291025"
+  },
+  "https://dl.acm.org/doi/10.1145/3411764.3445518": {
+    "title": "“Everyone wants to do the model work, not the data work”: Data Cascades in High-Stakes AI",
+    "authors": [
+      "Nithya Sambasivan",
+      "Shivani Kapania",
+      "Hannah Highfill",
+      "Diana Akrong",
+      "Praveen Paritosh",
+      "Lora M Aroyo"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems",
+    "doi": "10.1145/3411764.3445518"
+  },
+  "https://dl.acm.org/doi/10.1145/3442188.3445922": {
+    "title": "On the Dangers of Stochastic Parrots",
+    "authors": [
+      "Emily M. Bender",
+      "Timnit Gebru",
+      "Angelina McMillan-Major",
+      "Shmargaret Shmitchell"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency",
+    "doi": "10.1145/3442188.3445922"
+  },
+  "https://docs.aws.amazon.com/AmazonS3/latest/API/API_S3VectorBuckets_QueryVectors.html": {
+    "title": "QueryVectors - Amazon S3",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-bedrock-kb.html": {
+    "title": "Using S3 Vectors with Amazon Bedrock Knowledge Bases - Amazon Simple Storage Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-indexes.html": {
+    "title": "Vector indexes - Amazon Simple Storage Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-metadata-filtering.html": {
+    "title": "Metadata filtering - Amazon Simple Storage Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors.html": {
+    "title": "Working with S3 Vectors and vector buckets - Amazon Simple Storage Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agents-tools-runtime.html": {
+    "title": "Host agent or tools with Amazon Bedrock AgentCore Runtime - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations-types.html": {
+    "title": "Evaluation types - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations.html": {
+    "title": "Evaluate agent performance with Amazon Bedrock AgentCore Evaluations - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-core-concepts.html": {
+    "title": "Core concepts for Amazon Bedrock AgentCore Gateway - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-connector-managed-kb.html": {
+    "title": "Amazon Bedrock Managed Knowledge Bases as Connector Target - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html": {
+    "title": "Provide identity and credential management for agent applications with Amazon Bedrock AgentCore Identity - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory-terminology.html": {
+    "title": "Memory terminology - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory.html": {
+    "title": "Add memory to your Amazon Bedrock AgentCore agent - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/observability-configure.html": {
+    "title": "Add observability to your Amazon Bedrock AgentCore resources - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/observability.html": {
+    "title": "Observe your agent applications on Amazon Bedrock AgentCore Observability - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-core-concepts.html": {
+    "title": "Core concepts - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-security-best-practices.html": {
+    "title": "Security best practices for AgentCore Runtime - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html": {
+    "title": "Overview - Amazon Bedrock AgentCore",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_AgenticRetrieveStream.html": {
+    "title": "AgenticRetrieveStream - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_KnowledgeBaseVectorSearchConfiguration.html": {
+    "title": "KnowledgeBaseVectorSearchConfiguration - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_ManagedSearchConfiguration.html": {
+    "title": "ManagedSearchConfiguration - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Rerank.html": {
+    "title": "Rerank - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html": {
+    "title": "Retrieve - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html": {
+    "title": "RetrieveAndGenerate - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html": {
+    "title": "Converse - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html": {
+    "title": "Inference using Converse API - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/cost-mgmt-application-inference-profiles.html": {
+    "title": "Application inference profiles - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/encryption-kb.html": {
+    "title": "Encryption of knowledge base resources - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/evaluation-kb.html": {
+    "title": "Evaluate the performance of RAG sources using Amazon Bedrock evaluations - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-how.html": {
+    "title": "How Amazon Bedrock Guardrails works - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-test.html": {
+    "title": "Test your guardrail - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-use-converse-api.html": {
+    "title": "Include a guardrail with the Converse API - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html": {
+    "title": "Detect and filter harmful content by using Amazon Bedrock Guardrails - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-advanced-parsing.html": {
+    "title": "Parsing options for your data source - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-build-managed.html": {
+    "title": "Build a managed knowledge base - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-chunking.html": {
+    "title": "How content chunking works for knowledge bases - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-custom-transformation.html": {
+    "title": "Use a custom transformation Lambda function to define how your data is ingested - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-data-source-customize-ingestion.html": {
+    "title": "Customize ingestion for a data source - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html": {
+    "title": "Ingest changes directly into a knowledge base - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-how-it-works.html": {
+    "title": "How Amazon Bedrock knowledge bases work - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-create.html": {
+    "title": "Create a managed knowledge base - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-observability.html": {
+    "title": "Observability for managed knowledge bases - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-permissions.html": {
+    "title": "Create a service role for managed Amazon Bedrock Knowledge Bases - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-permissions.html": {
+    "title": "Create a service role for Amazon Bedrock Knowledge Bases - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-agentic-retrieve.html": {
+    "title": "Use agentic retrieval to query a knowledge base - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html": {
+    "title": "Configure and customize queries and response generation - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-retrieve-acl.html": {
+    "title": "ACL-aware retrieval on managed knowledge bases - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-retrieve.html": {
+    "title": "Query a knowledge base and retrieve data - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create.html": {
+    "title": "Create a knowledge base by connecting to a data source in Amazon Bedrock Knowledge Bases - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-eval-retrieve.html": {
+    "title": "Use metrics to understand RAG system performance - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup.html": {
+    "title": "Prerequisites for using a vector store you created for a knowledge base - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html": {
+    "title": "Supported models and Regions for Amazon Bedrock knowledge bases - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html": {
+    "title": "Retrieve data and generate AI responses with Amazon Bedrock Knowledge Bases - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html": {
+    "title": "Monitor model invocation using CloudWatch Logs and Amazon S3 - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html": {
+    "title": "Model lifecycle - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/models-api-compatibility.html": {
+    "title": "API compatibility - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring-runtime-metrics.html": {
+    "title": "Monitor bedrock-runtime inference using CloudWatch metrics - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html": {
+    "title": "Deploy a prompt to your application using versions in Prompt management - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/rerank-supported.html": {
+    "title": "Supported Regions and models for reranking in Amazon Bedrock - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/rerank.html": {
+    "title": "Improve the relevance of query responses with a reranker model in Amazon Bedrock - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/bedrock/latest/userguide/s3-data-source-connector.html": {
+    "title": "Connect to Amazon S3 for your knowledge base - Amazon Bedrock",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-configure-neural-search.html": {
+    "title": "Configure Neural Search and Hybrid Search on OpenSearch Serverless - Amazon OpenSearch Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html": {
+    "title": "Encryption in Amazon OpenSearch Serverless - Amazon OpenSearch Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-overview.html": {
+    "title": "What is Amazon OpenSearch Serverless? - Amazon OpenSearch Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-security.html": {
+    "title": "Overview of security in Amazon OpenSearch Serverless - Amazon OpenSearch Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless.html": {
+    "title": "Amazon OpenSearch Serverless - Amazon OpenSearch Service",
+    "authors": [
+      "Amazon Web Services"
+    ],
+    "year": "",
+    "kind": "web",
+    "checked": "2026年9月5日"
+  },
+  "https://doi.org/10.1016/0306-4573%2888%2990021-0": {
+    "title": "Term-weighting approaches in automatic text retrieval",
+    "authors": [
+      "Gerard Salton",
+      "Christopher Buckley"
+    ],
+    "year": "1988",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Information Processing &amp; Management",
+    "doi": "10.1016/0306-4573(88)90021-0"
+  },
+  "https://doi.org/10.1109/2.485845": {
+    "title": "Role-based access control models",
+    "authors": [
+      "R.S. Sandhu",
+      "E.J. Coyne",
+      "H.L. Feinstein",
+      "C.E. Youman"
+    ],
+    "year": "1996",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Computer",
+    "doi": "10.1109/2.485845"
+  },
+  "https://doi.org/10.1109/PROC.1975.9939": {
+    "title": "The protection of information in computer systems",
+    "authors": [
+      "J.H. Saltzer",
+      "M.D. Schroeder"
+    ],
+    "year": "1975",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the IEEE",
+    "doi": "10.1109/PROC.1975.9939"
+  },
+  "https://doi.org/10.1109/TPAMI.2010.57": {
+    "title": "Product Quantization for Nearest Neighbor Search",
+    "authors": [
+      "H Jégou",
+      "M Douze",
+      "C Schmid"
+    ],
+    "year": "2011",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+    "doi": "10.1109/TPAMI.2010.57"
+  },
+  "https://doi.org/10.1145/1281192.1281295": {
+    "title": "Practical guide to controlled experiments on the web",
+    "authors": [
+      "Ron Kohavi",
+      "Randal M. Henne",
+      "Dan Sommerfield"
+    ],
+    "year": "2007",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the 13th ACM SIGKDD international conference on Knowledge discovery and data mining",
+    "doi": "10.1145/1281192.1281295"
+  },
+  "https://doi.org/10.1145/3287560.3287598": {
+    "title": "Fairness and Abstraction in Sociotechnical Systems",
+    "authors": [
+      "Andrew D. Selbst",
+      "Danah Boyd",
+      "Sorelle A. Friedler",
+      "Suresh Venkatasubramanian",
+      "Janet Vertesi"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the Conference on Fairness, Accountability, and Transparency",
+    "doi": "10.1145/3287560.3287598"
+  },
+  "https://doi.org/10.1145/3805774": {
+    "title": "A Survey on Retrieval-Augmented Text Generation for Large Language Models",
+    "authors": [
+      "Yizheng Huang",
+      "Jimmy Xiangji Huang"
+    ],
+    "year": "2026",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "ACM Computing Surveys, 58(12), Article 300, pp. 1–38",
+    "doi": "10.1145/3805774"
+  },
+  "https://doi.org/10.1145/582415.582418": {
+    "title": "Cumulated gain-based evaluation of IR techniques",
+    "authors": [
+      "Kalervo Järvelin",
+      "Jaana Kekäläinen"
+    ],
+    "year": "2002",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "ACM Transactions on Information Systems",
+    "doi": "10.1145/582415.582418"
+  },
+  "https://doi.org/10.14778/2824032.2824076": {
+    "title": "The dataflow model",
+    "authors": [
+      "Tyler Akidau",
+      "Robert Bradshaw",
+      "Craig Chambers",
+      "Slava Chernyak",
+      "Rafael J. Fernández-Moctezuma",
+      "Reuven Lax",
+      "Sam McVeety",
+      "Daniel Mills",
+      "Frances Perry",
+      "Eric Schmidt",
+      "Sam Whittle"
+    ],
+    "year": "2015",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the VLDB Endowment",
+    "doi": "10.14778/2824032.2824076"
+  },
+  "https://doi.org/10.1561/1500000019": {
+    "title": "The Probabilistic Relevance Framework: BM25 and Beyond",
+    "authors": [
+      "Stephen Robertson",
+      "Hugo Zaragoza"
+    ],
+    "year": "2009",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Foundations and Trends® in Information Retrieval",
+    "doi": "10.1561/1500000019"
+  },
+  "https://ieeexplore.ieee.org/document/666900": {
+    "title": "On the resemblance and containment of documents",
+    "authors": [
+      "A.Z. Broder"
+    ],
+    "year": "None",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings. Compression and Complexity of SEQUENCES 1997 (Cat. No.97TB100171)",
+    "doi": "10.1109/SEQUEN.1997.666900"
+  },
+  "https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems": {
+    "title": "Hidden Technical Debt in Machine Learning Systems",
+    "authors": [
+      "Sculley, D.",
+      "Holt, Gary",
+      "Golovin, Daniel",
+      "Davydov, Eugene",
+      "Phillips, Todd",
+      "Ebner, Dietmar",
+      "Chaudhary, Vinay",
+      "Young, Michael",
+      "Crespo, Jean-François",
+      "Dennison, Dan"
+    ],
+    "year": "2015",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Advances in Neural Information Processing Systems"
+  },
+  "https://research.google/pubs/data-validation-for-machine-learning/": {
+    "title": "Data Validation for Machine Learning",
+    "authors": [
+      "Eric Breck",
+      "Marty Zinkevich",
+      "Neoklis Polyzotis",
+      "Steven Whang",
+      "Sudip Roy"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日"
+  },
+  "https://research.google/pubs/flumejava-easy-efficient-data-parallel-pipelines/": {
+    "title": "FlumeJava: Easy, Efficient Data-Parallel Pipelines",
+    "authors": [
+      "Craig Chambers",
+      "Ashish Raniwala",
+      "Frances Perry",
+      "Stephen Adams",
+      "Robert Henry",
+      "Robert Bradshaw",
+      "Nathan"
+    ],
+    "year": "2010",
+    "kind": "paper",
+    "checked": "2026年9月5日"
+  },
+  "https://research.google/pubs/the-ml-test-score-a-rubric-for-ml-production-readiness-and-technical-debt-reduction/": {
+    "title": "The ML Test Score: A Rubric for ML Production Readiness and Technical Debt Reduction",
+    "authors": [
+      "Eric Breck",
+      "Shanqing Cai",
+      "Eric Nielsen",
+      "Michael Salib",
+      "D. Sculley"
+    ],
+    "year": "2017",
+    "kind": "paper",
+    "checked": "2026年9月5日"
+  },
+  "https://research.google/pubs/the-tail-at-scale/": {
+    "title": "The Tail at Scale",
+    "authors": [
+      "Jeffrey Dean",
+      "Luiz André Barroso"
+    ],
+    "year": "2013",
+    "kind": "paper",
+    "checked": "2026年9月5日"
+  },
+  "https://www.microsoft.com/en-us/research/publication/diskann-fast-accurate-billion-point-nearest-neighbor-search-on-a-single-node/": {
+    "title": "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node",
+    "authors": [
+      "Suhas Jayaram Subramanya",
+      "Devvrit",
+      "Rohan Kadekodi",
+      "Ravishankar Krishnaswamy",
+      "Harsha Simhadri"
+    ],
+    "year": "2019",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "NeurIPS 2019"
+  },
+  "https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-extracting": {
+    "title": "Extracting Training Data from Large Language Models",
+    "authors": [
+      "Nicholas Carlini",
+      "Florian Tramèr",
+      "Eric Wallace",
+      "Matthew Jagielski",
+      "Ariel Herbert-Voss",
+      "Katherine Lee",
+      "Adam Roberts",
+      "Tom Brown",
+      "Dawn Song",
+      "Úlfar Erlingsson",
+      "Alina Oprea",
+      "Colin Raffel"
+    ],
+    "year": "2021",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "30th USENIX Security Symposium (USENIX Security 21)"
+  },
+  "https://www.vldb.org/pvldb/vol13/p3411-armbrust.pdf": {
+    "title": "Delta Lake: High-Performance ACID Table Storage over Cloud Object Stores",
+    "authors": [
+      "Michael Armbrust",
+      "Tathagata Das",
+      "Liwen Sun",
+      "Burak Yavuz",
+      "Shixiong Zhu",
+      "Mukul Murthy",
+      "Joseph Torres",
+      "Herman van Hovell",
+      "Adrian Ionescu",
+      "Alicja Łuszczak",
+      "Michał Świtakowski",
+      "Michał Szafrański",
+      "Xiao Li",
+      "Takuya Ueshin",
+      "Mostafa Mokhtar",
+      "Peter Boncz",
+      "Ali Ghodsi",
+      "Sameer Paranjpye",
+      "Pieter Senster",
+      "Reynold Xin",
+      "Matei Zaharia"
+    ],
+    "year": "2020",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the VLDB Endowment, 13(12), pp. 3411–3424"
+  },
+  "https://www.vldb.org/pvldb/vol6/p1033-akidau.pdf": {
+    "title": "MillWheel: Fault-Tolerant Stream Processing at Internet Scale",
+    "authors": [
+      "Tyler Akidau",
+      "Alex Balikov",
+      "Kaya Bekiroğlu",
+      "Slava Chernyak",
+      "Josh Haberman",
+      "Reuven Lax",
+      "Sam McVeety",
+      "Daniel Mills",
+      "Paul Nordstrom",
+      "Sam Whittle"
+    ],
+    "year": "2013",
+    "kind": "paper",
+    "checked": "2026年9月5日",
+    "venue": "Proceedings of the VLDB Endowment, 6(11), pp. 1033–1044"
+  }
+}

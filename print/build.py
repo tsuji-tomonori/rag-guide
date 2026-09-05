@@ -7,6 +7,8 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
+from publication import Publication
+from figures import main as build_figures
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -97,7 +99,7 @@ def referenced_images(
                         f"Missing figure referenced by {markdown_path}: {source}"
                     )
 
-                previous = source_by_basename.get(source.name)
+                previous = source_by_basename.get(source.stem)
                 if previous is not None and previous != source:
                     raise RuntimeError(
                         "Figure basename collision: "
@@ -105,17 +107,24 @@ def referenced_images(
                         f"{source.relative_to(ROOT)} would both become "
                         f"print/build/images/{source.name}"
                     )
-                source_by_basename[source.name] = source
+                source_by_basename[source.stem] = source
                 references.append(source)
 
     return references, list(source_by_basename.values())
 
 
-def normalize_markdown(path: Path, is_introduction: bool) -> str:
+def normalize_markdown(path: Path, is_introduction: bool, publication: Publication) -> str:
     """Shift section files below chapters and normalize generated assets."""
     output: list[str] = []
     in_fence = False
-    for line in path.read_text(encoding="utf-8").splitlines():
+    table: list[str] = []
+    for line in path.read_text(encoding="utf-8").splitlines() + [""]:
+        if not in_fence and line.startswith("|"):
+            table.append(line)
+            continue
+        if table:
+            output.append(publication.table(table))
+            table = []
         if line.startswith("```"):
             in_fence = not in_fence
             output.append(line)
@@ -128,13 +137,17 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
                     marks += "#"
                 title = NUMBER_PREFIX_RE.sub("", title)
                 line = f"{marks} {title}"
+                output.append(line)
+                output.append("\n" + publication.indexes(title, heading=True) + "\n")
+                continue
             line = IMAGE_RE.sub(
                 lambda match: (
                     f"![{match.group('alt')}]"
-                    f"(print/build/images/{Path(match.group('path')).name})"
+                    f"(print/build/images/{Path(match.group('path')).stem}.png)"
                 ),
                 line,
             )
+            line = publication.prose(line)
         output.append(line)
     normalized = "\n".join(output).rstrip() + "\n"
     return IMAGE_CAPTION_RE.sub(
@@ -153,7 +166,7 @@ def render_grayscale_images(sources: list[Path]) -> None:
         shutil.rmtree(IMAGE_DIR)
     IMAGE_DIR.mkdir(parents=True, exist_ok=True)
     for source in sources:
-        destination = IMAGE_DIR / source.name
+        destination = IMAGE_DIR / (source.stem + ".png")
         subprocess.run(
             [
                 "ffmpeg",
@@ -172,12 +185,14 @@ def render_grayscale_images(sources: list[Path]) -> None:
 
 def main() -> None:
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
+    build_figures()
     markdown_sources = ordered_sources()
+    publication = Publication(markdown_sources)
     image_references, unique_images = referenced_images(markdown_sources)
     render_grayscale_images(unique_images)
     sections = []
     for path, is_introduction in markdown_sources:
-        sections.append(normalize_markdown(path, is_introduction))
+        sections.append(normalize_markdown(path, is_introduction, publication))
         sections.append("\n")
     combined = "\n".join(sections)
     reference_count = len(image_references)
@@ -195,6 +210,7 @@ def main() -> None:
             f"found {reference_count} references but {caption_count} captions"
         )
     COMBINED_MD.write_text(combined, encoding="utf-8")
+    publication.write(BUILD_DIR)
     print(f"Wrote {COMBINED_MD.relative_to(ROOT)}")
     print(
         f"Wrote {len(unique_images)} grayscale figures "

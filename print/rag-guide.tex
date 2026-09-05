@@ -11,16 +11,34 @@
 
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{adjustbox}
+\usepackage{longtable}
+\usepackage{needspace}
+\usepackage{array}
+\usepackage{makeidx}
 \usepackage{etoolbox}
 \usepackage{fancyvrb}
+\usepackage{fvextra}
 \usepackage{enumitem}
 \usepackage{indentfirst}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{xurl}
 \usepackage[hidelinks,bookmarksnumbered=true,pdfencoding=auto]{hyperref}
-\usepackage[cacheDir=print/build/markdown-cache,pipeTables,fencedCode,smartEllipses]{markdown}
+\usepackage[cacheDir=print/build/markdown-cache,pipeTables,fencedCode,smartEllipses,hybrid]{markdown}
+\makeindex
+\renewcommand{\indexname}{索引}
+\newcommand{\ragcite}[1]{\raisebox{0.6ex}{\fontsize{7}{8}\selectfont\hyperref[ref:#1]{[#1]}}}
+\ExplSyntaxOn
+\NewDocumentCommand{\ragcode}{m}
+  {{\ttfamily\small\tl_map_inline:nn {#1} {##1\allowbreak}}}
+\ExplSyntaxOff
+\renewcommand\markdownRendererCodeSpanPrototype[1]{\ragcode{#1}}
+% The bibliography owns URLs; inline links do not also create URL footnotes.
+\def\markdownRendererLinkPrototype{%
+  \begingroup
+  \catcode`\#=12
+  \def\next##1##2##3##4{\href{##3}{##1}\endgroup}%
+  \next}
 
 \hypersetup{
   pdftitle={RAGエンジニアリングガイド},
@@ -33,6 +51,7 @@
 \setlength{\emergencystretch}{3em}
 \raggedbottom
 \setlist{nosep,leftmargin=2em,topsep=0.5\baselineskip}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
 \Urlmuskip=0mu plus 1mu\relax
 
 \titleformat{\chapter}[display]
@@ -64,9 +83,10 @@
   \renewcommand{\headrulewidth}{0pt}
 }
 
-% Keep a Markdown table with the bold table title immediately above it.
-\BeforeBeginEnvironment{tabular}{\par\nopagebreak[4]\begin{adjustbox}{max width=\linewidth,center}\small}
-\AfterEndEnvironment{tabular}{\end{adjustbox}}
+% Tables use wrapping cells and repeat their header across page breaks.
+\setlength{\LTpre}{0.5\baselineskip}
+\setlength{\LTpost}{0.5\baselineskip}
+\renewcommand{\arraystretch}{1.3}
 
 \renewcommand\markdownRendererImagePrototype[4]{%
   \par\medskip\noindent
@@ -101,27 +121,39 @@
     \small
     外部知識の準備から検索、根拠整形、回答生成、評価、安全な運用、
     高度化までを一つのシステムとして扱う実務資料。
-  \end{minipage}
+  \end{minipage}\par
   \vspace{18mm}
-  {\sffamily 2026年7月\par}
+  {\noindent\sffamily 2026年9月5日 改訂\par}
 \end{titlepage}
 
 \chapter*{本書について}
 \addcontentsline{toc}{chapter}{本書について}
-本書は、RAGを単なる「検索とLLMの組み合わせ」ではなく、
-データ、検索、生成、評価、セキュリティ、運用から成るシステムとして設計するためのガイドです。
-本文は白黒で読みやすく組版し、図版も印刷に適したグレースケールへ変換しています。
+本書は、外部資料を検索して回答を作るRAGの入門書です。
+資料の準備、検索、根拠の選別、回答の生成を、順に学びます。
+品質の評価、安全な運用、AWSでの設計も扱います。
+
+初めて学ぶ方は、第1章と第2章で全体像をつかんでください。
+第3章から第6章では、各工程の仕組みと具体例を説明します。
+第7章と第8章では、品質を確かめ、継続して使う方法を学びます。
+第9章は、基本構成で残った課題に応じて読む章です。
+第10章では、各工程をAWSの機能へ対応づけます。
+
+実験結果は、その研究で使った資料とモデルの条件に沿って紹介します。
+業務向けの設定例は、対象の質問で比較するための出発点です。
+本文の文献番号から参考文献へ、索引のページ番号から用語の説明へ移動できます。
 
 \tableofcontents
 \mainmatter
 \markdownInput{print/build/rag-guide.md}
 \backmatter
+\input{print/build/references.tex}
+\cleardoublepage
+\printindex
 \chapter*{奥付}
 \addcontentsline{toc}{chapter}{奥付}
 \begin{description}[leftmargin=7em,labelwidth=6em]
   \item[書名] RAGエンジニアリングガイド
-  \item[版] 2026年7月版
-  \item[組版] LuaLaTeX / LuaTeX-ja
-  \item[判型] A4判・モノクロ
+  \item[版] 2026年9月改訂版
+  \item[改訂日] 2026年9月5日
 \end{description}
 \end{document}
