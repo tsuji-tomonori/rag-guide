@@ -57,17 +57,19 @@ jobs:
           root_file: print/rag-guide.tex
           os: debian
           extra_system_packages: >-
-            python3 ffmpeg fonts-noto-cjk fonts-noto-cjk-extra
+            python3 ffmpeg poppler-utils fonts-noto-cjk fonts-noto-cjk-extra
             fonts-dejavu-core fonts-texgyre
           pre_compile: |
+            python3 -m unittest discover -s print -p 'test_*.py'
             python3 print/build.py
             mkdir -p print/build/latex dist
           latexmk_use_lualatex: true
           args: >-
             -pdf -file-line-error -halt-on-error -interaction=nonstopmode
             -outdir=print/build/latex
-          post_compile: >-
+          post_compile: |
             cp print/build/latex/rag-guide.pdf dist/rag-engineering-guide.pdf
+            python3 print/audit_pdf.py dist/rag-engineering-guide.pdf
 
       - name: Verify PDF
         run: test -s "$PDF_PATH"

@@ -52,3 +52,6 @@ _apalache-out/
 # Python bytecode
 __pycache__/
 *.py[cod]
+
+# Print pipeline bytecode cache
+print/__pycache__/

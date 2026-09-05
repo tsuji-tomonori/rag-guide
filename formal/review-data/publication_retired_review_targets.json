@@ -1,0 +1,706 @@
+{
+  "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+  "retired_exact_wordings": [
+    {
+      "baseline_sentence_id": "SENT-0105",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "| Managed Knowledge Base | Retrieve、またはgenerateResponse=falseのAgenticRetrieveStream | AgenticRetrieveStreamで生成するか、検索結果をConverseへ渡します | RetrieveAndGenerateは利用しません |",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0109",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "重複排除、独自reranking、矛盾処理、Evidence Set、claim単位の検査を入れる場合は、Retrieve → Lambdaなどの検索後処理 → Converseへ分けます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0110",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "[根拠整形](../5.根拠を選別・整形する/序文.md)の必須処理をKnowledge Bases設定だけで表現できない場合は、RetrieveとConverseの間に独自処理を分離します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0113",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "疎検索が必要な構成では、別の検索器と結果統合を組み合わせます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0114",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "Amazon OpenSearch Serverlessを密検索・疎検索・hybrid検索の候補に入れる前に、対象regionで三つの検索modeを実行するsmoke testを通します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0116",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "Amazon Aurora PostgreSQLを使う構成では、dense vectorとrelational dataを同じdatabase境界で管理できます。対応versionとvector機能は利用時点の公式仕様で確認します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0117",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "Knowledge Basesのhybrid searchは、利用時点の対象リージョンと接続方式の公式仕様で対応を確認し、必要なfilterable text fieldを構成できる場合に限って利用します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0118",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "MongoDB Atlasは、Knowledge Bases接続でsemantic検索とhybrid検索の両経路を実行検証できた場合だけ候補storeへ残します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0123",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "Bedrock Knowledge BasesでS3 Vectorsを使う構成はhybrid searchに対応しないため、語彙一致が必要ならOpenSearch Serverlessを選ぶか、別系統で得たBM25結果とS3 Vectors結果を[Hybrid retrieval](../4.質問に合う根拠を探す/4.5.Hybrid retrieval.md)で定義したRRFまたはrerankerで統合します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0124",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "Knowledge Basesのhybrid searchについては、AWSのユーザーガイドと一部のAPI Referenceで対応storeの記述が一致しない差異を想定し、実装時は採用するAPIの公式仕様と実行結果を一致させます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0131",
+      "file": "docs/10.AWSで設計・実装する/10.1.構成方式を選ぶ.md",
+      "historical_target": "固有名詞、製品コード、条文番号などで語彙一致の取りこぼしが再現した場合に、対応storeのHYBRID、複数検索器、またはManaged Knowledge Baseへ進みます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0136",
+      "file": "docs/10.AWSで設計・実装する/10.2.Embeddingとvector indexを設定する.md",
+      "historical_target": "Knowledge Basesで使うembedding modelとregionの組合せはdeployment manifestに固定し、作成前のAPI検証を必須とします。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0137",
+      "file": "docs/10.AWSで設計・実装する/10.2.Embeddingとvector indexを設定する.md",
+      "historical_target": "日本語を含む場合は、Cohere Embed Multilingual v3を比較対象に含めます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0138",
+      "file": "docs/10.AWSで設計・実装する/10.2.Embeddingとvector indexを設定する.md",
+      "historical_target": "Titan Text Embeddings V2も候補にし、日本語のgold queryでRecall@kを直接比較します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0141",
+      "file": "docs/10.AWSで設計・実装する/10.2.Embeddingとvector indexを設定する.md",
+      "historical_target": "Titan Text Embeddings V2のdimensionは1024、512、256のいずれかをindex単位で固定し、queryとdocumentで同じ値を使います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0150",
+      "file": "docs/10.AWSで設計・実装する/10.2.Embeddingとvector indexを設定する.md",
+      "historical_target": "S3 Vector index単体の初期構成は、Titan Text Embeddings V2の1024次元float vectorとcosine metricを一組としてmanifestへ登録します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0152",
+      "file": "docs/10.AWSで設計・実装する/10.2.Embeddingとvector indexを設定する.md",
+      "historical_target": "S3 Vector indexの設定に従い、正規化vectorにはcosineを初期値とし、magnitudeも意味を持つmodelではeuclideanを比較します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0155",
+      "file": "docs/10.AWSで設計・実装する/10.2.Embeddingとvector indexを設定する.md",
+      "historical_target": "Knowledge Basesへ既存indexを接続するときは、embeddingのdimensionとindexのdimensionが一致することを確認します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0156",
+      "file": "docs/10.AWSで設計・実装する/10.2.Embeddingとvector indexを設定する.md",
+      "historical_target": "OpenSearch Serverlessを接続する場合は、vector field、filterableなtext field、filter対象のmetadata field、Bedrockが管理するmetadata fieldの名前も接続設定と同じmanifestへ記録します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0158",
+      "file": "docs/10.AWSで設計・実装する/10.3.取り込み経路を構成する.md",
+      "historical_target": "標準経路は、S3 → Knowledge Bases data source sync → parser → chunking → embedding → vector storeです。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0160",
+      "file": "docs/10.AWSで設計・実装する/10.3.取り込み経路を構成する.md",
+      "historical_target": "表、図、複雑なlayoutを検索対象にする場合は、高度な文書解析のBedrock Data Automationまたはfoundation model parserを比較します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0163",
+      "file": "docs/10.AWSで設計・実装する/10.3.取り込み経路を構成する.md",
+      "historical_target": "標準処理で出典位置や業務上の検索単位を保てない場合は、custom transformation Lambdaでchunkとmetadataを返します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0164",
+      "file": "docs/10.AWSで設計・実装する/10.3.取り込み経路を構成する.md",
+      "historical_target": "Knowledge Basesのchunking方式はdefault、fixed-size、hierarchical、semantic、no chunkingを候補集合とし、選択した方式をdata source単位で固定します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0166",
+      "file": "docs/10.AWSで設計・実装する/10.3.取り込み経路を構成する.md",
+      "historical_target": "overlapは0%と10%程度を比較し、境界をまたぐ正解根拠のRecallと重複率で選びます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0171",
+      "file": "docs/10.AWSで設計・実装する/10.3.取り込み経路を構成する.md",
+      "historical_target": "親子関係はmetadataを増やすため、S3 Vectorsでは1 KBのcustom metadata上限を超えないことを先に確認します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0177",
+      "file": "docs/10.AWSで設計・実装する/10.3.取り込み経路を構成する.md",
+      "historical_target": "対象document数、生成chunk数、parse失敗、metadata欠損、削除反映、固定queryのRecallを記録し、[Publish前ゲート](../3.回答に使う資料を準備する/3.8.Publish前ゲート.md)と[Pre-retrieval・Batch評価](../7.品質を評価し改善する/7.3.Pre-retrieval・Batch評価.md)の基準を満たしたindexだけを検索先にします。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0185",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "filterable text fieldを使うKnowledge Bases構成では、OpenSearch Serverless、Aurora PostgreSQL、MongoDB Atlasを候補表へ分けて登録し、実装するstoreだけを接続試験します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0186",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "一方、KnowledgeBaseVectorSearchConfiguration APIにはOpenSearch Serverlessだけを挙げる記述が残る差異を想定し、実装時は採用するAPIの公式仕様と実行結果を一致させます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0189",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "S3 Vectorsなど疎検索を提供しないstoreではSEMANTICを使います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0190",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "OpenSearch ServerlessでHYBRIDを使う場合は、利用時点のKnowledge Bases公式仕様で対応を確認し、faiss engine、埋め込みモデルと同じ次元のvector field、filterableな本文field、filter対象metadata field、Bedrock管理metadata fieldをmanifestへ固定します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0197",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "Bedrock Knowledge BasesでS3 Vectorsを使う構成はsemantic searchとmetadata filterに対応し、hybrid searchには対応しません。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0198",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "固有名詞や識別子の取りこぼしがある場合は、S3 VectorsへHYBRID指定を送るのではなく、次のいずれかを選びます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0199",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "vector storeをOpenSearch Serverlessなど、Knowledge BasesのHYBRIDへ対応するstoreへ変更します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0200",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "S3 Vectorsのsemantic結果とOpenSearchのBM25結果を別々に取得し、LambdaでRRFを適用します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0201",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "sparse結果とdense結果をまとめてBedrock rerankerへ渡します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0203",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "複数検索器のscoreは尺度が異なるため直接加算せず、正規化、順位統合、または再順位付けのいずれかを事前に定めて用います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0204",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "RRFでは各検索器の順位を使い、rerankerでは統合後のcandidate本文を再評価します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0206",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "疎検索器と密検索器には同じ安定したchunk IDを登録し、本文、文書版、filter metadata、アクセス制御属性を一対一で対応付けます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0208",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "初期比較ではdenseとBM25を各20件、統合後を20件、rerank後を5件とし、各retrieverのcandidate数、timeout、zero-result、失敗時の扱いを独立に記録します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0212",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "equals、in、greaterThan、listContainsなどの候補はRetrievalFilter APIで確認します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0213",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "startsWith条件を使うqueryはOpenSearch Serverless経路へだけrouteし、他のstoreへは同じoperatorを送信しません。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0215",
+      "file": "docs/10.AWSで設計・実装する/10.4.検索経路を構成する.md",
+      "historical_target": "S3 Vectorsを直接queryする場合は、S3 Vectorsのmetadata filterに記載されたoperatorだけを使います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0224",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "RetrieveAndGenerateを使う一体経路はカスタマーマネージド型Knowledge Baseに限定します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0225",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "Managed Knowledge BaseではRetrieve、またはgenerateResponse=falseのAgenticRetrieveStreamでsource chunkとtraceを取得し、独自のEvidence Setを作る場合は検索後処理を経てConverseへ渡します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0226",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "探索から回答生成までをManaged Knowledge Baseへ委ねる場合は、generateResponse=trueのAgenticRetrieveStreamを使います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0227",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "カスタマーマネージド型でKnowledge Basesの標準引用と生成が要件を満たす場合はRetrieveAndGenerateを使います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0228",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "検索結果の重複、版、矛盾、根拠不足を独自に検査する場合は、Retrieve → LambdaでEvidence Set作成 → Converseへ分けます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0232",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "分離型では、Retrieveのtext、location、metadata、scoreを受け取り、citation_id、chunk_id、document_id、version、source_uri、retrieval_rank、textへ正規化します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0235",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "各根拠を ... のように識別し、回答の各主張へE01形式のcitation IDを付けるようにします。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0240",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "JSON Schemaで出力を制約できるmodelとregionは利用時点の対応状況を確認し、非対応の場合もアプリケーション側で同じschemaを検証します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0242",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "生成後ゲートでは、未知のcitation ID、citationのない検証可能な主張、取得本文に支持されない主張を別々に検出し、一件でも該当すれば公開候補から外します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0244",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "Amazon Bedrock Guardrailsは有害内容と機密情報の検査に限定し、根拠支持と文書ACLはEvidence検査と検索filterで別に判定します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0245",
+      "file": "docs/10.AWSで設計・実装する/10.5.根拠整形と生成を接続する.md",
+      "historical_target": "RAG固有のcitation検査、claim support、answerabilityは[根拠に基づく回答](../6.根拠に基づいて回答する/序文.md)の基準で別に実装します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0246",
+      "file": "docs/10.AWSで設計・実装する/10.6.評価と運用を接続する.md",
+      "historical_target": "評価データをS3へ置き、Knowledge BaseのRAG評価で検索だけの評価と、検索から生成までの評価を分けます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0247",
+      "file": "docs/10.AWSで設計・実装する/10.6.評価と運用を接続する.md",
+      "historical_target": "Bedrock Evaluationsの結果に加え、[品質評価](../7.品質を評価し改善する/序文.md)で定義したgold evidence、回答保留、citation correctnessを同じdataset IDへ結び付けます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0257",
+      "file": "docs/10.AWSで設計・実装する/10.6.評価と運用を接続する.md",
+      "historical_target": "初期の公開基準例は、gold evidenceに対するRecall@20、rerank後の上位5件のcoverage、citation correctness、answerable判定、p95 latency、質問当たり費用です。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0265",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "semantic検索の最小AWS経路をS3からKnowledge Bases、S3 Vectors、Retrieve、Converseの順に接続します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0266",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "初期baselineはTitan Text Embeddings V2の1024次元float32、cosine、約300 tokenのdefault chunk、Retrieve 20件、rerank後5件で開始します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0268",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "AWS managed hybrid経路はS3、Knowledge Bases、hybrid対応vector store、Retrieve(HYBRID)、reranker、Converseの順に接続します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0269",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "Amazon OpenSearch Serverlessを使う場合、indexはfaiss engineで作成し、embedding modelと同じdimensionのvector field、raw chunkを保存するfilterableなtext field、filter対象metadata、Bedrock metadata fieldを定義します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0274",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "固有名詞、識別子、表記揺れを含むqueryでRecallが改善するかを同じcandidate数で確認します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0275",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "独自hybrid経路はLambdaからS3 Vectorsのdense検索とOpenSearchのBM25を並行実行し、RRF、reranker、Evidence Set、Converseの順に処理します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0276",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "vector保存とsemantic検索はS3 Vectorsへ置き、語彙一致が必要なqueryは別の疎検索器へ送り、候補をIDで統合します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0277",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "dense検索器と疎検索器には同じchunk_id、version、filter metadata、ACLを登録し、追加・更新・削除イベントを両方へ同じ順序で反映します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0278",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "初期値として各20件を取得し、RRFで20件へ統合してから5件へrerankします。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0279",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "denseのみ、BM25のみ、統合後を別々に記録し、各retrieverのtimeoutと部分失敗も評価します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0280",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "複合検索経路はLambdaまたはStep FunctionsからKnowledge Bases、Athena/Aurora/Redshift、Neptune Analyticsを呼び、結果をEvidence Setへ正規化してConverseへ渡します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0282",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "検索器ごとの生スコアは直接加算せず、各候補をcitation_id、chunk_id、document_id、version、source_uri、retrieval_rank、text、roleを持つEvidence Setへ正規化します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0289",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "表の値を答えるquery、図を探すquery、ページ全体の意味を問うqueryで評価し、text-onlyの基準を上回る処理だけを残します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0290",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "Multimodal Knowledge Baseの対応parser、model、image保存先を実装時に確認します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0293",
+      "file": "docs/10.AWSで設計・実装する/10.7.構成パターン.md",
+      "historical_target": "Managed Knowledge BaseではRetrieveAndGenerateを使用せず、検索にRetrieveまたはAgenticRetrieveStreamを使います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0299",
+      "file": "docs/10.AWSで設計・実装する/序文.md",
+      "historical_target": "Amazon Bedrock Knowledge Basesを中心に、取り込み、検索、根拠整形、生成、評価をどこまでマネージド機能へ任せ、どこから独自処理へ分けるかを扱います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-0304",
+      "file": "docs/10.AWSで設計・実装する/序文.md",
+      "historical_target": "embedding modelと次元、chunking、vector store、検索方式、候補数、metadata filter、reranking、Evidence Set、生成、評価を対象とします。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-1028",
+      "file": "docs/3.回答に使う資料を準備する/3.6.Embedding設計.md",
+      "historical_target": "図3-3は、左側で文章をベクトルへ変換し、右側で質問に近い文書を候補として選ぶ流れとして読みます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-1564",
+      "file": "docs/4.質問に合う根拠を探す/4.4.Dense retrieval.md",
+      "historical_target": "本ガイドでは、図4-5を「上段の質問と下段の各文書を別々の符号化器でベクトルへ変換し、中央右の類似度で比べる流れ」として用います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-1683",
+      "file": "docs/4.質問に合う根拠を探す/4.5.Hybrid retrieval.md",
+      "historical_target": "本ガイドでは、図4-6を「左側の疎検索と密検索が作った二つの順位表を、右へ向かって統合する流れ」として用います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-3002",
+      "file": "docs/7.品質を評価し改善する/7.6.Generation評価.md",
+      "historical_target": "引用網羅性は検証可能な主張を分母とし、接続文や操作案内へ付けた不要な引用を改善として数えません。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-3222",
+      "file": "docs/8.安全に運用する/8.1.セキュリティと権限制御.md",
+      "historical_target": "権限のないチャンクは、上位候補へ取得してから表示だけを隠すのではなく、検索前または検索中に候補集合から除きます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-3772",
+      "file": "docs/9.失敗パターンに応じて高度化する/9.11.高度化の導入判断表.md",
+      "historical_target": "導入前にfailureを固定datasetとtraceで再現し、期待改善、guardrail metric、最大latency、cost budget、security条件を決めます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-3774",
+      "file": "docs/9.失敗パターンに応じて高度化する/9.11.高度化の導入判断表.md",
+      "historical_target": "高度化後も改善が再現しない、別sliceを悪化させる、運用負荷やsecurity riskが許容範囲を超える場合は採用を止めます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4187",
+      "file": "docs/9.失敗パターンに応じて高度化する/9.9.Agentic RAG.md",
+      "historical_target": "図9-7は、生成モデルの提案を、ツール台帳、引数検証、サーバー側認可、必要な場合の人の承認、実行の順に通す設計として読みます。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4227",
+      "file": "docs/9.失敗パターンに応じて高度化する/序文.md",
+      "historical_target": "本章では、代表研究が一定数引用され、複数の査読付き研究で効果が確認できる方式だけを扱います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4229",
+      "file": "docs/9.失敗パターンに応じて高度化する/序文.md",
+      "historical_target": "件数を再調査するときは、取得元、検索式、論文のcanonical ID、取得時刻、保存した生応答への相対パスとSHA-256を evidence/chapter-9-citation-counts/ に残します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4230",
+      "file": "docs/9.失敗パターンに応じて高度化する/序文.md",
+      "historical_target": "掲載判断では、引用件数だけでなく、独立研究、対象タスク、比較条件、査読状況を確認します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4252",
+      "file": "docs/章構成.md",
+      "historical_target": "アルゴリズムの有効性を述べる場合は、原則として査読付き論文を根拠にします。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4253",
+      "file": "docs/章構成.md",
+      "historical_target": "セキュリティ、運用、ガバナンスは、査読付き研究に加えて、標準、政府機関、公式製品文書を根拠にし、「必ず有効」と断定せず、推奨する統制と残余リスクを示します。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4254",
+      "file": "docs/章構成.md",
+      "historical_target": "第9章では、代表研究が一定数引用され、複数の査読付き研究で効果が確認できる方式を扱います。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4256",
+      "file": "docs/章構成.md",
+      "historical_target": "引用件数のように変動する値を記録する場合は、確認日だけでなく、取得元、検索式、論文のcanonical ID、取得時刻、保存した生応答への相対パスとSHA-256を証跡へ残し、本文の採否を件数だけで決めません。",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4372",
+      "file": "docs/索引.md",
+      "historical_target": "埋め込み（Embedding）：[Embedding設計](3.回答に使う資料を準備する/3.6.Embedding設計.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4385",
+      "file": "docs/索引.md",
+      "historical_target": "再順位付け（Reranking）：[Reranking](5.根拠を選別・整形する/5.3.Reranking.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4387",
+      "file": "docs/索引.md",
+      "historical_target": "疎検索（Sparse retrieval）：[Sparse retrieval](4.質問に合う根拠を探す/4.3.Sparse retrieval.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4389",
+      "file": "docs/索引.md",
+      "historical_target": "チャンク分割（Chunking）：[Chunking設計](3.回答に使う資料を準備する/3.4.Chunking設計.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4394",
+      "file": "docs/索引.md",
+      "historical_target": "ハイブリッド検索（Hybrid retrieval）：[Hybrid retrieval](4.質問に合う根拠を探す/4.5.Hybrid retrieval.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4398",
+      "file": "docs/索引.md",
+      "historical_target": "密検索（Dense retrieval）：[Dense retrieval](4.質問に合う根拠を探す/4.4.Dense retrieval.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4407",
+      "file": "docs/索引.md",
+      "historical_target": "ANN（Approximate Nearest Neighbor、近似最近傍探索）：[Index構築とライフサイクル](3.回答に使う資料を準備する/3.7.Index構築とライフサイクル.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4410",
+      "file": "docs/索引.md",
+      "historical_target": "HNSW（Hierarchical Navigable Small World）：[Index構築とライフサイクル](3.回答に使う資料を準備する/3.7.Index構築とライフサイクル.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4413",
+      "file": "docs/索引.md",
+      "historical_target": "MMR（Maximal Marginal Relevance、最大周辺関連性）：[重複排除とDiversity](5.根拠を選別・整形する/5.2.重複排除とDiversity.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4415",
+      "file": "docs/索引.md",
+      "historical_target": "RRF（Reciprocal Rank Fusion、相互順位統合）：[Query変換](4.質問に合う根拠を探す/4.2.Query変換.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4417",
+      "file": "docs/索引.md",
+      "historical_target": "SLO（Service Level Objective、サービス水準目標）：[Regression・A-B・Canary](7.品質を評価し改善する/7.8.Regression・A-B・Canary.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    },
+    {
+      "baseline_sentence_id": "SENT-4418",
+      "file": "docs/索引.md",
+      "historical_target": "TF-IDF（Term Frequency-Inverse Document Frequency、単語頻度・逆文書頻度）：[Sparse retrieval](4.質問に合う根拠を探す/4.3.Sparse retrieval.md)",
+      "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+      "reason": "Exact historical wording absent; new wording receives no inherited reviewer approval."
+    }
+  ],
+  "boundary": "Historical decisions and reviewer signoffs remain unchanged. This is not a fresh independent review."
+}
