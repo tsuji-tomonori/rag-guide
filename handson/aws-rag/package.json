@@ -11,7 +11,7 @@
     "predev": "node scripts/prepare-guide.mjs",
     "prebuild": "node scripts/prepare-guide.mjs",
     "precheck": "node scripts/prepare-guide.mjs",
-    "test:site": "node scripts/check-site.mjs && node scripts/check-search.mjs"
+    "test:site": "node scripts/check-site.mjs && node scripts/check-search.mjs && node scripts/check-seminar.mjs && node scripts/check-seminar-controls.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.2.2",

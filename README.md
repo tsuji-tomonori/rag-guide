@@ -43,6 +43,24 @@ Web本文はビルド時に `docs/` と `docs/章構成.md` から生成しま�
 本文や図版を修正すると、GitHub ActionsがWeb版を再生成・公開します。
 PDFは従来どおり `docs/` を入力として、上記のPDF生成・Release手順で利用できます。
 
+## 社内勉強会スライド
+
+[社内勉強会の案内](https://tsuji-tomonori.github.io/rag-guide/seminar/)から、
+30〜40分用・全22枚の[発表スライド](https://tsuji-tomonori.github.io/rag-guide/slides/rag-intro/)を開けます。
+四工程・二層を中心に、主要技術、評価・セキュリティ・非機能、AWSへつなぎます。
+キーボード操作、全画面、目次、スライドごとのURL、印刷に対応します。
+別ウィンドウの発表者画面には説明ノート・次のスライド・30分／40分の時間配分・タイマーを表示し、投影画面と同期します。
+
+編集元は `handson/aws-rag/` 配下の次のファイルです。
+
+- 内容・ノート・出典・時間配分: `src/data/rag-seminar.ts`
+- 表示: `src/pages/slides/rag-intro.astro`
+- 操作: `src/scripts/seminar.ts`
+- スタイル: `src/styles/seminar.css`
+
+本文 `docs/` の更新時にはスライドの説明・出典も見直してください。
+`npm run build && npm run test:site` で既存ページに加えてスライド・時間配分・参照リンクを検証します。
+
 ## AWS RAGハンズオン
 
 `handson/aws-rag/`には、AWS CLIからAmazon Bedrock Knowledge Bases、S3 Vectors、S3、Converseを構築するAstro Starlight教材があります。各操作の直後にread-onlyの検証コマンドを実行し、期待状態を確認してから次へ進む構成です。

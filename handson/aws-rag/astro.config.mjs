@@ -37,6 +37,7 @@ export default defineConfig({
       tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 3 },
       sidebar: [
         { label: 'はじめに', link: '/' },
+        { label: '社内勉強会スライド', link: '/seminar/' },
         { label: 'RAGガイド本文', items: [{ autogenerate: { directory: 'guide' } }] },
         {
           label: 'AWS RAG ハンズオン',

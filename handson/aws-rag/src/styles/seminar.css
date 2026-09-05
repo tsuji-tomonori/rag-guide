@@ -1,0 +1,769 @@
+:root {
+  color-scheme:light;
+  --paper:#f7f6f1;
+  --ink:#2b3a4a;
+  --accent:#5e7e96;
+  --muted:#576977;
+  --line:#d1d9df;
+  --wash:#e8edf0;
+  font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+  color:var(--ink);
+  background:#e7ebed
+}
+* {
+  box-sizing:border-box
+}
+body {
+  margin:0
+}
+button,select {
+  font:inherit;
+  color:inherit
+}
+button,select,.toolbar a {
+  min-height:42px
+}
+button {
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:5px;
+  padding:8px 14px;
+  cursor:pointer
+}
+button:hover {
+  background:var(--wash)
+}
+button:disabled {
+  opacity:.4;
+  cursor:default
+}
+a {
+  color:inherit;
+  text-underline-offset:4px
+}
+a:hover {
+  color:var(--accent)
+}
+:focus-visible {
+  outline:3px solid var(--accent);
+  outline-offset:4px
+}
+[hidden] {
+  display:none!important
+}
+.skip-link {
+  position:fixed;
+  top:-100px;
+  left:16px;
+  z-index:10;
+  background:var(--paper);
+  padding:12px
+}
+.skip-link:focus {
+  top:8px
+}
+.toolbar {
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 24px;
+  background:var(--paper);
+  border-bottom:1px solid var(--line)
+}
+.back-link {
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.08em
+}
+.back-link span {
+  font-weight:400;
+  margin-left:8px
+}
+.toolbar-actions {
+  display:flex;
+  gap:8px;
+  font-size:13px
+}
+.slide {
+  background:var(--paper);
+  max-width:1440px;
+  margin:24px auto;
+  padding:40px 6.25%;
+  aspect-ratio:16/9;
+  display:flex;
+  flex-direction:column;
+  position:relative
+}
+.slide-meta,.slide-footer {
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  font-size:14px;
+  letter-spacing:.08em;
+  color:var(--muted)
+}
+.slide-meta>span:first-child {
+  color:var(--accent);
+  font-weight:700
+}
+.slide-body {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:28px 0
+}
+.slide h1,.slide h2 {
+  letter-spacing:-.03em;
+  line-height:1.35;
+  margin:0 0 28px;
+  font-size:clamp(26px,3vw,48px);
+  font-weight:750
+}
+.slide h2:after {
+  content:'';
+  display:block;
+  width:100px;
+  height:3px;
+  background:var(--accent);
+  margin-top:22px
+}
+.slide h1 {
+  font-size:clamp(38px,4.5vw,68px)
+}
+.lead {
+  font-size:clamp(23px,2.3vw,36px);
+  line-height:1.6;
+  margin:0 0 28px;
+  white-space:pre-line
+}
+.items {
+  display:grid;
+  grid-template-columns:repeat(var(--columns),minmax(0,1fr));
+  gap:32px;
+  margin:18px 0
+}
+.item {
+  border-top:2px solid var(--line);
+  padding-top:22px;
+  min-width:0
+}
+.item h3 {
+  font-size:clamp(20px,1.9vw,30px);
+  line-height:1.4;
+  margin:0 0 14px
+}
+.item p {
+  font-size:clamp(18px,1.65vw,26px);
+  line-height:1.8;
+  margin:0;
+  white-space:pre-line;
+  overflow-wrap:anywhere
+}
+.takeaway {
+  font-size:clamp(19px,1.85vw,28px);
+  line-height:1.6;
+  border-left:4px solid var(--accent);
+  padding:12px 0 12px 20px;
+  margin:32px 0 0;
+  font-weight:600
+}
+.cover .takeaway {
+  font-weight:400;
+  border:0;
+  padding:0;
+  font-size:22px
+}
+.cover .slide-body {
+  justify-content:center
+}
+.example-label {
+  font-size:14px;
+  letter-spacing:.04em;
+  color:var(--muted);
+  margin:0 0 4px
+}
+.quote .lead {
+  font-size:clamp(24px,2.4vw,36px)
+}
+.quote .items {
+  margin-top:8px
+}
+.quote .item h3 {
+  font-size:22px
+}
+.quote .item p {
+  font-size:20px
+}
+.stage-number {
+  display:block;
+  font-size:48px;
+  font-weight:300;
+  color:var(--accent);
+  margin-bottom:20px
+}
+.stages .item {
+  border-top:0;
+  position:relative
+}
+.stages .item:not(:last-child):after {
+  content:'→';
+  position:absolute;
+  right:-26px;
+  top:40px;
+  color:var(--accent);
+  font-size:25px
+}
+.stages .item h3 {
+  font-size:28px
+}
+.table-wrap {
+  margin:8px 0
+}
+table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:clamp(18px,1.65vw,25px);
+  line-height:1.6
+}
+th,td {
+  text-align:left;
+  vertical-align:middle;
+  padding:18px 20px;
+  border-bottom:1px solid var(--line);
+  white-space:pre-line
+}
+thead {
+  color:var(--muted);
+  font-size:.85em
+}
+tbody th {
+  font-weight:600
+}
+thead th {
+  border-bottom:2px solid var(--accent)
+}
+.matrix table {
+  font-size:clamp(15px,1.4vw,22px)
+}
+.matrix td,.matrix th {
+  padding:23px 12px
+}
+.matrix tbody tr:first-child td:nth-child(2),.matrix tbody tr:nth-child(2) td {
+  background:var(--wash)
+}
+.slide-footer {
+  font-size:12px
+}
+.slide-footer a {
+  letter-spacing:0
+}
+.deck-controls {
+  display:none;
+  justify-content:center;
+  align-items:center;
+  gap:30px;
+  background:var(--paper)
+}
+#slide-status {
+  font-size:13px;
+  max-width:55vw;
+  text-align:center
+}
+.deck-controls button {
+  border:0
+}
+.js body {
+  height:100dvh;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto 3px;
+  overflow:hidden
+}
+.js .toolbar,.js .deck-controls {
+  display:flex
+}
+.js #deck {
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  overflow:auto;
+  container-type:size
+}
+.js .slide-frame {
+  width:min(100cqw,177.777cqh);
+  height:min(56.25cqw,100cqh);
+  container-type:size;
+  flex:none
+}
+.js .slide {
+  width:100%;
+  height:100%;
+  flex:none;
+  margin:0;
+  padding:4cqh 6.25cqw;
+  max-width:none;
+  aspect-ratio:16/9
+}
+.js .slide-body {
+  padding:2cqh 0
+}
+.js .slide h2 {
+  font-size:clamp(24px,3.1cqw,48px);
+  margin-bottom:2cqh
+}
+.js .slide h2:after {
+  margin-top:2cqh
+}
+.js .slide h1 {
+  font-size:clamp(36px,4.5cqw,68px)
+}
+.js .lead {
+  font-size:clamp(23px,2.35cqw,36px);
+  margin-bottom:2cqh
+}
+.js .items {
+  gap:2.8cqw;
+  margin:1.6cqh 0
+}
+.js .item {
+  padding-top:2cqh
+}
+.js .item h3 {
+  font-size:clamp(20px,2cqw,29px);
+  margin-bottom:1.5cqh
+}
+.js .item p {
+  font-size:clamp(18px,1.72cqw,25px)
+}
+.js .takeaway {
+  font-size:clamp(18px,1.85cqw,28px);
+  margin-top:2.6cqh;
+  padding-top:1cqh;
+  padding-bottom:1cqh
+}
+.js .stage-number {
+  font-size:4.4cqw;
+  margin-bottom:2cqh
+}
+.js table {
+  font-size:clamp(18px,1.72cqw,25px)
+}
+.js .matrix table {
+  font-size:clamp(16px,1.5cqw,22px)
+}
+.js th,.js td {
+  padding:1.9cqh 1.5cqw
+}
+progress {
+  width:100%;
+  height:3px;
+  border:0;
+  display:none
+}
+progress::-webkit-progress-bar {
+  background:var(--line)
+}
+progress::-webkit-progress-value {
+  background:var(--accent)
+}
+.js progress {
+  display:block
+}
+#notice {
+  position:fixed;
+  bottom:65px;
+  left:24px;
+  max-width:calc(100% - 48px);
+  font-size:14px;
+  background:var(--paper);
+  box-shadow:0 0 0 1px var(--line);
+  padding:12px;
+  z-index:5
+}
+#notice:empty {
+  display:none
+}
+dialog {
+  color:var(--ink);
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:28px;
+  max-width:min(850px,92vw);
+  max-height:85dvh
+}
+dialog::backdrop {
+  background:#2b3a4a99
+}
+.dialog-heading {
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  align-items:center
+}
+.dialog-heading h2 {
+  margin:0;
+  font-size:24px
+}
+dialog ol {
+  columns:2;
+  column-gap:32px;
+  padding-left:28px
+}
+dialog li {
+  break-inside:avoid;
+  margin:16px 0;
+  font-size:15px
+}
+dialog small {
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px
+}
+.shortcuts {
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:14px 24px;
+  line-height:1.5
+}
+.shortcuts dd {
+  margin:0
+}
+dialog p {
+  line-height:1.8
+}
+.no-script {
+  padding:20px;
+  background:var(--paper)
+}
+/* Speaker notes occupy their own window;
+the audience DOM never reveals them. */
+.js.presenter body {
+  grid-template-columns:minmax(0,3fr) minmax(320px,2fr);
+  grid-template-rows:auto minmax(0,1fr) auto 3px
+}
+.presenter .toolbar,.presenter .deck-controls,.presenter progress {
+  grid-column:1/-1
+}
+.presenter #deck {
+  grid-column:1;
+  padding:12px;
+  align-self:start;
+  height:100%
+}
+.presenter #speaker {
+  grid-column:2;
+  grid-row:2;
+  overflow:auto;
+  padding:24px;
+  background:var(--paper);
+  border-left:1px solid var(--line);
+  line-height:1.8;
+  font-size:16px
+}
+.presenter #speaker h2 {
+  font-size:22px
+}
+.presenter #speaker h3 {
+  font-size:16px;
+  color:var(--accent);
+  margin-top:26px
+}
+.presenter #speaker p {
+  white-space:pre-line
+}
+.speaker-clock {
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line)
+}
+.speaker-clock strong {
+  font-size:26px;
+  font-variant-numeric:tabular-nums
+}
+.speaker-clock p {
+  margin:12px 0
+}
+.speaker-tip,#pacing,#connection {
+  font-size:13px;
+  color:var(--muted)
+}
+.presenter #presenter-open {
+  display:none
+}
+.presenter .slide {
+  padding:20px 26px
+}
+.presenter .slide-meta,.presenter .slide-footer {
+  font-size:10px
+}
+.presenter .slide h2 {
+  font-size:clamp(15px,3cqw,26px)
+}
+.presenter .slide h1 {
+  font-size:4.5cqw
+}
+.presenter .lead {
+  font-size:2.4cqw
+}
+.presenter .item h3 {
+  font-size:2cqw
+}
+.presenter .item p,.presenter table,.presenter .takeaway {
+  font-size:1.8cqw
+}
+.presenter .matrix table {
+  font-size:1.55cqw
+}
+.presenter .example-label {
+  font-size:10px
+}
+.presenter .stage-number {
+  font-size:4cqw
+}
+.presenter .slide h2:after {
+  height:2px;
+  width:60px
+}
+.presenter .stages .item:after {
+  font-size:14px;
+  right:-12px;
+  top:25px
+}
+@media(max-width:760px),(max-height:520px) {
+  .js body {
+    overflow:auto;
+    height:auto;
+    min-height:100dvh;
+    grid-template-rows:auto 1fr auto 3px
+  }
+  .toolbar {
+    padding:8px 12px;
+    flex-wrap:wrap
+  }
+  .toolbar-actions {
+    flex-wrap:wrap;
+    gap:6px
+  }
+  .toolbar-actions button {
+    font-size:12px;
+    padding:8px 10px
+  }
+  .js #deck {
+    container-type:normal;
+    display:block;
+    padding:12px;
+    overflow:visible
+  }
+  .js .slide-frame {
+    width:100%;
+    height:auto;
+    container-type:normal
+  }
+  .js .slide,.slide {
+    height:auto;
+    width:100%;
+    aspect-ratio:auto;
+    min-height:65dvh;
+    padding:24px
+  }
+  .slide-meta {
+    font-size:11px
+  }
+  .slide-footer {
+    font-size:10px;
+    margin-top:22px
+  }
+  .js .slide-body {
+    padding:32px 0 12px
+  }
+  .js .slide h2 {
+    font-size:28px;
+    margin-bottom:22px
+  }
+  .js .slide h1 {
+    font-size:40px
+  }
+  .js .slide h2:after {
+    margin-top:16px
+  }
+  .js .lead {
+    font-size:24px
+  }
+  .js .items {
+    grid-template-columns:1fr;
+    gap:22px;
+    margin:18px 0
+  }
+  .js .item {
+    padding-top:14px
+  }
+  .js .item h3 {
+    font-size:22px
+  }
+  .js .item p {
+    font-size:18px
+  }
+  .js .takeaway {
+    font-size:19px;
+    padding:8px 0 8px 14px;
+    margin-top:24px
+  }
+  .js .stage-number {
+    font-size:32px;
+    margin-bottom:12px
+  }
+  .stages .item:after {
+    display:none
+  }
+  .table-wrap {
+    overflow-x:auto
+  }
+  .js table,.js .matrix table {
+    font-size:16px
+  }
+  .js th,.js td {
+    padding:14px 12px
+  }
+  .matrix table {
+    min-width:650px
+  }
+  .deck-controls {
+    position:sticky;
+    bottom:0;
+    z-index:2;
+    border-top:1px solid var(--line)
+  }
+  #slide-status {
+    max-width:45vw
+  }
+  .js.presenter body {
+    display:block
+  }
+  .presenter #deck {
+    height:auto
+  }
+  .presenter #speaker {
+    border:0
+  }
+  .presenter .slide-meta,.presenter .slide-footer {
+    font-size:11px
+  }
+  dialog ol {
+    columns:1
+  }
+  .shortcuts {
+    display:block
+  }
+  .shortcuts dt {
+    font-weight:700;
+    margin-top:18px
+  }
+  .back-link span {
+    display:none
+  }
+}
+@media print {
+  @page {
+    size:320mm 180mm;
+    margin:0
+  }
+  :root {
+    background:white
+  }
+  html.js body,body {
+    display:block!important;
+    height:auto!important;
+    overflow:visible!important
+  }
+  .toolbar,.deck-controls,progress,#speaker,#notice,dialog,.skip-link,.no-script {
+    display:none!important
+  }
+  .js #deck {
+    display:block;
+    padding:0;
+    overflow:visible;
+    container-type:normal
+  }
+  .js .slide-frame {
+    width:auto;
+    height:auto;
+    container-type:normal
+  }
+  .js .slide,.js .slide[hidden],.slide {
+    display:flex!important;
+    width:320mm;
+    height:180mm;
+    max-width:none;
+    min-height:0;
+    aspect-ratio:auto;
+    break-after:page;
+    page-break-after:always;
+    margin:0;
+    padding:12mm 20mm;
+    print-color-adjust:exact;
+    -webkit-print-color-adjust:exact
+  }
+  .slide:last-child {
+    break-after:auto;
+    page-break-after:auto
+  }
+  .js .slide h2 {
+    font-size:28pt;
+    margin-bottom:5mm
+  }
+  .js .slide h1 {
+    font-size:46pt
+  }
+  .js .lead {
+    font-size:23pt
+  }
+  .js .items {
+    grid-template-columns:repeat(var(--columns),minmax(0,1fr));
+    gap:8mm
+  }
+  .js .item h3 {
+    font-size:20pt
+  }
+  .js .item p {
+    font-size:16pt
+  }
+  .js .takeaway {
+    font-size:18pt;
+    margin-top:6mm
+  }
+  .js table {
+    font-size:16pt
+  }
+  .js .matrix table {
+    font-size:14pt;
+    min-width:0
+  }
+  .js th,.js td {
+    padding:4mm
+  }
+  .js .stage-number {
+    font-size:32pt
+  }
+  .slide-meta {
+    font-size:10pt
+  }
+  .slide-footer {
+    font-size:9pt
+  }
+  .table-wrap {
+    overflow:visible
+  }
+  .slide-body {
+    padding:6mm 0
+  }
+  .example-label {
+    font-size:10pt
+  }
+}

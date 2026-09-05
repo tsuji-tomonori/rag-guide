@@ -95,7 +95,7 @@ for (const page of pages) {
   const frontmatter = `---\ntitle: ${JSON.stringify(page.title)}\nsidebar:\n  order: ${page.order}\neditUrl: ${JSON.stringify(editUrl)}\n---\n\n`;
   await writeFile(path.join(output, `${page.slug}.md`), frontmatter + content + '\n');
 }
-const introduction = `PDF版と同じ本文を、章ごとに読めます。左の章一覧と右のページ内目次から移動し、上の検索でガイドとハンズオンを横断検索できます。\n\n[PDFをダウンロード](https://github.com/tsuji-tomonori/rag-guide/releases/latest/download/rag-engineering-guide.pdf) · [公開済みPDFの一覧](https://github.com/tsuji-tomonori/rag-guide/releases) · [ハンズオンを始める](${base}/00-overview/)\n\n## 本文\n\n${pages.map((page) => `- [${page.title}](${route(page.slug)})`).join('\n')}\n\n## 調べる\n\n略称・正式名称・日本語表記を合わせて検索してください。例えば、KB / Knowledge Bases / ナレッジベース、Embedding / 埋め込み、Reranking / 再ランキングを本文で説明しています。\n`;
+const introduction = `PDF版と同じ本文を、章ごとに読めます。左の章一覧と右のページ内目次から移動し、上の検索でガイドとハンズオンを横断検索できます。\n\n[PDFをダウンロード](https://github.com/tsuji-tomonori/rag-guide/releases/latest/download/rag-engineering-guide.pdf) · [公開済みPDFの一覧](https://github.com/tsuji-tomonori/rag-guide/releases) · [社内勉強会スライド](${base}/seminar/) · [ハンズオンを始める](${base}/00-overview/)\n\n## 本文\n\n${pages.map((page) => `- [${page.title}](${route(page.slug)})`).join('\n')}\n\n## 調べる\n\n略称・正式名称・日本語表記を合わせて検索してください。例えば、KB / Knowledge Bases / ナレッジベース、Embedding / 埋め込み、Reranking / 再ランキングを本文で説明しています。\n`;
 await writeFile(path.join(output, 'index.md'), `---\ntitle: RAGガイドを読む\nsidebar:\n  order: 0\neditUrl: false\n---\n\n${introduction}`);
 for (const image of images) {
   const destination = path.join(publicImages, path.relative(path.join(root, 'assets/images'), image));

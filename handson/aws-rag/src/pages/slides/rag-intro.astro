@@ -1,0 +1,94 @@
+---
+import { slides } from '../../data/rag-seminar';
+import '../../styles/seminar.css';
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="30〜40分の社内勉強会で学ぶRAG。4つの工程と2つの層、主要技術、評価・セキュリティ、AWSを発表用スライドで解説します。" />
+    <title>RAG入門｜社内勉強会スライド</title>
+    <link rel="icon" href="/rag-guide/favicon.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#deck">スライドへ移動</a>
+    <header class="toolbar" data-controls>
+      <a href="/rag-guide/seminar/" class="back-link">RAG GUIDE <span>／ 勉強会</span></a>
+      <div class="toolbar-actions">
+        <button id="overview-open" aria-haspopup="dialog">目次</button>
+        <button id="presenter-open">発表者画面</button>
+        <button id="fullscreen">全画面</button>
+        <button id="help-open" aria-haspopup="dialog" aria-label="操作方法を表示">操作方法</button>
+      </div>
+    </header>
+    <main id="deck" aria-label="RAG入門スライド" tabindex="-1" data-seminar>
+      <div class="slide-frame">
+      {slides.map((slide, index) => (
+        <section id={slide.id} class:list={['slide', slide.layout ?? 'columns']} aria-labelledby={`title-${slide.id}`} data-slide data-index={index}>
+          <div class="slide-meta"><span>{slide.section}</span><span>{String(index + 1).padStart(2, '0')} / {slides.length}</span></div>
+          <div class="slide-body">
+            {index === 0 ? <h1 id={`title-${slide.id}`}>{slide.title}</h1> : <h2 id={`title-${slide.id}`}>{slide.title}</h2>}
+            {slide.lead && <p class="lead">{slide.lead}</p>}
+            {slide.example && <p class="example-label">説明用の架空規程</p>}
+            {slide.items && <div class="items" style={`--columns:${slide.items.length}`}>
+              {slide.items.map((item, i) => <div class="item">
+                {slide.layout === 'stages' && <span class="stage-number">{String(i + 1).padStart(2, '0')}</span>}
+                <h3>{item.label}</h3><p>{item.text}</p>
+              </div>)}
+            </div>}
+            {slide.rows && <div class="table-wrap"><table>
+              <thead><tr>{slide.headers?.map((header) => <th scope="col">{header}</th>)}</tr></thead>
+              <tbody>{slide.rows.map((row) => <tr>{row.map((cell, i) => i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}</tr>)}</tbody>
+            </table></div>}
+            {slide.takeaway && <p class="takeaway">{slide.takeaway}</p>}
+          </div>
+          <footer class="slide-footer"><span>RAG ENGINEERING GUIDE</span><a href={slide.sources[0].href} target="_blank" rel="noopener">{slide.sources[0].label} ↗</a></footer>
+        </section>
+      ))}
+      </div>
+    </main>
+    <aside id="speaker" hidden aria-label="発表者ノート">
+      <div class="speaker-clock">
+        <label>発表時間 <select id="duration"><option value="30">30分</option><option value="40" selected>40分</option></select></label>
+        <p>経過 <strong id="elapsed">00:00</strong> ／ 残り <strong id="remaining">40:00</strong></p>
+        <div><button id="timer-toggle">タイマー開始</button> <button id="timer-reset">リセット</button></div>
+        <p id="pacing"></p>
+      </div>
+      <p id="connection" role="status">投影画面と接続しています。</p>
+      <h2>このスライドの説明</h2><p id="speaker-notes"></p>
+      <h3>40分版で補足する話</h3><p id="speaker-expand"></p>
+      <h3>次のスライド</h3><p id="speaker-next"></p>
+      <h3>本文・出典</h3><ul id="speaker-sources"></ul>
+      <p class="speaker-tip">画面共有は投影ウィンドウだけを選んでください。30分版は説明の要点を中心に、40分版は補足や問いかけを加えます。</p>
+    </aside>
+    <nav class="deck-controls" aria-label="スライド操作" data-controls>
+      <button id="previous" aria-label="前のスライド">← 前へ</button>
+      <p id="slide-status" aria-live="polite" aria-atomic="true">1 / {slides.length}</p>
+      <button id="next" aria-label="次のスライド">次へ →</button>
+    </nav>
+    <progress id="progress" max={slides.length} value="1" aria-label="スライドの進行状況"></progress>
+    <p id="notice" role="status"></p>
+    <dialog id="overview" aria-labelledby="overview-title">
+      <div class="dialog-heading"><h2 id="overview-title">スライド目次</h2><button data-close="overview">閉じる</button></div>
+      <ol>{slides.map((slide) => <li><a href={`#${slide.id}`} data-jump={slide.id}>{slide.title}<small>{slide.section}</small></a></li>)}</ol>
+    </dialog>
+    <dialog id="help" aria-labelledby="help-title">
+      <div class="dialog-heading"><h2 id="help-title">発表の操作</h2><button data-close="help">閉じる</button></div>
+      <dl class="shortcuts">
+        <dt>→ / ↓ / Space / PageDown</dt><dd>次のスライド</dd>
+        <dt>← / ↑ / Shift + Space / PageUp</dt><dd>前のスライド</dd>
+        <dt>Home / End</dt><dd>最初／最後へ移動</dd>
+        <dt>F / P / O</dt><dd>全画面／発表者画面／目次</dd>
+        <dt>Esc</dt><dd>目次・操作方法、または全画面を閉じる</dd>
+      </dl>
+      <p>前後のボタンはタッチでも操作できます。現在のURLを保存すると、そのスライドから再開できます。</p>
+      <p>ブラウザの印刷機能で、全スライドを1枚ずつ印刷できます。発表者ノートは印刷されません。</p>
+    </dialog>
+    <noscript><p class="no-script">JavaScriptが無効のため、全スライドを縦に表示しています。ブラウザの印刷も利用できます。</p></noscript>
+    <script>
+      import { initSeminar } from '../../scripts/seminar';
+      initSeminar();
+    </script>
+  </body>
+</html>
