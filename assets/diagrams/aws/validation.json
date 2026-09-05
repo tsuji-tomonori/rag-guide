@@ -1,0 +1,96 @@
+{
+  "engine": "mxGraph 4.2.2 / Firefox",
+  "diagrams": [
+    {
+      "name": "aws-rag-physical-architecture",
+      "vertices": 34,
+      "edges": 6,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "aws-rag-logical-architecture",
+      "vertices": 47,
+      "edges": 7,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "44-aws-four-stages-two-layers",
+      "vertices": 38,
+      "edges": 6,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "45-aws-resource-selection",
+      "vertices": 24,
+      "edges": 2,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "46-aws-kb-management-boundary",
+      "vertices": 44,
+      "edges": 6,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "47-aws-batch-ingestion-flow",
+      "vertices": 31,
+      "edges": 4,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "48-aws-vector-store-choice",
+      "vertices": 15,
+      "edges": 0,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "49-aws-realtime-search-flow",
+      "vertices": 30,
+      "edges": 4,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "50-aws-evidence-shaping-flow",
+      "vertices": 29,
+      "edges": 4,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "51-aws-generation-control-paths",
+      "vertices": 29,
+      "edges": 4,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "52-aws-app-vs-agentcore",
+      "vertices": 45,
+      "edges": 4,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "53-aws-crosscutting-controls",
+      "vertices": 30,
+      "edges": 0,
+      "group_movement": true,
+      "external_images": 0
+    },
+    {
+      "name": "54-aws-reference-architectures",
+      "vertices": 61,
+      "edges": 8,
+      "group_movement": true,
+      "external_images": 0
+    }
+  ]
+}
