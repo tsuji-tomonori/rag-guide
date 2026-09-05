@@ -226,14 +226,14 @@
     },
     "53-read": {
       "file": "assets/images/v6/53-read.png",
-      "sha256": "aa4c1268dde5232621d763b13994fff9899cb2ebc227eab300b595f419dc2781",
+      "sha256": "63177c31a2cb915190169cfa3e1f1c03f8482d8809bb451609bc2a3e16798d9b",
       "width": 1536,
       "height": 1024,
       "source_diagram": "assets/images/v5/53-read.svg",
       "prompt_key": "53-read",
       "tool": "built-in image_gen",
       "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
-      "output_artifact": "exec-b1fdd1ba-6be5-4e7c-af79-132872de7353.png"
+      "output_artifact": "exec-8af3bdfb-3082-4dd7-b3aa-5ab2fa2ab788.png"
     },
     "54-doc-refrag": {
       "file": "assets/images/v6/54-doc-refrag.png",

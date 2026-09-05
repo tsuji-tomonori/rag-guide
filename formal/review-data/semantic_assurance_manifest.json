@@ -1,6 +1,6 @@
 {
   "method_version": 2,
-  "authoritative_commit": "d560cba90702291f94467a26c61b453668be427a",
+  "authoritative_commit": "fe2b276dbee9e80eceb22460de6337d92af0cd4d",
   "required_sentences": 848,
   "controlled_formalizations": 42,
   "relative_entailments_proved": 40,
@@ -14,7 +14,7 @@
     "anti_circularity": "Primary-source statements are not introduced as unclassified Lean axioms."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "7af608e7ab94af3997e0927d3ec1aed59f9a761189c79a036138fb9a2d49cd2d",
+    "formal/review-data/coverage_manifest.json": "27508c2c552f9fc5e9c4a6431c5e425f059ea94261fa0af0d36b8d17b6c83b6e",
     "formal/review-data/sentence_evidence.csv": "12390ec971d19417731b49760bcbfce9d9d571b7d92bdbc2811a16a851ad1703",
     "formal/review-data/concrete_technologies.csv": "28e935efa56f8a5f305e37ac9a349c43a61da9b284213217190392affe66d864",
     "formal/review-data/semantic_assurance.csv": "94323874109bf054472ccb2f8c495eab0c2785940fa8f631244726c1dad5fef1",

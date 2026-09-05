@@ -78,6 +78,11 @@
       "name": "55-two-layers",
       "path": "/home/t-tsuji/.codex/generated_images/01a06ede-8b6a-7700-a2c9-b11c92b3fdc7/exec-13545c21-f4d4-42ee-b4fc-1bf82eb6ee11.png",
       "prompt": "Remove ONLY the bottommost English sentence, which reads 'The two layers classify execution responsibility, not the paper’s four processing stages.' Replace that line with plain white background. Keep the Japanese footer directly above it exactly unchanged. Preserve the title, all six boxes, all icons, the two swimlanes, all Japanese labels, the Batch Layer / Real-time Layer labels and all arrows. Do not replace the English line with any other text. Do not change image dimensions."
+    },
+    {
+      "name": "53-read",
+      "path": "/home/t-tsuji/.codex/generated_images/01a06ede-8b6a-7700-a2c9-b11c92b3fdc7/exec-b1fdd1ba-6be5-4e7c-af79-132872de7353.png",
+      "prompt": "Simplify this READ infographic for legibility in a printed textbook at 16cm width. Preserve the four panel positions, three process arrows, title and exact footer. Enlarge all main body Japanese text to at least 36 pixels in the 1536-pixel-wide image. Replace all tiny detailed illustrations with much simpler ones. Panel1 preserve heading「1 語彙検索」and body「例：2025年度の売上を検索」「一致箇所の行番号を得る」; illustration only a document and magnifier, no numeric line-number list. Panel2 preserve heading「2 構造をたどる」and body「該当する節や表へ移動」「年度と単位の見出しを探す」; illustration ONLY a large simple two-column card with headers「年度」「単位」and one row「2025」「百万円」, no other table fields or section outline. Panel3 preserve heading「3 範囲を指定して読む」and body「見出しと行を一緒に読む」「例：単位は百万円」「根拠の行範囲を保存」; illustration ONLY the same two-column card, surrounded by a clear outline that includes BOTH headers and data row, with a document icon. Panel4 preserve heading「4 追加読解と回答」and body「必要なら別範囲を読む」「出典を示して回答する」「操作の履歴を再現できる」; illustration ONLY a large answer speech bubble with a citation document, no laptop, numbered operation timeline, line numbers or tiny text. Make body text the visual priority. All remaining labels at least 32 pixels; tables only four cells, no tiny text, no invented numeric data. Title「READ：文書を検索し、必要な範囲を読む」, footer「2026年8月の公開研究。評価は一つの財務報告書と51問で行われた。」Maintain clean grayscale-on-white styling. Do not render these editing instructions."
     }
   ]
 }
