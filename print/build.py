@@ -8,7 +8,6 @@ import shutil
 import subprocess
 from pathlib import Path
 from publication import Publication
-from figures import main as build_figures
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -328,7 +327,6 @@ def render_grayscale_images(sources: list[Path]) -> None:
 
 def main() -> None:
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
-    build_figures()
     markdown_sources = ordered_sources()
     publication = Publication(markdown_sources)
     for path, _ in markdown_sources:

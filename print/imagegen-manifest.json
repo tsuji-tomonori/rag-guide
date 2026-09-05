@@ -1,0 +1,272 @@
+{
+  "created": "2026-09-05",
+  "scope": "Replace the 24 diagrams added in v1.1.7; retain existing figures",
+  "model_selection": "Controlled by the built-in tool; no explicit model argument",
+  "prompts": "print/imagegen-prompts.json",
+  "assets": {
+    "33-hyde": {
+      "file": "assets/images/v6/33-hyde.png",
+      "sha256": "af7519c8f31ab10f9e617933c7cf412464536c71d47abbd4ba640f124269a575",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/33-hyde.svg",
+      "prompt_key": "33-hyde",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-0f65942e-866c-44c3-bd03-d4e768019a6e.png"
+    },
+    "34-query2doc": {
+      "file": "assets/images/v6/34-query2doc.png",
+      "sha256": "3f5ac4f429352f492d2d701444b6b7891682a5606f950b4b3acaec4991d7f53b",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/34-query2doc.svg",
+      "prompt_key": "34-query2doc",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-7be840d4-9522-485e-87da-58882e73b6a6.png"
+    },
+    "35-ircot": {
+      "file": "assets/images/v6/35-ircot.png",
+      "sha256": "a05bc413d1a21c2b21b16246b7144249561ed619f3d49199b778f57bad197098",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/35-ircot.svg",
+      "prompt_key": "35-ircot",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-dd9b463c-903e-4cc4-9216-d743e5a549ce.png"
+    },
+    "36-bm25": {
+      "file": "assets/images/v6/36-bm25.png",
+      "sha256": "f40299c1ca56a8e9a858fa4593e6f6f77bb7b16c3d4c86a599afd2f6933b087e",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/36-bm25.svg",
+      "prompt_key": "36-bm25",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-8a353f2a-1885-474c-9215-16de2f459a63.png"
+    },
+    "37-splade": {
+      "file": "assets/images/v6/37-splade.png",
+      "sha256": "6f568a399aa8ff14a20f57c0210b47811df933e26875648c314abd7f9feb63b5",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/37-splade.svg",
+      "prompt_key": "37-splade",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-6d94c1db-87e9-4141-89b9-fe6b36c5036e.png"
+    },
+    "38-hnsw": {
+      "file": "assets/images/v6/38-hnsw.png",
+      "sha256": "c26e324e89cee4cef7638106f316b1c538f468901d08e674eba72008a0fd7465",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/38-hnsw.svg",
+      "prompt_key": "38-hnsw",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-e7d4c992-8dd3-4d50-86e3-ef8ed037d74f.png"
+    },
+    "39-ivfpq": {
+      "file": "assets/images/v6/39-ivfpq.png",
+      "sha256": "38ac30fea11fcaf96584ff3e89b20d6b9626f60d4afe400e3f4655dfa56a2f05",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/39-ivfpq.svg",
+      "prompt_key": "39-ivfpq",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-9ea2b97f-50df-47e4-8297-aad17b066b29.png"
+    },
+    "40-colbert": {
+      "file": "assets/images/v6/40-colbert.png",
+      "sha256": "e75f9b482578c75060782f73eb7ac2b44f7d87bf85f8ffbc3871255266d874b0",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/40-colbert.svg",
+      "prompt_key": "40-colbert",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-295584f5-a934-4261-a37b-e6e2d48f59e5.png"
+    },
+    "41-rrf": {
+      "file": "assets/images/v6/41-rrf.png",
+      "sha256": "1fa4858b3b17fc25caaeb00a082a6aa8568cbea7015ffd0f1c80b3217ec75645",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/41-rrf.svg",
+      "prompt_key": "41-rrf",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-e74d626e-f396-4564-a4e2-bca3ad9d0069.png"
+    },
+    "42-mmr": {
+      "file": "assets/images/v6/42-mmr.png",
+      "sha256": "882aa9dcb37fb83b3eabaa8becedb3c70a7347f41b03194ee2a91df3100f017e",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/42-mmr.svg",
+      "prompt_key": "42-mmr",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-1c6e014a-297e-44a6-a6f1-06aa5b2cdd72.png"
+    },
+    "43-dedup": {
+      "file": "assets/images/v6/43-dedup.png",
+      "sha256": "44084a9703182eee1842673556f49adf197c2d7dd9e24ba147d28f114996ffe7",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/43-dedup.svg",
+      "prompt_key": "43-dedup",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-8b6cfa48-b1be-44e5-aeed-8069aedcdddd.png"
+    },
+    "44-rerank": {
+      "file": "assets/images/v6/44-rerank.png",
+      "sha256": "7624fcb402e1b54c59a0525ad41a9c03132d8232b8226f136c5821aa9f742456",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/44-rerank.svg",
+      "prompt_key": "44-rerank",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-4728a61f-c115-4819-a171-dde0cdfdec5c.png"
+    },
+    "45-compression": {
+      "file": "assets/images/v6/45-compression.png",
+      "sha256": "0bdbb6c637be564241bfc45b2194e364ca5cc39485cfdc097e12f85df5a5544f",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/45-compression.svg",
+      "prompt_key": "45-compression",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-0acc2d72-7fe7-4574-a240-a2b92f6b8765.png"
+    },
+    "46-late-chunking": {
+      "file": "assets/images/v6/46-late-chunking.png",
+      "sha256": "6aef304e2f9306a6285886941a54d98bf5ca42d63c5d48b4264a854dbe8bd11b",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/46-late-chunking.svg",
+      "prompt_key": "46-late-chunking",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-44c400e4-7da9-4280-a547-8ebb2c8b90c4.png"
+    },
+    "47-raptor": {
+      "file": "assets/images/v6/47-raptor.png",
+      "sha256": "7717b92fc3b554868775f072c0fd79ea1e115f816f06cbcae338f000645addab",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/47-raptor.svg",
+      "prompt_key": "47-raptor",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-3e5eee8c-dfef-4186-9e60-6af1e5416d54.png"
+    },
+    "48-graphrag": {
+      "file": "assets/images/v6/48-graphrag.png",
+      "sha256": "91515804c3105b47b3558bfd24f9ec015f2df51b84badbed57740ff98810800c",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/48-graphrag.svg",
+      "prompt_key": "48-graphrag",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-a276b653-e964-45a0-a759-8b194971c8c9.png"
+    },
+    "49-selfrag": {
+      "file": "assets/images/v6/49-selfrag.png",
+      "sha256": "23f4bffbcf597bcdf1e9d0ce7c1be83315624cad74f8a092df3aa4f110621ed0",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/49-selfrag.svg",
+      "prompt_key": "49-selfrag",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-398b4e84-b734-43d8-afbc-d7af6c7a0659.png"
+    },
+    "50-crag": {
+      "file": "assets/images/v6/50-crag.png",
+      "sha256": "90f5b90812b38d4716b29b70990d680dd89ea83fddded4d51b054bd5f8f5f784",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/50-crag.svg",
+      "prompt_key": "50-crag",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-b760bf9f-d151-45a3-ad5e-18d7058becb2.png"
+    },
+    "51-adaptive": {
+      "file": "assets/images/v6/51-adaptive.png",
+      "sha256": "838c91d9eb05b6e2eac7820618692864a862670e11505b40eb96876104e1297d",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/51-adaptive.svg",
+      "prompt_key": "51-adaptive",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-0004acbe-c382-4e9a-b121-320b94cf7c56.png"
+    },
+    "52-evaluation": {
+      "file": "assets/images/v6/52-evaluation.png",
+      "sha256": "68835b43cf1079c4cb3a84d614660237da0bd53344cb206268ec848fd38cf838",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/52-evaluation.svg",
+      "prompt_key": "52-evaluation",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-0f51af01-5a2a-4325-8633-0030a0fa023b.png"
+    },
+    "53-read": {
+      "file": "assets/images/v6/53-read.png",
+      "sha256": "aa4c1268dde5232621d763b13994fff9899cb2ebc227eab300b595f419dc2781",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/53-read.svg",
+      "prompt_key": "53-read",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-b1fdd1ba-6be5-4e7c-af79-132872de7353.png"
+    },
+    "54-doc-refrag": {
+      "file": "assets/images/v6/54-doc-refrag.png",
+      "sha256": "c99b68af6f37f6311f465412228b83c25d9f05cc323ea6eac96dc70ede7ec230",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/54-doc-refrag.svg",
+      "prompt_key": "54-doc-refrag",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-25065ad9-1199-4ed1-9367-446a93764855.png"
+    },
+    "55-two-layers": {
+      "file": "assets/images/v6/55-two-layers.png",
+      "sha256": "d0b3932ef007ca59da3ac39f8d873a7494797a590f8746f1b8ade438bc36f1ce",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/55-two-layers.svg",
+      "prompt_key": "55-two-layers",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-bc35d284-ecfc-4ee0-8a64-31494ee49bac.png"
+    },
+    "56-four-stages": {
+      "file": "assets/images/v6/56-four-stages.png",
+      "sha256": "cadd933912d32fdda222e023c6c1c44941521100ed3ab4dee4b4f7b750660d28",
+      "width": 1536,
+      "height": 1024,
+      "source_diagram": "assets/images/v5/56-four-stages.svg",
+      "prompt_key": "56-four-stages",
+      "tool": "built-in image_gen",
+      "visual_review": "Japanese labels, specified numeric examples, flow connections and scientific constraints inspected",
+      "output_artifact": "exec-bb22f426-0207-4333-b460-3f908579c858.png"
+    }
+  }
+}
