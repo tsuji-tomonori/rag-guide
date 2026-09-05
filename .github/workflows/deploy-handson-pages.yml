@@ -5,11 +5,15 @@ on:
     branches: [main]
     paths:
       - "handson/aws-rag/**"
+      - "docs/**"
+      - "assets/images/**"
       - ".github/workflows/deploy-handson-pages.yml"
   pull_request:
     branches: [main]
     paths:
       - "handson/aws-rag/**"
+      - "docs/**"
+      - "assets/images/**"
       - ".github/workflows/deploy-handson-pages.yml"
   workflow_dispatch:
 
@@ -45,6 +49,9 @@ jobs:
 
       - name: Build site
         run: npm run build
+
+      - name: Verify links, Markdown copy and Japanese search
+        run: npm run test:site
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'

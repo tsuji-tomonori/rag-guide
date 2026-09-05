@@ -1,0 +1,20 @@
+.page-tools { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: .5rem 1rem; margin-bottom: 1rem; }
+.markdown-copy, .figure-zoom, dialog button { padding: .55rem .85rem; border: 1px solid var(--sl-color-gray-4); border-radius: .4rem; background: var(--sl-color-bg); color: var(--sl-color-text); font: inherit; font-size: .875rem; cursor: pointer; }
+.markdown-copy:hover, .figure-zoom:hover { border-color: var(--sl-color-accent); color: var(--sl-color-accent-high); }
+button:focus-visible { outline: 2px solid var(--sl-color-accent); outline-offset: 3px; }
+.copy-status { font-size: .875rem; }
+.guide-entry { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid var(--sl-color-gray-5); border-radius: .5rem; }
+.guide-entry a { font-weight: 600; }
+.guide-section-anchor { scroll-margin-top: 8rem; }
+.sl-markdown-content { overflow-wrap: anywhere; }
+.sl-markdown-content table { display: block; max-width: 100%; overflow-x: auto; font-size: 1rem; }
+.sl-markdown-content img { height: auto; max-width: 100%; }
+.figure-zoom { display: block; margin: .5rem 0 1.25rem; }
+.figure-dialog, .markdown-dialog { width: min(96vw, 100rem); max-width: 96vw; max-height: 92dvh; padding: 1.25rem; border: 1px solid var(--sl-color-gray-4); border-radius: .6rem; background: var(--sl-color-bg); color: var(--sl-color-text); }
+dialog::backdrop { background: #000b; }
+dialog form { display: flex; justify-content: flex-end; margin-bottom: .5rem; }
+.figure-scroll { overflow: auto; max-height: 68dvh; }
+.figure-scroll img { display: block; width: auto; max-width: none; height: auto; }
+.figure-caption { margin-block: .5rem; }
+.markdown-dialog textarea { width: 100%; min-height: 55dvh; padding: .75rem; background: var(--sl-color-bg); color: var(--sl-color-text); font: .9rem/1.6 monospace; }
+@media print { .page-tools, .figure-zoom, dialog { display: none !important; } }

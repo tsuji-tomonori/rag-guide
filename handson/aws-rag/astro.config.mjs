@@ -1,14 +1,17 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { unified } from '@astrojs/markdown-remark';
+import guideImages from './scripts/rehype-guide-images.mjs';
 
 export default defineConfig({
   site: 'https://tsuji-tomonori.github.io',
   base: '/rag-guide',
+  markdown: { processor: unified({ rehypePlugins: [guideImages] }) },
   integrations: [
     starlight({
-      title: 'AWS RAG ハンズオン',
+      title: 'RAGエンジニアガイド',
       description:
-        'AWS CLIからAmazon Bedrock Knowledge BasesとS3 VectorsでRAGを構築するハンズオン',
+        'RAGの設計・実装・評価・運用を学ぶガイドとAWSハンズオン',
       locales: {
         root: { label: '日本語', lang: 'ja' },
       },
@@ -29,9 +32,12 @@ export default defineConfig({
         baseUrl:
           'https://github.com/tsuji-tomonori/rag-guide/edit/main/handson/aws-rag/',
       },
-      customCss: ['./src/styles/workshop.css'],
+      customCss: ['./src/styles/workshop.css', './src/styles/guide.css'],
+      components: { PageTitle: './src/components/PageTitle.astro' },
+      tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 3 },
       sidebar: [
         { label: 'はじめに', link: '/' },
+        { label: 'RAGガイド本文', items: [{ autogenerate: { directory: 'guide' } }] },
         {
           label: 'AWS RAG ハンズオン',
           items: [

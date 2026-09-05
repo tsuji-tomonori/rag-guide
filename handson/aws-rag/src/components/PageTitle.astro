@@ -1,0 +1,93 @@
+---
+import DefaultPageTitle from '@astrojs/starlight/components/PageTitle.astro';
+const { entry, id } = Astro.locals.starlightRoute;
+const markdown = id.startsWith('guide/') || id === 'guide'
+  ? `# ${entry.data.title}\n\n${entry.body ?? ''}`
+  : '';
+---
+
+<div class="page-tools" data-pagefind-ignore>
+  <button type="button" class="markdown-copy" data-copy-markdown>Markdownをコピー</button>
+  <span class="copy-status" role="status" aria-live="polite"></span>
+  <textarea hidden readonly data-page-markdown aria-label="ページのMarkdown">{markdown}</textarea>
+</div>
+<DefaultPageTitle />
+<dialog class="markdown-dialog" aria-label="Markdownを手動でコピー" data-pagefind-ignore>
+  <p>コピーを許可できませんでした。以下を選択してコピーしてください。</p>
+  <textarea readonly aria-label="コピーするMarkdown"></textarea>
+  <form method="dialog"><button>閉じる</button></form>
+</dialog>
+<dialog class="figure-dialog" aria-label="図を拡大" data-pagefind-ignore>
+  <form method="dialog"><button autofocus>閉じる</button></form>
+  <p class="figure-caption"></p>
+  <div class="figure-scroll"><img alt="" /></div>
+  <a target="_blank" rel="noopener">元の画像を開く</a>
+</dialog>
+
+<script>
+  import { pageMarkdown } from '../scripts/page-markdown';
+
+  function initializePageTools() {
+    const button = document.querySelector<HTMLButtonElement>('[data-copy-markdown]');
+    if (!button || button.dataset.ready) return;
+    button.dataset.ready = 'true';
+    button.addEventListener('click', async () => {
+      const status = document.querySelector<HTMLElement>('.copy-status');
+      const source = document.querySelector<HTMLTextAreaElement>('[data-page-markdown]')?.value;
+      const body = document.querySelector<HTMLElement>('.sl-markdown-content');
+      button.disabled = true;
+      let markdown = '';
+      try {
+        markdown = source?.trim()
+          ? source.replace(/\]\((\/rag-guide\/[^)]+)\)/g, (_, url) => `](${new URL(url, location.origin).href})`)
+          : await pageMarkdown(body, document.querySelector('h1')?.textContent ?? '');
+        await navigator.clipboard.writeText(markdown);
+        if (status) status.textContent = 'コピーしました';
+      } catch {
+        if (markdown) {
+          const dialog = document.querySelector<HTMLDialogElement>('.markdown-dialog');
+          const textarea = dialog?.querySelector('textarea');
+          if (dialog && textarea) {
+            textarea.value = markdown;
+            dialog.showModal();
+            textarea.focus();
+            textarea.select();
+          }
+          if (status) status.textContent = '選択してコピーしてください';
+        } else if (status) status.textContent = '本文を取得できませんでした。もう一度お試しください。';
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    const dialog = document.querySelector<HTMLDialogElement>('.figure-dialog');
+    const figure = dialog?.querySelector('img');
+    if (!dialog || !figure) return;
+    document.querySelectorAll<HTMLImageElement>('.sl-markdown-content img').forEach((img) => {
+      if (img.closest('a, button') || img.dataset.zoomReady) return;
+      img.dataset.zoomReady = 'true';
+      const zoom = document.createElement('button');
+      zoom.type = 'button';
+      zoom.className = 'figure-zoom';
+      zoom.textContent = '図を拡大';
+      zoom.dataset.pagefindIgnore = '';
+      zoom.setAttribute('aria-label', `図を拡大：${img.alt || '本文の図'}`);
+      img.after(zoom);
+      const open = () => {
+        figure.src = img.currentSrc || img.src;
+        figure.alt = img.alt;
+        const caption = dialog.querySelector('.figure-caption');
+        if (caption) caption.textContent = img.alt;
+        const link = dialog.querySelector('a');
+        if (link) link.href = figure.src;
+        dialog.showModal();
+      };
+      zoom.addEventListener('click', open);
+      img.addEventListener('click', open);
+      img.style.cursor = 'zoom-in';
+    });
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+  }
+  initializePageTools();
+  document.addEventListener('astro:page-load', initializePageTools);
+</script>
