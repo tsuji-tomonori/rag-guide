@@ -26,12 +26,35 @@ import '../../styles/seminar.css';
       <div class="slide-frame">
       {slides.map((slide, index) => (
         <section id={slide.id} class:list={['slide', slide.layout ?? 'columns']} aria-labelledby={`title-${slide.id}`} data-slide data-index={index}>
-          <div class="slide-meta"><span>{slide.section}</span><span>{String(index + 1).padStart(2, '0')} / {slides.length}</span></div>
+          <div class="slide-meta"><span>{slide.topic && <b class="topic-number">{slide.topic}</b>}{slide.section}</span><span>{String(index + 1).padStart(2, '0')} / {slides.length}</span></div>
           <div class="slide-body">
             {index === 0 ? <h1 id={`title-${slide.id}`}>{slide.title}</h1> : <h2 id={`title-${slide.id}`}>{slide.title}</h2>}
             {slide.lead && <p class="lead">{slide.lead}</p>}
             {slide.example && <p class="example-label">説明用の架空規程</p>}
-            {slide.items && <div class="items" style={`--columns:${slide.items.length}`}>
+            {slide.layout === 'architecture' && <div class="logical-map" role="group" aria-label="四工程と二層の論理構成">
+              <div class="map-batch">
+                <strong class="layer-label">Batch Layer<span>質問前・資料更新時</span></strong>
+                <div class="map-node"><b>① 検索前処理：文書側</b><span>正本 → 解析・分割 → 属性・埋め込み</span></div>
+                <span class="map-arrow" aria-hidden="true">→</span>
+                <div class="map-index"><b>公開済み索引</b><span>本文・ベクトル・出典・版・権限</span></div>
+              </div>
+              <div class="index-bridge">公開した版を、質問時の検索で参照 ↓</div>
+              <div class="map-online">
+                <strong class="layer-label">Real-time Layer<span>質問ごと（オンライン）</span></strong>
+                <div class="map-stages">
+                  <div class="map-node"><b>① 検索前処理</b><span>質問理解・変換<br />認可済み検索条件</span><small>質問 → クエリ</small></div>
+                  <div class="map-node"><b>② 検索</b><span>疎・密検索<br />候補取得・統合</span><small>根拠候補</small></div>
+                  <div class="map-node"><b>③ 検索後処理</b><span>選別・整形<br />矛盾・不足の確認</span><small>根拠集合</small></div>
+                  <div class="map-node"><b>④ 生成</b><span>根拠に従って回答<br />引用・保留</span><small>回答と引用</small></div>
+                </div>
+              </div>
+              <p class="map-crosscut">全工程を横断：評価・権限制御・更新管理・監査</p>
+            </div>}
+            {slide.figure && <figure class="seminar-figure">
+              <a href={slide.figure.src} target="_blank" rel="noopener" aria-label={`${slide.title}の図を原寸で開く`}><img src={slide.figure.src} alt={slide.figure.alt} loading="eager" /></a>
+              <figcaption>{slide.figure.caption}</figcaption>
+            </figure>}
+            {slide.items && <div class="items" style={`--columns:${slide.layout === 'grid' ? 3 : slide.items.length}`}>
               {slide.items.map((item, i) => <div class="item">
                 {slide.layout === 'stages' && <span class="stage-number">{String(i + 1).padStart(2, '0')}</span>}
                 <h3>{item.label}</h3><p>{item.text}</p>
@@ -71,7 +94,7 @@ import '../../styles/seminar.css';
     <p id="notice" role="status"></p>
     <dialog id="overview" aria-labelledby="overview-title">
       <div class="dialog-heading"><h2 id="overview-title">スライド目次</h2><button data-close="overview">閉じる</button></div>
-      <ol>{slides.map((slide) => <li><a href={`#${slide.id}`} data-jump={slide.id}>{slide.title}<small>{slide.section}</small></a></li>)}</ol>
+      <ol>{slides.map((slide) => <li><a href={`#${slide.id}`} data-jump={slide.id}>{slide.topic && `${slide.topic}　`}{slide.title}<small>{slide.section}</small></a></li>)}</ol>
     </dialog>
     <dialog id="help" aria-labelledby="help-title">
       <div class="dialog-heading"><h2 id="help-title">発表の操作</h2><button data-close="help">閉じる</button></div>

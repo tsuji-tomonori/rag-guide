@@ -536,6 +536,146 @@ the audience DOM never reveals them. */
   right:-12px;
   top:25px
 }
+.topic-number {
+  display:inline-block;
+  margin-right:16px;
+  padding-right:16px;
+  border-right:1px solid var(--line)
+}
+.js .grid .items {
+  gap:2cqh 2.4cqw
+}
+.js .grid .item h3 {
+  font-size:1.9cqw
+}
+.js .grid .item p {
+  font-size:1.6cqw;
+  line-height:1.6
+}
+.js .figure .slide-body {
+  min-height:0;
+  padding:1.5cqh 0
+}
+.js .figure h2 {
+  font-size:2.6cqw;
+  flex:none;
+  margin-bottom:1cqh
+}
+.figure h2:after {
+  display:none
+}
+.seminar-figure {
+  margin:0;
+  min-height:0;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:1cqh
+}
+.seminar-figure a {
+  display:block;
+  flex:1;
+  min-height:0
+}
+.seminar-figure img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain
+}
+.seminar-figure figcaption {
+  font-size:1.1cqw;
+  line-height:1.5;
+  color:var(--muted)
+}
+.js .figure .takeaway {
+  font-size:1.55cqw;
+  margin-top:1cqh;
+  flex:none
+}
+.logical-map {
+  font-size:1.4cqw
+}
+.map-batch,.map-online {
+  background:var(--wash);
+  border:1px solid var(--line);
+  padding:2cqh 1.5cqw
+}
+.map-batch {
+  display:grid;
+  grid-template-columns:1.1fr 2fr auto 1.8fr;
+  align-items:center;
+  gap:1.4cqw
+}
+.layer-label {
+  color:var(--accent);
+  font-size:1.5cqw
+}
+.layer-label span {
+  display:block;
+  font-size:1.1cqw;
+  margin-top:1cqh;
+  font-weight:400
+}
+.map-node,.map-index {
+  border:1px solid var(--line);
+  padding:1.6cqh 1cqw;
+  background:var(--paper)
+}
+.map-node b,.map-index b {
+  display:block;
+  margin-bottom:1cqh
+}
+.map-node span,.map-index span {
+  font-size:1.2cqw;
+  line-height:1.6
+}
+.map-node small {
+  display:block;
+  margin-top:1.2cqh;
+  color:var(--accent);
+  border-top:1px solid var(--line);
+  padding-top:1cqh
+}
+.map-index {
+  border-color:var(--accent)
+}
+.index-bridge {
+  text-align:right;
+  color:var(--accent);
+  padding:1.2cqh 1.5cqw;
+  font-size:1.1cqw
+}
+.map-online .layer-label {
+  display:flex;
+  align-items:baseline;
+  gap:1.5cqw;
+  margin-bottom:1.5cqh
+}
+.map-online .layer-label span {
+  margin:0
+}
+.map-stages {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:2cqw
+}
+.map-stages .map-node {
+  position:relative
+}
+.map-stages .map-node:not(:last-child):after {
+  content:'→';
+  position:absolute;
+  right:-1.7cqw;
+  top:42%;
+  color:var(--accent)
+}
+.map-crosscut {
+  text-align:center;
+  margin:1.5cqh 0 0;
+  font-size:1.15cqw;
+  color:var(--muted)
+}
 @media(max-width:760px),(max-height:520px) {
   .js body {
     overflow:auto;
@@ -668,6 +808,25 @@ the audience DOM never reveals them. */
   .back-link span {
     display:none
   }
+  .js .grid .item h3 { font-size:22px }
+  .js .grid .item p { font-size:18px }
+  .js .figure h2 { font-size:28px; margin-bottom:20px }
+  .seminar-figure { flex:none; gap:12px }
+  .seminar-figure img { height:auto }
+  .seminar-figure figcaption { font-size:13px }
+  .js .figure .takeaway { font-size:18px; margin-top:20px }
+  .logical-map { font-size:18px }
+  .map-batch,.map-stages { grid-template-columns:1fr; gap:18px }
+  .map-batch,.map-online { padding:18px }
+  .map-node,.map-index { padding:16px }
+  .layer-label { font-size:20px }
+  .layer-label span,.map-node span,.map-index span { font-size:16px }
+  .map-online .layer-label { display:block; margin-bottom:18px }
+  .index-bridge,.map-crosscut { font-size:14px; padding:12px 0 }
+  .map-arrow { transform:rotate(90deg); text-align:center }
+  .map-stages .map-node:not(:last-child):after {
+    content:'↓'; right:50%; top:auto; bottom:-20px
+  }
 }
 @media print {
   @page {
@@ -766,4 +925,15 @@ the audience DOM never reveals them. */
   .example-label {
     font-size:10pt
   }
+  .js .grid .item h3 { font-size:17pt }
+  .js .grid .item p { font-size:14pt }
+  .js .figure h2 { font-size:25pt }
+  .seminar-figure a { height:95mm; flex:none }
+  .seminar-figure img { height:95mm }
+  .seminar-figure figcaption { font-size:10pt }
+  .js .figure .takeaway { font-size:14pt; margin-top:3mm }
+  .logical-map { font-size:14pt }
+  .layer-label { font-size:16pt }
+  .layer-label span,.map-node span,.map-index span { font-size:12pt }
+  .index-bridge,.map-crosscut { font-size:11pt }
 }

@@ -10,6 +10,12 @@ export function initSeminar() {
   history.replaceState(null, '', url);
   let state: State = { index: 0, minutes: url.searchParams.get('duration') === '30' ? 30 : 40, elapsed: 0, started: null };
   const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-slide]'));
+  // Keep links shared before the six-chapter reorganization useful.
+  const aliases: Record<string, string> = { 'two-layers': 'four-stages', 'stage-layer-map': 'four-stages', question: 'problems', query: 'batch', chunking: 'batch' };
+  const indexFromHash = () => {
+    const id = location.hash.slice(1);
+    return slides.findIndex((slide) => slide.id === (aliases[id] ?? id));
+  };
   const overview = get<HTMLDialogElement>('overview');
   const help = get<HTMLDialogElement>('help');
   let channel: BroadcastChannel | null = null;
@@ -86,7 +92,7 @@ export function initSeminar() {
     if (presenter && channel) channel.postMessage({ type: 'jump', index }); else go(index);
   }
   function hashChanged() {
-    const index = slides.findIndex((slide) => `#${slide.id}` === location.hash);
+    const index = indexFromHash();
     if (presenter && channel) jump(index < 0 ? 0 : index); else go(index < 0 ? 0 : index, false);
   }
   function openPresenter() {
@@ -125,7 +131,7 @@ export function initSeminar() {
   document.documentElement.classList.add('js');
   document.documentElement.classList.toggle('presenter', presenter);
   get('speaker').hidden = !presenter;
-  const initialIndex = slides.findIndex((slide) => `#${slide.id}` === location.hash);
+  const initialIndex = indexFromHash();
   go(initialIndex < 0 ? 0 : initialIndex, false);
   if (presenter) channel?.postMessage({ type: 'request' });
   get('previous').addEventListener('click', () => command('previous'));
