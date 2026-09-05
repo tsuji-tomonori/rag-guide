@@ -7,6 +7,8 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
+from publication import Publication
+from figures import main as build_figures
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -96,6 +98,10 @@ def numeric_prefix(value: str) -> tuple[int, ...]:
 
 def source_label(path: Path) -> str:
     """Return the stable LaTeX label for a chapter or section source."""
+    if path.name == "索引.md":
+        return "index"
+    if path.name == "参考文献.md":
+        return "bibliography"
     if path.name == "序文.md":
         match = re.match(r"^(\d+)", path.parent.name)
         if not match:
@@ -213,7 +219,7 @@ def referenced_images(
                         f"Missing figure referenced by {markdown_path}: {source}"
                     )
 
-                previous = source_by_basename.get(source.name)
+                previous = source_by_basename.get(source.stem)
                 if previous is not None and previous != source:
                     raise RuntimeError(
                         "Figure basename collision: "
@@ -221,17 +227,25 @@ def referenced_images(
                         f"{source.relative_to(ROOT)} would both become "
                         f"print/build/images/{source.name}"
                     )
-                source_by_basename[source.name] = source
+                source_by_basename[source.stem] = source
                 references.append(source)
 
     return references, list(source_by_basename.values())
 
 
-def normalize_markdown(path: Path, is_introduction: bool) -> str:
+def normalize_markdown(path: Path, is_introduction: bool, publication: Publication) -> str:
     """Shift section files below chapters and normalize generated assets."""
     output: list[str] = []
     in_fence = False
-    for line in path.read_text(encoding="utf-8").splitlines():
+    table = []
+    publication.current_source = path
+    for line in path.read_text(encoding="utf-8").splitlines() + [""]:
+        if not in_fence and line.startswith("|"):
+            table.append(line)
+            continue
+        if table:
+            output.append(publication.table(table))
+            table = []
         heading = None
         if line.startswith("```"):
             in_fence = not in_fence
@@ -254,10 +268,11 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
             line = IMAGE_RE.sub(
                 lambda match: (
                     f"![{match.group('alt')}]"
-                    f"(print/build/images/{Path(match.group('path')).name})"
+                    f"(print/build/images/{Path(match.group('path')).stem}.png)"
                 ),
                 line,
             )
+            line = publication.prose(line)
             line = LOCAL_DOC_LINK_RE.sub(
                 lambda match: render_local_reference(
                     path,
@@ -267,17 +282,21 @@ def normalize_markdown(path: Path, is_introduction: bool) -> str:
                 line,
             )
         output.append(line)
+        if not in_fence and heading:
+            output.append("\n" + publication.indexes(title, heading=True) + "\n")
         if not in_fence and heading and len(heading.group(1)) == 1:
             output.append(rf"\label{{{source_label(path)}}}")
+            output.append(publication.section_indexes(path))
     normalized = "\n".join(output).rstrip() + "\n"
     normalized = IMAGE_CAPTION_RE.sub(
         lambda match: f'{match.group(1)[:-1]} "{match.group(2)}")',
         normalized,
     )
-    return STRONG_RE.sub(
-        lambda match: rf"\textbf{{{match.group('text')}}}",
-        normalized,
-    )
+    # Preserve literal Markdown and code examples inside fenced blocks.
+    pieces = re.split(r"(^```[^\n]*\n.*?^```[^\n]*(?:\n|$))", normalized, flags=re.M | re.S)
+    for index in range(0, len(pieces), 2):
+        pieces[index] = STRONG_RE.sub(lambda match: rf"\textbf{{{match.group('text')}}}", pieces[index])
+    return "".join(pieces)
 
 
 def render_grayscale_images(sources: list[Path]) -> None:
@@ -290,7 +309,7 @@ def render_grayscale_images(sources: list[Path]) -> None:
         shutil.rmtree(IMAGE_DIR)
     IMAGE_DIR.mkdir(parents=True, exist_ok=True)
     for source in sources:
-        destination = IMAGE_DIR / source.name
+        destination = IMAGE_DIR / (source.stem + ".png")
         subprocess.run(
             [
                 "ffmpeg",
@@ -309,14 +328,16 @@ def render_grayscale_images(sources: list[Path]) -> None:
 
 def main() -> None:
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
+    build_figures()
     markdown_sources = ordered_sources()
+    publication = Publication(markdown_sources)
     for path, _ in markdown_sources:
         validate_fenced_code(path)
     image_references, unique_images = referenced_images(markdown_sources)
     render_grayscale_images(unique_images)
     sections = []
     for path, is_introduction in markdown_sources:
-        sections.append(normalize_markdown(path, is_introduction))
+        sections.append(normalize_markdown(path, is_introduction, publication))
         sections.append("\n")
     combined = "\n".join(sections)
     reference_count = len(image_references)
@@ -334,12 +355,9 @@ def main() -> None:
             f"found {reference_count} references but {caption_count} captions"
         )
     COMBINED_MD.write_text(combined, encoding="utf-8")
-    INDEX_MD.write_text(
-        normalize_markdown(INDEX_SOURCE, True),
-        encoding="utf-8",
-    )
+    publication.write(BUILD_DIR)
     print(f"Wrote {COMBINED_MD.relative_to(ROOT)}")
-    print(f"Wrote {INDEX_MD.relative_to(ROOT)}")
+
     print(
         f"Wrote {len(unique_images)} grayscale figures "
         f"for {reference_count} references"

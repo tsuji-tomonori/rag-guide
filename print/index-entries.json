@@ -1,0 +1,342 @@
+{
+  "アクセス制御": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.5.Metadata・Provenance・ACL設計.md"
+  },
+  "埋め込み（Embedding）": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.6.Embedding設計.md"
+  },
+  "Evidence Set（根拠集合）": {
+    "definition": "",
+    "target": "5.根拠を選別・整形する/5.5.Evidence Set設計.md"
+  },
+  "エージェント型RAG": {
+    "definition": "",
+    "target": "9.失敗パターンに応じて高度化する/9.9.Agentic RAG.md"
+  },
+  "回答可能性": {
+    "definition": "許可されたEvidence Setで質問へ答えられるかの判定です。英語・略語：Answerability。別称：answerable判定。",
+    "target": "6.根拠に基づいて回答する/6.3.Answerability・Refusal.md"
+  },
+  "回答保留": {
+    "definition": "根拠不足などを理由に回答を確定しない正常な出力です。英語・略語：Abstention。別称：refusal。",
+    "target": "6.根拠に基づいて回答する/6.3.Answerability・Refusal.md"
+  },
+  "既存全文検索からの移行": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.9.既存の全文検索からRAGへ移行する.md"
+  },
+  "監査・追跡可能性": {
+    "definition": "",
+    "target": "8.安全に運用する/8.4.監査とトレーサビリティ.md"
+  },
+  "検索": {
+    "definition": "質問に関係する根拠候補を集める工程です。英語・略語：Retrieval。別称：候補取得。",
+    "target": "2.アーキテクチャ/2.1.RAGパイプライン全体像.md"
+  },
+  "検索後処理（Post-retrieval）": {
+    "definition": "",
+    "target": "2.アーキテクチャ/2.4.検索後処理の概要.md"
+  },
+  "検索前処理（Pre-retrieval）": {
+    "definition": "",
+    "target": "2.アーキテクチャ/2.2.検索前処理の概要.md"
+  },
+  "検索拡張生成": {
+    "definition": "外部情報を取得し、その根拠を条件に回答を生成する方式です。英語・略語：Retrieval-Augmented Generation、RAG。別称：RAG。",
+    "target": "1.RAGとは何か/1.1.RAGとは.md"
+  },
+  "根拠集合": {
+    "definition": "版、位置、役割、採用理由を持つ回答用の根拠集合です。英語・略語：Evidence Set。別称：Evidence Set。",
+    "target": "5.根拠を選別・整形する/5.5.Evidence Set設計.md"
+  },
+  "再順位付け（Reranking）": {
+    "definition": "",
+    "target": "5.根拠を選別・整形する/5.3.Reranking.md"
+  },
+  "生成（Generation）": {
+    "definition": "",
+    "target": "2.アーキテクチャ/2.5.生成の概要.md"
+  },
+  "疎検索（Sparse retrieval）": {
+    "definition": "",
+    "target": "4.質問に合う根拠を探す/4.3.Sparse retrieval.md"
+  },
+  "チャンク分割（Chunking）": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.4.Chunking設計.md"
+  },
+  "長文コンテキスト": {
+    "definition": "",
+    "target": "9.失敗パターンに応じて高度化する/9.5.Long-context RAG.md"
+  },
+  "二層（Batch Layer・Real-time Layer）": {
+    "definition": "",
+    "target": "2.アーキテクチャ/2.1.RAGパイプライン全体像.md"
+  },
+  "ハイブリッド検索（Hybrid retrieval）": {
+    "definition": "",
+    "target": "4.質問に合う根拠を探す/4.5.Hybrid retrieval.md"
+  },
+  "非機能": {
+    "definition": "",
+    "target": "2.アーキテクチャ/2.7.非機能と運用の概要.md"
+  },
+  "評価": {
+    "definition": "",
+    "target": "2.アーキテクチャ/2.6.評価の概要.md"
+  },
+  "密検索（Dense retrieval）": {
+    "definition": "",
+    "target": "4.質問に合う根拠を探す/4.4.Dense retrieval.md"
+  },
+  "メタデータ（Metadata）": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.5.Metadata・Provenance・ACL設計.md"
+  },
+  "四工程": {
+    "definition": "",
+    "target": "2.アーキテクチャ/2.1.RAGパイプライン全体像.md"
+  },
+  "RAG（Retrieval-Augmented Generation、検索拡張生成）": {
+    "definition": "",
+    "target": "1.RAGとは何か/1.1.RAGとは.md"
+  },
+  "来歴（Provenance）": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.5.Metadata・Provenance・ACL設計.md"
+  },
+  "ACL（Access Control List、アクセス制御リスト）": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.1.データソース棚卸し.md"
+  },
+  "ANN（Approximate Nearest Neighbor、近似最近傍探索）": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.7.Index構築とライフサイクル.md"
+  },
+  "API（Application Programming Interface、アプリケーション・プログラミング・インターフェース）": {
+    "definition": "",
+    "target": "1.RAGとは何か/1.5.RAGが向かないケース.md"
+  },
+  "AWS（Amazon Web Services）": {
+    "definition": "",
+    "target": "2.アーキテクチャ/2.8.最初に作るAdvanced-RAG.md"
+  },
+  "HNSW（Hierarchical Navigable Small World）": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.7.Index構築とライフサイクル.md"
+  },
+  "LLM（Large Language Model、大規模言語モデル）": {
+    "definition": "",
+    "target": "1.RAGとは何か/序文.md"
+  },
+  "Managed Knowledge Base": {
+    "definition": "",
+    "target": "10.AWSで設計・実装する/10.2.Batch Layerを構成する.md"
+  },
+  "MMR（Maximal Marginal Relevance、最大周辺関連性）": {
+    "definition": "",
+    "target": "5.根拠を選別・整形する/5.2.重複排除とDiversity.md"
+  },
+  "OCR（Optical Character Recognition、光学文字認識）": {
+    "definition": "",
+    "target": "3.回答に使う資料を準備する/3.2.Ingestion設計.md"
+  },
+  "RRF（Reciprocal Rank Fusion、相互順位統合）": {
+    "definition": "",
+    "target": "4.質問に合う根拠を探す/4.2.Query変換.md"
+  },
+  "SLI（Service Level Indicator、サービス水準指標）": {
+    "definition": "",
+    "target": "8.安全に運用する/8.5.性能と可用性.md"
+  },
+  "SLO（Service Level Objective、サービス水準目標）": {
+    "definition": "",
+    "target": "7.品質を評価し改善する/7.8.Regression・A-B・Canary.md"
+  },
+  "TF-IDF（Term Frequency-Inverse Document Frequency、単語頻度・逆文書頻度）": {
+    "definition": "",
+    "target": "4.質問に合う根拠を探す/4.3.Sparse retrieval.md"
+  },
+  "情報源": {
+    "definition": "回答の正本または根拠候補として管理する文書・データです。英語・略語：Source。別称：source。",
+    "target": "1.RAGとは何か/1.1.RAGとは.md"
+  },
+  "検索前処理": {
+    "definition": "文書と質問を検索可能な表現へ変える工程です。英語・略語：Pre-retrieval。",
+    "target": "2.アーキテクチャ/2.1.RAGパイプライン全体像.md"
+  },
+  "疎検索": {
+    "definition": "語や文字列の一致を主な手掛かりにする検索です。英語・略語：Sparse retrieval。別称：キーワード検索、語彙検索。",
+    "target": "4.質問に合う根拠を探す/4.3.Sparse retrieval.md"
+  },
+  "密検索": {
+    "definition": "質問と文書の埋め込みの近さで候補を探す検索です。英語・略語：Dense retrieval。別称：意味検索、vector検索。",
+    "target": "4.質問に合う根拠を探す/4.4.Dense retrieval.md"
+  },
+  "ハイブリッド検索": {
+    "definition": "疎検索と密検索など複数の候補一覧を統合する検索です。英語・略語：Hybrid retrieval。別称：hybrid search。",
+    "target": "4.質問に合う根拠を探す/4.5.Hybrid retrieval.md"
+  },
+  "検索後処理": {
+    "definition": "候補を選別・整形しEvidence Setへ変える工程です。英語・略語：Post-retrieval。別称：根拠整形。",
+    "target": "2.アーキテクチャ/2.1.RAGパイプライン全体像.md"
+  },
+  "再順位付け": {
+    "definition": "少数の候補を本文も使って精密に並べ直す処理です。英語・略語：Reranking。別称：再ランキング。",
+    "target": "5.根拠を選別・整形する/5.3.Reranking.md"
+  },
+  "チャンク": {
+    "definition": "原文から作る検索・生成・引用の処理単位です。英語・略語：Chunk。別称：検索単位。",
+    "target": "3.回答に使う資料を準備する/3.4.Chunking設計.md"
+  },
+  "埋め込み": {
+    "definition": "textやimageを比較可能な数値vectorへ写した表現です。英語・略語：Embedding。別称：vector表現。",
+    "target": "3.回答に使う資料を準備する/3.6.Embedding設計.md"
+  },
+  "根拠": {
+    "definition": "回答中の主張を支持し、原文へ戻れる情報です。英語・略語：Evidence。別称：evidence item。",
+    "target": "5.根拠を選別・整形する/5.5.Evidence Set設計.md"
+  },
+  "コンテキスト": {
+    "definition": "命令、質問、会話、Evidence Setなど生成modelへ渡す入力です。英語・略語：Context。別称：prompt context。",
+    "target": "5.根拠を選別・整形する/5.6.Context packing.md"
+  },
+  "主張": {
+    "definition": "真偽と根拠支持を判定できる回答中の記述です。英語・略語：Claim。別称：atomic claim。",
+    "target": "6.根拠に基づいて回答する/6.6.Claim-level verification.md"
+  },
+  "引用": {
+    "definition": "主張から根拠の文書・位置へ戻る対応です。英語・略語：Citation。別称：citation ID。",
+    "target": "6.根拠に基づいて回答する/6.4.Citation設計.md"
+  },
+  "来歴": {
+    "definition": "根拠から情報源、版、位置、変換処理へ戻る記録です。英語・略語：Provenance。別称：出所・変換履歴。",
+    "target": "3.回答に使う資料を準備する/3.5.Metadata・Provenance・ACL設計.md"
+  },
+  "アクセス制御リスト": {
+    "definition": "文書やchunkを利用できる主体を表す属性です。英語・略語：Access Control List、ACL。別称：ACL。",
+    "target": "3.回答に使う資料を準備する/3.1.データソース棚卸し.md"
+  },
+  "相互順位統合": {
+    "definition": "複数一覧の順位から候補の統合scoreを作る方式です。英語・略語：Reciprocal Rank Fusion、RRF。別称：RRF。",
+    "target": "4.質問に合う根拠を探す/4.5.Hybrid retrieval.md"
+  },
+  "近似最近傍探索": {
+    "definition": "完全探索を近似して大量vectorから近い候補を探す方式です。英語・略語：Approximate Nearest Neighbor、ANN。別称：ANN検索。",
+    "target": "3.回答に使う資料を準備する/3.7.Index構築とライフサイクル.md"
+  },
+  "バッチ層": {
+    "definition": "質問前に文書を検索可能な成果物へ変える実行層です。英語・略語：Batch Layer。別称：offline layer。",
+    "target": "2.アーキテクチャ/2.1.RAGパイプライン全体像.md"
+  },
+  "リアルタイム層": {
+    "definition": "質問ごとに候補取得、根拠整形、生成を行う実行層です。英語・略語：Real-time Layer。別称：online layer。",
+    "target": "2.アーキテクチャ/2.1.RAGパイプライン全体像.md"
+  },
+  "固定評価データ": {
+    "definition": "変更前後を同じ条件で比較する質問・正解・制約の集合です。英語・略語：Fixed evaluation dataset。別称：golden dataset。",
+    "target": "7.品質を評価し改善する/7.2.評価データセット.md"
+  },
+  "スライス": {
+    "definition": "質問形式、文書種別、riskなど意味のある条件で分けた評価集合です。英語・略語：Evaluation slice。別称：部分集合。",
+    "target": "7.品質を評価し改善する/7.1.評価設計の全体像.md"
+  },
+  "公開条件": {
+    "definition": "品質、安全性、遅延、費用を含む公開前の合格条件です。英語・略語：Release gate。別称：go/no-go条件。",
+    "target": "7.品質を評価し改善する/7.1.評価設計の全体像.md"
+  },
+  "取り込み成功率": {
+    "definition": "工程：検索前処理。分母・測定対象：取り込み対象文書。k：なし。測定位置：index公開前。",
+    "target": "7.品質を評価し改善する/7.3.Pre-retrieval・Batch評価.md"
+  },
+  "metadata完全率": {
+    "definition": "工程：検索前処理。分母・測定対象：必須属性の総数。k：なし。測定位置：index公開前。",
+    "target": "7.品質を評価し改善する/7.3.Pre-retrieval・Batch評価.md"
+  },
+  "更新反映時間": {
+    "definition": "工程：検索前処理。分母・測定対象：更新イベント。k：なし。測定位置：情報源更新から検索可能まで。",
+    "target": "7.品質を評価し改善する/7.3.Pre-retrieval・Batch評価.md"
+  },
+  "Recall@k": {
+    "definition": "工程：検索。分母・測定対象：質問ごとの正解根拠数。k：あり。測定位置：初段検索または統合直後。",
+    "target": "7.品質を評価し改善する/7.1.評価設計の全体像.md"
+  },
+  "全根拠回収率": {
+    "definition": "工程：検索。分母・測定対象：複数根拠が必要な質問数。k：あり。測定位置：初段検索または統合直後。",
+    "target": "7.品質を評価し改善する/7.4.Retrieval評価.md"
+  },
+  "Precision@k": {
+    "definition": "工程：検索・検索後処理。分母・測定対象：上位k件。k：あり。測定位置：対象処理の直後。",
+    "target": "7.品質を評価し改善する/7.1.評価設計の全体像.md"
+  },
+  "MRR": {
+    "definition": "工程：検索・検索後処理。分母・測定対象：評価質問数。k：あり。測定位置：対象順位一覧の直後。",
+    "target": "7.品質を評価し改善する/7.4.Retrieval評価.md"
+  },
+  "nDCG@k": {
+    "definition": "工程：検索・検索後処理。分母・測定対象：質問ごとの理想DCG。k：あり。測定位置：対象順位一覧の直後。",
+    "target": "7.品質を評価し改善する/7.4.Retrieval評価.md"
+  },
+  "正解根拠保持率": {
+    "definition": "工程：検索後処理。分母・測定対象：処理前に存在した正解根拠数。k：任意。測定位置：filter・rerank・圧縮の各直後。",
+    "target": "7.品質を評価し改善する/7.5.Post-retrieval・Evidence評価.md"
+  },
+  "重複率": {
+    "definition": "工程：検索後処理。分母・測定対象：候補またはEvidence Set件数。k：任意。測定位置：重複排除の前後。",
+    "target": "7.品質を評価し改善する/7.5.Post-retrieval・Evidence評価.md"
+  },
+  "正解span保持率": {
+    "definition": "工程：検索後処理。分母・測定対象：正解原文span数。k：なし。測定位置：圧縮またはcontext作成後。",
+    "target": "7.品質を評価し改善する/7.5.Post-retrieval・Evidence評価.md"
+  },
+  "根拠忠実性": {
+    "definition": "工程：生成。分母・測定対象：検証可能なclaim数。k：なし。測定位置：生成後。",
+    "target": "7.品質を評価し改善する/7.6.Generation評価.md"
+  },
+  "引用の正しさ": {
+    "definition": "工程：生成。分母・測定対象：付与された引用数。k：なし。測定位置：生成後。",
+    "target": "6.根拠に基づいて回答する/6.4.Citation設計.md"
+  },
+  "引用の網羅性": {
+    "definition": "主張が付与された引用先の集合で支持される割合。工程：生成。分母・測定対象：根拠を必要とするclaim数。k：なし。測定位置：生成後。",
+    "target": "6.根拠に基づいて回答する/6.4.Citation設計.md"
+  },
+  "支持なし主張率": {
+    "definition": "工程：生成。分母・測定対象：検証可能なclaim数。k：なし。測定位置：生成後検証。",
+    "target": "7.品質を評価し改善する/7.6.Generation評価.md"
+  },
+  "適切な回答保留率": {
+    "definition": "工程：生成・E2E。分母・測定対象：回答不能な評価質問数。k：なし。測定位置：生成後。",
+    "target": "7.品質を評価し改善する/7.7.End-to-end評価.md"
+  },
+  "過剰回答保留率": {
+    "definition": "工程：生成・E2E。分母・測定対象：回答可能な評価質問数。k：なし。測定位置：生成後。",
+    "target": "7.品質を評価し改善する/7.7.End-to-end評価.md"
+  },
+  "形式準拠率": {
+    "definition": "工程：生成・E2E。分母・測定対象：全回答数。k：なし。測定位置：schema検証後。",
+    "target": "7.品質を評価し改善する/7.6.Generation評価.md"
+  },
+  "タスク完了率": {
+    "definition": "工程：E2E。分母・測定対象：評価タスク数。k：なし。測定位置：利用者の業務終了時。",
+    "target": "7.品質を評価し改善する/7.7.End-to-end評価.md"
+  },
+  "p95遅延": {
+    "definition": "工程：全工程・E2E。分母・測定対象：対象期間の要求数。k：なし。測定位置：工程別または端から端まで。",
+    "target": "8.安全に運用する/8.5.性能と可用性.md"
+  },
+  "質問当たり費用": {
+    "definition": "工程：全工程・E2E。分母・測定対象：対象期間の質問数。k：なし。測定位置：端から端まで。",
+    "target": "8.安全に運用する/8.6.コスト管理.md"
+  },
+  "権限違反件数": {
+    "definition": "工程：全工程。分母・測定対象：許可されない取得・表示の試験数。k：なし。測定位置：検索、生成、表示の各境界。",
+    "target": "8.安全に運用する/8.1.セキュリティと権限制御.md"
+  },
+  "引用付与率": {
+    "definition": "外部根拠を必要とする主張のうち、引用が付いたものの割合。",
+    "target": "7.品質を評価し改善する/7.6.Generation評価.md"
+  }
+}
