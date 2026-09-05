@@ -45,7 +45,11 @@ assert(audience.document.getElementById('speaker').hidden);
 const speaker = app('?session=one&presenter=1');
 assert.equal(speaker.index(), first);
 assert.equal(speaker.document.getElementById('duration').value, '30');
+const speakerPanel = speaker.document.getElementById('speaker');
+speakerPanel.scrollTop = 250;
+audience.tick(); assert.equal(speakerPanel.scrollTop, 250, 'Clock sync must preserve reading position');
 audience.click('next'); assert.equal(audience.index(), first + 1); assert.equal(speaker.index(), first + 1);
+assert.equal(speakerPanel.scrollTop, 0, 'Next slide must start its speaker notes at the top');
 speaker.click('next'); assert.equal(audience.index(), first + 2); assert.equal(speaker.index(), first + 2);
 audience.key('ArrowRight', audience.document.getElementById('next')); assert.equal(audience.index(), first + 3);
 audience.key('Home'); assert.equal(audience.index(), 0); assert(audience.document.getElementById('previous').disabled);
@@ -74,7 +78,7 @@ assert.equal(speaker.document.getElementById('remaining').textContent, '40:00');
 const other = app('?session=two'); other.click('next'); assert.equal(audience.index(), first + 2);
 audience.click('presenter-open'); assert(audience.popup().includes('presenter=1')); assert(audience.document.getElementById('notice').textContent.includes('ポップアップ'));
 audience.click('fullscreen'); assert(audience.document.getElementById('notice').textContent.includes('全画面'));
-for (const [alias, id] of Object.entries({'two-layers':'four-stages','stage-layer-map':'four-stages', question:'problems', query:'batch', chunking:'batch'})) {
+for (const [alias, id] of Object.entries({'two-layers':'four-stages','stage-layer-map':'four-stages', question:'problems', query:'batch', chunking:'batch', reranking:'context-packing'})) {
   assert.equal(app(`?session=alias-${alias}#${alias}`).index(), slides.findIndex(s => s.id === id));
 }
 const invalid = app('?session=invalid#missing'); assert.equal(invalid.index(), 0);

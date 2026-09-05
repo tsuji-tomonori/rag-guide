@@ -11,7 +11,7 @@ export function initSeminar() {
   let state: State = { index: 0, minutes: url.searchParams.get('duration') === '30' ? 30 : 40, elapsed: 0, started: null };
   const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-slide]'));
   // Keep links shared before the six-chapter reorganization useful.
-  const aliases: Record<string, string> = { 'two-layers': 'four-stages', 'stage-layer-map': 'four-stages', question: 'problems', query: 'batch', chunking: 'batch' };
+  const aliases: Record<string, string> = { 'two-layers': 'four-stages', 'stage-layer-map': 'four-stages', question: 'problems', query: 'batch', chunking: 'batch', reranking: 'context-packing' };
   const indexFromHash = () => {
     const id = location.hash.slice(1);
     return slides.findIndex((slide) => slide.id === (aliases[id] ?? id));
@@ -22,6 +22,7 @@ export function initSeminar() {
   let lastSync = 0;
   let noticeTimeout: ReturnType<typeof setTimeout>;
   let presenterWindow: Window | null = null;
+  let renderedIndex = -1;
   const format = (seconds: number) => `${String(Math.floor(Math.max(0, seconds) / 60)).padStart(2, '0')}:${String(Math.floor(Math.max(0, seconds) % 60)).padStart(2, '0')}`;
   const elapsed = () => state.elapsed + (state.started === null ? 0 : Math.max(0, Date.now() - state.started));
   const notice = (text: string) => {
@@ -42,6 +43,7 @@ export function initSeminar() {
       else link.removeAttribute('aria-current');
     });
     if (presenter) {
+      if (renderedIndex !== state.index) get('speaker').scrollTop = 0;
       get('speaker-notes').textContent = slide.notes;
       get('speaker-expand').textContent = slide.expand;
       get('speaker-next').textContent = slides[state.index + 1]?.title ?? 'ここから質疑・意見交換へ';
@@ -52,6 +54,7 @@ export function initSeminar() {
         li.appendChild(a); return li;
       }));
     }
+    renderedIndex = state.index;
     renderClock();
   }
   function renderClock() {
