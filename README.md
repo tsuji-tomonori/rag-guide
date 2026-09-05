@@ -31,6 +31,18 @@ GitHub Releaseを公開すると、[PDFリリースワークフロー](.github/w
 `main` ブランチへのpushでも同じPDFを生成します。この場合はGitHub Releaseを新規作成せず、
 Actions実行結果の成果物として14日間ダウンロードできます。
 
+## 本文をWebで読む
+
+[ガイド本文](https://tsuji-tomonori.github.io/rag-guide/guide/)では、全10章・章構成・参考文献・索引を読めます。
+左に章一覧、右にページ内目次を表示し、上の検索で本文とハンズオンを横断検索できます。
+各ページの右上にMarkdownコピーボタンがあり、図はクリックまたは「図を拡大」で拡大できます。
+トップページと本文の入口から、公開済みのPDFも引き続きダウンロードできます。
+
+Web本文はビルド時に `docs/` と `docs/章構成.md` から生成します。
+生成先 `handson/aws-rag/src/content/docs/guide/` と `public/guide-assets/` はGit管理しません。
+本文や図版を修正すると、GitHub ActionsがWeb版を再生成・公開します。
+PDFは従来どおり `docs/` を入力として、上記のPDF生成・Release手順で利用できます。
+
 ## AWS RAGハンズオン
 
 `handson/aws-rag/`には、AWS CLIからAmazon Bedrock Knowledge Bases、S3 Vectors、S3、Converseを構築するAstro Starlight教材があります。各操作の直後にread-onlyの検証コマンドを実行し、期待状態を確認してから次へ進む構成です。

@@ -55,3 +55,7 @@ __pycache__/
 
 # Print pipeline bytecode cache
 print/__pycache__/
+
+# Web pages and shared figures generated from canonical docs/
+handson/aws-rag/src/content/docs/guide/
+handson/aws-rag/public/guide-assets/

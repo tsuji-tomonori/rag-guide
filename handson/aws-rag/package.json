@@ -7,15 +7,24 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
-    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check"
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "predev": "node scripts/prepare-guide.mjs",
+    "prebuild": "node scripts/prepare-guide.mjs",
+    "precheck": "node scripts/prepare-guide.mjs",
+    "test:site": "node scripts/check-site.mjs && node scripts/check-search.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "7.2.2",
     "@astrojs/starlight": "0.41.7",
     "astro": "7.2.1",
-    "sharp": "0.35.3"
+    "sharp": "0.35.3",
+    "turndown": "^7.2.4",
+    "turndown-plugin-gfm": "^1.0.2"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.6",
+    "@mixmark-io/domino": "^2.2.0",
+    "@types/turndown": "^5.0.6",
     "typescript": "5.9.3"
   }
 }
