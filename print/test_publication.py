@@ -1,7 +1,9 @@
 """Regression checks for the manuscript-to-PDF publishing pipeline."""
+import hashlib
 import json
 import math
 import re
+import struct
 import tempfile
 import unittest
 from pathlib import Path
@@ -76,13 +78,32 @@ class PublicationTests(unittest.TestCase):
         manuscript = '\n'.join(path.read_text() for path, _ in self.sources)
         for name, spec in diagrams.items():
             self.assertIn('<svg', render(name, spec))
-            self.assertIn('/v5/' + name + '.svg', manuscript)
+            self.assertIn('/v6/' + name + '.png', manuscript)
+            self.assertNotIn('/v5/' + name + '.svg', manuscript)
         idf = math.log(1 + (3 - 2 + .5) / (2 + .5))
         score = lambda f, length: idf * f * 2.2 / (f + 1.2 * (.25 + .75 * length / 12))
         self.assertAlmostEqual(score(2, 8), .713, places=3)
         self.assertAlmostEqual(score(1, 16), .414, places=3)
         self.assertGreater(1/62 + 1/61, 1/61 + 1/63)
         self.assertGreater(.5*.70 - .5*.20, .5*.85 - .5*.95)
+
+    def test_imagegen_assets_match_reviewed_manifest(self):
+        manifest = json.loads((module.ROOT / 'print/imagegen-manifest.json').read_text())
+        prompts = json.loads((module.ROOT / manifest['prompts']).read_text())
+        diagrams = json.loads((module.ROOT / 'print/diagrams.json').read_text())
+        self.assertEqual(set(manifest['assets']), set(diagrams))
+        self.assertEqual(len(manifest['assets']), 24)
+        for name, entry in manifest['assets'].items():
+            data = (module.ROOT / entry['file']).read_bytes()
+            self.assertEqual(data[:8], b'\x89PNG\r\n\x1a\n', name)
+            width, height = struct.unpack('>II', data[16:24])
+            self.assertEqual((width, height), (entry['width'], entry['height']), name)
+            self.assertGreaterEqual(width, 1500, name)
+            self.assertGreaterEqual(height, 1000, name)
+            self.assertEqual(hashlib.sha256(data).hexdigest(), entry['sha256'], name)
+            self.assertEqual(entry['tool'], 'built-in image_gen')
+            self.assertIn(entry['prompt_key'], prompts['prompts'])
+            self.assertTrue(entry['visual_review'])
 
     def test_index_points_to_explanations(self):
         p = self.publication

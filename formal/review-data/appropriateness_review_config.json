@@ -1,8 +1,8 @@
 {
   "baseline_docs_commit": "52bebecfb2a435d0e7ff2efea557c5799674ded6",
-  "target_docs_commit": "d560cba90702291f94467a26c61b453668be427a",
+  "target_docs_commit": "fe2b276dbee9e80eceb22460de6337d92af0cd4d",
   "baseline_review_count": 678,
   "spreadsheet_id": "1tqA6ExUTT862iqVos-uIsuDzb8pgIPL7lHZ5hJuyroM",
   "spreadsheet_tab": "論理未証明",
-  "note": "2026-09-05 PDF review integrated onto main 30f67ab; regenerate evidence ledgers against the committed manuscript, preserving existing review boundaries"
+  "note": "2026-09-05 image-gen replacement of the 24 added diagrams on main 3834f6e; manuscript prose and historical review decisions unchanged"
 }

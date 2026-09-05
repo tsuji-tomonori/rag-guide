@@ -1,6 +1,6 @@
 {
   "method_version": 2,
-  "authoritative_commit": "d560cba90702291f94467a26c61b453668be427a",
+  "authoritative_commit": "fe2b276dbee9e80eceb22460de6337d92af0cd4d",
   "primary_sources": 208,
   "required_sentences": 848,
   "formalized_sentences": 757,
@@ -16,8 +16,8 @@
     "anti_circularity": "Source summaries are explicit theorem premises, not custom Lean axioms and not copied from guide sentences."
   },
   "sha256": {
-    "formal/review-data/coverage_manifest.json": "7af608e7ab94af3997e0927d3ec1aed59f9a761189c79a036138fb9a2d49cd2d",
-    "formal/review-data/semantic_assurance_manifest.json": "384a232bc4e48adf914947f8cae83eead2edd5b315c7397386ad75c2f4a78b1b",
+    "formal/review-data/coverage_manifest.json": "27508c2c552f9fc5e9c4a6431c5e425f059ea94261fa0af0d36b8d17b6c83b6e",
+    "formal/review-data/semantic_assurance_manifest.json": "6e3c50168f6354927dcc1b1e9900389f7eb9dfbd2cc2d317ffee2e00ed42b359",
     "formal/review-data/sentence_evidence.csv": "12390ec971d19417731b49760bcbfce9d9d571b7d92bdbc2811a16a851ad1703",
     "formal/review-data/trusted_primary_sources.csv": "799c2295081bee5719432ef4f868a1f7a856fa4295b7ba56d825e8bd75cec88b",
     "formal/review-data/source_summary_formalizations.csv": "1b39df2ed94455996a253665db7c3fd4d481baacc955b209b8ebc03ded155cbd",
