@@ -1,0 +1,52 @@
+{
+  "repository": "awslabs/aws-icons-for-plantuml",
+  "commit": "e26e2c05daf8b6bc4c764669fc2be04c314ccb8c",
+  "retrieved_on": "2026-09-05",
+  "official_icons_page": "https://aws.amazon.com/architecture/icons/",
+  "icons": [
+    {
+      "path": "dist/Analytics/OpenSearchService.png",
+      "sha": "6a1e16ef6efa6cbe35f4f17a594e7c8ef2a50f71"
+    },
+    {
+      "path": "dist/ArtificialIntelligence/Bedrock.png",
+      "sha": "338e066df7b2991f18c63baebb6e7fa75d6a3552"
+    },
+    {
+      "path": "dist/ArtificialIntelligence/BedrockAgentCore.png",
+      "sha": "bb4b733954d90791793d7692b02e53b949e3b5a7"
+    },
+    {
+      "path": "dist/Compute/Lambda.png",
+      "sha": "15e6d7fa9b3c90d41523e1da2151ee6cdb4d4feb"
+    },
+    {
+      "path": "dist/Groups/AWSCloud.png",
+      "sha": "4a6afdc797008dd9ee231691c2ec4d5e3b4c9ce8"
+    },
+    {
+      "path": "dist/ManagementGovernance/CloudTrail.png",
+      "sha": "767e9f87a555bc2a104eb59101ef73e95ba6f014"
+    },
+    {
+      "path": "dist/ManagementGovernance/CloudWatch.png",
+      "sha": "21233dd7123fd4548f64be7091ade829b1e2ba7d"
+    },
+    {
+      "path": "dist/SecurityIdentityCompliance/IdentityandAccessManagement.png",
+      "sha": "f7304df25160712e343c9c8baf0075c3bd332937"
+    },
+    {
+      "path": "dist/SecurityIdentityCompliance/KeyManagementService.png",
+      "sha": "3c0091e37e23f4247d7ccff8c898891223ecbdcb"
+    },
+    {
+      "path": "dist/Storage/SimpleStorageService.png",
+      "sha": "ae8789737d5beacd6ce43d339b0c36f532bee0b4"
+    },
+    {
+      "path": "dist/Storage/SimpleStorageServiceS3Vectors.png",
+      "sha": "88d449a4e6943c8b50fed113328b59d4ba7cbb70"
+    }
+  ]
+}

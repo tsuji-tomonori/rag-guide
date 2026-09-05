@@ -1,0 +1,93 @@
+[
+  {
+    "file": "repo/assets/diagrams/aws/44-aws-four-stages-two-layers.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/45-aws-resource-selection.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/46-aws-kb-management-boundary.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/47-aws-batch-ingestion-flow.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/48-aws-vector-store-choice.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/49-aws-realtime-search-flow.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/50-aws-evidence-shaping-flow.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/51-aws-generation-control-paths.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/52-aws-app-vs-agentcore.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/53-aws-crosscutting-controls.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/54-aws-reference-architectures.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/aws-rag-logical-architecture.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  },
+  {
+    "file": "repo/assets/diagrams/aws/aws-rag-physical-architecture.drawio",
+    "pages": 1,
+    "errors": 0,
+    "warnings": 0,
+    "issues": []
+  }
+]

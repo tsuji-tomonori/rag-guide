@@ -32,8 +32,8 @@ for (const [file, document] of documents) {
     const url = new URL(target, 'https://tsuji-tomonori.github.io');
     const relative = decodeURI(url.pathname.slice('/rag-guide/'.length));
     const destination = path.join(dist, relative, url.pathname.endsWith('/') ? 'index.html' : '');
-    if (element.tagName === 'IMG') {
-      try { assert((await readFile(destination)).length > 0); } catch { failures.push(`Image: ${file}: ${target}`); }
+    if (element.tagName === 'IMG' || !destination.endsWith('.html')) {
+      try { assert((await readFile(destination)).length > 0); } catch { failures.push(`Asset: ${file}: ${target}`); }
     } else {
       const linked = documents.get(destination);
       if (!linked) failures.push(`Link: ${file}: ${target}`);

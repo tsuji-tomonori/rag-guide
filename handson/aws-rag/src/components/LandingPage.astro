@@ -120,22 +120,10 @@ const baselines = [
 
     <aside class="architecture-summary" aria-labelledby="summary-title">
       <header><h2 id="summary-title">完成する構成</h2><code>ap-northeast-1</code></header>
-      <div class="summary-flow">
-        <article><span>S3</span><div><strong>文書bucket</strong><small>AWS規範ガイダンスPDF（日本語）</small></div></article>
-        <span aria-hidden="true">↓</span>
-        <article><span>Bedrock</span><div><strong>Knowledge Bases</strong><small>chunk化 / embedding / 同期</small></div></article>
-        <span aria-hidden="true">↓</span>
-        <article><span>Vectors</span><div><strong>S3 Vectors index</strong><small>float32 / 1024 / cosine</small></div></article>
-        <span aria-hidden="true">↓</span>
-        <div class="execution-options">
-          <article>
-            <span>分離型 · 7–8</span><code>Retrieve<br />→ Converse</code><small>根拠を確認してから生成</small>
-          </article>
-          <article>
-            <span>一体型 · 9</span><code>RetrieveAnd<br />Generate</code><small>回答 + citationを一撃で</small>
-          </article>
-        </div>
-      </div>
+      <a class="summary-diagram" href="/rag-guide/images/aws-rag-logical-architecture.svg" target="_blank" rel="noopener" aria-label="AWS RAGの論理構成図を拡大表示">
+        <img src="/rag-guide/images/aws-rag-logical-architecture.svg" alt="S3の文書をKnowledge Basesで取り込み、Bedrockのモデルで埋め込んでS3 Vectorsへ登録。検索後は受講者が根拠を整形してConverseを呼び出す。" width="1200" height="1130" />
+      </a>
+      <p class="summary-caption">図を押すと拡大できます。取り込み・検索・根拠整形・回答生成を担当別に確認します。</p>
       <a class="details-link" href="/rag-guide/00-overview/#aws-architecture">物理構成・論理構成の詳細を見る <span aria-hidden="true">→</span></a>
     </aside>
   </section>
@@ -301,6 +289,9 @@ const baselines = [
   .architecture-summary > header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.15rem; }
   .architecture-summary h2 { font-size: 1.05rem; }
   .architecture-summary > header code { padding: 0; color: var(--quiet); background: transparent; font-size: 0.75rem; }
+  .summary-diagram { display: block; cursor: zoom-in; background: #fff; }
+  .summary-diagram img { display: block; width: 100%; height: auto; }
+  .summary-caption { margin-block: .75rem; font-size: .9rem; line-height: 1.65; }
   .summary-flow { display: grid; justify-items: stretch; gap: 0.45rem; }
   .summary-flow > article { display: grid; grid-template-columns: 4rem 1fr; gap: 0.65rem; align-items: center; padding: 0.68rem 0.8rem; border: 1.5px solid var(--blue); border-left-width: 5px; border-radius: 0.3rem; background: var(--blue-soft); }
   .summary-flow > article > span { color: var(--blue); font: 600 0.72rem/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
@@ -470,3 +461,4 @@ const baselines = [
     .hero-actions .button { width: 100%; }
   }
 </style>
+
