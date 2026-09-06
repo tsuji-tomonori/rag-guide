@@ -2,7 +2,7 @@ export type SeminarSlide = {
   id: string;
   section: string;
   topic?: string;
-  figure?: { src: string; alt: string; caption: string };
+  diagram?: 'bm25' | 'embedding' | 'hybrid' | 'ranking' | 'context-packing';
   title: string;
   lead?: string;
   layout?: 'cover' | 'quote' | 'columns' | 'stages' | 'matrix' | 'table' | 'figure' | 'architecture' | 'grid';
@@ -28,7 +28,7 @@ export const slides: SeminarSlide[] = [
   {
     "id": "intro",
     "section": "社内勉強会",
-    "title": "根拠を探して、答える。",
+    "title": "根拠を探して、答える",
     "layout": "cover",
     "lead": "RAGの選び方から、構成・技術・評価・AWSまで",
     "takeaway": "30〜40分で学ぶ、RAGの6つの視点",
@@ -49,7 +49,7 @@ export const slides: SeminarSlide[] = [
   {
     "id": "agenda",
     "section": "全体の概要",
-    "title": "今日の話は、6つの大分類。",
+    "title": "今日の話は、6つの大分類",
     "layout": "grid",
     "items": [
       {
@@ -95,7 +95,7 @@ export const slides: SeminarSlide[] = [
     "id": "rag",
     "section": "1. RAGとは何か",
     "topic": "1-1",
-    "title": "RAGとは：検索した資料を根拠に答える。",
+    "title": "RAGとは：検索した資料を根拠に答える",
     "layout": "columns",
     "lead": "LLMの内部知識 ＋ 検索できる外部知識",
     "items": [
@@ -127,7 +127,7 @@ export const slides: SeminarSlide[] = [
     "id": "comparison",
     "section": "1. RAGとは何か",
     "topic": "1-2",
-    "title": "返すものと、失敗を調べる場所が違う。",
+    "title": "返すものと、失敗を調べる場所が違う",
     "layout": "table",
     "headers": [
       "方式",
@@ -170,7 +170,7 @@ export const slides: SeminarSlide[] = [
     "id": "problems",
     "section": "1. RAGとは何か",
     "topic": "1-3",
-    "title": "内部知識だけでは扱いにくい問題を補う。",
+    "title": "内部知識だけでは扱いにくい問題を補う",
     "layout": "columns",
     "items": [
       {
@@ -201,7 +201,7 @@ export const slides: SeminarSlide[] = [
     "id": "suitable",
     "section": "1. RAGとは何か",
     "topic": "1-4",
-    "title": "外部の根拠を特定して使う業務に向く。",
+    "title": "外部の根拠を特定して使う業務に向く",
     "layout": "table",
     "headers": [
       "業務",
@@ -240,7 +240,7 @@ export const slides: SeminarSlide[] = [
     "id": "unsuitable",
     "section": "1. RAGとは何か",
     "topic": "1-5",
-    "title": "判断の出発点は、正解がどこにあるか。",
+    "title": "判断の出発点は、正解がどこにあるか",
     "layout": "table",
     "headers": [
       "欲しいもの",
@@ -279,7 +279,7 @@ export const slides: SeminarSlide[] = [
     "id": "advanced",
     "section": "1. RAGとは何か",
     "topic": "1-6",
-    "title": "最小のAdvanced RAGを出発点にする。",
+    "title": "最小のAdvanced RAGを出発点にする",
     "layout": "columns",
     "items": [
       {
@@ -314,7 +314,7 @@ export const slides: SeminarSlide[] = [
     "id": "four-stages",
     "section": "2. アーキテクチャ",
     "topic": "2-1",
-    "title": "4つの工程 × 2つの層で設計する。",
+    "title": "4つの工程 × 2つの層で設計する",
     "layout": "architecture",
     "takeaway": "工程は目的、層は実行タイミング。最初に失敗した工程を切り分ける。",
     "weight": 2.8,
@@ -331,7 +331,7 @@ export const slides: SeminarSlide[] = [
     "id": "batch",
     "section": "2. アーキテクチャ",
     "topic": "2-2",
-    "title": "検索前処理：資料と質問を検索可能にする。",
+    "title": "検索前処理：資料と質問を検索可能にする",
     "layout": "grid",
     "items": [
       {
@@ -382,7 +382,7 @@ export const slides: SeminarSlide[] = [
     "id": "retrieval",
     "section": "2. アーキテクチャ",
     "topic": "2-3",
-    "title": "検索：答えを支える候補を集める。",
+    "title": "検索：答えを支える候補を集める",
     "layout": "columns",
     "items": [
       {
@@ -417,7 +417,7 @@ export const slides: SeminarSlide[] = [
     "id": "evidence",
     "section": "2. アーキテクチャ",
     "topic": "2-4",
-    "title": "検索後処理：候補を根拠集合へ整える。",
+    "title": "検索後処理：候補を根拠集合へ整える",
     "layout": "grid",
     "items": [
       {
@@ -464,7 +464,7 @@ export const slides: SeminarSlide[] = [
     "id": "generation",
     "section": "2. アーキテクチャ",
     "topic": "2-5",
-    "title": "生成：根拠の範囲で、回答と引用を作る。",
+    "title": "生成：根拠の範囲で、回答と引用を作る",
     "layout": "columns",
     "items": [
       {
@@ -499,13 +499,8 @@ export const slides: SeminarSlide[] = [
     "id": "bm25",
     "section": "3. 検索を支える技術要素",
     "topic": "3-1",
-    "title": "BM25：語の一致から順位を作る。",
+    "title": "BM25：語の一致から順位を作る",
     "layout": "figure",
-    "figure": {
-      "src": "/rag-guide/guide-assets/v4/11-sparse-retrieval-intuition.png",
-      "alt": "質問のエラーコードとログインという語に一致する文書を、希少語と文書長を考慮して順位付けする模式図",
-      "caption": "図は模式例。実際の順位は語の頻度・希少性・文書長と設定で決まる。"
-    },
     "takeaway": "語の希少性を重視し、同じ語の反復は飽和させ、文書長を補正する。",
     "weight": 1.6,
     "notes": "まず、検索の基本となる語の一致です。BM25は、質問の語が文書にどの程度現れるかを使って順位を付けます。図では、質問の語から該当する文書を探す流れを見てください。\n\n単純な出現回数の足し算ではありません。多くの文書にある一般的な語より、珍しい語を重視します。同じ語を何度も繰り返したときの加点は頭打ちにし、長い文書がそれだけで有利にならないよう長さを補正します。製品型番や規程名など、語を正確に指定できる質問で役立ちます。\n\n一方、『ホテル代』と『宿泊費』のように語が違うと拾いにくいことがあります。その取りこぼしを補うのが、次のベクトル検索です。",
@@ -515,19 +510,15 @@ export const slides: SeminarSlide[] = [
         "label": "ガイド第4章・4.3",
         "href": "/rag-guide/guide/chapter-04/#section-4-3"
       }
-    ]
+    ],
+    "diagram": "bm25"
   },
   {
     "id": "embedding",
     "section": "3. 検索を支える技術要素",
     "topic": "3-2",
-    "title": "ベクトル検索：意味の近い候補を探す。",
+    "title": "ベクトル検索：意味の近い候補を探す",
     "layout": "figure",
-    "figure": {
-      "src": "/rag-guide/guide-assets/v4/08-embedding-vector-space.png",
-      "alt": "文章を埋め込みモデルでベクトル化し、質問に近い関連文書を探す。二次元表示は模式図",
-      "caption": "文書は事前に、質問は質問時に埋め込む。比較できる同じ空間の表現を使う。"
-    },
     "takeaway": "「宿泊費」と「ホテル代」を近づけられる。近さは正しさ・権限ではない。",
     "weight": 1.6,
     "notes": "ベクトル検索は、文章を数値の並びに変換し、その近さから候補を探す方式です。文書は事前に埋め込み、質問も互換な表現に変換します。図では意味が近い文章ほど近くに置かれる、と考えてください。実際のベクトルは高次元で、この図は直感のための表現です。\n\n『ホテル代はいくらまで』という質問と『宿泊費の上限』という資料が、語が違っても近くなることを期待できます。ただし近さは、事実の正しさや対象条件の一致ではありません。国内と海外の規程がどちらも近くに来る可能性があります。\n\n語の一致と意味の近さには、それぞれ得意・不得意があります。どちらか一つで済ませず、次に両方を使う方法を見ます。",
@@ -541,41 +532,33 @@ export const slides: SeminarSlide[] = [
         "label": "ガイド第3章・3.6",
         "href": "/rag-guide/guide/chapter-03/#section-3-6"
       }
-    ]
+    ],
+    "diagram": "embedding"
   },
   {
     "id": "hybrid",
     "section": "3. 検索を支える技術要素",
     "topic": "3-3",
-    "title": "ハイブリッド検索：二つの手掛かりを使う。",
+    "title": "ハイブリッド検索：二つの手掛かりを使う",
     "layout": "figure",
-    "figure": {
-      "src": "/rag-guide/guide-assets/v4/13-hybrid-retrieval-rrf.png",
-      "alt": "質問を疎検索と密検索へ分岐し、候補を統合して再ランキングへ渡す流れ",
-      "caption": "RRFを使う構成例。候補IDを統合しても、各検索での順位は保持する。"
-    },
     "takeaway": "両検索の取りこぼしを補い、統合方法と候補数を評価する。",
     "weight": 1.2,
-    "notes": "ハイブリッド検索は、同じ質問を語の検索と意味の検索へ送り、結果を組み合わせます。図の二つの検索経路が、後で合流するところを見てください。規程名や型番の一致はBM25で、利用者の言い換えは密検索で拾う、という補完を狙います。\n\nただし、候補を合わせれば自動で良い順番になるわけではありません。同じ資料が両方に出ることも、片方にしか出ないこともあります。同一候補のIDをそろえ、各検索での順位を残して統合します。図中の『意味一致』は意味的な類似を表し、事実が一致する保証ではありません。\n\nでは、尺度が異なる二つの検索結果をどう一つの順番にするのか。その方法の一つが、次のRRFです。",
-    "expand": "候補を増やすと、正解根拠だけでなくノイズも増えます。図の再ランキングは、合流した候補を詳しく見直す後処理の例です。ハイブリッド検索なら必ずRRFや特定の再ランキング方式を使う、という意味ではありません。",
+    "notes": "ハイブリッド検索は、同じ質問を語の検索と意味の検索へ送り、結果を組み合わせます。図の二つの検索経路が、後で合流するところを見てください。規程名や型番の一致はBM25で、利用者の言い換えは密検索で拾う、という補完を狙います。\n\nただし、候補を合わせれば自動で良い順番になるわけではありません。同じ資料が両方に出ることも、片方にしか出ないこともあります。同一候補のIDをそろえ、各検索での順位を残して統合します。意味の近さは、事実が一致する保証ではありません。\n\nでは、尺度が異なる二つの検索結果をどう一つの順番にするのか。その方法の一つが、次のRRFです。",
+    "expand": "候補を増やすと、正解根拠だけでなくノイズも増えます。統合後に関連度を詳しく見直すのが再ランキングです。ハイブリッド検索なら必ずRRFや特定の再ランキング方式を使う、という意味ではありません。",
     "sources": [
       {
         "label": "ガイド第4章・4.5",
         "href": "/rag-guide/guide/chapter-04/#section-4-5"
       }
-    ]
+    ],
+    "diagram": "hybrid"
   },
   {
     "id": "ranking",
     "section": "3. 検索を支える技術要素",
     "topic": "3-4",
-    "title": "ランキング：RRFで順位を統合する。",
+    "title": "ランキング：RRFで順位を統合する",
     "layout": "figure",
-    "figure": {
-      "src": "/rag-guide/guide-assets/v6/41-rrf.png",
-      "alt": "Aは疎検索1位・密検索3位、Bは2位・1位、Cは3位・2位。RRFでB、A、Cの順に統合する",
-      "caption": "各順位rから1/(c+r)を足す。図のc=60は説明用で、万能の推奨値ではない。"
-    },
     "takeaway": "RRFは順位を使う。スコア融合なら尺度の正規化・重み付けを設計する。",
     "weight": 1.4,
     "notes": "RRFは、検索器が返した点数そのものではなく、順位を使って一覧を統合する方法です。BM25の点数とベクトルの類似度は尺度が違うので、そのまま足すと意味を解釈しにくくなります。\n\n図の候補Bに注目してください。一方で2位、もう一方で1位なら、それぞれの順位から計算した寄与を足します。両方で上位の候補が統合後も上がりやすくなります。一覧にない候補は、その一覧からは加点しません。ここでは式を暗記するより、『二つの順位表を一つにする』役割を押さえます。\n\nただし、この順位がそのままLLMへの最適な入力順とは限りません。必要な候補を選んだ後、どこにどう置くかという次の問題があります。",
@@ -585,19 +568,15 @@ export const slides: SeminarSlide[] = [
         "label": "ガイド第4章・4.5",
         "href": "/rag-guide/guide/chapter-04/#section-4-5"
       }
-    ]
+    ],
+    "diagram": "ranking"
   },
   {
     "id": "context-packing",
     "section": "3. 検索を支える技術要素",
     "topic": "3-5",
-    "title": "配置：重要な根拠を、使える位置と順序へ。",
+    "title": "配置：重要な根拠を、使える位置と順序へ",
     "layout": "figure",
-    "figure": {
-      "src": "/rag-guide/seminar-assets/context-packing.svg",
-      "alt": "長い入力の先頭・中央・末尾を比較する概念図。中央の重要根拠が使われにくい場合があるため、重要度・論点・時系列で配置を比較する。",
-      "caption": "位置効果の概念図（実測値ではない）。傾向はモデル・質問・入力長に依存する。"
-    },
     "takeaway": "重要根拠を前方へ、条件と例外を一緒に。論点順・時系列も比較し、実際の質問で評価する。",
     "weight": 1.1,
     "notes": "順位の統合で候補は並びましたが、LLMへ渡すときは『重要な根拠を読んで使える配置』を考えます。コンテキスト配置、Context packingは、必要な根拠を入力の予算内に収め、順序とまとまりを整える処理です。\n\n図は長い入力の先頭・中央・末尾を示しています。Lost in the Middleという研究では、調べたモデルと課題で、重要情報が中央にあると先頭や末尾より使われにくい傾向が報告されました。中央の文字が消えるわけではなく、入力にあっても回答へ生かされないことがある、という意味です。\n\n配置案としては、重要根拠を前方へ置き、条件と例外を近くにまとめます。版の比較なら時系列、複数の問いなら論点順も候補です。先頭なら必ず正解、末尾なら万能とはせず、使うモデルと質問で比較します。では、その違いが良い結果につながったかを、次の評価で測ります。",
@@ -611,13 +590,14 @@ export const slides: SeminarSlide[] = [
         "label": "原論文：Lost in the Middle",
         "href": "https://arxiv.org/abs/2307.03172"
       }
-    ]
+    ],
+    "diagram": "context-packing"
   },
   {
     "id": "evaluation",
     "section": "4. 評価と改善",
     "topic": "4-1",
-    "title": "評価の全体像：公開条件を先に決める。",
+    "title": "評価の全体像：公開条件を先に決める",
     "layout": "stages",
     "items": [
       {
@@ -660,7 +640,7 @@ export const slides: SeminarSlide[] = [
     "id": "retrieval-metrics",
     "section": "4. 評価と改善",
     "topic": "4-2",
-    "title": "検索評価：回収率と上位の質を分ける。",
+    "title": "検索評価：回収率と上位の質を分ける",
     "layout": "table",
     "headers": [
       "指標",
@@ -699,7 +679,7 @@ export const slides: SeminarSlide[] = [
     "id": "generation-metrics",
     "section": "4. 評価と改善",
     "topic": "4-3",
-    "title": "生成評価：正しさと根拠への忠実性。",
+    "title": "生成評価：正しさと根拠への忠実性",
     "layout": "grid",
     "items": [
       {
@@ -746,7 +726,7 @@ export const slides: SeminarSlide[] = [
     "id": "evaluation-methods",
     "section": "4. 評価と改善",
     "topic": "4-4",
-    "title": "評価の方法を、判定対象で使い分ける。",
+    "title": "評価の方法を、判定対象で使い分ける",
     "layout": "table",
     "headers": [
       "方法",
@@ -794,7 +774,7 @@ export const slides: SeminarSlide[] = [
     "id": "diagnosis",
     "section": "4. 評価と改善",
     "topic": "4-5",
-    "title": "失敗パターンから、最初の改善手段を選ぶ。",
+    "title": "失敗パターンから、最初の改善手段を選ぶ",
     "layout": "table",
     "headers": [
       "最初に起きた失敗",
@@ -841,7 +821,7 @@ export const slides: SeminarSlide[] = [
     "id": "security",
     "section": "5. 機能要件",
     "topic": "5-1",
-    "title": "攻撃への備え：文書も信頼境界の外側。",
+    "title": "攻撃への備え：文書も信頼境界の外側",
     "layout": "table",
     "headers": [
       "攻撃例（説明用）",
@@ -884,7 +864,7 @@ export const slides: SeminarSlide[] = [
     "id": "operations",
     "section": "5. 機能要件",
     "topic": "5-2",
-    "title": "知識更新：原文からキャッシュまで追う。",
+    "title": "知識更新：原文からキャッシュまで追う",
     "layout": "table",
     "headers": [
       "管理対象",
@@ -931,7 +911,7 @@ export const slides: SeminarSlide[] = [
     "id": "aws",
     "section": "6. AWSでRAGを設計する",
     "topic": "6-1",
-    "title": "最小構成：KB・モデル・ストアを分ける。",
+    "title": "最小構成：KB・モデル・ストアを分ける",
     "layout": "table",
     "headers": [
       "役割",
@@ -974,7 +954,7 @@ export const slides: SeminarSlide[] = [
     "id": "s3-vectors",
     "section": "6. AWSでRAGを設計する",
     "topic": "6-2",
-    "title": "S3 Vectors：ベクトルの保存・検索を担う。",
+    "title": "S3 Vectors：ベクトルの保存・検索を担う",
     "layout": "columns",
     "items": [
       {
@@ -1009,7 +989,7 @@ export const slides: SeminarSlide[] = [
     "id": "opensearch",
     "section": "6. AWSでRAGを設計する",
     "topic": "6-3",
-    "title": "OpenSearch：語とベクトルの検索を設計する。",
+    "title": "OpenSearch：語とベクトルの検索を設計する",
     "layout": "columns",
     "items": [
       {
@@ -1044,7 +1024,7 @@ export const slides: SeminarSlide[] = [
     "id": "knowledge-bases",
     "section": "6. AWSでRAGを設計する",
     "topic": "6-4",
-    "title": "Knowledge Bases：取り込みと検索をつなぐ。",
+    "title": "Knowledge Bases：取り込みと検索をつなぐ",
     "layout": "table",
     "headers": [
       "機能・API",
@@ -1090,7 +1070,7 @@ export const slides: SeminarSlide[] = [
   {
     "id": "takeaways",
     "section": "まとめ",
-    "title": "持ち帰る6つのこと。",
+    "title": "持ち帰る6つのこと",
     "layout": "grid",
     "items": [
       {

@@ -1,0 +1,65 @@
+---
+interface Props { kind: 'bm25' | 'embedding' | 'hybrid' | 'ranking' | 'context-packing'; }
+const { kind } = Astro.props;
+---
+{kind === 'bm25' && <figure class="teaching-figure" data-diagram="bm25" aria-label="BM25の検索と順位付け">
+  <div class="figure-flow">
+    <div><b>質問を語に分ける</b><span class="term">出張 ／ 宿泊費</span></div>
+    <span class="flow-arrow" aria-hidden="true">→</span>
+    <div><b>一致する資料を探す</b>語 → 文書の一覧<br />転置索引を使う</div>
+    <span class="flow-arrow" aria-hidden="true">→</span>
+    <div><b>順位を付ける</b>各語の寄与を足す<br />上位の候補を返す</div>
+  </div>
+  <div class="figure-explain">
+    <p><b>珍しい語を重視</b>多くの文書にある語より<br />識別に役立つ語を重く</p>
+    <p><b>反復の加点は頭打ち</b>同じ語を繰り返すだけで<br />点数を増やし続けない</p>
+    <p><b>文書の長さを補正</b>長い文書が、それだけで<br />有利にならないように</p>
+  </div>
+  <figcaption>語の一致から候補を探す模式図。言い換えには別の手掛かりも必要。</figcaption>
+</figure>}
+{kind === 'embedding' && <figure class="teaching-figure" data-diagram="embedding" aria-label="文章をベクトルへ変換し意味の近い候補を探す">
+  <div class="vector-layout">
+    <svg class="vector-space" viewBox="0 0 640 330" role="img" aria-label="質問のホテル代と宿泊費の上限が近く、別の話題である配送手順が遠くにある概念図">
+      <path d="M36 24 V302 H616" fill="none" stroke="#8b8b8b" stroke-width="2" />
+      <path d="M160 190 L292 135" stroke="#0017c1" stroke-width="2" stroke-dasharray="7 5" />
+      <circle cx="160" cy="190" r="9" /><text class="query-label" x="64" y="234">質問：ホテル代は？</text>
+      <circle cx="292" cy="135" r="9" /><text x="244" y="105">宿泊費の上限</text>
+      <circle class="other" cx="500" cy="255" r="9" /><text x="440" y="292">配送手順</text>
+      <text x="182" y="163">近い</text>
+    </svg>
+    <div class="figure-note"><p><b>文書と質問を数値へ</b><br />互換な埋め込みで表現する</p><p><b>語が違っても探せる</b><br />ホテル代 ↔ 宿泊費</p></div>
+  </div>
+  <figcaption>高次元のベクトルを2次元で表した概念図。近さは正しさや権限を保証しない。</figcaption>
+</figure>}
+{kind === 'hybrid' && <figure class="teaching-figure" data-diagram="hybrid" aria-label="同じ質問を語と意味の二つの検索へ送り候補を統合する">
+  <div class="hybrid-paths">
+    <div class="flow-box"><b>同じ質問</b>出張のホテル代は？</div>
+    <div class="hybrid-lanes">
+      <div class="flow-box"><b>語で探す：BM25</b>出張・規程名など<br /><span class="term">候補 A・B</span></div>
+      <div class="flow-box"><b>意味で探す：密検索</b>ホテル代 ↔ 宿泊費<br /><span class="term">候補 B・C</span></div>
+    </div>
+    <div class="flow-box"><b>候補を統合</b>同じ候補のIDをそろえる<br /><span class="term">A・B・C</span></div>
+  </div>
+  <figcaption>候補IDは説明用。片方だけで見つかる根拠も集め、統合後の順位と品質を評価する。</figcaption>
+</figure>}
+{kind === 'ranking' && <figure class="teaching-figure" data-diagram="ranking" aria-label="RRFによる二つの順位表の統合例">
+  <div class="ranking-layout">
+    <table><thead><tr><th scope="col">候補</th><th scope="col">BM25</th><th scope="col">密検索</th><th scope="col">RRF</th></tr></thead>
+      <tbody><tr><th scope="row">A</th><td class="numeric">1位</td><td class="numeric">3位</td><td class="numeric">0.03227</td></tr>
+      <tr class="ranking-result"><th scope="row">B</th><td class="numeric">2位</td><td class="numeric">1位</td><td class="numeric">0.03252</td></tr>
+      <tr><th scope="row">C</th><td class="numeric">3位</td><td class="numeric">2位</td><td class="numeric">0.03200</td></tr></tbody>
+    </table>
+    <div><p class="figure-heading">統合後の順位</p><div class="rank-line"><strong>1位　B</strong><span>両方で上位</span></div><div class="rank-line">2位　A</div><div class="rank-line">3位　C</div></div>
+  </div>
+  <figcaption>説明用：各検索の 1 / (60 + 順位) を足す。60は例示値。生スコアの単純加算ではない。</figcaption>
+</figure>}
+{kind === 'context-packing' && <figure class="teaching-figure" data-diagram="context-packing" aria-label="長い入力での重要根拠の位置と配置の工夫">
+  <div class="context-positions">
+    <div class="context-position"><b>先頭</b>重要な根拠<br /><span class="term">使われやすい傾向</span></div>
+    <div class="context-position middle"><b>中央</b>重要な根拠<br /><strong>使われにくい場合</strong></div>
+    <div class="context-position"><b>末尾</b>重要な根拠<br /><span class="term">使われやすい傾向</span></div>
+  </div>
+  <p>文字が消えるのではなく、回答で使われないことがある。</p>
+  <div class="figure-explain context-strategy"><p>重要根拠を前方へ</p><p>条件と例外を一緒に</p><p>論点順・時系列も比較</p></div>
+  <figcaption>Lost in the Middleの位置効果を示す概念図。実測グラフではなく、モデル・質問・入力長で変わる。</figcaption>
+</figure>}
