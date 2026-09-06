@@ -1,4 +1,5 @@
 ---
+import SeminarDiagram from '../../components/SeminarDiagram.astro';
 import { slides } from '../../data/rag-seminar';
 import '../../styles/seminar.css';
 ---
@@ -33,14 +34,14 @@ import '../../styles/seminar.css';
             {slide.example && <p class="example-label">説明用の架空規程</p>}
             {slide.layout === 'architecture' && <div class="logical-map" role="group" aria-label="四工程と二層の論理構成">
               <div class="map-batch">
-                <strong class="layer-label">Batch Layer<span>質問前・資料更新時</span></strong>
+                <strong class="layer-label">バッチ層<span>質問前・資料更新時</span></strong>
                 <div class="map-node"><b>① 検索前処理：文書側</b><span>正本 → 解析・分割 → 属性・埋め込み</span></div>
                 <span class="map-arrow" aria-hidden="true">→</span>
                 <div class="map-index"><b>公開済み索引</b><span>本文・ベクトル・出典・版・権限</span></div>
               </div>
               <div class="index-bridge">公開した版を、質問時の検索で参照 ↓</div>
               <div class="map-online">
-                <strong class="layer-label">Real-time Layer<span>質問ごと（オンライン）</span></strong>
+                <strong class="layer-label">リアルタイム層<span>質問ごと（オンライン）</span></strong>
                 <div class="map-stages">
                   <div class="map-node"><b>① 検索前処理</b><span>質問理解・変換<br />認可済み検索条件</span><small>質問 → クエリ</small></div>
                   <div class="map-node"><b>② 検索</b><span>疎・密検索<br />候補取得・統合</span><small>根拠候補</small></div>
@@ -50,23 +51,20 @@ import '../../styles/seminar.css';
               </div>
               <p class="map-crosscut">全工程を横断：評価・権限制御・更新管理・監査</p>
             </div>}
-            {slide.figure && <figure class="seminar-figure">
-              <a href={slide.figure.src} target="_blank" rel="noopener" aria-label={`${slide.title}の図を原寸で開く`}><img src={slide.figure.src} alt={slide.figure.alt} loading="eager" /></a>
-              <figcaption>{slide.figure.caption}</figcaption>
-            </figure>}
+            {slide.diagram && <SeminarDiagram kind={slide.diagram} />}
             {slide.items && <div class="items" style={`--columns:${slide.layout === 'grid' ? 3 : slide.items.length}`}>
               {slide.items.map((item, i) => <div class="item">
                 {slide.layout === 'stages' && <span class="stage-number">{String(i + 1).padStart(2, '0')}</span>}
                 <h3>{item.label}</h3><p>{item.text}</p>
               </div>)}
             </div>}
-            {slide.rows && <div class="table-wrap"><table>
+            {slide.rows && <div class="table-wrap" tabindex="0" role="region" aria-label={`${slide.title}の比較表`}><table>
               <thead><tr>{slide.headers?.map((header) => <th scope="col">{header}</th>)}</tr></thead>
               <tbody>{slide.rows.map((row) => <tr>{row.map((cell, i) => i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}</tr>)}</tbody>
             </table></div>}
             {slide.takeaway && <p class="takeaway">{slide.takeaway}</p>}
           </div>
-          <footer class="slide-footer"><span>RAG ENGINEERING GUIDE</span><a href={slide.sources[0].href} target="_blank" rel="noopener">{slide.sources[0].label} ↗</a></footer>
+          <footer class="slide-footer"><span>RAG入門</span><a href={slide.sources[0].href} target="_blank" rel="noopener">{slide.sources[0].label} ↗</a></footer>
         </section>
       ))}
       </div>
@@ -79,7 +77,7 @@ import '../../styles/seminar.css';
         <p id="pacing"></p>
       </div>
       <p id="connection" role="status">投影画面と接続しています。</p>
-      <h2>説明原稿（導入 → 要点・具体例 → 次への接続）</h2><p id="speaker-notes"></p>
+      <h2>説明原稿</h2><p id="speaker-notes"></p>
       <h3>40分版で補足する話</h3><p id="speaker-expand"></p>
       <h3>次のスライド</h3><p id="speaker-next"></p>
       <h3>本文・出典</h3><ul id="speaker-sources"></ul>
@@ -107,6 +105,7 @@ import '../../styles/seminar.css';
       </dl>
       <p>前後のボタンはタッチでも操作できます。現在のURLを保存すると、そのスライドから再開できます。</p>
       <p>ブラウザの印刷機能で、全スライドを1枚ずつ印刷できます。発表者ノートは印刷されません。</p>
+      <p class="design-credit">出典：<a href="https://design.digital.go.jp/dads/" target="_blank" rel="noopener">デジタル庁デザインシステム</a>。同サイトとMarkdown配布版の指針をもとに、RAGガイドが発表用へ編集・調整して作成。</p>
     </dialog>
     <noscript><p class="no-script">JavaScriptが無効のため、全スライドを縦に表示しています。ブラウザの印刷も利用できます。</p></noscript>
     <script>
