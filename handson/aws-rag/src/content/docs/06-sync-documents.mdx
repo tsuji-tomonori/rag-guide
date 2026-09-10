@@ -85,7 +85,7 @@ printf 'ingestion variables verification: PASS\n'
 
 </Command>
 
-<ExpectedResult id="s6-1-state" verification="現在のrunを復元して必須変数を準備">
+<ExpectedResult id="s6-1-state" verification="現在のrunを復元して必須変数を準備" checks={["[CHECK] ingestion variables: READYが表示される", "ingestion variables verification: PASSが表示される"]}>
 
 次の2行が表示されれば成功です。state fileから復元できること自体は成功条件にせず、取り込みに必要な5つの値が現在そろっていることだけを確認します。
 
@@ -94,8 +94,6 @@ printf 'ingestion variables verification: PASS\n'
 ingestion variables verification: PASS
 ```
 
-- `[CHECK] ingestion variables: READY`が表示される
-- `ingestion variables verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -149,7 +147,7 @@ printf 'ingestion preflight: PASS\n'
 
 </Command>
 
-<ExpectedResult id="s6-1-preflight" verification="ナレッジベースのロールと取り込み権限を事前検証">
+<ExpectedResult id="s6-1-preflight" verification="ナレッジベースのロールと取り込み権限を事前検証" checks={["[CHECK] Knowledge Base role: MATCHが表示される", "[CHECK] ingestion permissions: embedding / S3 source / vector indexが表示される", "ingestion preflight: PASSが表示される"]}>
 
 次の3行が表示されれば成功です。
 
@@ -159,9 +157,6 @@ printf 'ingestion preflight: PASS\n'
 ingestion preflight: PASS
 ```
 
-- `[CHECK] Knowledge Base role: MATCH`が表示される
-- `[CHECK] ingestion permissions: embedding / S3 source / vector index`が表示される
-- `ingestion preflight: PASS`が表示される
 
 </ExpectedResult>
 
@@ -203,7 +198,7 @@ printf 'ingestion start verification: PASS\n'
 
 </Command>
 
-<ExpectedResult id="s6-1-start" verification="取り込みジョブを開始してIDを保存">
+<ExpectedResult id="s6-1-start" verification="取り込みジョブを開始してIDを保存" checks={["[CHECK] ingestion job ID saved to state file:が表示される", "[CHECK] initial ingestion status:にSTARTINGまたはIN_PROGRESSが表示される", "ingestion start verification: PASSが表示される"]}>
 
 次の3行が表示されれば成功です。初期statusには`STARTING`または`IN_PROGRESS`の実値が表示されます。
 
@@ -213,9 +208,6 @@ printf 'ingestion start verification: PASS\n'
 ingestion start verification: PASS
 ```
 
-- `[CHECK] ingestion job ID saved to state file:`が表示される
-- `[CHECK] initial ingestion status:`に`STARTING`または`IN_PROGRESS`が表示される
-- `ingestion start verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -263,7 +255,7 @@ printf 'ingestion monitoring: PASS\n'
 
 </Command>
 
-<ExpectedResult id="s6-2-ingestion" verification="終端状態まで監視する">
+<ExpectedResult id="s6-2-ingestion" verification="終端状態まで監視する" checks={["[CHECK] ingestion status: COMPLETEが表示される", "ingestion monitoring: PASSが表示される"]}>
 
 次の2行が表示されれば成功です。`FAILED`または`STOPPED`ではコマンドが終了し、この表示には到達しません。
 
@@ -272,8 +264,6 @@ printf 'ingestion monitoring: PASS\n'
 ingestion monitoring: PASS
 ```
 
-- `[CHECK] ingestion status: COMPLETE`が表示される
-- `ingestion monitoring: PASS`が表示される
 
 </ExpectedResult>
 
@@ -367,7 +357,7 @@ printf 'sync verification: PASS\n'
 
 </Command>
 
-<ExpectedResult id="s6-3-sync" verification="ベクトルが登録されたことを確認">
+<ExpectedResult id="s6-3-sync" verification="ベクトルが登録されたことを確認" checks={["[CHECK] ingestion job status: COMPLETEが表示される", "[CHECK] failure reasons: NONEが表示される", "[CHECK] document status:にINDEXEDまたは権限不足によるSKIPPEDが表示される", "[CHECK] indexed vectors:に1以上の件数が表示される", "sync verification: PASSが表示される"]}>
 
 次の5行が表示されれば成功です。文書一覧の権限がない場合だけ、document statusは`SKIPPED`になります。
 
@@ -379,11 +369,6 @@ printf 'sync verification: PASS\n'
 sync verification: PASS
 ```
 
-- `[CHECK] ingestion job status: COMPLETE`が表示される
-- `[CHECK] failure reasons: NONE`が表示される
-- `[CHECK] document status:`に`INDEXED`または権限不足による`SKIPPED`が表示される
-- `[CHECK] indexed vectors:`に`1`以上の件数が表示される
-- `sync verification: PASS`が表示される
 
 </ExpectedResult>
 
@@ -405,3 +390,4 @@ sync verification: PASS
 </Checkpoint>
 
 [Retrieveで検索する →](/rag-guide/07-retrieve/)
+
