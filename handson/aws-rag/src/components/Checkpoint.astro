@@ -113,8 +113,16 @@ const { title = '次へ進む前のチェック' } = Astro.props;
         : JSON.stringify(['result', window.location.pathname, resultIndex, resultId, itemIndex]);
       const list = result.querySelector<HTMLElement>('.result-content ul');
       const listItems = list ? Array.from(list.children).filter((child): child is HTMLElement => child.tagName === 'LI') : [];
+      const renderedInputs = Array.from(result.querySelectorAll<HTMLInputElement>('input[data-result-check]'));
 
-      if (listItems.length > 0) {
+      if (renderedInputs.length > 0) {
+        renderedInputs.forEach((input, itemIndex) => {
+          const key = keyFor(itemIndex + 1);
+          input.dataset.checkKey = key;
+          bindInput(input);
+          setInputState(input, state[key] === true);
+        });
+      } else if (listItems.length > 0) {
         listItems.forEach((item, itemIndex) => {
           const key = keyFor(itemIndex + 1);
           const label = document.createElement('label');
@@ -187,27 +195,37 @@ const { title = '次へ進む前のチェック' } = Astro.props;
         }
       });
 
-      list.replaceChildren();
-      groups.forEach((group) => {
-        const stepItem = document.createElement('li');
-        stepItem.className = 'checkpoint-step';
+      const signature = JSON.stringify(Array.from(groups, ([key, group]) => [
+        key, group.label, group.inputs.map((input) => input.dataset.checkKey),
+      ]));
+      if (list.dataset.checkSignature !== signature) {
+        list.replaceChildren();
+        groups.forEach((group) => {
+          const stepItem = document.createElement('li');
+          stepItem.className = 'checkpoint-step';
 
-        const stepTitle = document.createElement('strong');
-        stepTitle.className = 'checkpoint-step-title';
-        stepTitle.textContent = group.label;
+          const stepTitle = document.createElement('strong');
+          stepTitle.className = 'checkpoint-step-title';
+          stepTitle.textContent = group.label;
 
-        const conditions = document.createElement('ul');
-        conditions.className = 'checkpoint-step-conditions';
-        group.inputs.forEach((sourceInput) => {
-          const sourceText = sourceInput.closest('.check-item')?.textContent?.trim() ?? '';
-          const condition = document.createElement('li');
-          condition.append(makeCheckItem(sourceInput.dataset.checkKey!, sourceText));
-          conditions.append(condition);
-          setInputState(condition.querySelector('input')!, sourceInput.checked);
+          const conditions = document.createElement('ul');
+          conditions.className = 'checkpoint-step-conditions';
+          group.inputs.forEach((sourceInput) => {
+            const sourceText = sourceInput.closest('.check-item')?.textContent?.trim() ?? '';
+            const condition = document.createElement('li');
+            condition.append(makeCheckItem(sourceInput.dataset.checkKey!, sourceText));
+            conditions.append(condition);
+            setInputState(condition.querySelector('input')!, sourceInput.checked);
+          });
+
+          stepItem.append(stepTitle, conditions);
+          list.append(stepItem);
         });
-
-        stepItem.append(stepTitle, conditions);
-        list.append(stepItem);
+        list.dataset.checkSignature = signature;
+      }
+      const checkedByKey = new Map(sourceInputs.map((input) => [input.dataset.checkKey, input.checked]));
+      list.querySelectorAll<HTMLInputElement>('input[data-check-key]').forEach((input) => {
+        setInputState(input, checkedByKey.get(input.dataset.checkKey) === true);
       });
       staticBlock?.querySelectorAll('ul').forEach((staticList) => {
         staticList.hidden = true;
@@ -232,18 +250,6 @@ const { title = '次へ進む前のチェック' } = Astro.props;
         'is-complete',
         Array.from(result.querySelectorAll<HTMLInputElement>('input[data-check-key]')).every((input) => input.checked),
       );
-    });
-    document.querySelectorAll<HTMLInputElement>('[data-check-key]').forEach((input) => {
-      if (!input.dataset.workshopBound) {
-        input.dataset.workshopBound = 'true';
-        input.addEventListener('change', () => {
-          document.querySelectorAll<HTMLElement>('[data-check-source]').forEach((result) => {
-            const inputs = Array.from(result.querySelectorAll<HTMLInputElement>('input[data-check-key]'));
-            result.classList.toggle('is-complete', inputs.length > 0 && inputs.every((item) => item.checked));
-          });
-          renderCheckpoint();
-        });
-      }
     });
   };
 

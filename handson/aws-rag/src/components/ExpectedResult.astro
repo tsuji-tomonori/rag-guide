@@ -3,12 +3,14 @@ interface Props {
   title?: string;
   id?: string;
   verification?: string;
+  checks?: string[];
 }
 
 const {
   title = 'こうなれば成功',
   id,
   verification,
+  checks,
 } = Astro.props;
 ---
 
@@ -22,6 +24,11 @@ const {
         <span>「{verification}」で、件数・値・状態が期待どおりかを確認します。</span>
       </p>
     )}
-    <div class="result-content"><slot /></div>
+    <div class="result-content">
+      {checks && <ul>{checks.map((check) => (
+        <li><label class="check-item"><input type="checkbox" data-result-check /><span>{check}</span></label></li>
+      ))}</ul>}
+      <slot />
+    </div>
   </div>
 </aside>

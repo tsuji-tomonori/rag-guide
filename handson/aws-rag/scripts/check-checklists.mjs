@@ -64,7 +64,9 @@ function verify(html, pathname) {
   assert(inputs.length > 0, pathname);
   assert.equal(new Set(inputs.map(i => i.dataset.checkKey)).size, inputs.length, pathname);
   for (let index = 0; index < inputs.length; index++) {
+    const mirror = a.mirrors()[index];
     a.change(inputs[index], true);
+    assert.equal(a.mirrors()[index], mirror, 'Changing a check must preserve the summary control');
     assert.deepEqual(inputs.map(i => i.checked), inputs.map((_, j) => j === index), pathname);
     assert.deepEqual(a.mirrors().map(i => i.checked), inputs.map(i => i.checked), pathname);
     const restored = app(html, pathname, a.storage);
@@ -84,6 +86,15 @@ let checks = 0;
 for (const entry of await readdir('dist', { withFileTypes: true })) {
   if (!entry.isDirectory() || !/^\d\d-/.test(entry.name)) continue;
   const html = await readFile('dist/' + entry.name + '/index.html', 'utf8');
+  if (entry.name === '06-sync-documents') {
+    const document = createWindow(html).document;
+    const results = Array.from(document.querySelectorAll('[data-check-source]'));
+    assert.deepEqual(results.map(result => result.querySelectorAll('input[type="checkbox"]').length), [2, 3, 3, 2, 5],
+      'All Step 6 checks must exist in HTML before JavaScript runs');
+    const a = app(html, '/rag-guide/06-sync-documents/');
+    assert.deepEqual(Array.from(a.document.querySelectorAll('.checkpoint-step-conditions'), group => group.querySelectorAll('input').length),
+      [8, 2, 5], 'Summary must group all conditions under 6.1, 6.2 and 6.3');
+  }
   checks += verify(html, '/rag-guide/' + entry.name + '/');
   pages++;
 }
