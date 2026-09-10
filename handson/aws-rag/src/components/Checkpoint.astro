@@ -31,7 +31,9 @@ const { title = '次へ進む前のチェック' } = Astro.props;
 
   const readState = (): CheckState => {
     try {
-      return JSON.parse(window.localStorage.getItem(storageKey()) ?? '{}') as CheckState;
+      const state: unknown = JSON.parse(window.localStorage.getItem(storageKey()) ?? '{}');
+      return state !== null && typeof state === 'object' && !Array.isArray(state)
+        ? state as CheckState : {};
     } catch {
       return {};
     }
@@ -57,8 +59,8 @@ const { title = '次へ進む前のチェック' } = Astro.props;
       const state = readState();
       state[key] = input.checked;
       writeState(state);
-      document.querySelectorAll<HTMLInputElement>(`input[data-check-key="${CSS.escape(key)}"]`).forEach((peer) => {
-        setInputState(peer, input.checked);
+      document.querySelectorAll<HTMLInputElement>('input[data-check-key]').forEach((peer) => {
+        if (peer.dataset.checkKey === key) setInputState(peer, input.checked);
       });
       document.dispatchEvent(new CustomEvent('workshop-check-updated'));
     });
@@ -99,15 +101,22 @@ const { title = '次へ進む前のチェック' } = Astro.props;
 
   const convertResultLists = () => {
     const state = readState();
-    document.querySelectorAll<HTMLElement>('[data-check-source]').forEach((result, resultIndex) => {
+    const results = Array.from(document.querySelectorAll<HTMLElement>('[data-check-source]'));
+    const ids = results.map((result, index) => result.dataset.resultId || `result-${index + 1}`);
+    results.forEach((result, resultIndex) => {
       if (result.dataset.checksReady === 'true') return;
-      const resultId = result.dataset.resultId || `result-${resultIndex + 1}`;
+      const resultId = ids[resultIndex];
+      // Keep existing progress for unique IDs. Ambiguous legacy IDs must not
+      // restore or synchronize another result's checks, including fallback IDs.
+      const keyFor = (itemIndex: number) => ids.filter((id) => id === resultId).length === 1
+        ? `${window.location.pathname}:${resultId}:${itemIndex}`
+        : JSON.stringify(['result', window.location.pathname, resultIndex, resultId, itemIndex]);
       const list = result.querySelector<HTMLElement>('.result-content ul');
       const listItems = list ? Array.from(list.children).filter((child): child is HTMLElement => child.tagName === 'LI') : [];
 
       if (listItems.length > 0) {
         listItems.forEach((item, itemIndex) => {
-          const key = `${window.location.pathname}:${resultId}:${itemIndex + 1}`;
+          const key = keyFor(itemIndex + 1);
           const label = document.createElement('label');
           label.className = 'check-item';
           const input = document.createElement('input');
@@ -123,7 +132,7 @@ const { title = '次へ進む前のチェック' } = Astro.props;
       } else {
         const content = result.querySelector<HTMLElement>('.result-content');
         if (content) {
-          const key = `${window.location.pathname}:${resultId}:1`;
+          const key = keyFor(1);
           const item = makeCheckItem(key, '表示内容を確認し、コマンドがエラーなく終了した', 'check-item-single');
           content.append(item);
           setInputState(item.querySelector('input')!, state[key] === true);
