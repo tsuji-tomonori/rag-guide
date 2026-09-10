@@ -16,6 +16,26 @@ function app(html, pathname, storage = new Map()) {
   const proto = Object.getPrototypeOf(document.querySelectorAll('div'));
   if (!proto[Symbol.iterator]) proto[Symbol.iterator] = Array.prototype[Symbol.iterator];
   if (!proto.forEach) proto.forEach = Array.prototype.forEach;
+  // Supply browser APIs absent from Domino; execute application logic unchanged.
+  if (!('dataset' in window.Element.prototype)) Object.defineProperty(window.Element.prototype, 'dataset', {
+    get() {
+      const element = this;
+      const attribute = key => 'data-' + key.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase());
+      return new Proxy({}, {
+        get: (_, key) => element.getAttribute(attribute(key)) ?? undefined,
+        set: (_, key, value) => { element.setAttribute(attribute(key), String(value)); return true; },
+      });
+    },
+  });
+  if (!window.Element.prototype.closest) window.Element.prototype.closest = function (selector) {
+    for (let element = this; element; element = element.parentElement) {
+      if (element.matches(selector)) return element;
+    }
+    return null;
+  };
+  if (!window.Element.prototype.append) window.Element.prototype.append = function (...nodes) {
+    for (const node of nodes) this.appendChild(node);
+  };
   if (!window.Element.prototype.replaceChildren) window.Element.prototype.replaceChildren = function (...nodes) {
     while (this.firstChild) this.removeChild(this.firstChild);
     for (const node of nodes) this.appendChild(node);
